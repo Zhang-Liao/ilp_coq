@@ -26,7 +26,7 @@ let eq_rule r1 r2 =
 
 let all_rf_kinds =
   [
-    Type None;
+    (* Type None; *)
     AddNode (Hole (0, []))
     (* NotNode (SProd (None, None));
        NotNode (SLambda (None, None));
