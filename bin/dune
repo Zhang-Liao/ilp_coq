@@ -1,0 +1,5 @@
+(executable
+ (public_name ilp)
+ (name main)
+ (libraries ilplib)
+ (flags :standard -rectypes -w -27))
