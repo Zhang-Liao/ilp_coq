@@ -4,17 +4,26 @@ open Ilp_learner
 open Sexpr
 
 let eval_file = ref ""
-
-let speclist =
-  [
-      ("-file", Arg.Set_string eval_file, "file to evaluate");
-  ]
+let speclist = [ ("-file", Arg.Set_string eval_file, "file to evaluate") ]
 let usage = "Chronology evaluation."
-let () = Arg.parse
-  speclist (fun x -> raise (Arg.Bad ("Bad argument : " ^ x))) usage
 
-let test rs model =
-  List.map (fun (ps, tac) -> predict model ps) rs
+let () =
+  Arg.parse speclist (fun x -> raise (Arg.Bad ("Bad argument : " ^ x))) usage
+
+
+let test rows model =
+  let aux (ps, tac) =
+    let preds = predict model ps in
+    let preds =
+      List.filter_map (fun p -> if p.keep then Some p.tactic else None) preds
+    in
+    let top1 = if List.length preds > 0 then List.hd preds else "None" in
+    let k = safe_index preds top1 in
+    let k = if k == None then -1 else Option.get k in
+    print_endline top1;
+    print_endline@@string_of_int k
+  in
+  List.map aux rows
 
 let read_lines file =
   let ic = open_in file in

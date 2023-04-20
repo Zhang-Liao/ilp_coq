@@ -63,15 +63,13 @@ let list_remove eq l i =
 let list_removes eq l origin = List.fold_left (list_remove eq) origin l
 
 let equal_hyp eq decl1 decl2 =
-  match decl1, decl2 with
-  | LocalAssum (id1, ty1), LocalAssum (id2, ty2) ->
-      id1 = id2 && ty1 = ty2
+  match (decl1, decl2) with
+  | LocalAssum (id1, ty1), LocalAssum (id2, ty2) -> id1 = id2 && ty1 = ty2
   | LocalDef (id1, v1, ty1), LocalDef (id2, v2, ty2) ->
       id1 = id2 && v1 = v2 && ty1 = ty2
-  | _ ->
-      false
+  | _ -> false
 
-let rm_hyp_from_list hs h = list_remove (equal_hyp (Stdlib.(=))) hs h
+let rm_hyp_from_list hs h = list_remove (equal_hyp Stdlib.( = )) hs h
 
 let remove_nth l i =
   let rec aux l i' acc =
@@ -379,3 +377,14 @@ let pr_refine_op (idx, (_, op)) =
 (* Context *)
 let push_rel1 n t ev = LocalAssum (n, t) :: ev
 let push_rel2 n c t ev = LocalDef (n, c, t) :: ev
+
+(* -------------------------- *)
+(* let safe_index0 f x l = try Some (CList.index0 f x l) with Not_found -> None *)
+
+let safe_index l x =
+  let rec aux l n =
+    match l with
+    | [] -> None
+    | h :: tl -> if h = x then Some n else aux tl (n + 1)
+  in
+  aux l 0
