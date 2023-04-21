@@ -17,11 +17,14 @@ let test rows model =
       List.filter_map (fun p -> if p.keep then Some p.tactic else None) preds
     in
     (* let top1 = if List.length preds > 0 then List.hd preds else "None" in *)
+    (* print_endline top1; *)
     let k = safe_index preds tac in
     if k == None then -1 else Option.get k
     (* string_of_int k *)
   in
-  List.map aux (List.rev rows)
+  List.map aux rows
+
+let train model rows lema = List.fold_left (fun m (p, t) -> add m t p lema) model rows
 
 let read_lines file =
   let ic = open_in file in
@@ -41,20 +44,29 @@ let read_lines file =
 let eval file =
   let model = (CircularQueue.empty 1000, TacticMap.empty) in
   let rows = read_lines file in
-  List.fold_left
-    (fun (model, dat, res) (ps, tac) ->
-      if ps = "#lemma" then
-        (* let _ = test dat model in *)
-        (model, [], res @ test dat model)
-      else
-        let ps = parse_row ps in
-        (* print_endline tac; *)
-        let model = add model tac ps model in
-        (model, (ps, tac) :: dat, res))
-    (model, [], []) rows
+  let eval_row (model, dat, res, lema) (ps, tac) =
+    if ps = "#lemma" then
+      let _ =
+        if lema != None then print_endline ("eval lemma " ^ Option.get lema)
+      in
+      let dat = List.rev dat in
+      (* let _ = test dat model in *)
+      let res = res @ test dat model in
+      let model = train model dat lema in
+      (model, [], res, Some tac)
+    else
+      let ps = parse_row ps in
+      (* print_endline tac; *)
+      (* let model = add model tac ps in *)
+      (model, (ps, tac) :: dat, res, lema)
+  in
+  List.fold_left eval_row (model, [], [], None) rows
 
 let _ =
-  let out = !eval_file^".eval" in
-  let oc = open_out_gen [Open_trunc; Open_creat; Open_text; Open_append] 0o640 out in
-  let _, _ , res = eval !eval_file in
+  print_endline ("eval " ^ !eval_file);
+  let out = !eval_file ^ ".eval" in
+  let oc =
+    open_out_gen [ Open_trunc; Open_creat; Open_text; Open_append ] 0o640 out
+  in
+  let _, _, res, _ = eval !eval_file in
   List.iter (fun k -> output_string oc (string_of_int k ^ "\n")) res

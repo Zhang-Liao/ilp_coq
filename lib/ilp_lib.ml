@@ -350,6 +350,17 @@ let sexp_of_rhyps h = hyps_sexpr h (rterm2s [])
 let sexp_of_rstate (hs, g) =
   List [ sexp_of_rhyps hs; List [ s2s "Goal"; rterm2s [] g ] ]
 
+let sexp_of_rhyps_with_id hs =
+  let aux (i, h) =
+    List [ s2s @@ string_of_int i; hyp_to_sexpr (rterm2s []) h ]
+  in
+  List (List.map aux hs)
+(* hyps_sexpr h (fun (i, h) ->
+   List [s2s@@string_of_int i; rterm2s [] h]) *)
+
+let sexp_of_rstate_with_id (hs, g) =
+  List [ sexp_of_rhyps_with_id hs; List [ s2s "Goal"; rterm2s [] g ] ]
+
 (* --------------------------------------------------------- *)
 
 (** Print *)
@@ -361,6 +372,9 @@ let pr_subst sbs =
 
 let pr_rule r = print_endline @@ to_string_hum @@ sexp_of_rstate r
 
+let pr_rule_with_id r =
+  print_endline @@ to_string_hum @@ sexp_of_rstate_with_id r
+
 let pr_rule_subst rule =
   print_endline "-------------Rule-------";
   pr_rule (rm_rhyp_ids rule.rhyps, rule.rgoal);
@@ -370,8 +384,9 @@ let pr_rule_subst rule =
 let pr_state s = print_endline @@ to_string_hum @@ proof_state_to_sexpr s
 let idx_str i = String.concat " " (List.map string_of_int (List.rev i))
 
-let pr_refine_op (idx, (_, op)) =
-  Printf.sprintf "%s %s" (idx_str idx) (to_string_hum @@ op2sexp [] op)
+let pr_refine_op (idx, _, op) =
+  print_endline
+  @@ Printf.sprintf "%s %s" (idx_str idx) (to_string_hum @@ op2sexp [] op)
 
 (* ------------------------ *)
 (* Context *)

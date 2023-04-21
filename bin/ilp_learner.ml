@@ -38,8 +38,8 @@ let find_exgs tac db pn nn =
        db; *)
   aux db 0 0 ([], [])
 
-let new_rule pos neg tac ps tac_rules feat =
-  let r = rm_rule_ids @@ rmv_subst @@ foil ps pos neg in
+let new_rule pos neg tac ps tac_rules lema =
+  let r = rm_rule_ids @@ rmv_subst @@ foil ps pos neg lema in
   (* TODO: replace 0 with the indexes of the examples that satisfied by the rule in the database. *)
   (* print_endline "Current";
      pr_state @@ proof_state_repr ps;
@@ -55,7 +55,7 @@ let new_rule pos neg tac ps tac_rules feat =
       | None -> Some ([ r ], [ 0 ]) | Some (rs, idx) -> Some (r :: rs, 0 :: idx))
     tac_rules
 
-let add (db, tac_rules) tac state feat =
+let add (db, tac_rules) tac state lema =
   (* (db, tac_rules) *)
   let in_db = { state; obj = tac } in
   let pos, neg = find_exgs tac db 4 8 in
@@ -67,14 +67,14 @@ let add (db, tac_rules) tac state feat =
   in
   let db' = snd @@ CircularQueue.add in_db db in
   let tac_rules' =
-    if rules == None then new_rule pos neg tac state tac_rules feat
+    if rules == None then new_rule pos neg tac state tac_rules lema
     else
       let rules, _ = Option.get rules in
       (* let rules = List.map rm_rule_ids rules in *)
       let rules = List.filter sat_curr rules in
       let rule_negs = List.filter_map reject_all rules in
       if rule_negs == [] then tac_rules
-      else new_rule pos neg tac state tac_rules feat
+      else new_rule pos neg tac state tac_rules lema
   in
   (db', tac_rules')
 

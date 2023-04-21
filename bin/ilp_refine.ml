@@ -291,16 +291,19 @@ let refine_hyps hs1 hs2 acc sbs =
   in
   List.fold_left refine acc hs_rules
 
-let refine_state hs g rule =
+let refine_state hs g rule lema =
   (* let hs = List.combine hs rule.rhyps in *)
   let acc = refine_hyps hs rule.rhyps [] rule.rsubst in
   let acc = refine_trm g rule.rgoal [ 1 ] acc rule.rsubst in
   (* let print (idx, (_, op)) =
        print_endline
-       @@ Printf.sprintf "%s %s" (idx_str idx) (sexpr_to_string @@ op2sexp [] op)
+       @@ Printf.sprintf "%s %s"
+            (idx_str @@ List.rev idx)
+            (Sexplib.Sexp.to_string_hum @@ op2sexp [] op)
      in
-     print_endline "refinment operators";
-     List.iter print acc; *)
+     if lema = Some "Coq.micromega.ZMicromega.ZChecker_sound" then (
+       print_endline "refinment operators";
+       List.iter print acc); *)
   (* print_newline (); *)
   List.map (fun (idx, (sbs, o)) -> (List.rev idx, sbs, o)) acc
 
@@ -368,11 +371,11 @@ let rm_empty_hyps (hs, g) =
   let not_empty_h (_, h) =
     match h with
     | LocalAssum (_, t) -> not_empty t
-    | LocalDef (_, b, t) -> not_empty b && not_empty t
+    | LocalDef (_, b, t) -> not_empty b || not_empty t
   in
   (List.filter not_empty_h hs, g)
 
-let insert_hyps hs1 hs2 op idx sbs =
+let insert_hyps hs1 hs2 op idx sbs lema =
   let tl_idx = List.tl idx in
   let id = List.hd idx in
   let hs =
@@ -380,21 +383,41 @@ let insert_hyps hs1 hs2 op idx sbs =
     else (id, init_h sbs (List.nth hs1 id)) :: hs2
   in
   let insert = function
-    | LocalAssum (id, t) -> LocalAssum (id, insert_op tl_idx t op)
-    | LocalDef (id, b, t) ->
+    | LocalAssum (n, t) -> LocalAssum (n, insert_op tl_idx t op)
+    | LocalDef (n, b, t) ->
         let idx = List.hd tl_idx in
         let tl' = List.tl tl_idx in
         assert (idx == 0 || idx == 1);
-        if idx == 0 then LocalDef (id, insert_op tl' b op, t)
-        else LocalDef (id, b, insert_op tl' t op)
+        if idx == 0 then LocalDef (n, insert_op tl' b op, t)
+        else LocalDef (n, b, insert_op tl' t op)
   in
+  (* if lema = Some "Coq.micromega.ZMicromega.ZChecker_sound" then (
+    print_endline "hyps to insert";
+    pr_rule_with_id (hs, Hole (0, []));
+    List.iter (fun (i, _) -> if i == id then print_endline "insert") hs); *)
   List.map (fun (i, h) -> (i, if i == id then insert h else h)) hs
 
-let insert_state hs1 hs2 g op idx sbs =
-  match idx with
-  | 0 :: tl -> rm_empty_hyps (insert_hyps hs1 hs2 op tl sbs, g)
-  | 1 :: tl -> (hs2, insert_op tl g op)
-  | _ -> assert false
+let debug_eq_rule r1 r2 = r1.rhyps = r2.rhyps && r1.rgoal = r2.rgoal
+
+let insert_state hs1 hs2 g op idx sbs lema =
+  let hs3, g3 =
+    match idx with
+    | 0 :: tl -> rm_empty_hyps (insert_hyps hs1 hs2 op tl sbs lema, g)
+    | 1 :: tl -> (hs2, insert_op tl g op)
+    | _ -> assert false
+  in
+  (* if
+    debug_eq_rule
+      { rhyps = hs3; rgoal = g3; rsubst = sbs }
+      { rhyps = hs2; rgoal = g; rsubst = sbs }
+    && lema = Some "Coq.micromega.ZMicromega.ZChecker_sound"
+  then (
+    print_endline "equal after insert";
+    pr_refine_op (idx, sbs, op);
+    pr_rule_with_id (hs2, g);
+    pr_rule_with_id (hs3, g3);
+    exit 0); *)
+  (hs3, g3)
 
 let cover r sts =
   let check (s, acc) (st, i) =
@@ -438,7 +461,7 @@ let foil_gain r1 r2 pos1 neg1 =
      print_newline (); *)
   (t_plus2 *. (log2 entropy2 -. log2 entropy1), pos2, neg2)
 
-let gen_rules hyps rule ops =
+let gen_rules hyps rule ops lema =
   let remove_dups rs =
     let add acc r =
       if List.exists (fun x -> r = x) acc then acc else r :: acc
@@ -446,25 +469,30 @@ let gen_rules hyps rule ops =
     List.fold_left add [] rs
   in
   let gen (idx, sbs, o) =
-    let hs, g = insert_state hyps rule.rhyps rule.rgoal o idx sbs in
+    let hs, g = insert_state hyps rule.rhyps rule.rgoal o idx sbs lema in
+
     { rhyps = hs; rgoal = g; rsubst = sbs }
   in
   remove_dups @@ List.map gen ops
 
-let rec learn_one_rule rule1 st0 pos1 neg1 =
+let rec learn_one_rule rule1 st0 pos1 neg1 lema =
   let hs0, g0 = st0 in
   let hs1, g1 = (rule1.rhyps, rule1.rgoal) in
   let learn rule =
     let sbs = match_state st0 (hs1, g1) in
-    let ops = refine_state hs0 g0 { rule with rsubst = sbs } in
+    let ops = refine_state hs0 g0 { rule with rsubst = sbs } lema in
     let score rule2 =
       let hs1 = rm_rhyp_ids hs1 in
       let hs2 = rm_rhyp_ids rule2.rhyps in
       let s, pos2, neg2 = foil_gain (hs1, g1) (hs2, rule2.rgoal) pos1 neg1 in
+      (* let _ = if lema = Some "Coq.micromega.ZMicromega.ZChecker_sound" then
+           (pr_rule (hs2, rule2.rgoal);
+           print_endline@@Printf.sprintf "score %f\n" s;)
+         in *)
       (s, (rule2, pos2, neg2))
     in
     if ops == [] then [ (0., (rule, pos1, neg1)) ]
-    else List.map score (gen_rules hs0 rule ops)
+    else List.map score (gen_rules hs0 rule ops lema)
   in
   let sort rs = List.sort (fun (s1, _) (s2, _) -> -Float.compare s1 s2) rs in
   if neg1 == [] then (rule1, pos1)
@@ -473,33 +501,39 @@ let rec learn_one_rule rule1 st0 pos1 neg1 =
     let _, (rule2, pos2, neg2) = List.hd @@ sort @@ learn rule1 in
     (* TODO: equal *)
     if eq_rule rule1 rule2 then (rule1, pos1)
-    else
+    else (
       (* let _ =
              Sexpr.sexpr_to_string
              @@ sexp_of_rstate (rm_rhyp_ids rule2.rhyps, rule2.rgoal)
          in *)
-      (* print_endline
-         ("Best scored Rule\n" ^ Sexpr.sexpr_to_string
-         @@ sexp_of_rstate (rm_rhyp_ids rule2.rhyps, rule2.rgoal)); *)
-      learn_one_rule rule2 st0 pos2 neg2
+      (* if lema = Some "Coq.micromega.ZMicromega.ZChecker_sound" then
+        print_endline
+          ("Best scored Rule"
+          ^ (Sexplib.Sexp.to_string_hum
+            @@ sexp_of_rstate (rm_rhyp_ids rule2.rhyps, rule2.rgoal))
+          ^ "\n"); *)
+      learn_one_rule rule2 st0 pos2 neg2 lema)
 
 (* Only instantiating the substitutions after match_state *)
 let init_rule = { rhyps = []; rgoal = Hole (0, []); rsubst = IntMap.empty }
 let exg_nth exg = List.mapi (fun i st -> (st, i)) exg
 
-let foil st0 pos neg =
+let foil st0 pos neg lema =
   (* Adding dummy bits for negative examples. Positiion information is merely needed for positive examples. *)
   let neg = exg_nth neg in
   let rec aux pos1 =
-    let rule, sat = learn_one_rule init_rule st0 pos1 neg in
+    let rule, sat = learn_one_rule init_rule st0 pos1 neg lema in
     (* TODO: checking termination during refinement.  *)
     (* print_endline "before the satisfactory checking of the current"; *)
     let sat_curr = sat_state st0 (rm_rhyp_ids rule.rhyps, rule.rgoal) in
     if sat_curr then rule
     else
-      let pos2 =
-        List.fold_left (fun acc (_, i) -> remove_nth acc i) pos1 sat
-      in
+      (* let _ =
+        if lema = Some "Coq.micromega.ZMicromega.ZChecker_sound" then (
+          print_endline "unsat";
+          pr_state st0)
+      in *)
+      let pos2 = List.fold_left (fun acc (_, i) -> remove_nth acc i) pos1 sat in
       let pos2 = List.mapi (fun i (st, _) -> (st, i)) pos2 in
       aux @@ pos2
   in
