@@ -1,0 +1,1 @@
+lemma_delimiter = "#lemma"
