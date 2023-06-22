@@ -1,6 +1,0 @@
-(library
- (name ilplib)
- (libraries sexplib)
- (flags :standard -rectypes -w -27))
-
-
