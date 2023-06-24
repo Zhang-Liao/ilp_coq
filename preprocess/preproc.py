@@ -16,9 +16,18 @@ f_feat = os.path.splitext(input)[0] + ".feat"
 f_label = os.path.splitext(input)[0] + ".label"
 
 def mk_feat(f):
-    return (" ".join(["%s:%s" % (feat, num) for (feat, num) in f]))
+    return (" ".join([str(feat) for (feat, _num) in f]))
+    # return (" ".join(["%s:%s" % (feat, num) for (feat, num) in f]))
 
-with open(input, 'r') as reader, open(f_feat, 'a') as w_feat, open(f_label, 'a') as w_label:
+if os.path.exists(f_feat):
+    os.remove(f_feat)
+if os.path.exists(f_label):
+    os.remove(f_label)
+
+with (
+    open(input, 'r') as reader,
+    open(f_feat, 'a') as w_feat,
+    open(f_label, 'a') as w_label):
     for l in reader:
         l = l.strip()
         if global_setting.lemma_delimiter not in l:
