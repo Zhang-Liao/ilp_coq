@@ -24,7 +24,7 @@ let safe_index l x =
   let rec aux l n =
     match l with
     | [] -> None
-    | h :: tl -> if String.equal h x then Some n else aux tl (n + 1)
+    | (_, h) :: tl -> if String.equal h x then Some n else aux tl (n + 1)
   in
   aux l 0
 
@@ -37,14 +37,17 @@ let test rows model =
     Printf.sprintf "%i\n" k
     (* string_of_int k *)
   in
-  (* fast_map aux rows *)
   let res, _, _ =
     List.fold_left
       (fun (acc, i, t) r ->
-        let t' = Unix.time () in
-        (* if i mod 100 = 0 then  *)
-        Printf.printf "%i %f\n" i (t' -. t);
-        flush Stdlib.stdout;
+        let t' =
+          if i mod 100 != 0 then t
+          else
+            let now = Unix.time () in
+            Printf.printf "%i %f\n" i (now -. t);
+            flush Stdlib.stdout;
+            now
+        in
         (aux r :: acc, i + 1, t'))
       ([], 0, Unix.time ())
       rows

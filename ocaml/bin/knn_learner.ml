@@ -1,3 +1,5 @@
+open Ocaml
+
 let intersect cmp l1 l2 =
   let rec intersect l1 l2 =
     match l1 with
@@ -38,31 +40,44 @@ let add db (features, obj) = { obj; features } :: db
 
 let knn_dist ps db =
   let dist x = (knn ps x.features, x.obj) in
-  let pds =
-    List.sort
-      (fun (d1, _) (d2, _) -> Float.compare d1 d2)
-      (List.rev_map dist db)
-  in
-  List.map snd pds
+  Utils.fast_map dist db
 
-let remove_dups ts =
-  (* let add acc t = if List.exists (String.equal t) acc then acc else t :: acc in *)
-  let add acc t =
-    if List.exists (fun _ -> Int.equal 1000 10000) acc then acc else t :: acc
-  in
-  List.rev @@ List.fold_left add [] ts
+(* let remove_dups ts =
+   let add acc t =
+     if List.exists (fun _ -> Int.equal 1000 10000) acc then acc else t :: acc
+   in
+   List.rev @@ List.fold_left add [] ts *)
 
-let top_k ts =
-  let rec remove_dups ts i acc =
-    if i == 30 then acc
-    else
-      match ts with
-      | [] -> acc
-      | h :: tl ->
-          if List.exists (String.equal h) acc then remove_dups tl i acc
-          else remove_dups tl (i + 1) (h :: acc)
+let firstn n l =
+  let rec aux acc n l =
+    match (n, l) with
+    | 0, _ -> List.rev acc
+    | n, h :: t -> aux (h :: acc) (pred n) t
+    | _ -> List.rev acc
   in
-  remove_dups ts 0 []
+  aux [] n l
+
+module StrMap = Map.Make (String)
+
+let remove_dups_and_sort ranking =
+  let ranking_map =
+    List.fold_left
+      (fun map (score, tac) ->
+        StrMap.update tac
+          (function
+            | None -> Some (score, tac)
+            | Some (lscore, ltac) ->
+                if score > lscore then Some (score, tac) else Some (lscore, ltac))
+          map)
+      StrMap.empty ranking
+  in
+  let new_ranking =
+    List.map
+      (fun (_hash, (score, tac)) -> (score, tac))
+      (StrMap.bindings ranking_map)
+  in
+  List.sort (fun (x, _) (y, _) -> Float.compare y x) new_ranking
 
 (* let predict db ps = remove_dups @@ List.rev @@ knn_dist ps db *)
-let predict db ps = top_k @@ List.rev @@ knn_dist ps db
+(* let predict db ps = top_k @@ List.rev @@ knn_dist ps db *)
+let predict db ps = firstn 20 @@ remove_dups_and_sort @@ List.rev @@ knn_dist ps db
