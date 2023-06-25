@@ -32,10 +32,7 @@ end
 
 module TacticMap = Map.Make (Tactic)
 
-type db_entry = {
-  obj : string;
-  features : int list;
-}
+type db_entry = { obj : string; features : int list }
 
 let add db (features, obj) = { obj; features } :: db
 
@@ -49,7 +46,23 @@ let knn_dist ps db =
   List.map snd pds
 
 let remove_dups ts =
-  let add acc t = if List.exists (Stdlib.( = ) t) acc then acc else t :: acc in
+  (* let add acc t = if List.exists (String.equal t) acc then acc else t :: acc in *)
+  let add acc t =
+    if List.exists (fun _ -> Int.equal 1000 10000) acc then acc else t :: acc
+  in
   List.rev @@ List.fold_left add [] ts
 
-let predict db ps = remove_dups @@ List.rev @@ knn_dist ps db
+let top_k ts =
+  let rec remove_dups ts i acc =
+    if i == 30 then acc
+    else
+      match ts with
+      | [] -> acc
+      | h :: tl ->
+          if List.exists (String.equal h) acc then remove_dups tl i acc
+          else remove_dups tl (i + 1) (h :: acc)
+  in
+  remove_dups ts 0 []
+
+(* let predict db ps = remove_dups @@ List.rev @@ knn_dist ps db *)
+let predict db ps = top_k @@ List.rev @@ knn_dist ps db
