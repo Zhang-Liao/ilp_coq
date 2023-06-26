@@ -13,7 +13,9 @@ let load_features file =
   let lines = read_lines file in
   let split = Str.split_delim (Str.regexp " ") in
   let line_to_feats l =
-    List.map int_of_string (split@@String.trim l) in
+    let f = List.map int_of_string (split@@String.trim l) in
+    Base.Set.of_list (module Base.Int) f
+  in
   fast_map line_to_feats lines
 
 let load_labels file = read_lines file

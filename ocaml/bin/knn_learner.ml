@@ -1,30 +1,11 @@
-open Ocaml
-
-let intersect cmp l1 l2 =
-  let rec intersect l1 l2 =
-    match l1 with
-    | [] -> []
-    | h1 :: t1 -> (
-        match l2 with
-        | [] -> []
-        | h2 :: _ when cmp h1 h2 < 0 -> intersect t1 l2
-        | h2 :: t2 when cmp h1 h2 > 0 -> intersect l1 t2
-        | _ :: t2 -> (
-            match intersect t1 t2 with
-            | [] -> [ h1 ]
-            | h3 :: _ as l when h3 = h1 -> l
-            | _ :: _ as l -> h1 :: l))
-  in
-  intersect l1 l2
-
-let union l1 l2 =
-  List.fold_left (fun acc x -> if List.mem x acc then acc else x :: acc) l1 l2
+(* open Ocaml *)
+(* open Base.Set *)
 
 let knn f1 f2 =
-  let i = float_of_int @@ List.length @@ intersect compare f1 f2 in
-  i
-(* let u = float_of_int @@ List.length@@union f1 f2 in
-   i /. u *)
+  let open Base.Set in
+  let inter = float_of_int @@ length @@ inter f1 f2 in
+  let union = float_of_int @@ length @@ union f1 f2 in
+  inter /. union
 
 module Tactic = struct
   type t = string
@@ -33,20 +14,15 @@ module Tactic = struct
 end
 
 module TacticMap = Map.Make (Tactic)
+module IntSet = Base.Set.M(Base.Int)
 
-type db_entry = { obj : string; features : int list }
+type db_entry = { obj : string; features : IntSet.t }
 
 let add db (features, obj) = { obj; features } :: db
 
 let knn_dist ps db =
   let dist x = (knn ps x.features, x.obj) in
-  Utils.fast_map dist db
-
-(* let remove_dups ts =
-   let add acc t =
-     if List.exists (fun _ -> Int.equal 1000 10000) acc then acc else t :: acc
-   in
-   List.rev @@ List.fold_left add [] ts *)
+  List.map dist db
 
 let firstn n l =
   let rec aux acc n l =
