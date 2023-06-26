@@ -29,11 +29,18 @@ let safe_index l x =
   aux l 0
 
 let test rows model =
-  let aux (ps, tac) =
-    let preds = predict model ps in
+  let _pr_k preds tac =
     let k = safe_index preds tac in
     let k = if k == None then -1 else Option.get k in
     Printf.sprintf "%i\n" k
+  in
+  let pr_preds preds =
+    let preds = List.map snd preds in
+    Printf.sprintf "%s\n" (String.concat "\t" preds)
+  in
+  let aux (ps, _tac) =
+    let preds = predict model ps in
+    pr_preds preds
   in
   let res, _, _ =
     let test_one (acc, i, t) r =
