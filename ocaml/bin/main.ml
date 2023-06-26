@@ -33,24 +33,21 @@ let test rows model =
     let preds = predict model ps in
     let k = safe_index preds tac in
     let k = if k == None then -1 else Option.get k in
-    (* let k = -1 in *)
     Printf.sprintf "%i\n" k
-    (* string_of_int k *)
   in
   let res, _, _ =
-    List.fold_left
-      (fun (acc, i, t) r ->
-        let t' =
-          if i mod 100 != 0 then t
-          else
-            let now = Unix.time () in
-            Printf.printf "%i %f\n" i (now -. t);
-            flush Stdlib.stdout;
-            now
-        in
-        (aux r :: acc, i + 1, t'))
-      ([], 0, Unix.time ())
-      rows
+    let test_one (acc, i, t) r =
+      let t' =
+        if i mod 100 != 0 then t
+        else
+          let now = Unix.time () in
+          Printf.printf "%i %f\n" i (now -. t);
+          flush Stdlib.stdout;
+          now
+      in
+      (aux r :: acc, i + 1, t')
+    in
+    List.fold_left test_one ([], 0, Unix.time ()) rows
   in
   res
 

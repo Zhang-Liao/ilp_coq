@@ -35,3 +35,6 @@ with (
             feat = mk_feat(l['feats'])
             w_feat.write(feat + '\n')
             w_label.write(l['tac'] + '\n')
+        else:
+            w_feat.write(l + '\n')
+            w_label.write(l + '\n')
