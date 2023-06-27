@@ -9,14 +9,16 @@ args = parser.parse_args()
 
 with open(args.pred, 'r') as f:
     lines1 = f.read().splitlines()
+lines1 = [l.strip().split('\t') for l in lines1]
 
 with open(args.label, 'r') as f:
     lines2 = f.read().splitlines()
+lines2 = [l.strip() for l in lines2]
 
 assert len(lines1) == len(lines2)
 
 def cal_k(preds, label):
-    for i in len(preds):
+    for i in range(len(preds)):
         if preds[i] == label:
             return i + 1
     return -1
@@ -28,8 +30,8 @@ for preds, label in zip(lines1, lines2):
         ranks.append(k)
 
 total = len(ranks)
-top1 = len([r == 1 for r in ranks])
-top10 = len([r <= 10 for r in ranks])
-
-print("Top1 acc: {:.2f}%".format(top1/total * 100))
+top1 = len([r for r in ranks if r == 1])
+top10 = len([r for r in ranks if (r <= 10) & (r != -1)])
+print('total', total)
+print("Top1 acc: {:.2f}%".format((top1/total) * 100))
 print("Top10 acc: {:.2f}%".format(top10/total * 100))
