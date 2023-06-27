@@ -9,6 +9,8 @@ import json
 parser = argparse.ArgumentParser()
 parser.add_argument("--f", type=str, help = 'The file that contains the labels of the training dataset.' )
 opts = parser.parse_args()
+root, ext = os.path.splitext(opts.f)
+assert (ext == '.label')
 
 dict = {}
 i = 1
@@ -21,4 +23,8 @@ with open(opts.f, 'r') as reader:
             else:
                 dict[tac].append(i)
         i += 1
-print(dict)
+# print(dict)
+
+out = root + "_tac.json"
+with open(out, 'w') as w:
+    json.dump(dict, w)  
