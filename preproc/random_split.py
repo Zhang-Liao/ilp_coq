@@ -6,8 +6,11 @@ from lib import global_setting
 from lib import utils
 
 lemma_split_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/lemma_split'
-dataset = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json'
-
+dataset = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/syn_vertical2'
+out_dir = os.path.join(dataset, 'ten_split')
+if not os.path.exists(out_dir):
+    os.mkdir(out_dir)
+    
 def load_split_lemmas():
     split_lemmmas = []
     for root, _, files in os.walk(lemma_split_dir):
@@ -25,37 +28,33 @@ def stats(data):
     # print('lemma number', lemma_num)
     # print('state number', state_num)
 
-def output_lemma(data, lemma, split_lemmas, output_dir):
+def output_lemma(data, lemma, split_lemmas):
     flag = True
     for i in range(len(split_lemmas)):
         split_lemma = split_lemmas[i]
         if lemma in split_lemma:
-            utils.output_lemma_aux(lemma, data, os.path.join(output_dir, 'split'+str(i)+".json"))
+            utils.output_lemma_aux(lemma, data, os.path.join(out_dir, 'split'+str(i)+".json"))
             flag = False
     if flag:
         print(lemma+"not in any split")
 
-def random_split_ten_pieces(dir):
-    split_lemmas = load_split_lemmas()
-    for root, _, files in os.walk(dir):
-        for file in files:
-            lemma_states = []
-            if Path(file).suffix == '.json':
-                path = os.path.join(root, file)
-                with open(path, 'r') as reader:
-                    for line in reader:
-                        line = line.strip()
-                        if global_setting.lemma_delimiter not in line:
-                            lemma_states.append(line)
-                        else:
-                            if lemma_states != []:
-                                # print('append lemma with', len(lemma_states), 'states')
-                                output_lemma(lemma_states, lemma, split_lemmas, dir)
-                            lemma = utils.lemma_name(line)
-                            lemma_states = []
-                    # the last lemma in a file
-                    if lemma_states != []:
-                        output_lemma(lemma_states, lemma, split_lemmas, dir)
-
-if __name__ == "__main__":
-    random_split_ten_pieces(dataset)
+split_lemmas = load_split_lemmas()
+for root, _, files in os.walk(dataset):
+    for file in files:
+        lemma_states = []
+        if Path(file).suffix == '.json':
+            path = os.path.join(root, file)
+            with open(path, 'r') as reader:
+                for line in reader:
+                    line = line.strip()
+                    if global_setting.lemma_delimiter not in line:
+                        lemma_states.append(line)
+                    else:
+                        if lemma_states != []:
+                            # print('append lemma with', len(lemma_states), 'states')
+                            output_lemma(lemma_states, lemma, split_lemmas)
+                        lemma = utils.lemma_name(line)
+                        lemma_states = []
+                # the last lemma in a file
+                if lemma_states != []:
+                    output_lemma(lemma_states, lemma, split_lemmas)
