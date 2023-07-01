@@ -7,11 +7,12 @@ import argparse
 import joblib
 import json
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import MultiLabelBinarizer
 
 def encode(dir):
     l_encoder = LabelEncoder()
-    f_encoder = LabelEncoder ()
-    feats = set()
+    f_encoder = MultiLabelBinarizer ()
+    feats = []
     labels = set()
     for root, _, _ in os.walk(dir):
         for i in range(10):
@@ -21,8 +22,9 @@ def encode(dir):
                     l = l.strip()
                     if global_setting.lemma_delimiter not in l:
                         l = json.loads(l)
-                        for f in l['feats']:
-                            feats.add(f[0])
+                        fs = [f[0] for f in l['feats']]
+                        # for f in l['feats']:
+                        feats.append(fs)
                         labels.add(l['tac'])
         # prevent from recursivly looking into the directories
         break
@@ -35,6 +37,8 @@ parser.add_argument("--dir", type=str)
 opts = parser.parse_args()
 f_out = os.path.join(opts.dir, 'feat_encoder.gz')
 l_out = os.path.join(opts.dir, 'label_encoder.gz')
-l_encoder, f_encoder = encode(opts.dir)
+f_encoder, l_encoder = encode(opts.dir)
+print('number of features', len(f_encoder.classes_))
+print('number of labels', len(l_encoder.classes_))
 joblib.dump(f_encoder, f_out)
 joblib.dump(l_encoder, l_out)
