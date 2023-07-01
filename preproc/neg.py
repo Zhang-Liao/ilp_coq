@@ -21,24 +21,25 @@ root, ext = os.path.splitext(feat_file)
 print('number of feat', len(feat_encoder.classes_))
 print('number of label', len(label_encoder.classes_))
 
-dict = {}
-labels = []
-feats = []
-with open(label_file, 'r') as reader:
-    for l in reader:
-        l = l.strip()
-        if global_setting.lemma_delimiter not in l:
-            labels.append(l)
-    labels = label_encoder.transform(labels)
+def read():
+    labels = []
+    feats = []
+    with open(label_file, 'r') as reader:
+        for l in reader:
+            l = l.strip()
+            if global_setting.lemma_delimiter not in l:
+                labels.append(l)
+        labels = label_encoder.transform(labels)
 
-with open(feat_file, 'r') as reader:
-    for l in reader:
-        l = l.strip()
-        if global_setting.lemma_delimiter not in l:
-            fs = l.split()
-            fs = [int(f) for f in fs]
-            feats.append(fs)
-    feats = feat_encoder.transform(feats)
+    with open(feat_file, 'r') as reader:
+        for l in reader:
+            l = l.strip()
+            if global_setting.lemma_delimiter not in l:
+                fs = l.split()
+                fs = [int(f) for f in fs]
+                feats.append(fs)
+        feats = feat_encoder.transform(feats)
+    return feats, labels
 
 def get_negs(ids, labels, label):
     negs = []
@@ -51,13 +52,15 @@ def get_negs(ids, labels, label):
                 break
     return negs
 
-def update_dic(tac, negs):
+def update_dic(tac, negs, dict):
     negs = set(negs)
     if tac not in dict.keys():
         dict[tac] = negs
     else:
         dict[tac] = dict[tac].union(negs)
 
+dict = {}
+feats, labels = read()
 neigh = KNeighborsClassifier(n_neighbors=1, metric='jaccard', n_jobs=5)
 neigh.fit(feats, labels)
 kneighs_arr = neigh.kneighbors(feats, 500, False)
@@ -66,7 +69,7 @@ for i in range(len(labels)):
     kneighs = kneighs_arr[i]
     k_labels = labels[kneighs]
     negs = get_negs(kneighs, k_labels, labels[i])
-    update_dic(tac, negs)
+    update_dic(tac, negs, dict)
     # neg_labels = label_encoder.inverse_transform(labels[negs])
     # print('negs', negs)
     # print('neg_labels', neg_lables)
