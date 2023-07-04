@@ -6,7 +6,9 @@ from lib import global_setting
 
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 json_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
-pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.pl'
+bk_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_bk.pl'
+pos_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_pos.pl'
+neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_neg.pl'
 
 def idx_str(idx):
     idx = ",".join(idx)
@@ -21,10 +23,10 @@ def goal_predc(i, l, writer):
     for ident, idx in l:
         writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
-def output(kind, pos_neg):
+def output(kind, pos_neg, out):
     with (
         open(json_file, 'r') as reader,
-        open(pred_file, 'a') as writer):
+        open(out, 'a') as writer):
         i = 0
         for l in reader:
             l = l.strip()
@@ -42,7 +44,14 @@ with open(pos_neg_file, 'r') as r:
     pos_neg_dict = json.load(r) 
     pos_neg = pos_neg_dict['simpl']
 
-if os.path.exists(pred_file):
-    os.remove(pred_file)
+if os.path.exists(bk_file):
+    os.remove(bk_file)
 
-output('pos', pos_neg)
+if os.path.exists(pos_file):
+    os.remove(pos_file)
+
+if os.path.exists(neg_file):
+    os.remove(neg_file)
+    
+output('pos', pos_neg, pos_file)
+output('neg', pos_neg, neg_file)
