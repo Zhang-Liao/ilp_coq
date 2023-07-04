@@ -52,13 +52,21 @@ def get_negs(ids, labels, label):
                 break
     return negs
 
-def update_dic(tac, negs, dict):
+def update_dic(i, tac, negs, dict):
     negs = set(negs)
     if tac not in dict.keys():
-        dict[tac] = negs
+        # print('i', i)
+        dict[tac] = { 'pos' : [i], 'neg' : negs}
     else:
-        dict[tac] = dict[tac].union(negs)
-
+        try:
+            dat = dict[tac]
+            # print(dat)
+            dat['pos'].append(i)
+            dat['neg'] = dat['neg'].union(negs)
+            dict[tac] = dat
+        except:
+            print(dat)
+            exit(0)
 dict = {}
 feats, labels = read()
 neigh = KNeighborsClassifier(n_neighbors=1, metric='jaccard', n_jobs=5)
@@ -69,7 +77,7 @@ for i in range(len(labels)):
     kneighs = kneighs_arr[i]
     k_labels = labels[kneighs]
     negs = get_negs(kneighs, k_labels, labels[i])
-    update_dic(tac, negs, dict)
+    update_dic(i, tac, negs, dict)
     # neg_labels = label_encoder.inverse_transform(labels[negs])
     # print('negs', negs)
     # print('neg_labels', neg_lables)
@@ -77,7 +85,9 @@ for i in range(len(labels)):
     # print()
 
 for key, negs in dict.items():
-    dict[key] = list(negs)
+    dat = dict[key]
+    dat['neg'] = list(dat['neg'])
+    dict[key] = dat
 
 out = root + "_neg.json"
 with open(out, 'w') as w:
