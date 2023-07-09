@@ -8,7 +8,13 @@ from pyswip import Prolog
 
 prolog = Prolog()
 
+# too many illegal characters
 def tac2predc(t):
+    if t[0].isupper():
+        t = t[0].lower() + t[1:]
+    for ill_char in [' ', '\'', '-', '>', ',', ':', '*', '=', '(', ')', ';', '<', '@', '[', ']', '%', '?', '~', '!', '{', '}', '|', '+']:
+        if ill_char in t:
+            t = t.replace(ill_char, '_')
     return "{}".format(t)
 
 def encode(dir, out):
