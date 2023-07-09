@@ -14,44 +14,54 @@ def idx_str(idx):
     idx = "[" + idx +"]"
     return idx
 
-def hyps_predc(i, l, writer):
+def hyps_predc(i, l, writer, predc):
     for ident, name, idx in l:
         if ident != 'app':
+            predc.add(ident)
             writer.write("{}({},{},{}).\n".format(ident, i, name, idx_str(idx)))
 
-def goal_predc(i, l, writer):
+def goal_predc(i, l, writer, predc):
     for ident, idx in l:
         if ident != 'app':
+            predc.add(ident)
             writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
+def body_predc(predc, writer):
+    for p in predc:
+        writer.write("body_predc({}).\n".format(p))
+
 def pr_bk(pos_neg, out):
+    predc = set()
     with (
         open(json_file, 'r') as reader,
         open(out, 'a') as writer):
+        writer.write(":-begin_bg.\n")
         i = 0
         for l in reader:
             l = l.strip()
             if global_setting.lemma_delimiter not in l:
                 if i in pos_neg:
                     l = json.loads(l)
-                    hyps_predc(i, l['hyps'], writer)
-                    goal_predc(i, l['goal'], writer)
-                i += 1            
+                    hyps_predc(i, l['hyps'], writer, predc)
+                    goal_predc(i, l['goal'], writer, predc)
+                i += 1
+        writer.write(":-end_bg.\n")
+        body_predc(predc, writer)
 
 def pr_predc(pos, neg, out):
     with open(out, 'a') as writer:
-        writer.write(":-begin_in_pos.\n")    
+        writer.write(":-begin_in_pos.\n")
         for p in pos:
             writer.write("tac({}).\n".format(p))
-        writer.write(":-end_in_pos.\n")                
-        writer.write(":-begin_in_neg.\n")   
+        writer.write(":-end_in_pos.\n")
+        writer.write(":-begin_in_neg.\n")
         for n in neg:
             writer.write("tac({}).\n".format(n))
-        writer.write(":-end_in_neg.\n")   
+        writer.write(":-end_in_neg.\n")
 
 
 with open(pos_neg_file, 'r') as r:
-    pos_neg_dict = json.load(r) 
+    pos_neg_dict = json.load(r)
     tac_pos_neg = pos_neg_dict[tac]
     pos_neg = tac_pos_neg['pos'] + tac_pos_neg['neg']
 
@@ -60,6 +70,6 @@ if os.path.exists(bk_file):
 
 if os.path.exists(exg_file):
     os.remove(exg_file)
-        
+
 pr_bk(pos_neg, bk_file)
 pr_predc(tac_pos_neg['pos'], tac_pos_neg['neg'], exg_file)
