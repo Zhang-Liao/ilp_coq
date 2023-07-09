@@ -7,7 +7,7 @@ from lib import global_setting
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 json_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bk_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_bk.pl'
-pos_neg_prolog_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_pn.pl'
+exg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_exg.pl'
 tac = 'simpl'
 def idx_str(idx):
     idx = ",".join(idx)
@@ -16,11 +16,13 @@ def idx_str(idx):
 
 def hyps_predc(i, l, writer):
     for ident, name, idx in l:
-        writer.write("{}({},{},{}).\n".format(ident, i, name, idx_str(idx)))
+        if ident != 'app':
+            writer.write("{}({},{},{}).\n".format(ident, i, name, idx_str(idx)))
 
 def goal_predc(i, l, writer):
     for ident, idx in l:
-        writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
+        if ident != 'app':
+            writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
 def pr_bk(pos_neg, out):
     with (
@@ -40,16 +42,15 @@ def pr_predc(pos, neg, out):
     with open(out, 'a') as writer:
         writer.write(":-begin_in_pos.\n")    
         for p in pos:
-            writer.write("{}({})\n".format(tac,p))
+            writer.write("tac({}).\n".format(p))
         writer.write(":-end_in_pos.\n")                
         writer.write(":-begin_in_neg.\n")   
         for n in neg:
-            writer.write("{}({})\n".format(tac,n))
+            writer.write("tac({}).\n".format(n))
         writer.write(":-end_in_neg.\n")   
 
 
-
-with open(json_file, 'r') as r:
+with open(pos_neg_file, 'r') as r:
     pos_neg_dict = json.load(r) 
     tac_pos_neg = pos_neg_dict[tac]
     pos_neg = tac_pos_neg['pos'] + tac_pos_neg['neg']
@@ -57,8 +58,8 @@ with open(json_file, 'r') as r:
 if os.path.exists(bk_file):
     os.remove(bk_file)
 
-if os.path.exists(pos_neg_prolog_file):
-    os.remove(pos_neg_prolog_file)
+if os.path.exists(exg_file):
+    os.remove(exg_file)
         
 pr_bk(pos_neg, bk_file)
-pr_predc(tac_pos_neg['pos'], tac_pos_neg['neg'], pos_neg_prolog_file)
+pr_predc(tac_pos_neg['pos'], tac_pos_neg['neg'], exg_file)
