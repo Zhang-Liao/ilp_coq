@@ -13,6 +13,7 @@ pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/
 json_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bk_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_bk.pl'
 exg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_exg.pl'
+bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_bias.pl'
 tac = 'simpl'
 
 def idx_str(idx):
@@ -20,39 +21,66 @@ def idx_str(idx):
     idx = "[" + idx +"]"
     return idx
 
+def name_as_prolog(n):
+    if n == '$e':
+        return 'evar'
+    elif n == '$r':
+        return 'rel'
+    else:
+        return n
+
 def hyps_predc(i, l, writer, predc):
     for ident, name, idx in l:
+        ident = name_as_prolog(ident)
         if ident != 'app':
             predc.add(ident)
             writer.write("{}({},{},{}).\n".format(ident, i, name, idx_str(idx)))
 
 def goal_predc(i, l, writer, predc):
     for ident, idx in l:
+        ident = name_as_prolog(ident)
         if ident != 'app':
             predc.add(ident)
             writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
-def body_predc(predc, writer):
-    for p in predc:
-        writer.write("body_predc({}).\n".format(p))
+# :- modeb(*,mother(+person,-person)).
+# :- modeb(*,father(+person,-person)).
+# :- determination(grandparent/2,father/2).
 
-def pr_bk(pos_neg, out):
+
+def auto_refine(predc, writer):
+    writer.write(":- modeh(1,tac(-nat)).\n")
+    for p in predc:
+        writer.write(":- modeb(5, {}(+nat, -list)).\n".format(p))
+    for p in predc:
+        writer.write(":- determination(tac/1, {}/2).\n".format(p))
+    writer.write(":- aleph_set(refine, auto).\n")
+
+# def body_predc(predc, writer):
+#     for p in predc:
+#         writer.write("body_predc({}).\n".format(p))
+
+def pr_bk(pos_neg, fbk, fbias):
     predc = set()
     with (
         open(json_file, 'r') as reader,
-        open(out, 'a') as writer):
-        writer.write(":-begin_bg.\n")
+        open(fbk, 'a') as bk_w,
+        open(fbias, 'a') as bias_w
+        ):
+        bk_w.write(':-style_check(-discontiguous).\n')
+        bk_w.write(":-begin_bg.\n")
         i = 0
         for l in reader:
             l = l.strip()
             if global_setting.lemma_delimiter not in l:
                 if i in pos_neg:
                     l = json.loads(l)
-                    hyps_predc(i, l['hyps'], writer, predc)
-                    goal_predc(i, l['goal'], writer, predc)
+                    # hyps_predc(i, l['hyps'], writer, predc)
+                    goal_predc(i, l['goal'], bk_w, predc)
                 i += 1
-        writer.write(":-end_bg.\n")
-        body_predc(predc, writer)
+        bk_w.write(":-end_bg.\n")
+        auto_refine(predc, bias_w)
+        # body_predc(predc, writer)
 
 def pr_predc(pos, neg, out):
     with open(out, 'a') as writer:
@@ -79,5 +107,9 @@ if os.path.exists(bk_file):
 if os.path.exists(exg_file):
     os.remove(exg_file)
 
-pr_bk(pos_neg, bk_file)
+if os.path.exists(bias_file):
+    os.remove(bias_file)
+
+
+pr_bk(pos_neg, bk_file, bias_file)
 pr_predc(tac_pos_neg['pos'], tac_pos_neg['neg'], exg_file)
