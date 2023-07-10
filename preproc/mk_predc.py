@@ -33,14 +33,14 @@ def hyps_predc(i, l, writer, predc):
     for ident, name, idx in l:
         ident = name_as_prolog(ident)
         if ident != 'app':
-            predc.add(ident)
+            predc.add((ident, 'h'))
             writer.write("{}({},{},{}).\n".format(ident, i, name, idx_str(idx)))
 
 def goal_predc(i, l, writer, predc):
     for ident, idx in l:
         ident = name_as_prolog(ident)
         if ident != 'app':
-            predc.add(ident)
+            predc.add((ident, 'g'))
             writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
 # :- modeb(*,mother(+person,-person)).
@@ -50,10 +50,20 @@ def goal_predc(i, l, writer, predc):
 
 def auto_refine(predc, writer):
     writer.write(":- modeh(1,tac(-nat)).\n")
-    for p in predc:
-        writer.write(":- modeb(5, {}(+nat, -list)).\n".format(p))
-    for p in predc:
-        writer.write(":- determination(tac/1, {}/2).\n".format(p))
+    for p, kind in predc:
+        if kind == 'g':
+            writer.write(":- modeb(5, {}(+nat, -list)).\n".format(p))
+        elif kind == 'h':
+            writer.write(":- modeb(5, {}(+nat, -string, -list)).\n".format(p))
+        else:
+            assert False
+    for p, kind in predc:
+        if kind == 'g':
+            writer.write(":- determination(tac/1, {}/2).\n".format(p))
+        elif kind == 'h':
+            writer.write(":- determination(tac/1, {}/3).\n".format(p))
+        else:
+            assert False
     writer.write(":- aleph_set(refine, auto).\n")
 
 # def body_predc(predc, writer):
@@ -75,7 +85,7 @@ def pr_bk(pos_neg, fbk, fbias):
             if global_setting.lemma_delimiter not in l:
                 if i in pos_neg:
                     l = json.loads(l)
-                    # hyps_predc(i, l['hyps'], writer, predc)
+                    hyps_predc(i, l['hyps'], bk_w, predc)
                     goal_predc(i, l['goal'], bk_w, predc)
                 i += 1
         bk_w.write(":-end_bg.\n")
