@@ -2,13 +2,19 @@ import json
 import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
+
+import random
+
 from lib import global_setting
+
+random.seed(110)
 
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 json_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bk_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_bk.pl'
 exg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_exg.pl'
 tac = 'simpl'
+
 def idx_str(idx):
     idx = ",".join(idx)
     idx = "[" + idx +"]"
@@ -63,6 +69,8 @@ def pr_predc(pos, neg, out):
 with open(pos_neg_file, 'r') as r:
     pos_neg_dict = json.load(r)
     tac_pos_neg = pos_neg_dict[tac]
+    tac_pos_neg['pos'] = random.choices(tac_pos_neg['pos'], k = 3)
+    tac_pos_neg['neg'] = random.choices(tac_pos_neg['neg'], k = 5)
     pos_neg = tac_pos_neg['pos'] + tac_pos_neg['neg']
 
 if os.path.exists(bk_file):
