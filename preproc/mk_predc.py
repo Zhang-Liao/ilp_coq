@@ -43,18 +43,13 @@ def goal_predc(i, l, writer, predc):
             predc.add((ident, 'g'))
             writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
-# :- modeb(*,mother(+person,-person)).
-# :- modeb(*,father(+person,-person)).
-# :- determination(grandparent/2,father/2).
-
-
 def auto_refine(predc, writer):
-    writer.write(":- modeh(1,tac(-nat)).\n")
+    # writer.write(":- modeh(1,tac(+integer)).\n")
     for p, kind in predc:
         if kind == 'g':
-            writer.write(":- modeb(5, {}(+nat, -list)).\n".format(p))
+            writer.write(":- modeb(5, {}(+integer, -is_list)).\n".format(p))
         elif kind == 'h':
-            writer.write(":- modeb(5, {}(+nat, -string, -list)).\n".format(p))
+            writer.write(":- modeb(5, {}(+integer, -string, -is_list)).\n".format(p))
         else:
             assert False
     for p, kind in predc:

@@ -2,3 +2,7 @@
 ?- [refine, simpl_bk, simpl_exg].
 
 :- style_check(-discontiguous). must be put in bk.pl not refine.pl?
+
+bottom clause cause
+  [bottom clause]
+  tac(A).
