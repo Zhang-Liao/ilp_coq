@@ -7,4 +7,7 @@ _build/
 *.eval
 *.txt
 *.sexpr
-data/**/*.pl
+*.pl
+*.b
+*.f
+*.n
