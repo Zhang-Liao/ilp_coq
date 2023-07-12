@@ -1,0 +1,26 @@
+[init, simpl_bias, simpl_bk, simpl_exg].
+
+[new refinement]
+tac(A) :-
+   coq_init_datatypes_compopp(A,B), r(A,C,D), c(A,C,B).
+[new refinement]
+tac(A) :-
+   coq_init_datatypes_compopp(A,B), r(A,C,D), c(A,E,B).
+[new refinement]
+tac(A) :-
+   coq_init_datatypes_compopp(A,B), r(A,C,D), c(A,C,D).
+[new refinement]
+tac(A) :-
+   coq_init_datatypes_compopp(A,B), r(A,C,D), c(A,E,D).
+[new refinement]
+tac(A) :-
+   coq_init_datatypes_compopp(A,B), r(A,C,D), c(A,C,E).
+[new refinement]
+tac(A) :-
+   coq_init_datatypes_compopp(A,B), r(A,C,D), c(A,E,F).
+[new refinement]
+tac(A) :-
+
+% :- aleph_set(construct_bottom, false).
+:- aleph_set(search, heuristic).
+segmentation fault

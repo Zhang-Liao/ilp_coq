@@ -60,8 +60,9 @@ def pr_mode(predc, writer):
         else:
             assert False
 
-def pr_auto_refine(writer):
-    writer.write(":- set(refine, auto).\n")
+def pr_bias(w):
+    w.write(':- set(search, heuristic).\n')
+    w.write(':- set(construct_bottom, false).\n')
 
 def pr_bk(pos_neg, fbk):
     predc = set()
@@ -69,6 +70,7 @@ def pr_bk(pos_neg, fbk):
         open(json_file, 'r') as reader,
         open(fbk, 'a') as bk_w,
         ):
+        pr_bias(bk_w)
         bk_w.write(':-style_check(-discontiguous).\n')
         i = 0
         for l in reader:
@@ -80,7 +82,7 @@ def pr_bk(pos_neg, fbk):
                     goal_predc(i, l['goal'], bk_w, predc)
                 i += 1
         pr_mode(predc, bk_w)
-        # body_predc(predc, writer)
+        bk_w.write(":- set(refine, auto).\n")
 
 def pr_predc(exg, out):
     with open(out, 'a') as writer:
@@ -90,8 +92,8 @@ def pr_predc(exg, out):
 with open(pos_neg_file, 'r') as r:
     pos_neg_dict = json.load(r)
     tac_pos_neg = pos_neg_dict[tac]
-    tac_pos_neg['pos'] = random.choices(tac_pos_neg['pos'], k = 3)
-    tac_pos_neg['neg'] = random.choices(tac_pos_neg['neg'], k = 5)
+    # tac_pos_neg['pos'] = random.choices(tac_pos_neg['pos'])
+    # tac_pos_neg['neg'] = random.choices(tac_pos_neg['neg'])
     pos_neg = tac_pos_neg['pos'] + tac_pos_neg['neg']
 
 if os.path.exists(bk_file):

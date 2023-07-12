@@ -7,7 +7,9 @@ _build/
 *.eval
 *.txt
 *.sexpr
-*.pl
+*_bk.pl
+*_exg.pl
+*_bias.pl
 *.b
 *.f
 *.n
