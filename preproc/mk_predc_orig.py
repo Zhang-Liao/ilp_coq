@@ -14,6 +14,7 @@ json_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_spl
 bk_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.b'
 pos_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.f'
 neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.n'
+bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/orig/bias.pl'
 tac = 'simpl'
 
 def idx_str(idx):
@@ -61,28 +62,42 @@ def pr_mode(predc, writer):
             assert False
 
 def pr_bias(w):
-    w.write(':- set(search, heuristic).\n')
-    w.write(':- set(construct_bottom, false).\n')
+    with open(bias_file,'r') as r:
+        for b in r:
+            w.write(b)
+            # w.write(':- set(construct_bottom, false).\n')
 
-def pr_bk(pos_neg, fbk):
-    predc = set()
+def pr_predc_typ(predc, writer):
+    for p, kind in predc:
+        if kind == 'g':
+            writer.write("body_predc({}).\n".format(p))
+    for p, kind in predc:
+        if kind == 'h':
+            writer.write("hyp_predc({}).\n".format(p))
+
+def pr_bk(pos_dict, neg_dict, fbk):
+    pos_predc = set()
     with (
         open(json_file, 'r') as reader,
         open(fbk, 'a') as bk_w,
         ):
-        pr_bias(bk_w)
         bk_w.write(':-style_check(-discontiguous).\n')
         i = 0
         for l in reader:
             l = l.strip()
             if global_setting.lemma_delimiter not in l:
-                if i in pos_neg:
+                if i in pos_dict:
                     l = json.loads(l)
-                    hyps_predc(i, l['hyps'], bk_w, predc)
-                    goal_predc(i, l['goal'], bk_w, predc)
+                    hyps_predc(i, l['hyps'], bk_w, pos_predc)
+                    goal_predc(i, l['goal'], bk_w, pos_predc)
+                elif i in neg_dict:
+                    l = json.loads(l)
+                    hyps_predc(i, l['hyps'], bk_w, set())
+                    goal_predc(i, l['goal'], bk_w, set())
                 i += 1
-        pr_mode(predc, bk_w)
-        bk_w.write(":- set(refine, auto).\n")
+        pr_mode(pos_predc, bk_w)
+        pr_predc_typ(pos_predc, bk_w)
+        pr_bias(bk_w)
 
 def pr_predc(exg, out):
     with open(out, 'a') as writer:
@@ -92,9 +107,10 @@ def pr_predc(exg, out):
 with open(pos_neg_file, 'r') as r:
     pos_neg_dict = json.load(r)
     tac_pos_neg = pos_neg_dict[tac]
+    pos_dict = tac_pos_neg['pos']
+    neg_dict = tac_pos_neg['neg']
     # tac_pos_neg['pos'] = random.choices(tac_pos_neg['pos'])
     # tac_pos_neg['neg'] = random.choices(tac_pos_neg['neg'])
-    pos_neg = tac_pos_neg['pos'] + tac_pos_neg['neg']
 
 if os.path.exists(bk_file):
     os.remove(bk_file)
@@ -102,6 +118,6 @@ if os.path.exists(bk_file):
 if os.path.exists(pos_file):
     os.remove(pos_file)
 
-pr_bk(pos_neg, bk_file)
+pr_bk(pos_dict, neg_dict, bk_file)
 pr_predc(tac_pos_neg['pos'], pos_file)
 pr_predc(tac_pos_neg['neg'], neg_file)
