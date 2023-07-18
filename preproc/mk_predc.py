@@ -11,9 +11,10 @@ random.seed(110)
 
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 json_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
-bk_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_bk.pl'
-exg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_exg.pl'
-bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl_bias.pl'
+bk_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.b'
+pos_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.f'
+neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.n'
+bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/orig/bias.pl'
 tac = 'simpl'
 
 def idx_str(idx):
@@ -43,8 +44,8 @@ def goal_predc(i, l, writer, predc):
             predc.add((ident, 'g'))
             writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
-def auto_refine(predc, writer):
-    # writer.write(":- modeh(1,tac(+integer)).\n")
+def pr_mode(predc, writer):
+    writer.write(":- modeh(1,tac(+integer)).\n")
     for p, kind in predc:
         if kind == 'g':
             writer.write(":- modeb(5, {}(+integer, -is_list)).\n".format(p))
@@ -59,62 +60,67 @@ def auto_refine(predc, writer):
             writer.write(":- determination(tac/1, {}/3).\n".format(p))
         else:
             assert False
-    writer.write(":- aleph_set(refine, auto).\n")
 
-# def body_predc(predc, writer):
-#     for p in predc:
-#         writer.write("body_predc({}).\n".format(p))
+def pr_bias(w):
+    with open(bias_file,'r') as r:
+        for b in r:
+            w.write(b)
+            # w.write(':- set(construct_bottom, false).\n')
 
-def pr_bk(pos_neg, fbk, fbias):
-    predc = set()
+def pr_predc_typ(predc, writer):
+    for p, kind in predc:
+        if kind == 'g':
+            writer.write("body_predc({}).\n".format(p))
+    for p, kind in predc:
+        if kind == 'h':
+            writer.write("hyp_predc({}).\n".format(p))
+
+def pr_bk(pos_dict, neg_dict, fbk):
+    pos_predc = set()
     with (
         open(json_file, 'r') as reader,
         open(fbk, 'a') as bk_w,
-        open(fbias, 'a') as bias_w
         ):
         bk_w.write(':-style_check(-discontiguous).\n')
-        bk_w.write(":-begin_bg.\n")
         i = 0
         for l in reader:
             l = l.strip()
             if global_setting.lemma_delimiter not in l:
-                if i in pos_neg:
+                if i in pos_dict:
                     l = json.loads(l)
-                    hyps_predc(i, l['hyps'], bk_w, predc)
-                    goal_predc(i, l['goal'], bk_w, predc)
+                    hyps_predc(i, l['hyps'], bk_w, pos_predc)
+                    goal_predc(i, l['goal'], bk_w, pos_predc)
+                elif i in neg_dict:
+                    l = json.loads(l)
+                    hyps_predc(i, l['hyps'], bk_w, set())
+                    goal_predc(i, l['goal'], bk_w, set())
                 i += 1
-        bk_w.write(":-end_bg.\n")
-        auto_refine(predc, bias_w)
-        # body_predc(predc, writer)
+        pr_mode(pos_predc, bk_w)
+        pr_predc_typ(pos_predc, bk_w)
+        pr_bias(bk_w)
 
-def pr_predc(pos, neg, out):
+def pr_predc(exg, out):
     with open(out, 'a') as writer:
-        writer.write(":-begin_in_pos.\n")
-        for p in pos:
-            writer.write("tac({}).\n".format(p))
-        writer.write(":-end_in_pos.\n")
-        writer.write(":-begin_in_neg.\n")
-        for n in neg:
-            writer.write("tac({}).\n".format(n))
-        writer.write(":-end_in_neg.\n")
-
+        for e in exg:
+            writer.write("tac({}).\n".format(e))
 
 with open(pos_neg_file, 'r') as r:
     pos_neg_dict = json.load(r)
     tac_pos_neg = pos_neg_dict[tac]
-    tac_pos_neg['pos'] = random.choices(tac_pos_neg['pos'], k = 3)
-    tac_pos_neg['neg'] = random.choices(tac_pos_neg['neg'], k = 5)
-    pos_neg = tac_pos_neg['pos'] + tac_pos_neg['neg']
+    pos_dict = tac_pos_neg['pos']
+    neg_dict = tac_pos_neg['neg']
+    # tac_pos_neg['pos'] = random.choices(tac_pos_neg['pos'])
+    # tac_pos_neg['neg'] = random.choices(tac_pos_neg['neg'])
 
 if os.path.exists(bk_file):
     os.remove(bk_file)
 
-if os.path.exists(exg_file):
-    os.remove(exg_file)
+if os.path.exists(pos_file):
+    os.remove(pos_file)
 
-if os.path.exists(bias_file):
-    os.remove(bias_file)
+if os.path.exists(neg_file):
+    os.remove(neg_file)
 
-
-pr_bk(pos_neg, bk_file, bias_file)
-pr_predc(tac_pos_neg['pos'], tac_pos_neg['neg'], exg_file)
+pr_bk(pos_dict, neg_dict, bk_file)
+pr_predc(tac_pos_neg['pos'], pos_file)
+pr_predc(tac_pos_neg['neg'], neg_file)
