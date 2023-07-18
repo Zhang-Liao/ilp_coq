@@ -26,4 +26,4 @@ with open(opts.f, 'r') as reader:
 
 out = root + "_tac.json"
 with open(out, 'w') as w:
-    json.dump(dict, w)  
+    json.dump(dict, w)

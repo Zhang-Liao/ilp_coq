@@ -53,42 +53,23 @@ def get_negs(ids, labels, label):
     return negs
 
 def update_dic(i, tac, negs, dict):
-    negs = set(negs)
     if tac not in dict.keys():
-        # print('i', i)
-        dict[tac] = { 'pos' : [i], 'neg' : negs}
+        dict[tac] = [{ 'pos' : [i], 'neg' : negs}]
     else:
-        try:
-            dat = dict[tac]
-            # print(dat)
-            dat['pos'].append(i)
-            dat['neg'] = dat['neg'].union(negs)
-            dict[tac] = dat
-        except:
-            print(dat)
-            exit(0)
+        dict[tac].append({ 'pos' : [i], 'neg' : negs})
+
 dict = {}
 feats, labels = read()
 neigh = KNeighborsClassifier(n_neighbors=1, metric='jaccard', n_jobs=5)
 neigh.fit(feats, labels)
 kneighs_arr = neigh.kneighbors(feats, 500, False)
 for i in range(len(labels)):
-    tac = label_encoder.inverse_transform([labels[i]])[0]    
+    tac = label_encoder.inverse_transform([labels[i]])[0]
     kneighs = kneighs_arr[i]
     k_labels = labels[kneighs]
     negs = get_negs(kneighs, k_labels, labels[i])
     update_dic(i, tac, negs, dict)
-    # neg_labels = label_encoder.inverse_transform(labels[negs])
-    # print('negs', negs)
-    # print('neg_labels', neg_lables)
-    # print('current label', curr_label)
-    # print()
-
-for key, negs in dict.items():
-    dat = dict[key]
-    dat['neg'] = list(dat['neg'])
-    dict[key] = dat
 
 out = root + "_neg.json"
 with open(out, 'w') as w:
-    json.dump(dict, w)  
+    json.dump(dict, w)

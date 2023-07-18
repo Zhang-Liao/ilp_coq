@@ -106,13 +106,35 @@ def pr_predc(exg, out):
         for e in exg:
             writer.write("tac({}).\n".format(e))
 
+def neg_ratio(npos):
+    if npos <= 16:
+        return 8
+    elif npos <= 32:
+        return 4
+    elif npos <= 64:
+        return 2
+    else:
+        return 1
+
+def flatten_neg_mat(mat):
+    flat = []
+    for row in mat:
+        flat += row
+    # print(flat)
+    return flat
+
+def get_pos_neg(pos_neg_list):
+    pos = [e['pos'][0] for e in pos_neg_list]
+    neg_mat = [e['neg'] for e in pos_neg_list]
+    k = neg_ratio(len(pos))
+    neg_mat = [ns[:k] for ns in neg_mat]
+    neg = list(set(flatten_neg_mat(neg_mat)))
+    return pos, neg
+
 with open(pos_neg_file, 'r') as r:
-    for tac, pos_neg in json.load(r).items():
+    for tac, pos_neg_list in json.load(r).items():
         tac = tac_as_file(tac)
-        pos_ids = pos_neg['pos']
-        neg_ids = pos_neg['neg']
-        # tac_pos_neg['pos'] = random.choices(tac_pos_neg['pos'])
-        # tac_pos_neg['neg'] = random.choices(tac_pos_neg['neg'])
+        pos, neg = get_pos_neg(pos_neg_list)
         bk_file = os.path.join(out_dir, tac + '.b')
         pos_file = os.path.join(out_dir, tac + '.f')
         neg_file = os.path.join(out_dir, tac + '.n')
@@ -126,6 +148,6 @@ with open(pos_neg_file, 'r') as r:
         if os.path.exists(neg_file):
             os.remove(neg_file)
 
-        pr_bk(pos_ids, neg_ids, bk_file)
-        pr_predc(pos_ids, pos_file)
-        pr_predc(neg_ids, neg_file)
+        pr_bk(pos, neg, bk_file)
+        pr_predc(pos, pos_file)
+        pr_predc(neg, neg_file)
