@@ -128,34 +128,33 @@ def get_pos_neg(pos_neg_list):
     neg = list(set(flatten_neg_mat(neg_mat)))
     return pos, neg
 
-def pr_run(tac, out):
+def pr_run(tac, out, run, rule):
     load_path = os.path.join(out, tac)
-    run_file = os.path.join(out_dir, tac + '.pl')
-    if os.path.exists(run_file):
-        os.remove(run_file)
-    with open (run_file, 'w') as w:
+    with open (run, 'w') as w:
         w.write(':- [\'/home/zhangliao/aleph/aleph_coq\', \'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/refine\'].\n')
         w.write(':-read_all(\'{}\').\n'.format(load_path))
         w.write(':-induce.\n')
+        w.write(':-write_rules(\'{}\').\n'.format(rule))
+
+def init_files(tac):
+    bk_file = os.path.join(out_dir, tac + '.b')
+    pos_file = os.path.join(out_dir, tac + '.f')
+    neg_file = os.path.join(out_dir, tac + '.n')
+    run_file = os.path.join(out_dir, tac + '.pl')
+    rule_file = os.path.join(out_dir, tac + '.rule.pl')
+    for f in [bk_file, pos_file, neg_file, run_file, rule_file]:
+        if os.path.exists(f):
+            os.remove(f)
+    return bk_file, pos_file, neg_file, run_file, rule_file
 
 with open(pos_neg_file, 'r') as r:
     for tac, pos_neg_list in json.load(r).items():
         tac = tac_as_file(tac)
         pos, neg = get_pos_neg(pos_neg_list)
-        bk_file = os.path.join(out_dir, tac + '.b')
-        pos_file = os.path.join(out_dir, tac + '.f')
-        neg_file = os.path.join(out_dir, tac + '.n')
-        run_file = os.path.join(out_dir, tac + '.pl')
+        bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
-        if os.path.exists(bk_file):
-            os.remove(bk_file)
-        if os.path.exists(pos_file):
-            os.remove(pos_file)
-        if os.path.exists(neg_file):
-            os.remove(neg_file)
-
         pr_bk(pos, neg, bk_file)
         pr_predc(pos, pos_file)
         pr_predc(neg, neg_file)
-        pr_run(tac, out_dir)
+        pr_run(tac, out_dir, run_file, rule_file)
