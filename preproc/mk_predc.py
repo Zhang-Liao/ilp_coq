@@ -11,9 +11,6 @@ random.seed(110)
 
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
-# bk_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.b'
-# pos_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.f'
-# neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/simpl.n'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
 out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc'
 
@@ -131,6 +128,16 @@ def get_pos_neg(pos_neg_list):
     neg = list(set(flatten_neg_mat(neg_mat)))
     return pos, neg
 
+def pr_run(tac, out):
+    load_path = os.path.join(out, tac)
+    run_file = os.path.join(out_dir, tac + '.pl')
+    if os.path.exists(run_file):
+        os.remove(run_file)
+    with open (run_file, 'w') as w:
+        w.write(':- [\'/home/zhangliao/aleph/aleph_coq\', \'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/refine\'].\n')
+        w.write(':-read_all(\'{}\').\n'.format(load_path))
+        w.write(':-induce.\n')
+
 with open(pos_neg_file, 'r') as r:
     for tac, pos_neg_list in json.load(r).items():
         tac = tac_as_file(tac)
@@ -138,7 +145,7 @@ with open(pos_neg_file, 'r') as r:
         bk_file = os.path.join(out_dir, tac + '.b')
         pos_file = os.path.join(out_dir, tac + '.f')
         neg_file = os.path.join(out_dir, tac + '.n')
-
+        run_file = os.path.join(out_dir, tac + '.pl')
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
         if os.path.exists(bk_file):
@@ -151,3 +158,4 @@ with open(pos_neg_file, 'r') as r:
         pr_bk(pos, neg, bk_file)
         pr_predc(pos, pos_file)
         pr_predc(neg, neg_file)
+        pr_run(tac, out_dir)
