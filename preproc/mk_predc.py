@@ -3,6 +3,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
 
+import math
 import random
 
 from lib import global_setting
@@ -13,6 +14,7 @@ pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
 out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc'
+noise = 0.1
 
 def tac_as_file(t):
     return t.replace('/', '$')
@@ -44,27 +46,13 @@ def goal_predc(i, l, writer, predc):
             predc.add((ident, 'g'))
             writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
-def pr_mode(predc, writer):
-    writer.write(":- modeh(1,tac(+integer)).\n")
-    for p, kind in predc:
-        if kind == 'g':
-            writer.write(":- modeb(5, {}(+integer, -is_list)).\n".format(p))
-        elif kind == 'h':
-            writer.write(":- modeb(5, {}(+integer, -string, -is_list)).\n".format(p))
-        else:
-            assert False
-    for p, kind in predc:
-        if kind == 'g':
-            writer.write(":- determination(tac/1, {}/2).\n".format(p))
-        elif kind == 'h':
-            writer.write(":- determination(tac/1, {}/3).\n".format(p))
-        else:
-            assert False
-
-def pr_bias(w):
+def pr_bias(w, n_neg):
     with open(bias_file,'r') as r:
         for b in r:
-            w.write(b)
+            b = b.strip()
+            w.write(b + '\n')
+    n_noise = int(math.ceil(n_neg * noise))
+    w.write(':- set(noise, {}).\n'.format(n_noise))
 
 def pr_predc_typ(predc, writer):
     for p, kind in predc:
@@ -94,9 +82,8 @@ def pr_bk(pos_dict, neg_dict, fbk):
                     hyps_predc(i, l['hyps'], bk_w, set())
                     goal_predc(i, l['goal'], bk_w, set())
                 i += 1
-        pr_mode(pos_predc, bk_w)
         pr_predc_typ(pos_predc, bk_w)
-        pr_bias(bk_w)
+        pr_bias(bk_w, len(neg_dict))
 
 def pr_predc(exg, out):
     with open(out, 'a') as writer:

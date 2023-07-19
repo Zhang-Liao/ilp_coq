@@ -5,7 +5,7 @@
 :- set(verbosity, 0).
 :- set(evalfn, user).
 :- set(clauselength, 8).
-:- set(noise, 100).
+% :- set(noise, 100).
 % :- set(explore, true).
 % prune(tac(X)) :- nonvar(X).
 % prune((tac(X) :- _)) :- nonvar(X).
