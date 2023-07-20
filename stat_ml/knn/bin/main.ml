@@ -1,4 +1,4 @@
-open Ocaml
+open Stat_ml
 open Utils
 open Knn_learner
 

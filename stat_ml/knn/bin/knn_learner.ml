@@ -54,4 +54,4 @@ let remove_dups_and_sort ranking =
   in
   List.sort (fun (x, _) (y, _) -> Float.compare y x) new_ranking
 
-let predict db ps = firstn 20 @@ remove_dups_and_sort @@ knn_dist ps db
+let predict db ps = firstn 50 @@ remove_dups_and_sort @@ knn_dist ps db

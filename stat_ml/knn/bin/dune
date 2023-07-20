@@ -1,0 +1,4 @@
+(executable
+ (public_name stat_ml)
+ (name main)
+ (libraries stat_ml unix base))
