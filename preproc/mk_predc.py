@@ -1,3 +1,9 @@
+"""Convert nodes in the JSON files to Prolog files and predicates.
+
+/ in tactic is replaced with $ by the naming convention of file.
+
+"""
+
 import json
 import os
 import sys
@@ -6,7 +12,6 @@ sys.path.append(os.path.dirname(sys.path[0]))
 import math
 
 from lib import global_setting
-
 
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
@@ -22,25 +27,15 @@ def idx_str(idx):
     idx = "[" + idx +"]"
     return idx
 
-def name_as_prolog(n):
-    if n == '$e':
-        return 'evar'
-    elif n == '$r':
-        return 'rel'
-    else:
-        return n
-
 def hyps_predc(i, l, writer, predc):
     for ident, name, idx in l:
-        ident = name_as_prolog(ident)
-        if ident != 'app':
+        if ident != 'coq_app':
             predc.add((ident, 'h'))
             writer.write("{}({},{},{}).\n".format(ident, i, name, idx_str(idx)))
 
 def goal_predc(i, l, writer, predc):
     for ident, idx in l:
-        ident = name_as_prolog(ident)
-        if ident != 'app':
+        if ident != 'coq_app':
             predc.add((ident, 'g'))
             writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
