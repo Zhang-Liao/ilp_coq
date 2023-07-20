@@ -13,4 +13,6 @@ _build/
 *.b
 *.f
 *.n
-data/**/*.pl
+**/data/**/*.pl
+**/data/*.pl
+*.rule.pl
