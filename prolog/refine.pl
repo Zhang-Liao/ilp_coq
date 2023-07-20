@@ -30,6 +30,8 @@ get_idxs(A1, A2, Idx1, Idx2) :-
 position_left([X], [Y]) :- !, X < Y.
 position_left([H|X], [H|Y]) :- position_left(X, Y).
 
+position_above(X, Y) :- dif(X,Y), prefix(X, Y).
+
 newclause(Atoms1, NewAtom, Head, Clause) :-
     not(syn_member(NewAtom, Atoms1)),
     (Atoms1 = [true] ->
@@ -60,5 +62,6 @@ refine(tac(N) :- Body, Clause):-
     member(A2, Atoms),
     dif(A1, A2),
     get_idxs(A1, A2, Idx1, Idx2),
-    NewAtom =.. [position_left, Idx1, Idx2],
+    ( NewAtom =.. [position_left, Idx1, Idx2]
+    ; NewAtom =.. [position_above, Idx1, Idx2]),
     newclause(Atoms, NewAtom, tac(N), Clause).

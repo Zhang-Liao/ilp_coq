@@ -4,11 +4,9 @@ import sys
 sys.path.append(os.path.dirname(sys.path[0]))
 
 import math
-import random
 
 from lib import global_setting
 
-random.seed(110)
 
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
