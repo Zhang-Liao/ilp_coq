@@ -27,8 +27,9 @@ idxs_in_same_term(A1, A2, Idx1, Idx2) :-
     goal_predc(P1), goal_predc(P2).
 
 idxs_in_same_term(A1, A2, Idx1, Idx2) :-
-    A1 =.. [P1, _, Name, Idx1],
-    A2 =.. [P2, _, Name, Idx2],
+    A1 =.. [P1, _, Name1, Idx1],
+    A2 =.. [P2, _, Name2, Idx2],
+    Name1 == Name2,
     hyp_predc(P1), hyp_predc(P2).
 
 dif_vars(V, Vs) :- maplist(dif(V), Vs).
@@ -65,10 +66,6 @@ position_left([H|X], [H|Y]) :- position_left(X, Y).
 position_above(X, Y) :- dif(X,Y), prefix(X, Y).
 
 newclause(Atoms1, NewAtoms, Head, Clause) :-
-    % maplist(dif(V), Vs).
-    % not(syn_mem(NewAtom, Atoms1)),
-    % maplist(not_syn_mem(NewAtom, Atoms))
-    % avoid including left(A, B) twice
     maplist(not_syn_mem(Atoms1), NewAtoms),
     (Atoms1 = [true] ->
         comma_list(Body2, NewAtoms)
@@ -78,32 +75,38 @@ newclause(Atoms1, NewAtoms, Head, Clause) :-
 
 refine(false, (tac(_) :- true)).
 
-% refine(tac(N) :- Body, Clause):-
-%     comma_list(Body, Atoms),
-%     goal_predc(P),
-%     NewAtom =.. [P, N, NewIdx],
-%     goal_idxs(Atoms, Idxs),
-%     ((Body = true; Idxs = []) ->
-%         newclause(Atoms, [NewAtom], tac(N), Clause)
-%         ; newclause(Atoms, [dif_vars(NewIdx, Idxs), NewAtom], tac(N), Clause)).
+refine(tac(N) :- Body, Clause):-
+    comma_list(Body, Atoms),
+    goal_predc(P),
+    NewAtom =.. [P, N, NewIdx],
+    (Body = true
+    ->  newclause(Atoms, [NewAtom], tac(N), Clause)
+    ;   goal_idxs(Atoms, Idxs),
+        newclause(Atoms, [dif_vars(NewIdx, Idxs), NewAtom], tac(N), Clause)
+    ).
 
 refine(tac(N) :- Body, Clause):-
     comma_list(Body, Atoms),
     hyp_predc(P),
     hyp_names(Atoms, UsedNames),
-    member(NewName, [_ | UsedNames]),
-    NewAtom =.. [P, N, NewName, NewIdx],
-    hyp_idxs(Atoms, NewName, Idxs),
-    ((Body = true; Idxs = []) ->
-        newclause(Atoms, [NewAtom], tac(N), Clause)
-        ; newclause(Atoms, [dif_vars(NewIdx, Idxs), NewAtom], tac(N), Clause)).
+    member(Name, [NewName | UsedNames]),
+    NewAtom =.. [P, N, Name, NewIdx],
+    (   (Body = true; UsedNames = [])
+    ->  newclause(Atoms, [NewAtom], tac(N), Clause)
+    ;   Name == NewName
+    ->  newclause(Atoms, [dif_vars(Name, UsedNames), NewAtom], tac(N), Clause)
+    ;   hyp_idxs(Atoms, Name, Idxs),
+        newclause(Atoms, [dif_vars(NewIdx, Idxs), NewAtom], tac(N), Clause)
+    ).
 
-% refine(tac(N) :- Body, Clause):-
-%     comma_list(Body, Atoms),
-%     member(A1, Atoms),
-%     member(A2, Atoms),
-%     dif(A1, A2),
-%     idxs_in_same_term(A1, A2, Idx1, Idx2),
-%     ( NewAtom =.. [position_left, Idx1, Idx2]
-%     ; NewAtom =.. [position_above, Idx1, Idx2]),
-%     newclause(Atoms, [NewAtom], tac(N), Clause).
+refine(tac(N) :- Body, Clause):-
+    comma_list(Body, Atoms),
+    member(A1, Atoms),
+    member(A2, Atoms),
+    A1 \== A2,
+    % Why dif(A1, A2) causes error numbervars/4: Type error: contains attributed variables?
+    % dif(A1, A2),
+    idxs_in_same_term(A1, A2, Idx1, Idx2),
+    (   NewAtom =.. [position_left, Idx1, Idx2]
+    ;   NewAtom =.. [position_above, Idx1, Idx2]),
+    newclause(Atoms, [NewAtom], tac(N), Clause).
