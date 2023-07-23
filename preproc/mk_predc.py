@@ -1,9 +1,3 @@
-"""Convert nodes in the JSON files to Prolog files and predicates.
-
-/ in tactic is replaced with $ by the naming convention of file.
-
-"""
-
 import json
 import os
 import sys
@@ -46,11 +40,12 @@ def pr_bias(w, n_neg):
             w.write(b + '\n')
     n_noise = int(math.ceil(n_neg * noise))
     w.write(':- set(noise, {}).\n'.format(n_noise))
+    w.write(':- set(discontinue_noise, {}).\n'.format(n_noise))
 
 def pr_predc_typ(predc, writer):
     for p, kind in predc:
         if kind == 'g':
-            writer.write("body_predc({}).\n".format(p))
+            writer.write("goal_predc({}).\n".format(p))
     for p, kind in predc:
         if kind == 'h':
             writer.write("hyp_predc({}).\n".format(p))
