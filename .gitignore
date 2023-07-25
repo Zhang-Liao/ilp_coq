@@ -16,3 +16,4 @@ _build/
 **/data/**/*.pl
 **/data/*.pl
 *.rule.pl
+*.pl.log

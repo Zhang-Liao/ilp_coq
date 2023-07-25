@@ -1,3 +1,4 @@
-dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc
-find /home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc  -name "*.rule.pl" | xargs -i rm {}
-find /home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc  -name "*.pl" | xargs -i swipl {}
+dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000_predc
+find $dir -name *.log | parallel -i rm {}
+find $dir -name *.rule.pl | parallel -i rm {}
+find $dir  -name "*.pl" | parallel -j 10 swipl {} ">" {}.log
