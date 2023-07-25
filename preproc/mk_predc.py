@@ -106,7 +106,7 @@ def get_pos_neg(pos_neg_list):
 def pr_run(tac, out, run, rule):
     load_path = os.path.join(out, tac)
     with open (run, 'w') as w:
-        w.write(':- [\'/home/zhangliao/aleph/aleph_coq\', \'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/refine\'].\n')
+        w.write(':- [\'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/aleph_orig\', \'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/refine\'].\n')
         w.write(':-read_all(\'{}\').\n'.format(load_path))
         w.write(':-induce.\n')
         w.write(':-write_rules(\'{}\').\n'.format(rule))
