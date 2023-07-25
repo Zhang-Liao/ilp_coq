@@ -21,15 +21,23 @@ def idx_str(idx):
     idx = "[" + idx +"]"
     return idx
 
+def rm_head_dash(i):
+    if i[0] == '_':
+        i = 'dash_' + i[1:]
+    return i
+
 def hyps_predc(i, l, writer, predc):
     for ident, name, idx in l:
         if ident != 'coq_app':
+            ident = rm_head_dash(ident)
+            name = rm_head_dash(name)
             predc.add((ident, 'h'))
             writer.write("{}({},{},{}).\n".format(ident, i, name, idx_str(idx)))
 
 def goal_predc(i, l, writer, predc):
     for ident, idx in l:
         if ident != 'coq_app':
+            ident = rm_head_dash(ident)
             predc.add((ident, 'g'))
             writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
 
