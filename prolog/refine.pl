@@ -40,7 +40,7 @@ goal_idxs_aux([Hd|Tl], [Idx|Idxs]) :-
     Hd =.. [P, _, Idx],
     goal_predc(P), goal_idxs_aux(Tl, Idxs).
 
-goal_idxs_aux([_|Tl], [_|Idxs]) :- goal_idxs_aux(Tl, Idxs).
+goal_idxs_aux([_|Tl], Idxs) :- goal_idxs_aux(Tl, Idxs).
 
 goal_idxs(Atoms, Idxs) :-
     goal_idxs_aux(Atoms, IdxsDup),
@@ -79,10 +79,10 @@ refine(tac(N) :- Body, Clause):-
     comma_list(Body, Atoms),
     goal_predc(P),
     NewAtom =.. [P, N, NewIdx],
-    (Body = true
+    goal_idxs(Atoms, Idxs),
+    ((Body = true; Idxs = [])
     ->  newclause(Atoms, [NewAtom], tac(N), Clause)
-    ;   goal_idxs(Atoms, Idxs),
-        newclause(Atoms, [dif_vars(NewIdx, Idxs), NewAtom], tac(N), Clause)
+    ;   newclause(Atoms, [dif_vars(NewIdx, Idxs), NewAtom], tac(N), Clause)
     ).
 
 refine(tac(N) :- Body, Clause):-
