@@ -10,7 +10,7 @@ from lib import global_setting
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0/predc_auto'
 noise = 0.1
 
 def tac_as_file(t):
@@ -30,14 +30,14 @@ def pr_mode(predc, writer):
     writer.write(":- modeh(1, tac(+nat)).\n")
     for p, kind in predc:
         if kind == 'g':
-            writer.write(":- modeb(3, {}(+nat, -list)).\n".format(p))
+            writer.write(":- modeb(3, {}(+nat, -goal_idx)).\n".format(p))
     for p, kind in predc:
         if kind == 'h':
-            writer.write(":- modeb(3, {}(+nat, -string, -list)).\n".format(p))
+            writer.write(":- modeb(3, {}(+nat, -string, -hyp_idx)).\n".format(p))
 
-    writer.write(":- modeb(3, name_equal(+string, +string)).\n")
-    writer.write(":- modeb(3, dif(+string, +string)).\n")
-    writer.write(":- modeb(3, dif(+list, +list)).\n")
+    # writer.write(":- modeb(3, name_equal(+string, +string)).\n")
+    # writer.write(":- modeb(3, dif(+string, +string)).\n")
+    # writer.write(":- modeb(3, dif(+list, +list)).\n")
 
     for p, kind in predc:
         if kind == 'g':
