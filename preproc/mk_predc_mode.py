@@ -30,10 +30,10 @@ def pr_mode(predc, writer):
     writer.write(":- modeh(1, tac(+nat)).\n")
     for p, kind in predc:
         if kind == 'g':
-            writer.write(":- modeb(3, {}(+nat, -goal_idx)).\n".format(p))
+            writer.write(f":- modeb(3, {p}(+nat, -goal_idx)).\n")
     for p, kind in predc:
         if kind == 'h':
-            writer.write(":- modeb(3, {}(+nat, -string, -hyp_idx)).\n".format(p))
+            writer.write(f":- modeb(3, {p}(+nat, -string, -hyp_idx)).\n")
 
     # writer.write(":- modeb(3, name_equal(+string, +string)).\n")
     # writer.write(":- modeb(3, dif(+string, +string)).\n")
@@ -41,10 +41,10 @@ def pr_mode(predc, writer):
 
     for p, kind in predc:
         if kind == 'g':
-            writer.write(":- determination(tac/1, {}/2).\n".format(p))
+            writer.write(f":- determination(tac/1, {p}/2).\n")
     for p, kind in predc:
         if kind == 'h':
-            writer.write(":- determination(tac/1, {}/3).\n".format(p))
+            writer.write(f":- determination(tac/1, {p}/3).\n")
     writer.write(":- determination(tac/1, name_equal/2).\n")
     writer.write(":- determination(tac/1, dif/2).\n")
 
@@ -54,14 +54,14 @@ def hyps_predc(i, l, writer, predc):
             ident = rm_head_dash(ident)
             name = rm_head_dash(name)
             predc.add((ident, 'h'))
-            writer.write("{}({},\"{}\",{}).\n".format(ident, i, name, idx_str(idx)))
+            writer.write(f"{ident}({i},\"{name}\",{idx_str(idx)}).\n")
 
 def goal_predc(i, l, writer, predc):
     for ident, idx in l:
         if ident != 'coq_app':
             ident = rm_head_dash(ident)
             predc.add((ident, 'g'))
-            writer.write("{}({},{}).\n".format(ident, i, idx_str(idx)))
+            writer.write(f"{ident}({i},{idx_str(idx)}).\n")
 
 def pr_bias(w, n_neg):
     with open(bias_file,'r') as r:
@@ -69,8 +69,8 @@ def pr_bias(w, n_neg):
             b = b.strip()
             w.write(b + '\n')
     n_noise = int(math.ceil(n_neg * noise))
-    w.write(':- set(noise, {}).\n'.format(n_noise))
-    w.write(':- set(discontinue_noise, {}).\n'.format(n_noise))
+    w.write(f':- set(noise, {n_noise}).\n')
+    w.write(f':- set(discontinue_noise, {n_noise}).\n')
 
 def pr_bk(pos_dict, neg_dict, fbk):
     pos_predc = set()
@@ -99,7 +99,7 @@ def pr_bk(pos_dict, neg_dict, fbk):
 def pr_predc(exg, out):
     with open(out, 'a') as writer:
         for e in exg:
-            writer.write("tac({}).\n".format(e))
+            writer.write(f"tac({e}).\n")
 
 def neg_ratio(npos):
     if npos <= 16:
@@ -130,9 +130,9 @@ def pr_run(tac, out, run, rule):
     load_path = os.path.join(out, tac)
     with open (run, 'w') as w:
         w.write(':- [\'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/aleph_orig\'].\n')
-        w.write(':-read_all(\'{}\').\n'.format(load_path))
+        w.write(f':-read_all(\'{load_path}\').\n')
         w.write(':-induce.\n')
-        w.write(':-write_rules(\'{}\').\n'.format(rule))
+        w.write(f':-write_rules(\'{rule}\').\n')
         w.write(':-halt.')
 
 def init_files(tac):
