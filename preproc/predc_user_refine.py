@@ -13,7 +13,7 @@ bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
 out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc'
 noise = 0.1
 
-# Store tactics as the names of files because converting tactics to predicates has many difficulties. 
+# Store tactics as the names of files because converting tactics to predicates has many difficulties.
 def tac_as_file(t):
     return t.replace('/', '$')
 

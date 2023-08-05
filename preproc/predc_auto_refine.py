@@ -6,25 +6,18 @@ sys.path.append(os.path.dirname(sys.path[0]))
 import math
 
 from lib import global_setting
+from lib import utils
 
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000/predc_auto'
 noise = 0.1
 
 def tac_as_file(t):
-    return t.replace('/', '$')
-
-def idx_str(idx):
-    idx = ",".join(idx)
-    idx = "[" + idx +"]"
-    return idx
-
-def rm_head_dash(i):
-    if i[0] == '_':
-        i = 'dash_' + i[1:]
-    return i
+    t = t.replace('/', '_slash_')
+    t = t.replace("'", '_quote_')
+    return t
 
 def pr_mode(predc, writer):
     writer.write(":- modeh(1, tac(+nat)).\n")
@@ -34,10 +27,6 @@ def pr_mode(predc, writer):
     for p, kind in predc:
         if kind == 'h':
             writer.write(f":- modeb(3, {p}(+nat, -string, -hyp_idx)).\n")
-
-    # writer.write(":- modeb(3, name_equal(+string, +string)).\n")
-    # writer.write(":- modeb(3, dif(+string, +string)).\n")
-    # writer.write(":- modeb(3, dif(+list, +list)).\n")
 
     for p, kind in predc:
         if kind == 'g':
@@ -49,19 +38,12 @@ def pr_mode(predc, writer):
     writer.write(":- determination(tac/1, dif/2).\n")
 
 def hyps_predc(i, l, writer, predc):
-    for ident, name, idx in l:
-        if ident != 'coq_app':
-            ident = rm_head_dash(ident)
-            name = rm_head_dash(name)
-            predc.add((ident, 'h'))
-            writer.write(f"{ident}({i},\"{name}\",{idx_str(idx)}).\n")
+    utils.pr_hyps_predc(i, l, writer)
+    predc = utils.add_hyps_predc(l, predc)
 
 def goal_predc(i, l, writer, predc):
-    for ident, idx in l:
-        if ident != 'coq_app':
-            ident = rm_head_dash(ident)
-            predc.add((ident, 'g'))
-            writer.write(f"{ident}({i},{idx_str(idx)}).\n")
+    utils.pr_goal_predc(i, l, writer)
+    predc = utils.add_goal_predc(l, predc)
 
 def pr_bias(w, n_neg):
     with open(bias_file,'r') as r:
@@ -92,7 +74,6 @@ def pr_bk(pos_dict, neg_dict, fbk):
                     hyps_predc(i, l['hyps'], bk_w, set())
                     goal_predc(i, l['goal'], bk_w, set())
                 i += 1
-        # pr_predc_typ(pos_predc, bk_w)
         pr_mode(pos_predc, bk_w)
         pr_bias(bk_w, len(neg_dict))
 
@@ -127,7 +108,8 @@ def get_pos_neg(pos_neg_list):
     return pos, neg
 
 def pr_run(tac, out, run, rule):
-    load_path = os.path.join(out, tac)
+    # load_path = os.path.join(out, tac)
+    load_path = out + '/' + tac
     with open (run, 'w') as w:
         w.write(':- [\'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/aleph_orig\'].\n')
         w.write(f':-read_all(\'{load_path}\').\n')
