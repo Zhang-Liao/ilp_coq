@@ -39,45 +39,54 @@ def load_by_lemma(file, dict, func):
     return dict
 
 ## For predicates
-def idx_str(idx):
+def to_predc_name(s):
+    if s[0] == '_':
+        s = 'dash_' + s[1:]
+    if s in ['var', 'op', 'nl']:
+        s = 'coq_' + s
+    s = s.lower()
+    s = s.replace('.', '_')
+    s = s.replace('₁', '_under1_')
+    s = s.replace('₂', '_under2_')
+    s = s.replace('₃', '_under3_')
+    return s
+
+def goal_idx(idx):
     idx = ",".join(idx)
     idx = "[" + idx +"]"
     return idx
 
-def rm_head_dash(i):
-    if i[0] == '_':
-        i = 'dash_' + i[1:]
-    return i
-
-# def pr_hyp_predc(ident, i, name, idx):
-#     ident = rm_head_dash(ident)
-#     name = rm_head_dash(name)
-#     return f"{ident}({i},\"{name}\",{idx_str(idx)})."
-
-# def pr_goal_predc(ident, i, idx):
-#     ident = rm_head_dash(ident)
-#     return f"{ident}({i}, {idx_str(idx)})."
+def hyp_idx(idx):
+    idx[0] = to_predc_name(idx[0])
+    idx = ",".join(idx)
+    idx = "[" + idx +"]"
+    return idx
 
 def pr_hyps_predc(i, l, writer):
     for ident, name, idx in l:
-        ident = rm_head_dash(ident)
-        name = rm_head_dash(name)
-        writer.write(f"{ident}({i},\"{name}\",{idx_str(idx)}).\n")
+        ident = to_predc_name(ident)
+        name = to_predc_name(name)
+        writer.write(f"{ident}({i},\"{name}\",{hyp_idx(idx)}).\n")
 
 def pr_goal_predc(i, l, writer):
     for ident, idx in l:
         if ident != 'coq_app':
-            ident = rm_head_dash(ident)
-            writer.write(f"{ident}({i},{idx_str(idx)}).\n")
+            ident = to_predc_name(ident)
+            writer.write(f"{ident}({i},{goal_idx(idx)}).\n")
 
 def add_hyps_predc(l, predc_set):
     for ident, _, _ in l:
         if ident != 'coq_app':
-            predc_set.add(rm_head_dash(ident))
+            predc_set.add(to_predc_name(ident))
     return predc_set
 
 def add_goal_predc(l, predc_set):
     for ident, _, in l:
         if ident != 'coq_app':
-            predc_set.add(rm_head_dash(ident))
+            predc_set.add(to_predc_name(ident))
     return predc_set
+
+def tac_as_file(t):
+    t = t.replace('/', '_slash_')
+    t = t.replace("'", '_quote_')
+    return t

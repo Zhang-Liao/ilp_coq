@@ -14,11 +14,6 @@ bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
 out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000/predc_auto'
 noise = 0.1
 
-def tac_as_file(t):
-    t = t.replace('/', '_slash_')
-    t = t.replace("'", '_quote_')
-    return t
-
 def pr_mode(predc, writer):
     writer.write(":- modeh(1, tac(+nat)).\n")
     for p, kind in predc:
@@ -130,7 +125,7 @@ def init_files(tac):
 
 with open(pos_neg_file, 'r') as r:
     for tac, pos_neg_list in json.load(r).items():
-        tac = tac_as_file(tac)
+        tac = utils.tac_as_file(tac)
         pos, neg = get_pos_neg(pos_neg_list)
         bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
         if not os.path.exists(out_dir):

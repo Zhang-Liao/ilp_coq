@@ -12,10 +12,12 @@ out= '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/all_predc.pl'
 
 def pr_hyp_predc(predc, writer):
     for p in predc:
+        p = utils.to_predc_name(p)
         writer.write(f"{p}(-1, none, []).\n")
 
 def pr_goal_predc(predc, writer):
     for p in predc:
+        p = utils.to_predc_name(p)
         writer.write(f"{p}(-1).\n")
 
 def file_predc(file, hyp_predc, goal_predc):
