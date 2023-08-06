@@ -1,3 +1,1 @@
-199a5e9: predc dataset
-
 ten_split0 store old split. The order of the lemmas in each split depends on the device. 

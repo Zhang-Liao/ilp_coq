@@ -1,7 +1,7 @@
 :- set(construct_bottom, false).
 :- set(refine, user).
 :- set(search, heuristic).
-:- set(openlist, 1).
+:- set(openlist, 5).
 :- set(verbosity, 0).
 :- set(evalfn, user).
 :- set(clauselength, 8).

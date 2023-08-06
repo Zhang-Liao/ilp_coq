@@ -38,7 +38,7 @@ goal_idxs_aux([], []).
 
 goal_idxs_aux([Hd|Tl], [Idx|Idxs]) :-
     Hd =.. [P, _, Idx],
-    goal_predc(P), goal_idxs_aux(Tl, Idxs).
+    goal_predc(P), !, goal_idxs_aux(Tl, Idxs).
 
 goal_idxs_aux([_|Tl], Idxs) :- goal_idxs_aux(Tl, Idxs).
 

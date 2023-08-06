@@ -31,8 +31,13 @@ hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 :- set(verbosity, 0).
 :- set(clauselength, 8).
 
-% :- set(evalfn, user).
+:- set(evalfn, user).
 % :- set(noise, 100).
 % :- set(explore, true).
 % prune(tac(X)) :- nonvar(X).
 % prune((tac(X) :- _)) :- nonvar(X).
+
+only_head(_C :- true).
+
+cost(Clause, [P, N, _L], Cost) :-
+  ((only_head(Clause); P is 0) -> Cost is inf; Cost is N - P), !.

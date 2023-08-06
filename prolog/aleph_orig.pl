@@ -1212,10 +1212,11 @@ get_search_settings(S):-
 % discontinue_search(_, [0, _, _,_|_]/_, _).
 
 % Negs < Noise, and the best is not example:-true.
-discontinue_search(_, [_,N, _,_|_]/Id, _) :-
-    setting(discontinue_noise, Noise),
-    N < Noise,
-    Id > 0.
+% discontinue_search(_, [P ,N, _,_|_]/Id, _) :-
+%     setting(discontinue_noise, Noise),
+%     N < Noise,
+%     P > 20,
+%     Id > 0.
 
 discontinue_search(S,[P,_,_,F|_]/_,_):-
     arg(39,S,RlsType),
@@ -1240,7 +1241,6 @@ discontinue_search(S,[_,_,_,F|_]/_,_):-
     Evalfn = accuracy,
     F = 1.0, !.
 discontinue_search(S,Best,_):-
-    % p_message('before discontinue_search2'),
     arg(2,S,Explore),
     Explore = false,
         arg(4,S,_/Evalfn),
@@ -1250,7 +1250,6 @@ discontinue_search(S,Best,_):-
     Search \= ic,
     Best = [P|_]/_,
     arg(16,S,P).
-    % p_message('after discontinue_search2').
 
 update_max_head_count(N,0):-
     retractall('$aleph_local'(max_head_count,_)),
@@ -1712,16 +1711,15 @@ get_gain1(S,Flag,C,CL,EMin/EL,Last,Best/Node,Path,L1,Pos,Neg,OVars,E,Best1):-
     (VSearch = true ->
         asserta('$aleph_search'(label,label(Node1,Label)));
         true),
-    % p_message(get_gain1(Flag,C,CL,EMin/EL,Last,Best/Node,Path,L1,Pos,Neg,OVars,E,Best1)),
-    % halt,
     % (((RefineOp \= false,Contradiction=false)
-    interval_count(PCvr, NPos),
-    interval_count(NCvr, NNeg),
+    % interval_count(PCvr, NPos),
+    % interval_count(NCvr, NNeg),
     % p_message(pos_neg(NPos, NNeg)),
-    % (((RefineOp \= false, Contradiction = false)
-    (((RefineOp \= false, Contradiction = false, refined_clause_ok(C, NPos, NNeg))
-    ;(RefineOp = false, (arg(28,S,HOVars), clause_ok(Contradiction,HOVars,OVars2)))
-        ) ->
+    (((RefineOp \= false, Contradiction = false)
+    % (((RefineOp \= false, Contradiction = false, refined_clause_ok(C, NPos, NNeg))
+    % ;(RefineOp = false, (arg(28,S,HOVars), clause_ok(Contradiction,HOVars,OVars2)))
+    ;(arg(28,S,HOVars), clause_ok(Contradiction,HOVars,OVars2)))
+    ->
         (update_best(S,C,PCvr,NCvr,Best/Node,Label1/Node1,Best1));
         (Best1=Best/Node)),
     !.
@@ -1752,14 +1750,12 @@ clause_ok(_,_):-
 % clause_ok(Clause,_) :-
 %     Clause = (_Head :- true), !.
 
-clause_ok(Clause,Label):-
+clause_ok(_Clause,Label):-
     extract_pos(Label,P),
     extract_neg(Label,N),
     Acc is P/(P+N),
     setting(noise,Noise),
     setting(minacc,MinAcc),
-    % setting(myminpos,MinPos),
-    % p_message(minPos(MinPos)), halt,
     setting(minpos,MinPos),
     (N > Noise; Acc < MinAcc; P < MinPos), !, fail.
 clause_ok(Clause,_):-
@@ -1773,7 +1769,7 @@ clause_ok(Clause,_):-
 clause_ok(_,_).
 
 % check clause when refine is not set to false
-refined_clause_ok(Clause, P, N):-
+refined_clause_ok(_Clause, _P, N):-
     setting(noise, Noise),
     (N > Noise), !, fail.
     % Acc is P/(P+N),
