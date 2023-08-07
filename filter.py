@@ -21,7 +21,6 @@ def read_cls_paths():
         if filename.endswith(rule_suffix):
             tac = filename.removesuffix(rule_suffix)
             cls_paths[tac] = os.path.join(clause_dir, filename)
-            # break
     return cls_paths
 
 def read_exg_paths():
@@ -39,14 +38,11 @@ def read_exg_paths():
 
 def filter_tac(i, pred, exg_paths, cls_paths, good):
     if pred not in cls_paths.keys():
-        good.put(False)
+        good.put(True)
     else:
         prolog = Prolog()
-        # prolog.consult(all_predc)
         # prolog.assertz('style_check(-singleton)') error ?
         prolog.consult(exg_paths[i])
-        # good.put(False)
-        # prolog.assertz('style_check(-singleton)')        
         prolog.consult(cls_paths[pred])
         try:
             good.put(bool(list(prolog.query(f'tac({i})'))))
@@ -66,9 +62,8 @@ def filter_row(i, r, exg_paths, cls_paths):
         child = Process(target=filter_tac, args=(i, p_as_predc, exg_paths, cls_paths, good,))
         child.start()
         child.join()
-        print(good.get())
-        # if good.get():
-        #     new_preds.append(origin_p)
+        if good.get():
+            new_preds.append(origin_p)
     print(new_preds)
     return new_preds
 
@@ -83,6 +78,5 @@ def filter(exg_paths, cls_paths):
             i += 1
 
 exg_paths = read_exg_paths()
-# print('exg_paths', exg_paths)
 cls_paths = read_cls_paths()
 filter(exg_paths, cls_paths)
