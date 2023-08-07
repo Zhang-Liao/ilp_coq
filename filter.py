@@ -1,7 +1,5 @@
 import json
 import os
-import sys
-sys.path.append(os.path.dirname(sys.path[0]))
 
 from datetime import datetime
 from multiprocessing import Process
@@ -10,13 +8,13 @@ from pyswip import Prolog
 
 from lib import global_setting
 from lib import utils
+from statis import acc
 
-clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split0/1000/predc_auto'
-pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:31:58/split8.eval'
-example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
-all_predc = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/all_predc.pl'
+# clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split0/1000/predc_auto'
+# pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:31:58/split8.eval'
+# example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 
-def read_cls_paths():
+def read_cls_paths(clause_dir):
     cls_paths = {}
     rule_suffix = '.rule.pl'
     for filename in os.listdir(clause_dir):
@@ -25,7 +23,7 @@ def read_cls_paths():
             cls_paths[tac] = os.path.join(clause_dir, filename)
     return cls_paths
 
-def read_exg_paths():
+def read_exg_paths(example_dir):
     exg_paths = {}
     pl_suffix = '.pl'
     for filename in os.listdir(example_dir):
@@ -71,7 +69,7 @@ def filter_row(i, r, exg_paths, cls_paths):
     return new_preds
 
 
-def filter(exg_paths, cls_paths):
+def filter(exg_paths, cls_paths, pred_file):
     preds_mat = []
     i = 0
     with open(pred_file, 'r') as f:
@@ -89,7 +87,7 @@ def filter(exg_paths, cls_paths):
                 # return preds_mat
     return preds_mat
 
-def out(pred_mat):
+def out(pred_mat, pred_file, clause_dir, label):
     now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
     out_dir = os.path.join(os.path.dirname(pred_file), f'filter/{now}')
     os.makedirs(out_dir)
@@ -97,13 +95,18 @@ def out(pred_mat):
     with open(out, 'w') as w:
         for preds in pred_mat:
             w.write(preds + '\n')
+    acc.acc(out, label)
     log = {
         'clause_dir': clause_dir,
     }
     with open(os.path.join(out_dir, 'log.json'), 'w') as w:
         json.dump(log, w, indent=4)
 
-exg_paths = read_exg_paths()
-cls_paths = read_cls_paths()
-preds = filter(exg_paths, cls_paths)
-out(preds)
+clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split0/1000/predc_auto'
+pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:31:58/split8.eval'
+example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
+label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label'
+exg_paths = read_exg_paths(example_dir)
+cls_paths = read_cls_paths(clause_dir)
+preds = filter(exg_paths, cls_paths, pred_file)
+out(preds, pred_file, clause_dir, label)
