@@ -3,8 +3,6 @@ import os
 import json
 
 import argparse
-from datetime import datetime
-import shutil
 
 parser = argparse.ArgumentParser(
     description="Returns percentage of matching lines from two files.")
@@ -21,7 +19,7 @@ def cal_k(preds, label):
 
 def round_acc(acc):
     return round (acc * 100, 3)
-    
+
 with open(args.pred, 'r') as f:
     lines1 = f.read().splitlines()
 lines1 = [l.strip().split('\t') for l in lines1]
@@ -46,19 +44,13 @@ print('total', total)
 print("Top1 acc: {:.3f}%".format(top1))
 print("Top10 acc: {:.3f}%".format(top10))
 
-if args.train != None:
-    log = {
-        'top1': top1,
-        'top10': top10,
-        'train': args.train,
-        'test' : args.label
-    }
-    date_time = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
-    label_dir = os.path.dirname(args.label)
-    out_dir = os.path.join(label_dir, date_time)
-    os.mkdir(out_dir)
-    shutil.move(args.pred, out_dir)
-    with open(os.path.join(out_dir, 'log.json'), 'w') as w:
-        json.dump(log, w, indent=4)  
-
+log = {
+    'top1': top1,
+    'top10': top10,
+    'train': args.train,
+    'test' : args.label
+}
+out_dir = os.path.dirname(args.pred)
+with open(os.path.join(out_dir, 'log.json'), 'w') as w:
+    json.dump(log, w, indent=4)
 
