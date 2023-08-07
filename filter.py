@@ -2,13 +2,15 @@ import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
 
+from multiprocessing import Process
+from multiprocessing import Queue
 from pyswip import Prolog
 
 from lib import global_setting
 from lib import utils
 
-clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000/predc_auto'
-pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ten_split/06-27-2023-10:31:58/split8.eval'
+clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split0/1000/predc_auto'
+pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split0/06-27-2023-10:31:58/split8.eval'
 example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 all_predc = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/all_predc.pl'
 
@@ -35,30 +37,38 @@ def read_exg_paths():
             exg_paths[exg] = os.path.join(example_dir, filename)
     return exg_paths
 
+def filter_tac(i, pred, exg_paths, cls_paths, good):
+    if pred not in cls_paths.keys():
+        good.put(False)
+    else:
+        prolog = Prolog()
+        # prolog.consult(all_predc)
+        # prolog.assertz('style_check(-singleton)') error ?
+        prolog.consult(exg_paths[i])
+        # good.put(False)
+        # prolog.assertz('style_check(-singleton)')        
+        prolog.consult(cls_paths[pred])
+        try:
+            good.put(bool(list(prolog.query(f'tac({i})'))))
+        except:
+            # TODO: better solution instead of ignoring the error.
+            # Clause may contain predicates that not in the example. Now, I
+            # treat it as failure and continue. Add all predicates initially
+            # seems cause warnings in Prolog.
+            good.put(False)
+
 def filter_row(i, r, exg_paths, cls_paths):
     new_preds = []
     preds = r.split('\t')
-    for p in preds:
-        p = utils.tac_as_file(p)
-        # print('pred', p)
-        # print(cls_paths.keys())
-        # exit()
-        if p in cls_paths.keys():
-            # print('has clause for tac')
-            prolog = Prolog()
-            # prolog.consult(all_predc)
-            prolog.consult(exg_paths[i])
-            prolog.consult(cls_paths[p])
-            # query fail if return []
-            try:
-                if list(prolog.query(f'tac({i})')) != []:
-                    new_preds.append(p)
-            except:
-                # TODO: better solution instead of ignoring the error.
-                # Clause may contain predicates that not in the example. Now, I
-                # treat it as failure and continue. Add all predicates initially
-                # seems cause warnings in Prolog.
-                ()
+    for origin_p in preds:
+        p_as_predc = utils.tac_as_file(origin_p)
+        good = Queue()
+        child = Process(target=filter_tac, args=(i, p_as_predc, exg_paths, cls_paths, good,))
+        child.start()
+        child.join()
+        print(good.get())
+        # if good.get():
+        #     new_preds.append(origin_p)
     print(new_preds)
     return new_preds
 
