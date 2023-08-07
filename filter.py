@@ -72,22 +72,31 @@ def filter_row(i, r, exg_paths, cls_paths):
 
 
 def filter(exg_paths, cls_paths):
+    preds_mat = []
     i = 0
     with open(pred_file, 'r') as f:
         for r in f:
+            r = r.strip()
             if global_setting.lemma_delimiter not in r :
-                r = r.strip()
-                filter_row(i, r, exg_paths, cls_paths)
+                preds = filter_row(i, r, exg_paths, cls_paths)
+                preds = '\t'.join(preds)
+                preds_mat.append(preds)
+            else:
+                preds_mat.append(r)
             i += 1
             if i % 100 == 0:
                 print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
+                # return preds_mat
+    return preds_mat
 
 def out(pred_mat):
     now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
     out_dir = os.path.join(os.path.dirname(pred_file), f'filter/{now}')
-    with open(out_dir, 'w') as w:
+    os.makedirs(out_dir)
+    out = os.path.join(out_dir, os.path.basename(pred_file))
+    with open(out, 'w') as w:
         for preds in pred_mat:
-            w.write('\t'.join(preds))
+            w.write(preds + '\n')
     log = {
         'clause_dir': clause_dir,
     }
