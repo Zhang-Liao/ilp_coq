@@ -1,7 +1,9 @@
+import json
 import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
 
+from datetime import datetime
 from multiprocessing import Process
 from multiprocessing import Queue
 from pyswip import Prolog
@@ -10,7 +12,7 @@ from lib import global_setting
 from lib import utils
 
 clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split0/1000/predc_auto'
-pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split0/06-27-2023-10:31:58/split8.eval'
+pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:31:58/split8.eval'
 example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 all_predc = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/all_predc.pl'
 
@@ -40,6 +42,7 @@ def filter_tac(i, pred, exg_paths, cls_paths, good):
     if pred not in cls_paths.keys():
         good.put(True)
     else:
+        # Why passing Prolog from filter_row cause warnings?
         prolog = Prolog()
         # prolog.assertz('style_check(-singleton)') error ?
         prolog.consult(exg_paths[i])
@@ -64,7 +67,7 @@ def filter_row(i, r, exg_paths, cls_paths):
         child.join()
         if good.get():
             new_preds.append(origin_p)
-    print(new_preds)
+    # print(new_preds)
     return new_preds
 
 
@@ -76,7 +79,22 @@ def filter(exg_paths, cls_paths):
                 r = r.strip()
                 filter_row(i, r, exg_paths, cls_paths)
             i += 1
+            if i % 100 == 0:
+                print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
+
+def out(pred_mat):
+    now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
+    out_dir = os.path.join(os.path.dirname(pred_file), f'filter/{now}')
+    with open(out_dir, 'w') as w:
+        for preds in pred_mat:
+            w.write('\t'.join(preds))
+    log = {
+        'clause_dir': clause_dir,
+    }
+    with open(os.path.join(out_dir, 'log.json'), 'w') as w:
+        json.dump(log, w, indent=4)
 
 exg_paths = read_exg_paths()
 cls_paths = read_cls_paths()
-filter(exg_paths, cls_paths)
+preds = filter(exg_paths, cls_paths)
+out(preds)
