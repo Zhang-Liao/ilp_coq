@@ -40,11 +40,8 @@ def load_by_lemma(file, dict, func):
 
 ## For predicates
 def to_predc_name(s):
-    if s[0] == '_':
-        s = 'dash_' + s[1:]
-    if s in ['var', 'op', 'nl']:
+    if not s.startswith('coq_'):
         s = 'coq_' + s
-    s = s.lower()
     s = s.replace('.', '_')
     s = s.replace('₁', '_under1_')
     s = s.replace('₂', '_under2_')
@@ -86,8 +83,8 @@ def add_goal_predc(l, predc_set):
             predc_set.add(to_predc_name(ident))
     return predc_set
 
-# $$ and @@ do not exist in tactics in the Coq standard library
+# ## and @@ do not exist in tactics in the Coq standard library
 def tac_as_file(t):
-    t = t.replace('/', '$$')
+    t = t.replace('/', '##')
     t = t.replace("'", '@@')
     return t
