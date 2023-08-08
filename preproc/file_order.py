@@ -1,7 +1,5 @@
 import os
-import sys
 from pathlib import Path
-sys.path.append(os.path.dirname(sys.path[0]))
 
 dataset = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat'
 out = 'file_order'

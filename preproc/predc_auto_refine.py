@@ -8,10 +8,10 @@ import math
 from lib import global_setting
 from lib import utils
 
-pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
+pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0/predc_auto'
 noise = 0.1
 
 def pr_mode(predc, writer):
@@ -130,7 +130,14 @@ with open(pos_neg_file, 'r') as r:
         bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
-        pr_bk(pos, neg, bk_file)
-        pr_predc(pos, pos_file)
-        pr_predc(neg, neg_file)
-        pr_run(tac, out_dir, run_file, rule_file)
+        try:
+            pr_bk(pos, neg, bk_file)
+            pr_predc(pos, pos_file)
+            pr_predc(neg, neg_file)
+            pr_run(tac, out_dir, run_file, rule_file)
+        except OSError as e:
+            if e.errno == 36:
+                print('Ignore', e)
+                continue
+            else:
+                raise
