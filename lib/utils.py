@@ -86,7 +86,8 @@ def add_goal_predc(l, predc_set):
             predc_set.add(to_predc_name(ident))
     return predc_set
 
+# $$ and @@ do not exist in tactics in the Coq standard library
 def tac_as_file(t):
-    t = t.replace('/', '_slash_')
-    t = t.replace("'", '_quote_')
+    t = t.replace('/', '$$')
+    t = t.replace("'", '@@')
     return t
