@@ -14,31 +14,28 @@ bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
 out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0/predc_auto'
 noise = 0.1
 
-def pr_mode(predc, writer):
+def pr_mode(hyp_predc, goal_predc, writer):
     writer.write(":- modeh(1, tac(+nat)).\n")
-    for p, kind in predc:
-        if kind == 'g':
-            writer.write(f":- modeb(3, {p}(+nat, -goal_idx)).\n")
-    for p, kind in predc:
-        if kind == 'h':
-            writer.write(f":- modeb(3, {p}(+nat, -string, -hyp_idx)).\n")
+    for p in goal_predc:
+        writer.write(f":- modeb(3, {p}(+nat, -goal_idx)).\n")
+    for p in hyp_predc:
+        writer.write(f":- modeb(3, {p}(+nat, -string, -hyp_idx)).\n")
 
-    for p, kind in predc:
-        if kind == 'g':
-            writer.write(f":- determination(tac/1, {p}/2).\n")
-    for p, kind in predc:
-        if kind == 'h':
-            writer.write(f":- determination(tac/1, {p}/3).\n")
+    for p in goal_predc:
+        writer.write(f":- determination(tac/1, {p}/2).\n")
+    for p in hyp_predc:
+        writer.write(f":- determination(tac/1, {p}/3).\n")
+    
     writer.write(":- determination(tac/1, name_equal/2).\n")
     writer.write(":- determination(tac/1, dif/2).\n")
 
-def hyps_predc(i, l, writer, predc):
+def pr_hyps_predc(i, l, writer, predc):
     utils.pr_hyps_predc(i, l, writer)
-    predc = utils.add_hyps_predc(l, predc)
+    return utils.add_hyps_predc(l, predc)
 
-def goal_predc(i, l, writer, predc):
+def pr_goal_predc(i, l, writer, predc):
     utils.pr_goal_predc(i, l, writer)
-    predc = utils.add_goal_predc(l, predc)
+    return utils.add_goal_predc(l, predc)
 
 def pr_bias(w, n_neg):
     with open(bias_file,'r') as r:
@@ -50,7 +47,8 @@ def pr_bias(w, n_neg):
     w.write(f':- set(discontinue_noise, {n_noise}).\n')
 
 def pr_bk(pos_dict, neg_dict, fbk):
-    pos_predc = set()
+    hyp_predc = set()
+    goal_predc = set()
     with (
         open(dat_file, 'r') as reader,
         open(fbk, 'a') as bk_w,
@@ -62,14 +60,14 @@ def pr_bk(pos_dict, neg_dict, fbk):
             if global_setting.lemma_delimiter not in l:
                 if i in pos_dict:
                     l = json.loads(l)
-                    hyps_predc(i, l['hyps'], bk_w, pos_predc)
-                    goal_predc(i, l['goal'], bk_w, pos_predc)
+                    hyp_predc = pr_hyps_predc(i, l['hyps'], bk_w, hyp_predc)
+                    goal_predc = pr_goal_predc(i, l['goal'], bk_w, goal_predc)
                 elif i in neg_dict:
                     l = json.loads(l)
-                    hyps_predc(i, l['hyps'], bk_w, set())
-                    goal_predc(i, l['goal'], bk_w, set())
+                    pr_hyps_predc(i, l['hyps'], bk_w, set())
+                    pr_goal_predc(i, l['goal'], bk_w, set())
                 i += 1
-        pr_mode(pos_predc, bk_w)
+        pr_mode(hyp_predc, goal_predc, bk_w)
         pr_bias(bk_w, len(neg_dict))
 
 def pr_predc(exg, out):
