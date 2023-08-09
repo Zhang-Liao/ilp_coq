@@ -1,9 +1,12 @@
 import os
-import sys
-from pathlib import Path
-sys.path.append(os.path.dirname(sys.path[0]))
 
-dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/'
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--dir", type=str)
+args = parser.parse_args()
+
+# dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/'
 
 settings = [':- style_check(-singleton).\n']
 
@@ -15,8 +18,8 @@ def add_setting(file):
         for l in dat:
             f.write(l)
 
-for file in os.listdir(dir):
+for file in os.listdir(args.dir):
     # print(file)
     if file.endswith('.rule.pl'):
-        path = os.path.join(dir, file)
+        path = os.path.join(args.dir, file)
         add_setting(path)
