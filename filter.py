@@ -6,7 +6,6 @@ from multiprocessing import Process
 from multiprocessing import Queue
 from pyswip import Prolog
 
-from lib import global_setting
 from lib import utils
 from statis import acc
 
@@ -75,7 +74,7 @@ def filter(exg_paths, cls_paths, pred_file):
     with open(pred_file, 'r') as f:
         for r in f:
             r = r.strip()
-            if global_setting.lemma_delimiter not in r :
+            if utils.not_lemma(r) :
                 preds = filter_row(i, r, exg_paths, cls_paths)
                 preds = '\t'.join(preds)
                 preds_mat.append(preds)
@@ -102,7 +101,7 @@ def out(pred_mat, pred_file, clause_dir, label):
     with open(os.path.join(out_dir, 'log.json'), 'w') as w:
         json.dump(log, w, indent=4)
 
-clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split0/1000/predc_auto'
+clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0/predc_auto'
 pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:31:58/split8.eval'
 example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label'

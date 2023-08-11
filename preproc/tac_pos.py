@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
-from lib import global_setting
+from lib import utils
 import argparse
 import json
 
@@ -16,7 +16,7 @@ i = 1
 with open(opts.f, 'r') as reader:
     for l in reader:
         tac = l.strip()
-        if global_setting.lemma_delimiter not in l:
+        if utils.notlemma(l):
             if tac not in dict.keys():
                 dict[tac] = [i]
             else:

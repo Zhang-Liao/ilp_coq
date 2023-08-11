@@ -4,7 +4,6 @@ import re
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
 
-from lib import global_setting
 from lib import utils
 
 dat_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split'
@@ -24,7 +23,7 @@ def file_predc(file, hyp_predc, goal_predc):
     with (open(file, 'r') as reader):
         for l in reader:
             l = l.strip()
-            if global_setting.lemma_delimiter not in l:
+            if utils.not_lemma(l):
                 l = json.loads(l)
                 hyp_predc = utils.add_hyps_predc(l['hyps'], hyp_predc)
                 goal_predc = utils.add_goal_predc(l['goal'], goal_predc)

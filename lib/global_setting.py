@@ -1,1 +1,0 @@
-lemma_delimiter = "#lemma"

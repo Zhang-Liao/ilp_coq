@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
-from lib import global_setting
+from lib import utils
 
 import argparse
 import joblib
@@ -20,7 +20,7 @@ def encode(dir):
             with open(f, 'r') as reader:
                 for l in reader:
                     l = l.strip()
-                    if global_setting.lemma_delimiter not in l:
+                    if utils.notlemma(l):
                         l = json.loads(l)
                         fs = [f[0] for f in l['feats']]
                         # for f in l['feats']:

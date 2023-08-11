@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.dirname(sys.path[0]))
-from lib.global_setting import *
+lemma_delimiter = "#lemma"
 
 def output_lemma_aux(lemma, data , file):
     with open(file, 'a') as writer:
@@ -86,6 +86,9 @@ def add_goal_predc(l, predc_set):
 # ## and @@ do not exist in tactics in the Coq standard library
 def tac_as_file(t):
     t = t.replace('/', 'slash')
-    t = t.replace('\\', 'bkslash')    
+    t = t.replace('\\', 'bkslash')
     t = t.replace("'", 'quote')
     return t
+
+def not_lemma(l):
+    return not l.startswith(lemma_delimiter)

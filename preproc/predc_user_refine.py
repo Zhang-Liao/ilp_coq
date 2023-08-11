@@ -5,8 +5,6 @@ sys.path.append(os.path.dirname(sys.path[0]))
 
 import math
 
-from lib import global_setting
-
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
@@ -69,7 +67,7 @@ def pr_bk(pos_dict, neg_dict, fbk):
         i = 0
         for l in reader:
             l = l.strip()
-            if global_setting.lemma_delimiter not in l:
+            if utils.notlemma(l):
                 if i in pos_dict:
                     l = json.loads(l)
                     hyps_predc(i, l['hyps'], bk_w, pos_predc)

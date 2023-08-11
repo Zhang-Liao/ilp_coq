@@ -1,7 +1,6 @@
 import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
-from lib import global_setting
 from lib import utils
 
 lemma_split_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/lemma_split'
@@ -52,7 +51,7 @@ for f in files:
         lemma_states = []
         for line in reader:
             line = line.strip()
-            if global_setting.lemma_delimiter not in line:
+            if utils.not_lemma(line):
                 lemma_states.append(line)
             else:
                 if lemma_states != []:

@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
-from lib import global_setting
+from lib import utils
 import json
 import joblib
 from sklearn.neighbors import KNeighborsClassifier
@@ -27,14 +27,14 @@ def read():
     with open(label_file, 'r') as reader:
         for l in reader:
             l = l.strip()
-            if global_setting.lemma_delimiter not in l:
+            if utils.notlemma(l):
                 labels.append(l)
         labels = label_encoder.transform(labels)
 
     with open(feat_file, 'r') as reader:
         for l in reader:
             l = l.strip()
-            if global_setting.lemma_delimiter not in l:
+            if utils.not_lemma(l):
                 fs = l.split()
                 fs = [int(f) for f in fs]
                 feats.append(fs)

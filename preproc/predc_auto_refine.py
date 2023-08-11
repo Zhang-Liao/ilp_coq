@@ -5,14 +5,14 @@ sys.path.append(os.path.dirname(sys.path[0]))
 
 import math
 
-from lib import global_setting
 from lib import utils
 
-pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
+pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/five_pos_neg/file_dist_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/five_pos_neg/dat.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0/predc_auto'
-noise = 0.1
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/five_pos_neg/predc_auto'
+# noise = 0.1
+noise = 0
 
 def pr_mode(hyp_predc, goal_predc, writer):
     writer.write(":- modeh(1, tac(+nat)).\n")
@@ -57,7 +57,7 @@ def pr_bk(pos_dict, neg_dict, fbk):
         i = 0
         for l in reader:
             l = l.strip()
-            if global_setting.lemma_delimiter not in l:
+            if utils.not_lemma(l):
                 if i in pos_dict:
                     l = json.loads(l)
                     hyp_predc = pr_hyps_predc(i, l['hyps'], bk_w, hyp_predc)
@@ -66,7 +66,7 @@ def pr_bk(pos_dict, neg_dict, fbk):
                     l = json.loads(l)
                     pr_hyps_predc(i, l['hyps'], bk_w, set())
                     pr_goal_predc(i, l['goal'], bk_w, set())
-                i += 1
+            i += 1
         pr_mode(hyp_predc, goal_predc, bk_w)
         pr_bias(bk_w, len(neg_dict))
 
