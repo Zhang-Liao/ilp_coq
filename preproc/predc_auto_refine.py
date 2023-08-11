@@ -7,10 +7,10 @@ import math
 
 from lib import utils
 
-pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/five_pos_neg/file_dist_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/five_pos_neg/dat.json'
+pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/Padd_ok/file_dist_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/Padd_ok/dat.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/five_pos_neg/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/Padd_ok2/predc_auto'
 # noise = 0.1
 noise = 0
 
@@ -25,7 +25,7 @@ def pr_mode(hyp_predc, goal_predc, writer):
         writer.write(f":- determination(tac/1, {p}/2).\n")
     for p in hyp_predc:
         writer.write(f":- determination(tac/1, {p}/3).\n")
-    
+
     writer.write(":- determination(tac/1, name_equal/2).\n")
     writer.write(":- determination(tac/1, dif/2).\n")
 
@@ -76,14 +76,15 @@ def pr_predc(exg, out):
             writer.write(f"tac({e}).\n")
 
 def neg_ratio(npos):
-    if npos <= 16:
-        return 8
-    elif npos <= 32:
-        return 4
-    elif npos <= 64:
-        return 2
-    else:
-        return 1
+    return 2
+    # if npos <= 16:
+    #     return 8
+    # elif npos <= 32:
+    #     return 4
+    # elif npos <= 64:
+    #     return 2
+    # else:
+    #     return 1
 
 def flatten_neg_mat(mat):
     flat = []

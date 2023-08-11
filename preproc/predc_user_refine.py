@@ -2,6 +2,7 @@ import json
 import os
 import sys
 sys.path.append(os.path.dirname(sys.path[0]))
+from lib import utils
 
 import math
 
@@ -76,7 +77,7 @@ def pr_bk(pos_dict, neg_dict, fbk):
                     l = json.loads(l)
                     hyps_predc(i, l['hyps'], bk_w, set())
                     goal_predc(i, l['goal'], bk_w, set())
-                i += 1
+            i += 1
         pr_predc_typ(pos_predc, bk_w)
         pr_bias(bk_w, len(neg_dict))
 
