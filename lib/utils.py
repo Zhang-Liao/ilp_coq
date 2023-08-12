@@ -40,9 +40,13 @@ def load_by_lemma(file, dict, func):
 
 ## For predicates
 def to_predc_name(s):
+    s = s.replace('.', '_')
+    if s.startwith('Coq_'):
+        s = s[0].lower() + s[1:]
+
     if not s.startswith('coq_'):
         s = 'coq_' + s
-    s = s.replace('.', '_')
+
     s = s.replace('₁', '_under1_')
     s = s.replace('₂', '_under2_')
     s = s.replace('₃', '_under3_')
@@ -53,33 +57,41 @@ def goal_idx(idx):
     idx = "[" + idx +"]"
     return idx
 
-def hyp_idx(idx):
-    idx[0] = to_predc_name(idx[0])
+def hyp_idx(name, kind, idx):
+    idx = [name, kind] + idx
     idx = ",".join(idx)
     idx = "[" + idx +"]"
     return idx
 
 def pr_hyps_predc(i, l, writer):
-    for ident, name, idx in l:
+    for ident, name, kind, idx in l:
         ident = to_predc_name(ident)
         name = to_predc_name(name)
-        writer.write(f"{ident}({i},\"{name}\",{hyp_idx(idx)}).\n")
+        idx = hyp_idx(name, kind, idx)
+        if ident.startswith('coq_var_'):
+            var = ident[8:]
+            writer.write(f"coq_var({i}, {var} ,\"{name}\",{idx}).\n")
+        elif ident != 'coq_app':
+            writer.write(f"{ident}({i},\"{name}\",{idx}).\n")
 
 def pr_goal_predc(i, l, writer):
     for ident, idx in l:
-        if ident != 'coq_app':
+        if ident.startswith('coq_var_'):
+            var = ident[8:]
+            writer.write(f"coq_var({i},{var},{goal_idx(idx)}).\n")
+        elif ident != 'coq_app':
             ident = to_predc_name(ident)
             writer.write(f"{ident}({i},{goal_idx(idx)}).\n")
 
 def add_hyps_predc(l, predc_set):
     for ident, _, _ in l:
-        if ident != 'coq_app':
+        if (ident != 'coq_app') & (not ident.startswith('coq_var')):
             predc_set.add(to_predc_name(ident))
     return predc_set
 
 def add_goal_predc(l, predc_set):
     for ident, _, in l:
-        if ident != 'coq_app':
+        if (ident != 'coq_app') & (not ident.startswith('coq_var')):
             predc_set.add(to_predc_name(ident))
     return predc_set
 

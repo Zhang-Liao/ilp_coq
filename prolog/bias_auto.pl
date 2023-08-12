@@ -29,10 +29,14 @@ hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 :- modeb(3, hyp_position_left(+hyp_idx, +hyp_idx)).
 :- modeb(3, position_above(+goal_idx, +goal_idx)).
 :- modeb(3, position_above(+hyp_idx, +hyp_idx)).
+:- modeb(3, coq_var(+int, +string, +string, +hyp_idx)).
+:- modeb(3, coq_var(+int, +string, +goal_idx)).
 
 :- determination(tac/1, goal_position_left/2).
 :- determination(tac/1, hyp_position_left/2).
 :- determination(tac/1, position_above/2).
+:- determination(tac/1, coq_var/3).
+:- determination(tac/1, coq_var/4).
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
