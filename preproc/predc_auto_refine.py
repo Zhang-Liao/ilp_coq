@@ -7,10 +7,10 @@ import math
 
 from lib import utils
 
-pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/Padd_ok/file_dist_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/Padd_ok/dat.json'
+pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/test/file_dist_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/test/Test.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/Padd_ok2/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/test/predc_auto'
 # noise = 0.1
 noise = 0
 
