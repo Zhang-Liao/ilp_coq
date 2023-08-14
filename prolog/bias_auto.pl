@@ -19,6 +19,7 @@ goal_idx(Idx) :- nat_idx(Idx).
 
 hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 
+% :- modeh(1, tac(+nat, #string)).
 :- modeb(3, dif(+string, +string)).
 :- modeb(3, dif(+hyp_idx, +hyp_idx)).
 :- modeb(3, dif(+goal_idx, +goal_idx)).
@@ -29,11 +30,12 @@ hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 :- modeb(3, hyp_coq_var(+nat, -string, +string, -hyp_idx)).
 :- modeb(3, goal_coq_var(+nat, +string, -goal_idx)).
 
-:- determination(tac/1, goal_position_left/2).
-:- determination(tac/1, hyp_position_left/2).
-:- determination(tac/1, position_above/2).
-:- determination(tac/1, hyp_coq_var/4).
-:- determination(tac/1, goal_coq_var/3).
+:- determination(tac/2, goal_position_left/2).
+:- determination(tac/2, hyp_position_left/2).
+:- determination(tac/2, position_above/2).
+:- determination(tac/2, hyp_coq_var/4).
+:- determination(tac/2, goal_coq_var/3).
+:- determination(tac/2, dif/2).
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
