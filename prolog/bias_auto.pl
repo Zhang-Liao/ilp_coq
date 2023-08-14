@@ -1,5 +1,3 @@
-name_equal(X, Y) :- X = Y.
-
 hyp_typ(hyp_ass).
 hyp_typ(hyp_dc).
 hyp_typ(hyp_dt).
@@ -21,7 +19,6 @@ goal_idx(Idx) :- nat_idx(Idx).
 
 hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 
-:- modeb(3, name_equal(+string, +string)).
 :- modeb(3, dif(+string, +string)).
 :- modeb(3, dif(+hyp_idx, +hyp_idx)).
 :- modeb(3, dif(+goal_idx, +goal_idx)).
@@ -41,12 +38,12 @@ hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 :- set(construct_bottom, false).
 :- set(refine, auto).
 :- set(search, heuristic).
-:- set(openlist, 5).
+:- set(openlist, 50).
 :- set(verbosity, 0).
-:- set(clauselength, 8).
+:- set(clauselength, 16).
 
 :- set(evalfn, user).
-% :- set(noise, 100).
+:- set(nodes, 40000).
 % :- set(explore, true).
 % prune(tac(X)) :- nonvar(X).
 % prune((tac(X) :- _)) :- nonvar(X).
