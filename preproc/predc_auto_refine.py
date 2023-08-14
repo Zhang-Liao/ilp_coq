@@ -7,10 +7,10 @@ import math
 
 from lib import utils
 
-pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/test/file_dist_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/test/Test.json'
+pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/file_dist_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/Binomial.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/test/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/predc_auto'
 # noise = 0.1
 noise = 0
 
@@ -44,7 +44,6 @@ def pr_bias(w, n_neg):
             w.write(b + '\n')
     n_noise = int(math.ceil(n_neg * noise))
     w.write(f':- set(noise, {n_noise}).\n')
-    w.write(f':- set(discontinue_noise, {n_noise}).\n')
 
 def pr_bk(pos_dict, neg_dict, fbk):
     hyp_predc = set()
@@ -99,6 +98,7 @@ def get_pos_neg(pos_neg_list):
     k = neg_ratio(len(pos))
     neg_mat = [ns[:k] for ns in neg_mat]
     neg = list(set(flatten_neg_mat(neg_mat)))
+    neg.sort()
     return pos, neg
 
 def pr_run(tac, out, run, rule):
