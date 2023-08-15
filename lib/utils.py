@@ -45,7 +45,7 @@ def to_predc_name(s):
         s = s[0].lower() + s[1:]
     if not s.startswith('coq_'):
         s = 'coq_' + s
-    # s = s.replace('\'', '_quote')
+    s = s.replace('\'', '_quote')
     s = s.replace('₁', '_under1_')
     s = s.replace('₂', '_under2_')
     s = s.replace('₃', '_under3_')
