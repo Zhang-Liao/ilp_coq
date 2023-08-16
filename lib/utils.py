@@ -105,6 +105,8 @@ def tac_as_file(t):
     t = t.replace('/', 'slash')
     t = t.replace('\\', 'bkslash')
     t = t.replace("'", 'quote')
+    t = t.replace('[', 'leftsqr')
+    t = t.replace(']', 'rightsqr')
     return t
 
 def not_lemma(l):
