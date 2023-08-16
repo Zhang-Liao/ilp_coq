@@ -18,14 +18,14 @@ if not os.path.exists(out_dir):
     os.makedirs(out_dir)
 
 with open(test, 'r') as r:
-    i = 0
+    row_i = 0
     for l in r:
         l = l.strip()
         if utils.notlemma(l):
             l = json.loads(l)
-            out = init_out(i)
+            out = init_out(row_i)
             with open(out, 'a') as w:
                 w.write(':-style_check(-discontiguous).\n')
-                utils.pr_goal_predc(i, l['goal'], w)
-                utils.pr_hyps_predc(i, l['hyps'], w)
-        i += 1
+                utils.pr_goal_predc(row_i, l['goal'], w)
+                utils.pr_hyps_predc(row_i, l['hyps'], w)
+        row_i += 1

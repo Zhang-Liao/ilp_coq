@@ -58,6 +58,28 @@ def update_dic(i, tac, negs, dict):
     else:
         dict[tac].append({ 'pos' : [i], 'neg' : negs})
 
+def exg_row_ids_map():
+    mp = []
+    with open(label_file, 'r') as reader:
+        row_id = 0
+        for l in reader:
+            l = l.strip()
+            if utils.not_lemma(l):
+                mp.append(row_id)
+            row_id += 1
+    return mp
+
+def map_exg_row_ids(dict, mp):
+    new_dict = {}
+    for tac, poss in dict.items():
+        new_poss = []
+        for pos in poss:
+            new_poss.append({
+                'pos' : mp[pos['pos'][0]],
+                'neg' : [mp[n] for n in pos['neg']]})
+        new_dict[tac] = new_poss
+    return new_dict
+
 dict = {}
 feats, labels = read()
 neigh = KNeighborsClassifier(n_neighbors=1, metric='jaccard', n_jobs=5)

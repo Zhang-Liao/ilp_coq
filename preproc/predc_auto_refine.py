@@ -7,10 +7,10 @@ import math
 
 from lib import utils
 
-pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/file_dist_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/Binomial.json'
+pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto'
 # noise = 0.1
 noise = 0
 
@@ -50,19 +50,19 @@ def pr_bk(pos_dict, neg_dict, fbk, tac):
         open(fbk, 'a') as bk_w,
         ):
         bk_w.write(':-style_check(-discontiguous).\n')
-        i = 0
+        row_i = 0
         for l in reader:
             l = l.strip()
             if utils.not_lemma(l):
-                if i in pos_dict:
+                if row_i in pos_dict:
                     l = json.loads(l)
-                    hyp_predc = pr_hyps_predc(i, l['hyps'], bk_w, hyp_predc)
-                    goal_predc = pr_goal_predc(i, l['goal'], bk_w, goal_predc)
-                elif i in neg_dict:
+                    hyp_predc = pr_hyps_predc(row_i, l['hyps'], bk_w, hyp_predc)
+                    goal_predc = pr_goal_predc(row_i, l['goal'], bk_w, goal_predc)
+                elif row_i in neg_dict:
                     l = json.loads(l)
-                    pr_hyps_predc(i, l['hyps'], bk_w, set())
-                    pr_goal_predc(i, l['goal'], bk_w, set())
-            i += 1
+                    pr_hyps_predc(row_i, l['hyps'], bk_w, set())
+                    pr_goal_predc(row_i, l['goal'], bk_w, set())
+            row_i += 1
         pr_mode(hyp_predc, goal_predc, bk_w, tac)
         pr_bias(bk_w, len(neg_dict))
 
@@ -72,7 +72,7 @@ def pr_exg_predc(exg, out, tac):
             writer.write(f"tac({e}, \"{tac}\").\n")
 
 def neg_ratio(npos):
-    return 2
+    return 4
     # if npos <= 16:
     #     return 8
     # elif npos <= 32:
