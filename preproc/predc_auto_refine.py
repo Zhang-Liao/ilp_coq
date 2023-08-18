@@ -7,10 +7,10 @@ import math
 
 from lib import utils
 
-pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
+pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/file_dist_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/Binomial.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/predc_auto'
 # noise = 0.1
 noise = 0
 
@@ -25,6 +25,12 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
         writer.write(f":- determination(tac/2, {p}/2).\n")
     for p in hyp_predc:
         writer.write(f":- determination(tac/2, {p}/3).\n")
+
+    for p in goal_predc:
+        writer.write(f"goal_predc({p}).\n")
+    for p in hyp_predc:
+        writer.write(f"hyp_predc({p}).\n")
+
 
 def pr_hyps_predc(i, l, writer, predc):
     utils.pr_hyps_predc(i, l, writer)
@@ -72,7 +78,7 @@ def pr_exg_predc(exg, out, tac):
             writer.write(f"tac({e}, \"{tac}\").\n")
 
 def neg_ratio(npos):
-    return 4
+    return 8
     # if npos <= 16:
     #     return 8
     # elif npos <= 32:

@@ -19,6 +19,27 @@ goal_idx(Idx) :- nat_idx(Idx).
 
 hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 
+node(N, Idx, P, RelativeIdx) :-
+    goal_predc(P),
+    Fact =.. [P, N, NodeIdx], Fact,
+    prefix(Idx, NodeIdx),
+    append(Idx, RelativeIdx, NodeIdx).
+
+node(N, Idx, Predc, RelativeIdx) :-
+    hyp_predc(Predc),
+    Fact =.. [Predc, N, _Name, NodeIdx], Fact,
+    prefix(Idx, NodeIdx),
+    append(Idx, RelativeIdx, NodeIdx).
+
+eq_subterm(N, Idx1, Idx2) :-
+    dif(Idx1, Idx2),
+    forall(
+        node(N, Idx1, Predc, RelativeIdx1),
+        node(N, Idx2, Predc, RelativeIdx1)),
+    forall(
+        node(N, Idx2, Predc, RelativeIdx2),
+        node(N, Idx1, Predc, RelativeIdx2)).
+
 % :- modeh(1, tac(+nat, #string)).
 :- modeb(3, dif(+string, +string)).
 :- modeb(3, dif(+hyp_idx, +hyp_idx)).
@@ -29,6 +50,9 @@ hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 :- modeb(3, position_above(+hyp_idx, +hyp_idx)).
 :- modeb(3, hyp_coq_var(+nat, -string, +string, -hyp_idx)).
 :- modeb(3, goal_coq_var(+nat, +string, -goal_idx)).
+:- modeb(3, eq_subterm(+nat, +goal_idx, +goal_idx)).
+:- modeb(3, eq_subterm(+nat, +hyp_idx, +hyp_idx)).
+:- modeb(3, eq_subterm(+nat, +goal_idx, +hyp_idx)).
 
 :- determination(tac/2, goal_position_left/2).
 :- determination(tac/2, hyp_position_left/2).
@@ -36,6 +60,7 @@ hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 :- determination(tac/2, hyp_coq_var/4).
 :- determination(tac/2, goal_coq_var/3).
 :- determination(tac/2, dif/2).
+:- determination(tac/2, eq_subterm/3).
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
@@ -45,7 +70,7 @@ hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 :- set(clauselength, 16).
 
 :- set(evalfn, user).
-:- set(nodes, 40000).
+:- set(nodes, 20000).
 % :- set(explore, true).
 % prune(tac(X)) :- nonvar(X).
 % prune((tac(X) :- _)) :- nonvar(X).

@@ -18,3 +18,4 @@ _build/
 *.rule.pl
 *.pl.log
 file_order
+*.log
