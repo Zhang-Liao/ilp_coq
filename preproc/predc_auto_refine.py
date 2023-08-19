@@ -15,7 +15,7 @@ out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/predc_auto'
 noise = 0
 
 def pr_mode(hyp_predc, goal_predc, writer, tac):
-    writer.write(f":- modeh(2, tac(+nat, \"{tac}\")).\n")
+    writer.write(f":- modeh(1, tac(+nat, \"{tac}\")).\n")
     for p in goal_predc:
         writer.write(f":- modeb(3, {p}(+nat, -goal_idx)).\n")
     for p in hyp_predc:
