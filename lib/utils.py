@@ -111,3 +111,23 @@ def tac_as_file(t):
 
 def not_lemma(l):
     return not l.startswith(lemma_delimiter)
+
+def feat_reader(label_f, label_encoder, feat_f, feat_encoder):
+    labels = []
+    feats = []
+    with open(label_f, 'r') as reader:
+        for l in reader:
+            l = l.strip()
+            if not_lemma(l):
+                labels.append(l)
+        labels = label_encoder.transform(labels)
+
+    with open(feat_f, 'r') as reader:
+        for l in reader:
+            l = l.strip()
+            if not_lemma(l):
+                fs = l.split()
+                fs = [int(f) for f in fs]
+                feats.append(fs)
+        feats = feat_encoder.transform(feats)
+    return feats, labels

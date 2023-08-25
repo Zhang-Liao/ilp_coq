@@ -1,6 +1,5 @@
 import os
 import sys
-sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 import json
 import joblib
@@ -10,8 +9,8 @@ from sklearn.preprocessing import MultiLabelBinarizer
 
 feat_encoder = joblib.load('/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/feat_encoder.gz')
 label_encoder = joblib.load('/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/label_encoder.gz')
-feat_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0.feat"
-label_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0.label"
+feat_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000.feat"
+label_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000.label"
 
 assert(isinstance(label_encoder, LabelEncoder))
 assert(isinstance(feat_encoder, MultiLabelBinarizer))
@@ -27,7 +26,7 @@ def read():
     with open(label_file, 'r') as reader:
         for l in reader:
             l = l.strip()
-            if utils.notlemma(l):
+            if utils.not_lemma(l):
                 labels.append(l)
         labels = label_encoder.transform(labels)
 
@@ -92,6 +91,10 @@ for i in range(len(labels)):
     negs = get_negs(kneighs, k_labels, labels[i])
     update_dic(i, tac, negs, dict)
 
-out = root + "_neg.json"
+out = root + "_neg2.json"
+
+mp = exg_row_ids_map()
+dict = map_exg_row_ids(dict, mp)
+
 with open(out, 'w') as w:
     json.dump(dict, w)
