@@ -3,11 +3,13 @@ import json
 import os
 
 import joblib
+import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MultiLabelBinarizer
 
 from lib import utils
 
+MAX_CLUSTER_LEN = 10
 
 def loader(label_f, feat_f):
     labels = []
@@ -39,7 +41,7 @@ def loader(label_f, feat_f):
     return dat_by_tac
 
 def calculate_n(dat):
-    n = dat/10
+    n = dat/MAX_CLUSTER_LEN
     if n < 1:
         return 1
     else:
@@ -50,6 +52,22 @@ def init_clusters(n):
     for i in range(n):
         c.append([])
     return c
+
+def split_clusters(clusters):
+    new_clusters = []
+    for c in clusters:
+        num = len(c)
+        if num < MAX_CLUSTER_LEN:
+            new_clusters.append(c)
+        else:
+            k_split = int(num / MAX_CLUSTER_LEN)
+            if k_split * MAX_CLUSTER_LEN != num:
+                k_split += 1
+            split = np.array_split(c, k_split)
+            for s in split:
+                s = [int(x) for x in s]
+                new_clusters.append(list(s))
+    return new_clusters
 
 def run_cluster(exgs):
     feats = [e[0] for e in exgs]
@@ -62,6 +80,7 @@ def run_cluster(exgs):
     # print('zip(list(kmeans.labels_), labels)', list(zip(list(kmeans.labels_), labels)))
     for i_class, i_row in zip(list(kmeans.labels_), labels):
         clusters[i_class].append(i_row)
+    clusters = split_clusters(clusters)
     return clusters
 
 def cluster_by_tacs(dat):
@@ -83,6 +102,6 @@ dat = loader(label_f, feat_f)
 cluster = cluster_by_tacs(dat)
 root, ext = os.path.splitext(feat_f)
 
-with open(root + '.pos.json', 'w') as w:
+with open(root + '_pos2.json', 'w') as w:
     json.dump(cluster, w)
 
