@@ -28,6 +28,9 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
 
     for p in goal_predc:
         writer.write(f"goal_predc({p}).\n")
+
+    writer.write(f"in_case_no_predc_exist(-1,-1,[]).\n")
+    writer.write(f"hyp_predc(in_case_no_predc_exist).\n")
     for p in hyp_predc:
         writer.write(f"hyp_predc({p}).\n")
 
@@ -118,7 +121,7 @@ def init_files(tac):
     pos_file = os.path.join(out_dir, tac + '.f')
     neg_file = os.path.join(out_dir, tac + '.n')
     run_file = os.path.join(out_dir, tac + '.pl')
-    rule_file = os.path.join(out_dir, tac + '.rule.pl')
+    rule_file = os.path.join(out_dir, tac + '_rule.pl')
     for f in [bk_file, pos_file, neg_file, run_file, rule_file]:
         if os.path.exists(f):
             os.remove(f)
@@ -134,17 +137,17 @@ with open(cluster_file, 'r') as r:
             poss = posss[i]
             tac = utils.tac_as_file(origin_tac) + str(i)
             negs = get_negs(neg_dict, poss, origin_tac)
-            # bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
-            # if not os.path.exists(out_dir):
-            #     os.makedirs(out_dir)
-            # try:
-            #     pr_bk(poss, negs, bk_file, origin_tac)
-            #     pr_exg_predc(poss, pos_file, origin_tac)
-            #     pr_exg_predc(negs, neg_file, origin_tac)
-            #     pr_run(tac, out_dir, run_file, rule_file)
-            # except OSError as e:
-            #     if e.errno == 36:
-            #         print('Ignore', e)
-            #         continue
-            #     else:
-            #         raise
+            bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
+            if not os.path.exists(out_dir):
+                os.makedirs(out_dir)
+            try:
+                pr_bk(poss, negs, bk_file, origin_tac)
+                pr_exg_predc(poss, pos_file, origin_tac)
+                pr_exg_predc(negs, neg_file, origin_tac)
+                pr_run(tac, out_dir, run_file, rule_file)
+            except OSError as e:
+                if e.errno == 36:
+                    print('Ignore', e)
+                    continue
+                else:
+                    raise
