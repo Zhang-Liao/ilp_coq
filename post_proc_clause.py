@@ -20,6 +20,6 @@ def add_setting(file):
 
 for file in os.listdir(args.dir):
     # print(file)
-    if file.endswith('.rule.pl'):
+    if file.endswith('_rule.pl'):
         path = os.path.join(args.dir, file)
         add_setting(path)
