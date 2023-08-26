@@ -1,5 +1,4 @@
 import os
-import sys
 from lib import utils
 import json
 import joblib
@@ -53,9 +52,9 @@ def get_negs(ids, labels, label):
 
 def update_dic(i, tac, negs, dict):
     if tac not in dict.keys():
-        dict[tac] = [{ 'pos' : [i], 'neg' : negs}]
+        dict[tac] = {i : negs}
     else:
-        dict[tac].append({ 'pos' : [i], 'neg' : negs})
+        dict[tac][i] = negs
 
 def exg_row_ids_map():
     mp = []
@@ -70,13 +69,11 @@ def exg_row_ids_map():
 
 def map_exg_row_ids(dict, mp):
     new_dict = {}
-    for tac, poss in dict.items():
-        new_poss = []
-        for pos in poss:
-            new_poss.append({
-                'pos' : mp[pos['pos'][0]],
-                'neg' : [mp[n] for n in pos['neg']]})
-        new_dict[tac] = new_poss
+    for tac, pos_negs_dict in dict.items():
+        new_pos_negs = {}
+        for pos, negs in pos_negs_dict.items():
+            new_pos_negs[mp[pos]] = [mp[n] for n in negs]
+        new_dict[tac] = new_pos_negs
     return new_dict
 
 dict = {}
@@ -95,6 +92,6 @@ out = root + "_neg2.json"
 
 mp = exg_row_ids_map()
 dict = map_exg_row_ids(dict, mp)
-
+print(dict)
 with open(out, 'w') as w:
     json.dump(dict, w)
