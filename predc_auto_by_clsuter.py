@@ -6,7 +6,7 @@ import math
 from lib import utils
 
 
-cluster_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000.pos.json'
+cluster_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_pos.json'
 neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
@@ -98,21 +98,13 @@ def flatten_neg_mat(mat):
 def get_negs(neg_dict, poss, tac):
     negss = neg_dict[tac]
     needed_negs = []
-    # print('negss', negss)
-    # print('poss', poss)
     for pos in poss:
         needed_negs += negss[str(pos)]
-    # pos = [e['pos'][0] for e in neg_dict]
-    # neg_mat = [e['neg'] for e in neg_dict]
-    # k = neg_ratio(len(pos))
-    # neg_mat = [ns[:k] for ns in neg_mat]
-    # neg = list(set(flatten_neg_mat(neg_mat)))
-    # neg.sort()
-    # exit()
-    return set(needed_negs)
+    needed_negs = list(set(needed_negs))
+    needed_negs.sort()
+    return needed_negs
 
 def pr_run(tac, out, run, rule):
-    # load_path = os.path.join(out, tac)
     load_path = out + '/' + tac
     with open (run, 'w') as w:
         w.write(':- [\'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/aleph_orig\'].\n')
@@ -138,22 +130,21 @@ with open(neg_file, 'r') as r:
 
 with open(cluster_file, 'r') as r:
     for origin_tac, posss in json.load(r).items():
-    # for origin_tac, pos_neg_list in json.load(r).items():
         for i in range(len(posss)):
             poss = posss[i]
             tac = utils.tac_as_file(origin_tac) + str(i)
             negs = get_negs(neg_dict, poss, origin_tac)
-            bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
-            if not os.path.exists(out_dir):
-                os.makedirs(out_dir)
-            try:
-                pr_bk(poss, negs, bk_file, origin_tac)
-                pr_exg_predc(poss, pos_file, origin_tac)
-                pr_exg_predc(negs, neg_file, origin_tac)
-                pr_run(tac, out_dir, run_file, rule_file)
-            except OSError as e:
-                if e.errno == 36:
-                    print('Ignore', e)
-                    continue
-                else:
-                    raise
+            # bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
+            # if not os.path.exists(out_dir):
+            #     os.makedirs(out_dir)
+            # try:
+            #     pr_bk(poss, negs, bk_file, origin_tac)
+            #     pr_exg_predc(poss, pos_file, origin_tac)
+            #     pr_exg_predc(negs, neg_file, origin_tac)
+            #     pr_run(tac, out_dir, run_file, rule_file)
+            # except OSError as e:
+            #     if e.errno == 36:
+            #         print('Ignore', e)
+            #         continue
+            #     else:
+            #         raise
