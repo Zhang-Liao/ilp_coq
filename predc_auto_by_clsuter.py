@@ -1,7 +1,7 @@
 import json
 import os
-
 import math
+
 
 from lib import utils
 
@@ -11,6 +11,9 @@ neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
 out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto'
+tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/tac2id.json'
+
+
 # noise = 0.1
 noise = 0
 
@@ -127,6 +130,8 @@ def init_files(tac):
             os.remove(f)
     return bk_file, pos_file, neg_file, run_file, rule_file
 
+with open(tac2id_file, 'r') as r:
+    tac2id = json.load(r)
 
 with open(neg_file, 'r') as r:
     neg_dict = json.load(r)
@@ -135,7 +140,8 @@ with open(cluster_file, 'r') as r:
     for origin_tac, posss in json.load(r).items():
         for i in range(len(posss)):
             poss = posss[i]
-            tac = utils.tac_as_file(origin_tac) + str(i)
+            tac_id = tac2id[origin_tac]
+            tac = str(tac_id) + 'c' + str(i)
             negs = get_negs(neg_dict, poss, origin_tac)
             bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
             if not os.path.exists(out_dir):
