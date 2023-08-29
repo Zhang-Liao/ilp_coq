@@ -6,9 +6,9 @@ import math
 from lib import utils
 
 
-cluster_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_pos.json'
-neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/1000.json'
+cluster_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_pos.json'
+neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
 out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto'
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/tac2id.json'
@@ -151,14 +151,7 @@ with open(cluster_file, 'r') as r:
             bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
             if not os.path.exists(out_dir):
                 os.makedirs(out_dir)
-            try:
-                pr_bk(poss, negs, bk_file, origin_tac)
-                pr_exg_predc(poss, pos_file, origin_tac)
-                pr_exg_predc(negs, neg_file, origin_tac)
-                pr_run(tac, out_dir, run_file, rule_file)
-            except OSError as e:
-                if e.errno == 36:
-                    print('Ignore', e)
-                    continue
-                else:
-                    raise
+            pr_bk(poss, negs, bk_file, origin_tac)
+            pr_exg_predc(poss, pos_file, origin_tac)
+            pr_exg_predc(negs, neg_file, origin_tac)
+            pr_run(tac, out_dir, run_file, rule_file)
