@@ -16,7 +16,7 @@ f_feat = os.path.splitext(input)[0] + ".feat"
 f_label = os.path.splitext(input)[0] + ".label"
 
 def mk_feat(f):
-    return (" ".join([str(feat) for (feat, _num) in f]))
+    return (" ".join([str(feat[0]) for feat in f]))
     # return (" ".join(["%s:%s" % (feat, num) for (feat, num) in f]))
 
 if os.path.exists(f_feat):
@@ -30,7 +30,7 @@ with (
     open(f_label, 'a') as w_label):
     for l in reader:
         l = l.strip()
-        if utils.notlemma(l):
+        if utils.not_lemma(l):
             l = json.loads(l)
             feat = mk_feat(l['feats'])
             w_feat.write(feat + '\n')

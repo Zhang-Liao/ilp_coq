@@ -64,6 +64,11 @@ def pr_bk(poss, negs, fbk, tac):
         bk_w.write(':-style_check(-discontiguous).\n')
         row_i = 0
         for l in reader:
+            # if tac == 'apply gen_Zeqb_ok':
+            #     print('row_i', row_i)
+            #     print('poss', poss)
+            #     print('negs', negs)
+            #     print()
             l = l.strip()
             if utils.not_lemma(l):
                 if row_i in poss:
@@ -138,9 +143,9 @@ with open(neg_file, 'r') as r:
 
 with open(cluster_file, 'r') as r:
     for origin_tac, posss in json.load(r).items():
+        tac_id = tac2id[origin_tac]
         for i in range(len(posss)):
             poss = posss[i]
-            tac_id = tac2id[origin_tac]
             tac = str(tac_id) + 'c' + str(i)
             negs = get_negs(neg_dict, poss, origin_tac)
             bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)

@@ -1,4 +1,5 @@
 import argparse
+import os
 import re
 
 parser = argparse.ArgumentParser()
@@ -8,16 +9,20 @@ opts = parser.parse_args()
 assert(opts.file.endswith('_rule.pl'))
 completed = 1
 
-with open(opts.file) as r:
-    for l in r:
-        l = l.strip()
-        if l.startswith('tac(') & l.endswith(').'):
-            completed = 0
-            break
+if not os.path.exists(opts.file):
+    completed = 0
+else:
+    with open(opts.file) as r:
+        for l in r:
+            l = l.strip()
+            if l.startswith('tac(') & l.endswith(').'):
+                completed = 0
+                break
 
 if completed == 0:
     base = opts.file[:-8]
     bk = base + '.b'
+
     with open(bk, 'r') as r:
         dat = r.readlines()
 
@@ -31,6 +36,7 @@ if completed == 0:
             dat[i] = f':- set(noise, {noise}).\n'
             # dat[i] = f'set(noise, 1000)\n'
             break
-
     with open(bk, 'w') as w:
         w.writelines(dat)
+
+print(completed)
