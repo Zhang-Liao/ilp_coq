@@ -18,6 +18,7 @@ def build(dir):
                         tacs.add(l['tac'])
         break
     ids = list(range(0, len(tacs)))
+    tacs = sorted(list(tacs))
     tac_ids = zip(list(tacs), ids)
     return dict(tac_ids)
     # print(tac_map)
