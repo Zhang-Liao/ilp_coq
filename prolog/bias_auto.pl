@@ -67,10 +67,10 @@ eq_subterm(N, Idx1, Idx2) :-
 :- set(search, heuristic).
 :- set(openlist, 50).
 :- set(verbosity, 0).
-:- set(clauselength, 16).
+:- set(clauselength, 32).
 
 :- set(evalfn, user).
-:- set(nodes, 20000).
+:- set(nodes, 8000).
 % :- set(explore, true).
 % prune(tac(X)) :- nonvar(X).
 % prune((tac(X) :- _)) :- nonvar(X).

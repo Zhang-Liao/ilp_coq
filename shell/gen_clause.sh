@@ -18,4 +18,4 @@ find $dir -name "*.b" | parallel python init_noise.py --file {}
 find $dir -name "*_rule.pl" | parallel rm {}
 find $dir -name "*.pl" | parallel -j 20 bash -c loop_gen
 find $dir -name "*_rule.pl" | xargs -i cat {} >tmp
-mv tmp alltac_rule.pl
+mv tmp $dir/alltac_rule.pl
