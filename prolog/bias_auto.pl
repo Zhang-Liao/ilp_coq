@@ -71,11 +71,8 @@ eq_subterm(N, Idx1, Idx2) :-
 
 :- set(evalfn, user).
 :- set(nodes, 8000).
-% :- set(explore, true).
-% prune(tac(X)) :- nonvar(X).
-% prune((tac(X) :- _)) :- nonvar(X).
 
-only_head(_C :- true).
+only_head(tac(A, B)).
 
 cost(Clause, [P, N, _L], Cost) :-
   ((only_head(Clause); P is 0) -> Cost is inf; Cost is N - P), !.
