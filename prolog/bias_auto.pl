@@ -1,3 +1,10 @@
+hyp_coq_var(-1, "", "", []).
+goal_coq_var(-1, "", []).
+in_case_no_goal_predc_exist(-1,[]).
+goal_predc(in_case_no_goal_predc_exist).
+in_case_no_hyp_predc_exist(-1,-1,[]).
+hyp_predc(in_case_no_hyp_predc_exist).
+
 hyp_typ(hyp_ass).
 hyp_typ(hyp_dc).
 hyp_typ(hyp_dt).
@@ -72,7 +79,7 @@ eq_subterm(N, Idx1, Idx2) :-
 :- set(evalfn, user).
 :- set(nodes, 8000).
 
-only_head(tac(A, B)).
+only_head(tac(_N, _T)).
 
 cost(Clause, [P, N, _L], Cost) :-
   ((only_head(Clause); P is 0) -> Cost is inf; Cost is N - P), !.

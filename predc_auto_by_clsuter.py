@@ -11,7 +11,7 @@ neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/spli
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
 out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto'
-tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/tac2id.json'
+tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
 
 
 # noise = 0.1
@@ -29,11 +29,13 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
     for p in hyp_predc:
         writer.write(f":- determination(tac/2, {p}/3).\n")
 
+    # writer.write(f"in_case_no_goal_predc_exist(-1,[]).\n")
+    # writer.write(f"goal_predc(in_case_no_goal_predc_exist).\n")
     for p in goal_predc:
         writer.write(f"goal_predc({p}).\n")
 
-    writer.write(f"in_case_no_predc_exist(-1,-1,[]).\n")
-    writer.write(f"hyp_predc(in_case_no_predc_exist).\n")
+    # writer.write(f"in_case_no_hyp_predc_exist(-1,-1,[]).\n")
+    # writer.write(f"hyp_predc(in_case_no_hyp_predc_exist).\n")
     for p in hyp_predc:
         writer.write(f"hyp_predc({p}).\n")
 
