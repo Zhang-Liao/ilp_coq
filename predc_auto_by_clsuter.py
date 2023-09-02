@@ -14,9 +14,6 @@ out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
 
 
-# noise = 0.1
-noise = 0
-
 def pr_mode(hyp_predc, goal_predc, writer, tac):
     writer.write(f":- modeh(1, tac(+nat, \"{tac}\")).\n")
     for p in goal_predc:
@@ -53,8 +50,6 @@ def pr_bias(w, n_neg):
         for b in r:
             b = b.strip()
             w.write(b + '\n')
-    n_noise = int(math.ceil(n_neg * noise))
-    w.write(f':- set(noise, {n_noise}).\n')
 
 def pr_bk(poss, negs, fbk, tac):
     hyp_predc = set()

@@ -10,11 +10,8 @@ assert(opts.file.endswith('.b'))
 with open(opts.file, 'r') as r:
     dat = r.readlines()
 
-for i in range(len(dat)):
-    line = dat[i]
-    if re.match(':- set\(noise, [0-9]+\)\.\n', line):
-        dat[i] = f':- set(noise, 0).\n'
-        break
+assert(re.match(':- set\(noise, [0-9]+\)\.\n', dat[-1]))
+dat[-1] = f':- set(noise, 0).\n'
 
 with open(opts.file, 'w') as w:
     w.writelines(dat)
