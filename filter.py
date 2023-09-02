@@ -45,7 +45,7 @@ def filter_tac(i, tac, exg_paths, prolog, good):
 def filter_row(i, r, exg_paths, prolog):
     good_preds = []
     bad_preds = []
-    preds = r.split('\t')
+    preds = r.split('\t')[:10]
     for pred in preds:
         good = Queue()
         safe_pred = utils.safe_tac(pred)
