@@ -1,5 +1,4 @@
 import os
-import sys
 
 from lib import utils
 
@@ -15,7 +14,7 @@ def build(dir):
                     l = l.strip()
                     if utils.not_lemma(l):
                         l = json.loads(l)
-                        tacs.add(l['tac'])
+                        tacs.add(utils.safe_tac(l['tac']))
         break
     ids = list(range(0, len(tacs)))
     tacs = sorted(list(tacs))

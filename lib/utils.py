@@ -100,13 +100,9 @@ def add_goal_predc(l, predc_set):
             predc_set.add(to_predc_name(ident))
     return predc_set
 
-# ## and @@ do not exist in tactics in the Coq standard library
-def tac_as_file(t):
-    t = t.replace('/', 'slash')
+def safe_tac(t):
     t = t.replace('\\', 'bkslash')
-    t = t.replace("'", 'quote')
-    t = t.replace('[', 'leftsqr')
-    t = t.replace(']', 'rightsqr')
+    # t = t.replace("'", 'quote')
     return t
 
 def not_lemma(l):

@@ -145,7 +145,8 @@ with open(neg_file, 'r') as r:
 
 with open(cluster_file, 'r') as r:
     for origin_tac, posss in json.load(r).items():
-        tac_id = tac2id[origin_tac]
+        safe_tac = utils.safe_tac(origin_tac)
+        tac_id = tac2id[safe_tac]
         for i in range(len(posss)):
             poss = posss[i]
             tac = str(tac_id) + 'c' + str(i)
@@ -153,7 +154,7 @@ with open(cluster_file, 'r') as r:
             bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
             if not os.path.exists(out_dir):
                 os.makedirs(out_dir)
-            pr_bk(poss, negs, bk_file, origin_tac)
-            pr_exg_predc(poss, pos_file, origin_tac)
-            pr_exg_predc(negs, neg_file, origin_tac)
+            pr_bk(poss, negs, bk_file, safe_tac)
+            pr_exg_predc(poss, pos_file, safe_tac)
+            pr_exg_predc(negs, neg_file, safe_tac)
             pr_run(tac, out_dir, run_file, rule_file)
