@@ -1,7 +1,5 @@
 import json
 import os
-import sys
-sys.path.append(os.path.dirname(sys.path[0]))
 
 from lib import utils
 
@@ -21,7 +19,7 @@ with open(test, 'r') as r:
     row_i = 0
     for l in r:
         l = l.strip()
-        if utils.notlemma(l):
+        if utils.not_lemma(l):
             l = json.loads(l)
             out = init_out(row_i)
             with open(out, 'a') as w:
