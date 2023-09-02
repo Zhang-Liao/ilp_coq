@@ -10,11 +10,8 @@ from lib import utils
 from statis import acc
 
 
-def read_clauses(clause_dir, prolog):
-    rule_suffix = '_rule.pl'
-    for filename in os.listdir(clause_dir):
-        if filename.endswith(rule_suffix):
-            prolog.consult(os.path.join(clause_dir, filename))
+def read_clauses(clause_file, prolog):
+    prolog.consult(clause_file)
     return prolog
 
 def read_exg_paths(example_dir):
@@ -36,7 +33,7 @@ def filter_tac(i, tac, exg_paths, prolog, good):
     # prolog.assertz('style_check(-singleton)') error ?
     prolog.consult(exg_paths[i])
     try:
-        print(f'tac({i}, \"{tac}\")')
+        # print(f'tac({i}, \"{tac}\")')
         good.put(bool(list(prolog.query(f'tac({i}, \"{tac}\")'))))
     except:
         # TODO: better solution instead of ignoring the error.
@@ -46,58 +43,77 @@ def filter_tac(i, tac, exg_paths, prolog, good):
         good.put(False)
 
 def filter_row(i, r, exg_paths, prolog):
-    new_preds = []
+    good_preds = []
+    bad_preds = []
     preds = r.split('\t')
     for pred in preds:
         good = Queue()
-        child = Process(target=filter_tac, args=(i, pred, exg_paths, prolog, good,))
+        safe_pred = utils.safe_tac(pred)
+        child = Process(target=filter_tac, args=(i, safe_pred, exg_paths, prolog, good,))
         child.start()
         child.join()
         if good.get():
-            new_preds.append(pred)
-    print(new_preds)
-    return new_preds
+            good_preds.append(pred)
+        else:
+            bad_preds.append(pred)
+    new_preds = good_preds + bad_preds
+    # print(new_preds)
+    return good_preds, new_preds
 
 
 def filter(exg_paths, prolog, pred_file):
-    preds_mat = []
+    good_pred_mat = []
+    reordered_mat = []
     i = 0
     with open(pred_file, 'r') as f:
         for r in f:
             r = r.strip()
             if utils.not_lemma(r) :
-                preds = filter_row(i, r, exg_paths, prolog)
-                preds = '\t'.join(preds)
-                preds_mat.append(preds)
+                good_preds, reordered = filter_row(i, r, exg_paths, prolog)
+                good_preds = '\t'.join(good_preds)
+                reordered = '\t'.join(reordered)
+                good_pred_mat.append(good_preds)
+                reordered_mat.append(reordered)
             else:
-                preds_mat.append(r)
+                good_pred_mat.append(r)
+                reordered_mat.append(r)
             i += 1
             if i % 100 == 0:
                 print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
                 # return preds_mat
-    return preds_mat
+    return good_pred_mat, reordered_mat
 
-def out(pred_mat, pred_file, clause_dir, label):
+def out(good_preds, reordered_preds, pred_file, clause, label):
     now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
     out_dir = os.path.join(os.path.dirname(pred_file), f'filter/{now}')
-    os.makedirs(out_dir)
-    out = os.path.join(out_dir, os.path.basename(pred_file))
-    with open(out, 'w') as w:
-        for preds in pred_mat:
+    good_dir = os.path.join(out_dir, 'good')
+    os.makedirs(good_dir)
+    good = os.path.join(good_dir, os.path.basename(pred_file))
+    with open(good, 'w') as w:
+        for preds in good_preds:
             w.write(preds + '\n')
-    acc.acc(out, label)
+    acc.acc(good, label)
+
+    reordered_dir = os.path.join(out_dir, 'reorder')
+    os.makedirs(reordered_dir)
+    reordered = os.path.join(reordered_dir, os.path.basename(pred_file))
+    with open(reordered, 'w') as w:
+        for preds in reordered_preds:
+            w.write(preds + '\n')
+    acc.acc(reordered, label)
+
     log = {
-        'clause_dir': clause_dir,
+        'clause': clause,
     }
     with open(os.path.join(out_dir, 'log.json'), 'w') as w:
         json.dump(log, w, indent=4)
 
-clause_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/filter'
-pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/filter/test.eval'
-
-example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/filter'
+clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/alltac_rule.pl'
+pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:26:47/split8.eval'
+example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label'
+# label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc_3/5.label'
 exg_paths = read_exg_paths(example_dir)
-prolog = read_clauses(clause_dir, Prolog())
-preds = filter(exg_paths, prolog, pred_file)
-# out(preds, pred_file, clause_dir, label)
+prolog = read_clauses(clause_file, Prolog())
+good_preds, reordered_preds = filter(exg_paths, prolog, pred_file)
+out(good_preds, reordered_preds, pred_file, clause_file, label)
