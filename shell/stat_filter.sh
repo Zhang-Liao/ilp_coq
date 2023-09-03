@@ -1,0 +1,1 @@
+python  stats/stat_filter.py --good /home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:26:47/filter/09-03-2023-09:27:20/good/split8.eval  --label /home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label
