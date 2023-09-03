@@ -38,6 +38,8 @@ def stat(f_good, f_label):
             negs = [g != label for g in goods]
             false_pos += len(negs)
 
+    items = false_neg_tac.items()
+    false_neg_tac = dict(sorted(items, key=lambda x:x[1], reverse= True))
     false_neg = round_f(false_neg / n_label)
     false_pos = round_f(false_pos / (n_label * 10))
     print('number of labels', n_label)
