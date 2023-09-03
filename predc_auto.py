@@ -1,19 +1,17 @@
 import json
 import os
-import sys
-sys.path.append(os.path.dirname(sys.path[0]))
 
 import math
 
 from lib import utils
 
-pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/file_dist_neg.json'
-dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/Binomial.json'
+pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
+dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/no_cluster'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/no_cluster2'
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
 
-noise = 0.1
+# noise = 0.1
 
 def pr_mode(hyp_predc, goal_predc, writer, tac):
     writer.write(f":- modeh(1, tac(+nat, \"{tac}\")).\n")
@@ -41,11 +39,21 @@ def pr_goal_predc(i, l, writer, predc):
     utils.pr_goal_predc(i, l, writer)
     return utils.add_goal_predc(l, predc)
 
-def pr_bias(w, n_neg):
+def pr_bias(w, n_pos, n_neg):
     with open(bias_file,'r') as r:
         for b in r:
             b = b.strip()
             w.write(b + '\n')
+    if n_pos <= 5:
+        noise = 0.0
+    elif n_pos <= 10:
+        noise = 0.1        
+    elif n_pos <= 20:
+        noise = 0.2
+    elif n_pos <= 40:
+        noise = 0.3
+    else:
+        noise = 0.4
     n_noise = int(math.ceil(n_neg * noise))
     w.write(f':- set(noise, {n_noise}).\n')
 
@@ -71,7 +79,7 @@ def pr_bk(pos_dict, neg_dict, fbk, tac):
                     pr_goal_predc(row_i, l['goal'], bk_w, set())
             row_i += 1
         pr_mode(hyp_predc, goal_predc, bk_w, tac)
-        pr_bias(bk_w, len(neg_dict))
+        pr_bias(bk_w, len(pos_dict), len(neg_dict))
 
 def pr_exg_predc(exg, out, tac):
     with open(out, 'a') as writer:
@@ -96,9 +104,9 @@ def flatten_neg_mat(mat):
     # print(flat)
     return flat
 
-def get_pos_neg(pos_neg_list):
-    pos = [e['pos'][0] for e in pos_neg_list]
-    neg_mat = [e['neg'] for e in pos_neg_list]
+def get_pos_neg(pos_neg_dict):
+    pos = [int(p) for p in pos_neg_dict.keys()]
+    neg_mat = [n for n in pos_neg_dict.values()]
     k = neg_ratio(len(pos))
     neg_mat = [ns[:k] for ns in neg_mat]
     neg = list(set(flatten_neg_mat(neg_mat)))
@@ -126,13 +134,18 @@ def init_files(tac):
             os.remove(f)
     return bk_file, pos_file, neg_file, run_file, rule_file
 
+log = {
+    'description' : 'if n_pos <= 5: noise = 0.0 elif n_pos <= 10: noise = 0.1   elif n_pos <= 20: noise = 0.2 elif n_pos <= 40: noise = 0.3 else: noise = 0.4' }
+with open(os.path.join(out_dir, 'readme.json'), 'w') as w:
+    json.dump(log, w, indent=4)
+
 with open(tac2id_file, 'r') as r:
     tac2id = json.load(r)
 
 with open(pos_neg_file, 'r') as r:
     for origin_tac, pos_neg_list in json.load(r).items():
-        safe_tac = utils.tac_as_file(origin_tac)
-        tac_id = tac2id[safe_tac]
+        safe_tac = utils.safe_tac(origin_tac)
+        tac_id = str(tac2id[safe_tac])
         pos, neg = get_pos_neg(pos_neg_list)
         bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac_id)
         if not os.path.exists(out_dir):
@@ -140,4 +153,6 @@ with open(pos_neg_file, 'r') as r:
         pr_bk(pos, neg, bk_file, safe_tac)
         pr_exg_predc(pos, pos_file, safe_tac)
         pr_exg_predc(neg, neg_file, safe_tac)
-        pr_run(safe_tac, out_dir, run_file, rule_file)
+        pr_run(tac_id, out_dir, run_file, rule_file)
+
+
