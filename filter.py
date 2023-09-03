@@ -108,7 +108,7 @@ def out(good_preds, reordered_preds, pred_file, clause, label):
     with open(os.path.join(out_dir, 'log.json'), 'w') as w:
         json.dump(log, w, indent=4)
 
-clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/alltac_rule.pl'
+clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg2/alltac_rule.pl'
 pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:26:47/split8.eval'
 example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label'

@@ -1,7 +1,5 @@
 import json
 import os
-import math
-
 
 from lib import utils
 
@@ -10,7 +8,7 @@ cluster_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/
 neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg_dynamic'
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
 
 
@@ -86,15 +84,15 @@ def pr_exg_predc(exg, out, tac):
             writer.write(f"tac({e}, \"{tac}\").\n")
 
 def neg_ratio(npos):
-    return 8
-    # if npos <= 16:
-    #     return 8
-    # elif npos <= 32:
-    #     return 4
-    # elif npos <= 64:
-    #     return 2
-    # else:
-    #     return 1
+    # return 2
+    if npos <= 1:
+        return 8
+    elif npos <= 2:
+        return 4
+    elif npos <= 4:
+        return 2
+    else:
+        return 1
 
 def flatten_neg_mat(mat):
     flat = []
