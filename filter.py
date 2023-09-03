@@ -7,8 +7,8 @@ from multiprocessing import Queue
 from pyswip import Prolog
 
 from lib import utils
-from statis import acc
-
+from stats import acc
+from stats import stat_filter
 
 def read_clauses(clause_file, prolog):
     prolog.consult(clause_file)
@@ -102,13 +102,16 @@ def out(good_preds, reordered_preds, pred_file, clause, label):
             w.write(preds + '\n')
     acc.acc(reordered, label)
 
+    stat_filter.stat(good, label)
+
     log = {
         'clause': clause,
     }
     with open(os.path.join(out_dir, 'log.json'), 'w') as w:
         json.dump(log, w, indent=4)
+    
 
-clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg2/alltac_rule.pl'
+clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/no_cluster/alltac_rule.pl'
 pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:26:47/split8.eval'
 example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label'

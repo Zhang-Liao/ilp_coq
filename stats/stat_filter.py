@@ -21,7 +21,7 @@ def stat(f_good, f_label):
     goodss = [l.strip().split('\t') for l in goodss]
 
     assert len(goodss) == len(labels)
-
+    false_neg_tac = {}
     false_pos = 0
     false_neg = 0
     n_label = 0
@@ -31,6 +31,10 @@ def stat(f_good, f_label):
             # print(label, goods)
             if label not in goods:
                 false_neg += 1
+                if label not in false_neg_tac.keys():
+                    false_neg_tac[label] = 1
+                else:
+                    false_neg_tac[label] += 1
             negs = [g != label for g in goods]
             false_pos += len(negs)
 
@@ -41,7 +45,8 @@ def stat(f_good, f_label):
     print(f"false_pos: {false_pos}%")
     log = {
         'false_neg' : false_neg,
-        'false_pos' : false_pos
+        'false_pos' : false_pos,
+        'false_neg_tac' : false_neg_tac
     }
     out_dir = os.path.dirname(f_good)
     with open(os.path.join(out_dir, 'stat_filter.json'), 'w') as w:
