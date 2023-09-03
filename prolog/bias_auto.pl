@@ -84,4 +84,4 @@ only_head(tac(_N, _T)).
 cost(Clause, [P, N, _L], Cost) :-
   ((only_head(Clause); P is 0) -> Cost is inf; Cost is N - P), !.
 
-:- set(noise, 0).
+% :- set(noise, 0).

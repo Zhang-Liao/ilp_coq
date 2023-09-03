@@ -24,13 +24,9 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
     for p in hyp_predc:
         writer.write(f":- determination(tac/2, {p}/3).\n")
 
-    # writer.write(f"in_case_no_goal_predc_exist(-1,[]).\n")
-    # writer.write(f"goal_predc(in_case_no_goal_predc_exist).\n")
     for p in goal_predc:
         writer.write(f"goal_predc({p}).\n")
 
-    # writer.write(f"in_case_no_hyp_predc_exist(-1,-1,[]).\n")
-    # writer.write(f"hyp_predc(in_case_no_hyp_predc_exist).\n")
     for p in hyp_predc:
         writer.write(f"hyp_predc({p}).\n")
 
@@ -48,6 +44,7 @@ def pr_bias(w, n_neg):
         for b in r:
             b = b.strip()
             w.write(b + '\n')
+    w.write(f':- set(noise, 0).\n')
 
 def pr_bk(poss, negs, fbk, tac):
     hyp_predc = set()
@@ -59,11 +56,6 @@ def pr_bk(poss, negs, fbk, tac):
         bk_w.write(':-style_check(-discontiguous).\n')
         row_i = 0
         for l in reader:
-            # if tac == 'apply gen_Zeqb_ok':
-            #     print('row_i', row_i)
-            #     print('poss', poss)
-            #     print('negs', negs)
-            #     print()
             l = l.strip()
             if utils.not_lemma(l):
                 if row_i in poss:

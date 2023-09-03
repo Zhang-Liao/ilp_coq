@@ -10,9 +10,10 @@ from lib import utils
 pos_neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/file_dist_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/Binomial.json'
 bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/binomial/predc_auto'
-# noise = 0.1
-noise = 0
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/no_cluster'
+tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
+
+noise = 0.1
 
 def pr_mode(hyp_predc, goal_predc, writer, tac):
     writer.write(f":- modeh(1, tac(+nat, \"{tac}\")).\n")
@@ -78,15 +79,15 @@ def pr_exg_predc(exg, out, tac):
             writer.write(f"tac({e}, \"{tac}\").\n")
 
 def neg_ratio(npos):
-    return 8
-    # if npos <= 16:
-    #     return 8
-    # elif npos <= 32:
-    #     return 4
-    # elif npos <= 64:
-    #     return 2
-    # else:
-    #     return 1
+    # return 8
+    if npos <= 16:
+        return 8
+    elif npos <= 32:
+        return 4
+    elif npos <= 64:
+        return 2
+    else:
+        return 1
 
 def flatten_neg_mat(mat):
     flat = []
@@ -119,27 +120,24 @@ def init_files(tac):
     pos_file = os.path.join(out_dir, tac + '.f')
     neg_file = os.path.join(out_dir, tac + '.n')
     run_file = os.path.join(out_dir, tac + '.pl')
-    rule_file = os.path.join(out_dir, tac + '.rule.pl')
+    rule_file = os.path.join(out_dir, tac + '_rule.pl')
     for f in [bk_file, pos_file, neg_file, run_file, rule_file]:
         if os.path.exists(f):
             os.remove(f)
     return bk_file, pos_file, neg_file, run_file, rule_file
 
+with open(tac2id_file, 'r') as r:
+    tac2id = json.load(r)
+
 with open(pos_neg_file, 'r') as r:
     for origin_tac, pos_neg_list in json.load(r).items():
-        tac = utils.tac_as_file(origin_tac)
+        safe_tac = utils.tac_as_file(origin_tac)
+        tac_id = tac2id[safe_tac]
         pos, neg = get_pos_neg(pos_neg_list)
-        bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac)
+        bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac_id)
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
-        try:
-            pr_bk(pos, neg, bk_file, origin_tac)
-            pr_exg_predc(pos, pos_file, origin_tac)
-            pr_exg_predc(neg, neg_file, origin_tac)
-            pr_run(tac, out_dir, run_file, rule_file)
-        except OSError as e:
-            if e.errno == 36:
-                print('Ignore', e)
-                continue
-            else:
-                raise
+        pr_bk(pos, neg, bk_file, safe_tac)
+        pr_exg_predc(pos, pos_file, safe_tac)
+        pr_exg_predc(neg, neg_file, safe_tac)
+        pr_run(safe_tac, out_dir, run_file, rule_file)
