@@ -134,11 +134,6 @@ def init_files(tac):
             os.remove(f)
     return bk_file, pos_file, neg_file, run_file, rule_file
 
-log = {
-    'description' : 'if n_pos <= 5: noise = 0.0 elif n_pos <= 10: noise = 0.1   elif n_pos <= 20: noise = 0.2 elif n_pos <= 40: noise = 0.3 else: noise = 0.4' }
-with open(os.path.join(out_dir, 'readme.json'), 'w') as w:
-    json.dump(log, w, indent=4)
-
 with open(tac2id_file, 'r') as r:
     tac2id = json.load(r)
 
@@ -154,5 +149,10 @@ with open(pos_neg_file, 'r') as r:
         pr_exg_predc(pos, pos_file, safe_tac)
         pr_exg_predc(neg, neg_file, safe_tac)
         pr_run(tac_id, out_dir, run_file, rule_file)
+
+log = {
+    'description' : 'if n_pos <= 5: noise = 0.0 elif n_pos <= 10: noise = 0.1   elif n_pos <= 20: noise = 0.2 elif n_pos <= 40: noise = 0.3 else: noise = 0.4' }
+with open(os.path.join(out_dir, 'readme.json'), 'w') as w:
+    json.dump(log, w, indent=4)
 
 
