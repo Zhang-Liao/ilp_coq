@@ -122,7 +122,7 @@ clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_s
 pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:26:47/split8.eval'
 example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label'
-all_predc = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/all_predc.pl'
+all_predc = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_predc.pl'
 
 exg_paths = read_exg_paths(example_dir)
 prolog = read_clauses(clause_file, all_predc, Prolog())
