@@ -1,4 +1,3 @@
-from datetime import datetime
 import os
 from time import ctime
 
@@ -8,7 +7,7 @@ from torch.utils.data import DataLoader
 from torch.optim import AdamW
 import transformers
 
-from lib.global_options import * 
+sys.path.append(os.path.dirname(sys.path[0]))
 from loader import *
 import trainer
 import tester
@@ -25,19 +24,13 @@ warm_ratio = 0.2
 eta = 3e-4
 batch_size = 32
 model_name = 'gpt2' 
-# data_dir = '/home/zhanglia/tac_seman/gpt-2/data/2023/anti/ignore_hd/ten_split'
 data_dir = '/home/zhanglia/tac_seman/gpt-2/data/2023/tree_diff/id_hash/ten_split'
 train_f = 'split0_7.json'
 test_f = 'split8.json'
 train_path = os.path.join(data_dir, train_f)
 test_path = os.path.join(data_dir, test_f)
 
-task = Task.LMHeadGen
-
-feat = Feat.ILP
-
 log = {
-    'feat': str(feat),
     'test path': str(test_path),
     'generate args': generate_args,
     'epochs': epochs,
@@ -60,14 +53,14 @@ def init_trainier(train_dataset, tokenizer, model):
         optimizer, 
         num_warmup_steps= int(warm_ratio * total_steps),  
         num_training_steps = total_steps)
-    trainer_ = trainer.Train(model, train_loader, optimizer, scheduler, tokenizer, batch_size, device, task)
+    trainer_ = trainer.Train(model, train_loader, optimizer, scheduler, tokenizer, batch_size, device)
     return trainer_
 
 def eval(train_dataset, tokenizer, test_dataset, model):
     model = model.to(device)
     trainer_ = init_trainier(train_dataset, tokenizer, model)
     test_loader = DataLoader(test_dataset, batch_size = 1, shuffle = False) 
-    tester_ = tester.Test(model, test_loader, tokenizer, task, tac_len, max_epochs = epochs, generate_args = generate_args, log = log)
+    tester_ = tester.Test(model, test_loader, tokenizer, tac_len, max_epochs = epochs, generate_args = generate_args, log = log)
     train_loss = []
     test_acc = []
     for epoch in range(epochs):
@@ -92,9 +85,7 @@ def eval(train_dataset, tokenizer, test_dataset, model):
     print('test_acc', test_acc)     
     
 def init_truncate():
-    if task in [Task.LMHeadGen]:
-        trunc = 'left'
-    return trunc
+    return 'left'
 
 def load_tokenizer(gpt, trunc):
     token_dir = gpt
@@ -106,8 +97,8 @@ def load_tokenizer(gpt, trunc):
     return tokenizer
 
 
-train_dataset = LMDataset(train_path, feat)
-test_dataset = LMDataset(test_path, feat)
+train_dataset = LMDataset(train_path)
+test_dataset = LMDataset(test_path)
 
 model = GPT2LMHeadModel.from_pretrained(model_name)
     

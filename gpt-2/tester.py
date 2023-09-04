@@ -1,23 +1,22 @@
 from datetime import datetime
 import glob
 import os
-from unittest import loader
+import sys
 
 import torch
 from time import ctime
 from sklearn.metrics import accuracy_score
 
+sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
-from lib.global_options import *
 from loader import *
 
 class Test:
-    def __init__(self, model, loader, tokenizer, task, tac_len, max_epochs = None, output_suffix = [], generate_args = None, log = {}):
+    def __init__(self, model, loader, tokenizer, tac_len, max_epochs = None, output_suffix = [], generate_args = None, log = {}):
         self.model = model 
         self.epoch = 0
         self.loader = loader 
         self.tokenizer = tokenizer
-        self.task = task
         self.max_epochs = max_epochs
         self.tac_len = tac_len
         self.best_acc = -1
@@ -39,7 +38,7 @@ class Test:
         lemma_preds = []
         preds_ = []
         for p in preds:
-            if global_options.lemma_delimiter in p:
+            if utils.lemma_delimiter in p:
                 preds_ += utils.shift_lemma_preds(k, lemma_preds)
                 lemma_preds = []
                 preds_.append(p)
@@ -71,7 +70,7 @@ class Test:
         pred_folder = os.path.join(self.pred_folder, date_time)
         pred_file = os.path.join(pred_folder, f"e{self.epoch}.pred")
         os.makedirs(pred_folder)
-        if isinstance(self.loader.dataset, LMParentDataset):
+        if isinstance(self.loader.dataset):
           preds_lemma = self.shift_preds(self.loader.dataset.k, preds_lemma)
 
         with open(pred_file, 'a') as f:

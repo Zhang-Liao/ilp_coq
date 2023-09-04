@@ -1,12 +1,10 @@
 import os
-from time import ctime
 
 from transformers import GPT2LMHeadModel
 from transformers import GPT2TokenizerFast
 from torch import load
 from torch.utils.data import DataLoader
 
-from lib.global_options import * 
 from loader import *
 import tester
 
@@ -19,17 +17,14 @@ test_f = 'split0_7.json'
 test_path = os.path.join(data_dir, test_f)
 tac_len = 50
 epochs = 1
-task = Task.LMHeadGen
 model_path = ''
 
-feat = Feat.TreeDiffPatch
 generate_args = {
     'num_beams': 3,
     'num_return_sequences' : 1,
 }
 
 log = {
-    'feat': str(feat),
     'test path': str(test_path),
     'generate args': generate_args,
     'epochs': epochs,
@@ -49,8 +44,7 @@ def load_tokenizer(model_name):
     # exit() 
     return tokenizer
 
-# test_dataset = LMDataset(test_path, feat)
-test_dataset = LMParentDataset(test_path, feat, 1)
+test_dataset = LMDataset(test_path, 1)
 
 model = GPT2LMHeadModel.from_pretrained(model_name)
 model.load_state_dict(load(model_path))
@@ -65,5 +59,5 @@ tokenizer = load_tokenizer(model_name)
 # print('test path', test_path)
 
 test_loader = DataLoader(test_dataset, batch_size = 1, shuffle = False) 
-tester_ = tester.Test(model, test_loader, tokenizer, task, tac_len, max_epochs = epochs, generate_args = generate_args, log = log)
+tester_ = tester.Test(model, test_loader, tokenizer, tac_len, max_epochs = epochs, generate_args = generate_args, log = log)
 tester_.test()
