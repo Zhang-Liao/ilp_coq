@@ -17,7 +17,7 @@ def pr_hyp_predc(predc, writer):
 def pr_goal_predc(predc, writer):
     for p in predc:
         p = utils.to_predc_name(p)
-        writer.write(f"{p}(-1).\n")
+        writer.write(f"{p}(-1, []).\n")
 
 def file_predc(file, hyp_predc, goal_predc):
     with (open(file, 'r') as reader):

@@ -10,8 +10,9 @@ from lib import utils
 from stats import acc
 from stats import stat_filter
 
-def read_clauses(clause_file, prolog):
+def read_clauses(clause_file, all_predc, prolog):
     prolog.consult(clause_file)
+    prolog.consult(all_predc)
     return prolog
 
 def read_exg_paths(example_dir):
@@ -35,11 +36,13 @@ def filter_tac(i, tac, exg_paths, prolog, good):
     try:
         # print(f'tac({i}, \"{tac}\")')
         good.put(bool(list(prolog.query(f'tac({i}, \"{tac}\")'))))
-    except:
+    except Exception as e:
+    # except:
         # TODO: better solution instead of ignoring the error.
         # Clause may contain predicates that not in the example. Now, I
         # treat it as failure and continue. Add all predicates initially
         # seems cause warnings in Prolog.
+        print(e)
         good.put(False)
 
 def filter_row(i, r, exg_paths, prolog):
@@ -69,11 +72,12 @@ def filter(exg_paths, prolog, pred_file):
         for r in f:
             r = r.strip()
             if utils.not_lemma(r) :
-                good_preds, reordered = filter_row(i, r, exg_paths, prolog)
-                good_preds = '\t'.join(good_preds)
-                reordered = '\t'.join(reordered)
-                good_pred_mat.append(good_preds)
-                reordered_mat.append(reordered)
+                if i == 21:
+                    good_preds, reordered = filter_row(i, r, exg_paths, prolog)
+                    good_preds = '\t'.join(good_preds)
+                    reordered = '\t'.join(reordered)
+                    good_pred_mat.append(good_preds)
+                    reordered_mat.append(reordered)
             else:
                 good_pred_mat.append(r)
                 reordered_mat.append(r)
@@ -81,6 +85,9 @@ def filter(exg_paths, prolog, pred_file):
             if i % 100 == 0:
                 print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
                 # return preds_mat
+            if i == 22:
+                print(good_pred_mat)
+                exit()
     return good_pred_mat, reordered_mat
 
 def out(good_preds, reordered_preds, pred_file, clause, label):
@@ -111,12 +118,13 @@ def out(good_preds, reordered_preds, pred_file, clause, label):
         json.dump(log, w, indent=4)
     
 
-clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/no_cluster/alltac_rule.pl'
+clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/no_cluster2/alltac_rule.pl'
 pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:26:47/split8.eval'
 example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
 label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label'
-# label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc_3/5.label'
+all_predc = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/all_predc.pl'
+
 exg_paths = read_exg_paths(example_dir)
-prolog = read_clauses(clause_file, Prolog())
+prolog = read_clauses(clause_file, all_predc, Prolog())
 good_preds, reordered_preds = filter(exg_paths, prolog, pred_file)
 out(good_preds, reordered_preds, pred_file, clause_file, label)
