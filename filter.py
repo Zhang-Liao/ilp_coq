@@ -33,17 +33,13 @@ def filter_tac(i, tac, exg_paths, prolog, good):
     # prolog = Prolog()
     # prolog.assertz('style_check(-singleton)') error ?
     prolog.consult(exg_paths[i])
-    try:
         # print(f'tac({i}, \"{tac}\")')
-        good.put(bool(list(prolog.query(f'tac({i}, \"{tac}\")'))))
-    except Exception as e:
+    good.put(bool(list(prolog.query(f'tac({i}, \"{tac}\")'))))
     # except:
         # TODO: better solution instead of ignoring the error.
         # Clause may contain predicates that not in the example. Now, I
         # treat it as failure and continue. Add all predicates initially
         # seems cause warnings in Prolog.
-        print(e)
-        good.put(False)
 
 def filter_row(i, r, exg_paths, prolog):
     good_preds = []
@@ -72,12 +68,11 @@ def filter(exg_paths, prolog, pred_file):
         for r in f:
             r = r.strip()
             if utils.not_lemma(r) :
-                if i == 21:
-                    good_preds, reordered = filter_row(i, r, exg_paths, prolog)
-                    good_preds = '\t'.join(good_preds)
-                    reordered = '\t'.join(reordered)
-                    good_pred_mat.append(good_preds)
-                    reordered_mat.append(reordered)
+                good_preds, reordered = filter_row(i, r, exg_paths, prolog)
+                good_preds = '\t'.join(good_preds)
+                reordered = '\t'.join(reordered)
+                good_pred_mat.append(good_preds)
+                reordered_mat.append(reordered)
             else:
                 good_pred_mat.append(r)
                 reordered_mat.append(r)
@@ -85,17 +80,14 @@ def filter(exg_paths, prolog, pred_file):
             if i % 100 == 0:
                 print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
                 # return preds_mat
-            if i == 22:
-                print(good_pred_mat)
-                exit()
     return good_pred_mat, reordered_mat
 
-def out(good_preds, reordered_preds, pred_file, clause, label):
+def out(good_preds, reordered_preds, f_pred, clause, label):
     now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
-    out_dir = os.path.join(os.path.dirname(pred_file), f'filter/{now}')
+    out_dir = os.path.join(os.path.dirname(f_pred), f'filter/{now}')
     good_dir = os.path.join(out_dir, 'good')
     os.makedirs(good_dir)
-    good = os.path.join(good_dir, os.path.basename(pred_file))
+    good = os.path.join(good_dir, os.path.basename(f_pred))
     with open(good, 'w') as w:
         for preds in good_preds:
             w.write(preds + '\n')
@@ -103,13 +95,13 @@ def out(good_preds, reordered_preds, pred_file, clause, label):
 
     reordered_dir = os.path.join(out_dir, 'reorder')
     os.makedirs(reordered_dir)
-    reordered = os.path.join(reordered_dir, os.path.basename(pred_file))
+    reordered = os.path.join(reordered_dir, os.path.basename(f_pred))
     with open(reordered, 'w') as w:
         for preds in reordered_preds:
             w.write(preds + '\n')
     acc.acc(reordered, label)
 
-    stat_filter.stat(good, label)
+    stat_filter.stat(good, label, f_pred)
 
     log = {
         'clause': clause,
