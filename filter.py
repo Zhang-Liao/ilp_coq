@@ -1,6 +1,7 @@
 import json
 import os
 
+import argparse
 from datetime import datetime
 from multiprocessing import Process
 from multiprocessing import Queue
@@ -110,13 +111,15 @@ def out(good_preds, reordered_preds, f_pred, clause, label):
         json.dump(log, w, indent=4)
     
 
-clause_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/no_cluster2/alltac_rule.pl'
-pred_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/06-27-2023-10:26:47/split8.eval'
-example_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split8/test_predc'
-label = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/ten_split/split8.label'
-all_predc = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_predc.pl'
+parser = argparse.ArgumentParser()
+parser.add_argument("--clause", type=str)
+parser.add_argument("--pred", type=str)
+parser.add_argument("--test", type=str)
+parser.add_argument("--label", type=str)
+parser.add_argument("--all_predc", type=str)
+opts = parser.parse_args()
 
-exg_paths = read_exg_paths(example_dir)
-prolog = read_clauses(clause_file, all_predc, Prolog())
-good_preds, reordered_preds = filter(exg_paths, prolog, pred_file)
-out(good_preds, reordered_preds, pred_file, clause_file, label)
+exg_paths = read_exg_paths(opts.test)
+prolog = read_clauses(opts.clause, opts.all_predc, Prolog())
+good_preds, reordered_preds = filter(exg_paths, prolog, opts.pred)
+out(good_preds, reordered_preds, opts.pred, opts.clause, opts.label)
