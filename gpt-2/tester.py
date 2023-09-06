@@ -3,9 +3,9 @@ import glob
 import os
 import sys
 
+from sklearn.metrics import accuracy_score
 import torch
 from time import ctime
-from sklearn.metrics import accuracy_score
 
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils

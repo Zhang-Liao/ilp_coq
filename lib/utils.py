@@ -42,6 +42,14 @@ def hyp_name(n):
         n = 'coq_' + n
     return f"\"{n}\""
 
+def pr_hyps_prop_predc(i, l, writer):
+    for ident, name, kind, idx in l:
+        ident = to_predc_name(ident)
+        name = hyp_name(name)
+        idx = hyp_idx(name, kind, idx)
+        if ident != 'coq_app':
+            writer.write(f"{ident}({i}, {name},{idx}).\n")
+
 def pr_hyps_predc(i, l, writer):
     for ident, name, kind, idx in l:
         ident = to_predc_name(ident)
@@ -53,19 +61,36 @@ def pr_hyps_predc(i, l, writer):
         elif ident != 'coq_app':
             writer.write(f"{ident}({i}, {name},{idx}).\n")
 
+def pr_goal_prop_predc(i, l, writer):
+    for ident, idx in l:
+        if ident != 'coq_app':
+            ident = to_predc_name(ident)
+            writer.write(f"{ident}({i},{goal_idx(idx)}).\n")
+
 def pr_goal_predc(i, l, writer):
     for ident, idx in l:
         if ident.startswith('coq_var_'):
-            # var = ident[8:]
             var = hyp_name(ident[8:])
             writer.write(f"goal_coq_var({i},{var},{goal_idx(idx)}).\n")
         elif ident != 'coq_app':
             ident = to_predc_name(ident)
             writer.write(f"{ident}({i},{goal_idx(idx)}).\n")
 
+def add_hyps_prop_predc(l, predc_set):
+    for ident, _, _, _ in l:
+        if ident != 'coq_app':
+            predc_set.add(to_predc_name(ident))
+    return predc_set
+
 def add_hyps_predc(l, predc_set):
     for ident, _, _, _ in l:
         if (ident != 'coq_app') & (not ident.startswith('coq_var')):
+            predc_set.add(to_predc_name(ident))
+    return predc_set
+
+def add_goal_prop_predc(l, predc_set):
+    for ident, _, in l:
+        if ident != 'coq_app':
             predc_set.add(to_predc_name(ident))
     return predc_set
 

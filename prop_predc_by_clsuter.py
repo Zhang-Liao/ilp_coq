@@ -7,10 +7,10 @@ from lib import utils
 cluster_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_pos.json'
 neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
-bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_auto.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg_dynamic'
+bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_prop.pl'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg4/prop'
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
-
+neg_ratio = 4
 
 def pr_mode(hyp_predc, goal_predc, writer, tac):
     writer.write(f":- modeh(1, tac(+nat, \"{tac}\")).\n")
@@ -32,14 +32,14 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
 
 
 def pr_hyps_predc(i, l, writer, predc):
-    utils.pr_hyps_predc(i, l, writer)
-    return utils.add_hyps_predc(l, predc)
+    utils.pr_hyps_prop_predc(i, l, writer)
+    return utils.add_hyps_prop_predc(l, predc)
 
 def pr_goal_predc(i, l, writer, predc):
-    utils.pr_goal_predc(i, l, writer)
-    return utils.add_goal_predc(l, predc)
+    utils.pr_goal_prop_predc(i, l, writer)
+    return utils.add_goal_prop_predc(l, predc)
 
-def pr_bias(w, n_neg):
+def pr_bias(w):
     with open(bias_file,'r') as r:
         for b in r:
             b = b.strip()
@@ -68,23 +68,12 @@ def pr_bk(poss, negs, fbk, tac):
                     pr_goal_predc(row_i, l['goal'], bk_w, set())
             row_i += 1
         pr_mode(hyp_predc, goal_predc, bk_w, tac)
-        pr_bias(bk_w, len(negs))
+        pr_bias(bk_w)
 
 def pr_exg_predc(exg, out, tac):
     with open(out, 'a') as writer:
         for e in exg:
             writer.write(f"tac({e}, \"{tac}\").\n")
-
-def neg_ratio(npos):
-    # return 2
-    if npos <= 1:
-        return 8
-    elif npos <= 2:
-        return 4
-    elif npos <= 4:
-        return 2
-    else:
-        return 1
 
 def flatten_neg_mat(mat):
     flat = []
@@ -97,7 +86,7 @@ def get_negs(neg_dict, poss, tac):
     negss = neg_dict[tac]
     needed_negs = []
     for pos in poss:
-        needed_negs += negss[str(pos)]
+        needed_negs += negss[str(pos)][:neg_ratio]
     needed_negs = list(set(needed_negs))
     needed_negs.sort()
     return needed_negs
