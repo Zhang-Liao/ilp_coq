@@ -5,15 +5,11 @@ import sys
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
-f_lemmas = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/lemmas'
-split_size = 1137
+split_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/rand_lemmas'
 dat_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/before_after'
-
-def load_split_lemmas():
-    with open(f_lemmas, 'r') as r:
-        lemmas = r.readlines()
-        # lemmas = [l.strip() for l in lemmas]
-    return lemmas
+out_dir = os.path.join(dat_dir, 'rand_train_test')
+if not os.path.exists(out_dir):
+    os.mkdir(out_dir)
 
 def load_file(f, dat):
     lemma_states = []
@@ -42,24 +38,24 @@ def load_dataset():
                 dat = load_file(path, dat)
     return dat
 
-def iter(lemmas, dat, i):
-    random.shuffle(lemmas)
-    train = lemmas[0:split_size]
-    test = lemmas[split_size:(2 * split_size)]
-    with open(f'data/json/predicate/20splits/train{i}.json', 'w') as w:
+def iter(train, test, dat, i):
+    with open(os.path.join(out_dir, f'train{i}.json'), 'w') as w:
         for lm in train:
             w.write(lm)
             w.writelines(dat[lm])
 
-    with open(f'data/json/predicate/20splits/test{i}.json', 'w') as w:
+    with open(os.path.join(out_dir, f'test{i}.json'), 'w') as w:
         for lm in test:
             w.write(lm)
             w.writelines(dat[lm])
 
-def iters(lemmas, dat):
-    for i in range(3):
-        iter(lemmas, dat, i)
+def iters(dat):
+    for i in range(20):
+        with open(os.path.join(split_dir, f'train{i}')) as r:
+            train = r.readlines()
+        with open(os.path.join(split_dir, f'test{i}')) as r:
+            test = r.readlines()
+        iter(train, test, dat, i)
 
-lemmas = load_split_lemmas()
 dat = load_dataset()
-iters(lemmas, dat)
+iters(dat)
