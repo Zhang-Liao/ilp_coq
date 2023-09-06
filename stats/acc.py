@@ -49,8 +49,9 @@ def acc(pred, label):
         'accs' : accs,
         'test' : label
     }
-    out_dir = os.path.dirname(pred)
-    with open(os.path.join(out_dir, 'acc.json'), 'w') as w:
+    # out_dir = os.path.dirname(pred)
+    stat = os.path.splitext(pred)[0] + '_stat.json' 
+    with open(stat, 'w') as w:
         json.dump(log, w, indent=4)
 
 
