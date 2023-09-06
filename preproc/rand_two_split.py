@@ -30,12 +30,15 @@ def load_file(f, dat):
         dat[lemma] = lemma_states
     return dat
 
+def valid(f):
+    return f.endswith('.json') & (('plugins/' in f) | ('theories/' in f))
+
 def load_dataset():
     dat = {}
     for root, _, files in os.walk(dat_dir):
         for file in files:
-            if file.endswith('.json'):
-                path = os.path.join(root, file)
+            path = os.path.join(root, file)
+            if valid(path):
                 dat = load_file(path, dat)
     return dat
 
