@@ -76,18 +76,12 @@ def run_cluster(exgs):
     feats = feat_encoder.transform(feats)
     kmeans = KMeans(n_clusters=calculate_n(len(labels)), random_state= 0, n_init="auto")
     kmeans.fit(feats)
-    num_class = len(set(kmeans.labels_))
+    num_class = max(kmeans.labels_) + 1
     clusters = init_clusters(num_class)
-    # print('zip(list(kmeans.labels_), labels)', list(zip(list(kmeans.labels_), labels)))
     for i_class, i_row in zip(list(kmeans.labels_), labels):
-        try:
-            clusters[i_class].append(i_row)
-        except Exception as e:
-            print(e)
-            print('labels', labels)
-            print(clusters)
-            exit(0)
+        clusters[i_class].append(i_row)
     clusters = split_clusters(clusters)
+    clusters = [c != [] for c in clusters]
     return clusters
 
 def cluster_by_tacs(dat):
@@ -115,6 +109,6 @@ dat = loader(opts.feat, opts.label)
 cluster = cluster_by_tacs(dat)
 root, ext = os.path.splitext(opts.feat)
 
-with open(root + '_pos2.json', 'w') as w:
+with open(root + '_pos.json', 'w') as w:
     json.dump(cluster, w)
 

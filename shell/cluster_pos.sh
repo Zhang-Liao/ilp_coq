@@ -4,3 +4,5 @@ for i in {0..19}
 do
     (python cluster_pos.py --feat $dir/train$i.feat --label $dir/train$i.label)&
 done
+
+# python cluster_pos.py --feat $dir/split0.feat --label $dir/split0.label
