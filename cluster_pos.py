@@ -2,6 +2,7 @@
 import json
 import os
 
+import argparse
 import joblib
 import numpy as np
 from sklearn.cluster import KMeans
@@ -11,7 +12,7 @@ from lib import utils
 
 MAX_CLUSTER_LEN = 10
 
-def loader(label_f, feat_f):
+def loader(feat_f, label_f):
     labels = []
     feats = []
     with open(label_f, 'r') as reader:
@@ -79,7 +80,13 @@ def run_cluster(exgs):
     clusters = init_clusters(num_class)
     # print('zip(list(kmeans.labels_), labels)', list(zip(list(kmeans.labels_), labels)))
     for i_class, i_row in zip(list(kmeans.labels_), labels):
-        clusters[i_class].append(i_row)
+        try:
+            clusters[i_class].append(i_row)
+        except Exception as e:
+            print(e)
+            print('labels', labels)
+            print(clusters)
+            exit(0)
     clusters = split_clusters(clusters)
     return clusters
 
@@ -92,15 +99,21 @@ def cluster_by_tacs(dat):
     return cluster
 
 
-feat_encoder = joblib.load('/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/feat_encoder.gz')
-feat_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000.feat"
-label_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/1000.label"
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--feat", type=str)
+parser.add_argument("--label", type=str)
+opts = parser.parse_args()
+
+feat_encoder = joblib.load('/home/zhangliao/ilp_out_coq/ilp_out_coq/data/feat_encoder.gz')
+# feat_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_7.feat"
+# label_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_7.label"
 
 assert(isinstance(feat_encoder, MultiLabelBinarizer))
 
-dat = loader(label_f, feat_f)
+dat = loader(opts.feat, opts.label)
 cluster = cluster_by_tacs(dat)
-root, ext = os.path.splitext(feat_f)
+root, ext = os.path.splitext(opts.feat)
 
 with open(root + '_pos2.json', 'w') as w:
     json.dump(cluster, w)
