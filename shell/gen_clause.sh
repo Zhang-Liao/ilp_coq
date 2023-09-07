@@ -12,11 +12,12 @@ loop_gen() {
 }
 
 export -f loop_gen
-dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg4/prop
+dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg10/prop
 
-# find $dir -name "*.b" | parallel python init_noise.py --file {}
+find $dir -name "*.b" | parallel python init_noise.py --file {}
 find $dir -name "*_rule.pl" | parallel rm {}
-time find $dir -name "*.pl" | parallel -j 40 timeout 15m bash -c loop_gen
+time find $dir -name "*.pl" | parallel --timeout 30m -j 40 bash -c loop_gen
+# time find $dir -name "*.pl" | parallel -j 40 timeout 15m bash -c loop_gen
 echo ":- style_check(-singleton)." > tmp
 find $dir -name "*_rule.pl" | xargs -i cat {} >> tmp
 mv tmp $dir/alltac_rule.pl
