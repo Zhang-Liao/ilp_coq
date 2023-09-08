@@ -1,16 +1,18 @@
 import json
 import os
 
+import argparse
+
 from lib import utils
 
 
 cluster_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_pos.json'
 neg_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_neg.json'
 dat_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/split0.json'
-bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
-out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg4/rel'
+bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias_rel1.pl'
+out_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg10/rel1'
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
-neg_ratio = 4
+neg_ratio = 10
 
 def pr_mode(hyp_predc, goal_predc, writer, tac):
     writer.write(f":- modeh(1, tac(+nat, \"{tac}\")).\n")
@@ -32,12 +34,12 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
 
 
 def pr_hyps_predc(i, l, writer, predc):
-    utils.pr_hyps_predc(i, l, writer)
-    return utils.add_hyps_predc(l, predc)
+    utils.pr_hyps_prop_predc(i, l, writer)
+    return utils.add_hyps_prop_predc(l, predc)
 
 def pr_goal_predc(i, l, writer, predc):
-    utils.pr_goal_predc(i, l, writer)
-    return utils.add_goal_predc(l, predc)
+    utils.pr_goal_prop_predc(i, l, writer)
+    return utils.add_goal_prop_predc(l, predc)
 
 def pr_bias(w):
     with open(bias_file,'r') as r:
@@ -110,6 +112,7 @@ def init_files(tac):
         if os.path.exists(f):
             os.remove(f)
     return bk_file, pos_file, neg_file, run_file, rule_file
+
 
 with open(tac2id_file, 'r') as r:
     tac2id = json.load(r)
