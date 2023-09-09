@@ -5,7 +5,9 @@ import argparse
 
 from lib import utils
 
-bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
+# bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
+bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/prop_bias.pl'
+
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
 neg_ratio = 10
 
@@ -27,14 +29,21 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
     for p in hyp_predc:
         writer.write(f"hyp_predc({p}).\n")
 
+def pr_hyps_predc(i, l, writer, predc, prop):
+    if prop:
+        utils.pr_hyps_prop_predc(i, l, writer)
+        return utils.add_hyps_prop_predc(l, predc)
+    else:
+        utils.pr_hyps_predc(i, l, writer)
+        return utils.add_hyps_predc(l, predc)
 
-def pr_hyps_predc(i, l, writer, predc):
-    utils.pr_hyps_predc(i, l, writer)
-    return utils.add_hyps_predc(l, predc)
-
-def pr_goal_predc(i, l, writer, predc):
-    utils.pr_goal_predc(i, l, writer)
-    return utils.add_goal_predc(l, predc)
+def pr_goal_predc(i, l, writer, predc, prop):
+    if prop:
+        utils.pr_goal_prop_predc(i, l, writer)
+        return utils.add_goal_prop_predc(l, predc)
+    else:
+        utils.pr_goal_predc(i, l, writer)
+        return utils.add_goal_predc(l, predc)
 
 def pr_bias(w):
     with open(bias_file,'r') as r:
@@ -43,7 +52,7 @@ def pr_bias(w):
             w.write(b + '\n')
     w.write(f':- set(noise, 0).\n')
 
-def pr_bk(poss, negs, fbk, tac, dat_file):
+def pr_bk(poss, negs, fbk, tac, dat_file, prop):
     hyp_predc = set()
     goal_predc = set()
     with (
@@ -116,6 +125,7 @@ parser.add_argument("--neg", type=str)
 parser.add_argument("--cluster", type=str)
 parser.add_argument("--dat", type=str)
 parser.add_argument("--out", type=str)
+parser.add_argument("--prop", action=argparse.BooleanOptionalAction)
 
 opts = parser.parse_args()
 
@@ -136,15 +146,15 @@ with open(opts.cluster, 'r') as r:
             bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac, opts.out)
             if not os.path.exists(opts.out):
                 os.makedirs(opts.out)
-            pr_bk(poss, negs, bk_file, safe_tac, opts.dat)
+            pr_bk(poss, negs, bk_file, safe_tac, opts.dat, opts.prop)
             pr_exg_predc(poss, pos_file, safe_tac)
             pr_exg_predc(negs, neg_file, safe_tac)
             pr_run(tac, opts.out, run_file, rule_file)
 
 log = {
-    'bias_file': '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl',
-    'tac2id_file' : '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json',
-    'neg_ratio' : 10,
+    'bias_file' : bias_file,
+    'tac2id_file' : tac2id_file,
+    'neg_ratio' : neg_ratio,
     'options' : opts
 }
 with open(os.path.join(opts.out, 'log.json'), 'w') as w:
