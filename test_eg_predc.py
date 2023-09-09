@@ -11,9 +11,24 @@ def init_out(i, out_dir):
         os.remove(out)
     return out
 
+def pr_predc(row_i, l, w, prop):
+    if prop:
+        utils.pr_goal_prop_predc(row_i, l['goal'], w)
+        goal_predc = utils.add_goal_prop_predc(l['goal'], set())
+        utils.pr_hyps_prop_predc(row_i, l['hyps'], w)
+        hyp_predc = utils.add_hyps_prop_predc(l['hyps'], set())
+    else:
+        utils.pr_goal_predc(row_i, l['goal'], w)
+        goal_predc = utils.add_goal_predc(l['goal'], set())
+        utils.pr_hyps_predc(row_i, l['hyps'], w)
+        hyp_predc = utils.add_hyps_predc(l['hyps'], set())
+    return goal_predc, hyp_predc
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--test", type=str)
 parser.add_argument("--out", type=str)
+parser.add_argument("--prop", action=argparse.BooleanOptionalAction)
+
 opts = parser.parse_args()
 
 if not os.path.exists(opts.out):
@@ -28,10 +43,7 @@ with open(opts.test, 'r') as r:
             out = init_out(row_i, opts.out)
             with open(out, 'a') as w:
                 w.write(':-style_check(-discontiguous).\n')
-                utils.pr_goal_predc(row_i, l['goal'], w)
-                goal_predc = utils.add_goal_predc(l['goal'], set())
-                utils.pr_hyps_predc(row_i, l['hyps'], w)
-                hyp_predc = utils.add_hyps_predc(l['hyps'], set())
+                goal_predc, hyp_predc = pr_predc(row_i, l, w, opts.prop)
                 for p in goal_predc:
                     w.write(f"goal_predc({p}).\n")
                 for p in hyp_predc:
