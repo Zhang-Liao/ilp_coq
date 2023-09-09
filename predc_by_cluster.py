@@ -66,12 +66,12 @@ def pr_bk(poss, negs, fbk, tac, dat_file, prop):
             if utils.not_lemma(l):
                 if row_i in poss:
                     l = json.loads(l)
-                    hyp_predc = pr_hyps_predc(row_i, l['hyps'], bk_w, hyp_predc)
-                    goal_predc = pr_goal_predc(row_i, l['goal'], bk_w, goal_predc)
+                    hyp_predc = pr_hyps_predc(row_i, l['hyps'], bk_w, hyp_predc, prop)
+                    goal_predc = pr_goal_predc(row_i, l['goal'], bk_w, goal_predc, prop)
                 elif row_i in negs:
                     l = json.loads(l)
-                    pr_hyps_predc(row_i, l['hyps'], bk_w, set())
-                    pr_goal_predc(row_i, l['goal'], bk_w, set())
+                    pr_hyps_predc(row_i, l['hyps'], bk_w, set(), prop)
+                    pr_goal_predc(row_i, l['goal'], bk_w, set(), prop)
             row_i += 1
         pr_mode(hyp_predc, goal_predc, bk_w, tac)
         pr_bias(bk_w)
@@ -155,7 +155,7 @@ log = {
     'bias_file' : bias_file,
     'tac2id_file' : tac2id_file,
     'neg_ratio' : neg_ratio,
-    'options' : opts
+    'options' : opts.__dict__
 }
 with open(os.path.join(opts.out, 'log.json'), 'w') as w:
     json.dump(log, w, indent=4)
