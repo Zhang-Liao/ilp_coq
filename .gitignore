@@ -19,3 +19,5 @@ _build/
 *.pl.log
 file_order
 *.log
+timelog
+*.pt
