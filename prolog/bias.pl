@@ -77,7 +77,7 @@ eq_subterm(N, Idx1, Idx2) :-
 :- set(clauselength, 32).
 
 :- set(evalfn, user).
-:- set(nodes, 8000).
+% :- set(nodes, 8000).
 
 only_head(tac(_N, _T)).
 
