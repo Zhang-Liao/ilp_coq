@@ -37,7 +37,7 @@ def cal_confident(dict):
         # stats.norm.interval(alpha=0.95,
         #          loc=np.mean(dat),
         #          scale=stats.sem(dat))
-        dict[tac]['95confident'] =stats.norm.interval(alpha=0.95, loc=np.mean(dat), scale=stats.sem(dat))
+        # dict[tac]['95confident'] =stats.norm.interval(alpha=0.95, loc=np.mean(dat), scale=stats.sem(dat))
         neg = stat['FN'] + stat['TN']
         if neg == 0:
             dict[tac]['false_neg'] = 0
@@ -49,7 +49,7 @@ def cal_confident(dict):
 def stat(f_good, f_label, f_pred):
     labels, goodss, predss = load(f_good, f_label, f_pred)
 
-    confident = {}
+    tac_stats = {}
     false_pos = 0
     false_neg = 0
     n_label = 0
@@ -61,21 +61,21 @@ def stat(f_good, f_label, f_pred):
             # print(label, goods)
             preds = preds[:10]
             for p in preds:
-                if p not in confident.keys():
-                    confident[p] = {'num': 1, 'TP' : 0, 'TN' : 0, 'FP' : 0, 'FN' : 0}
+                if p not in tac_stats.keys():
+                    tac_stats[p] = {'num': 1, 'TP' : 0, 'TN' : 0, 'FP' : 0, 'FN' : 0}
                 else:
-                    confident[p]['num'] += 1
+                    tac_stats[p]['num'] += 1
                     
                 is_good = p in goods
                 is_correct = (p == label)
                 if is_good & is_correct:
-                    confident[p]['TP'] += 1
+                    tac_stats[p]['TP'] += 1
                 elif is_good & (not is_correct):
-                    confident[p]['FP'] += 1
+                    tac_stats[p]['FP'] += 1
                 elif (not is_good) & (not is_correct):
-                    confident[p]['TN'] += 1
+                    tac_stats[p]['TN'] += 1
                 else:
-                    confident[p]['FN'] += 1    
+                    tac_stats[p]['FN'] += 1    
             if label in preds:
                 n_in_pred += 1
                 if label not in goods:
@@ -84,9 +84,9 @@ def stat(f_good, f_label, f_pred):
             false_pos += len(bad)
         row_i += 1
 
-    items = confident.items()
-    confident = dict(sorted(items, key=lambda x:x[1]['num'], reverse= True))
-    confident = cal_confident(confident)
+    items = tac_stats.items()
+    tac_stats = dict(sorted(items, key=lambda x:x[1]['num'], reverse= True))
+    # confident = cal_confident(confident)
     # print(confident)
     print('false neg', false_neg)
     print('n_in_pred', n_in_pred)
@@ -98,8 +98,10 @@ def stat(f_good, f_label, f_pred):
     log = {
         'false_neg' : false_neg,
         'false_pos' : false_pos,
-        'confident' : confident,
+        # 'confident' : confident,
     }
+    log = log | tac_stats
+    # for tac, stat in tac_stats.ite
     out_dir = os.path.dirname(f_good)
     with open(os.path.join(out_dir, 'stat_filter.json'), 'w') as w:
         json.dump(log, w, indent=4)
