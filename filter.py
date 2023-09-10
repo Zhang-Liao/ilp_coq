@@ -51,11 +51,15 @@ def filter_row(i, r, exg_paths, prolog):
         safe_pred = utils.safe_tac(pred)
         child = Process(target=filter_tac, args=(i, safe_pred, exg_paths, prolog, good,))
         child.start()
-        child.join()
-        if good.get():
+        child.join(timeout = 5)
+        child.terminate()
+        if child.exitcode == None:
             good_preds.append(pred)
         else:
-            bad_preds.append(pred)
+            if good.get():
+                good_preds.append(pred)
+            else:
+                bad_preds.append(pred)
     new_preds = good_preds + bad_preds
     # print(new_preds)
     return good_preds, new_preds
@@ -85,7 +89,7 @@ def filter(exg_paths, prolog, pred_file):
 
 def out(good_preds, reordered_preds, f_pred, clause, label):
     now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
-    out_dir = os.path.join(os.path.dirname(f_pred), f'filter/{now}')
+    out_dir = os.path.join(f_pred[:-5], f'filter/{now}')
     good_dir = os.path.join(out_dir, 'good')
     os.makedirs(good_dir)
     good = os.path.join(good_dir, os.path.basename(f_pred))
@@ -118,6 +122,8 @@ parser.add_argument("--test", type=str)
 parser.add_argument("--label", type=str)
 parser.add_argument("--all_predc", type=str)
 opts = parser.parse_args()
+
+assert(opts.pred.endswith('.eval'))
 
 exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.all_predc, Prolog())
