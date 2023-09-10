@@ -6,7 +6,7 @@ import argparse
 from lib import utils
 
 # bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
-bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/prop_bias.pl'
+# bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/rel1_bias.pl'
 
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
 neg_ratio = 10
@@ -45,18 +45,19 @@ def pr_goal_predc(i, l, writer, predc, prop):
         utils.pr_goal_predc(i, l, writer)
         return utils.add_goal_predc(l, predc)
 
-def pr_bias(w):
-    with open(bias_file,'r') as r:
+def pr_bias(w, bias):
+    with open(bias,'r') as r:
         for b in r:
             b = b.strip()
             w.write(b + '\n')
     w.write(f':- set(noise, 0).\n')
 
-def pr_bk(poss, negs, fbk, tac, dat_file, prop):
+# def pr_bk(poss, negs, fbk, tac, dat_file, prop, bias):
+def pr_bk(poss, negs, fbk, tac, opts):
     hyp_predc = set()
     goal_predc = set()
     with (
-        open(dat_file, 'r') as reader,
+        open(opts.dat_file, 'r') as reader,
         open(fbk, 'a') as bk_w,
         ):
         bk_w.write(':-style_check(-discontiguous).\n')
@@ -66,15 +67,15 @@ def pr_bk(poss, negs, fbk, tac, dat_file, prop):
             if utils.not_lemma(l):
                 if row_i in poss:
                     l = json.loads(l)
-                    hyp_predc = pr_hyps_predc(row_i, l['hyps'], bk_w, hyp_predc, prop)
-                    goal_predc = pr_goal_predc(row_i, l['goal'], bk_w, goal_predc, prop)
+                    hyp_predc = pr_hyps_predc(row_i, l['hyps'], bk_w, hyp_predc, opts.prop)
+                    goal_predc = pr_goal_predc(row_i, l['goal'], bk_w, goal_predc, opts.prop)
                 elif row_i in negs:
                     l = json.loads(l)
-                    pr_hyps_predc(row_i, l['hyps'], bk_w, set(), prop)
-                    pr_goal_predc(row_i, l['goal'], bk_w, set(), prop)
+                    pr_hyps_predc(row_i, l['hyps'], bk_w, set(), opts.prop)
+                    pr_goal_predc(row_i, l['goal'], bk_w, set(), opts.prop)
             row_i += 1
         pr_mode(hyp_predc, goal_predc, bk_w, tac)
-        pr_bias(bk_w)
+        pr_bias(bk_w, opts.bias)
 
 def pr_exg_predc(exg, out, tac):
     with open(out, 'a') as writer:
@@ -126,6 +127,7 @@ parser.add_argument("--cluster", type=str)
 parser.add_argument("--dat", type=str)
 parser.add_argument("--out", type=str)
 parser.add_argument("--prop", action=argparse.BooleanOptionalAction)
+parser.add_argument("--bias", type=str)
 
 opts = parser.parse_args()
 
@@ -146,13 +148,12 @@ with open(opts.cluster, 'r') as r:
             bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac, opts.out)
             if not os.path.exists(opts.out):
                 os.makedirs(opts.out)
-            pr_bk(poss, negs, bk_file, safe_tac, opts.dat, opts.prop)
+            pr_bk(poss, negs, bk_file, safe_tac, opts)
             pr_exg_predc(poss, pos_file, safe_tac)
             pr_exg_predc(negs, neg_file, safe_tac)
             pr_run(tac, opts.out, run_file, rule_file)
 
 log = {
-    'bias_file' : bias_file,
     'tac2id_file' : tac2id_file,
     'neg_ratio' : neg_ratio,
     'options' : opts.__dict__
