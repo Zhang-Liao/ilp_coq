@@ -21,12 +21,12 @@ def cal_accs(ranks, total):
         accs.append(acc)
     return accs
 
-def acc(pred, label):
+def acc(pred, f_label):
     with open(pred, 'r') as f:
         lines1 = f.read().splitlines()
     lines1 = [l.strip().split('\t') for l in lines1]
 
-    with open(label, 'r') as f:
+    with open(f_label, 'r') as f:
         lines2 = f.read().splitlines()
     lines2 = [l.strip() for l in lines2]
 
@@ -47,7 +47,7 @@ def acc(pred, label):
 
     log = {
         'accs' : accs,
-        'test' : label
+        'test' : f_label
     }
     # out_dir = os.path.dirname(pred)
     stat = os.path.splitext(pred)[0] + '_stat.json' 
