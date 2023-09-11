@@ -81,7 +81,7 @@ def run_cluster(exgs):
     for i_class, i_row in zip(list(kmeans.labels_), labels):
         clusters[i_class].append(i_row)
     clusters = split_clusters(clusters)
-    clusters = [c != [] for c in clusters]
+    clusters = [c for c in clusters if c != []]
     return clusters
 
 def cluster_by_tacs(dat):

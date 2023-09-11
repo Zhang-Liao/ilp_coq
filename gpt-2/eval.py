@@ -1,4 +1,5 @@
 import os
+import sys
 from time import ctime
 
 from transformers import GPT2LMHeadModel
@@ -18,15 +19,15 @@ generate_args = {
 }
 
 device = 'cuda'
-epochs = 25
+epochs = 2
 tac_len = 50
 warm_ratio = 0.2
 eta = 3e-4
 batch_size = 32
 model_name = 'gpt2' 
-data_dir = '/home/zhanglia/tac_seman/gpt-2/data/2023/tree_diff/id_hash/ten_split'
-train_f = 'split0_7.json'
-test_f = 'split8.json'
+data_dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/before_after/rand_train_test/'
+train_f = '1000.json'
+test_f = '1000_test.json'
 train_path = os.path.join(data_dir, train_f)
 test_path = os.path.join(data_dir, test_f)
 
@@ -60,9 +61,9 @@ def eval(train_dataset, tokenizer, test_dataset, model):
     model = model.to(device)
     trainer_ = init_trainier(train_dataset, tokenizer, model)
     test_loader = DataLoader(test_dataset, batch_size = 1, shuffle = False) 
-    tester_ = tester.Test(model, test_loader, tokenizer, tac_len, max_epochs = epochs, generate_args = generate_args, log = log)
+    tester_ = tester.Test(model, test_loader, tokenizer, tac_len, device, max_epochs = epochs, generate_args = generate_args, log = log)
     train_loss = []
-    test_acc = []
+    valid_losss = []
     for epoch in range(epochs):
         print(f"EPOCH {epoch} started" + '=' * 30)
         trainer_.epoch = epoch
@@ -73,16 +74,16 @@ def eval(train_dataset, tokenizer, test_dataset, model):
         tester_.model = trainer_.model
         tester_.epoch = epoch
         print ("Start testing:", ctime())
-        tt_acc = tester_.test()
-        test_acc.append(tt_acc)
+        valid_loss = tester_.valid()
+        valid_losss.append(valid_loss)
         print ("End testing:", ctime())
         
     log['train_loss'] = train_loss
-    log['test_acc'] = test_acc     
-    with open(os.path.join(tester_.pred_folder, 'eval.json'), 'w') as w:
+    log['valid_losss'] = valid_losss     
+    with open(os.path.join(tester_.model_folder, 'eval.json'), 'w') as w:
         json.dump(log, w, indent=4)          
     print('train_loss', train_loss)
-    print('test_acc', test_acc)     
+    print('valid_losss', valid_losss)     
     
 def init_truncate():
     return 'left'

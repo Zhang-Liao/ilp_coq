@@ -57,7 +57,7 @@ def pr_bk(poss, negs, fbk, tac, opts):
     hyp_predc = set()
     goal_predc = set()
     with (
-        open(opts.dat_file, 'r') as reader,
+        open(opts.dat, 'r') as reader,
         open(fbk, 'a') as bk_w,
         ):
         bk_w.write(':-style_check(-discontiguous).\n')

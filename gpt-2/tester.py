@@ -8,46 +8,35 @@ import torch
 from time import ctime
 
 sys.path.append(os.path.dirname(sys.path[0]))
-from lib import utils
 from loader import *
 
 class Test:
-    def __init__(self, model, loader, tokenizer, tac_len, max_epochs = None, output_suffix = [], generate_args = None, log = {}):
+    def __init__(self, model, loader, tokenizer, tac_len, device, max_epochs = None, generate_args = None, log = {}):
         self.model = model 
         self.epoch = 0
         self.loader = loader 
         self.tokenizer = tokenizer
         self.max_epochs = max_epochs
         self.tac_len = tac_len
-        self.best_acc = -1
-        self.smallest_loss = 1000
+        self.lowerest_loss = float('+inf')
+        self.lowerest_loss = 1000
         self.generate_args = generate_args
         self.log = log    
         curDT = datetime.now()
         date_time = curDT.strftime("%m-%d-%Y-%H:%M:%S")
 
-        self.pred_folder = os.path.join('pred', str(self.task), str(self.loader.dataset.feat), date_time)
+        self.pred_folder = os.path.join('pred', date_time)
 
-        self.model_folder = os.path.join("trained_model", str(self.task), str(self.loader.dataset.feat), date_time, *output_suffix)
-
+        self.model_folder = os.path.join("trained_gpt", date_time)
+        os.mkdir(self.model_folder)
         self.log['model_folder'] = self.model_folder
         self.log['acc'] = []
+        self.device = device
 
-    
-    def shift_preds(self, k, preds):
-        lemma_preds = []
-        preds_ = []
-        for p in preds:
-            if utils.lemma_delimiter in p:
-                preds_ += utils.shift_lemma_preds(k, lemma_preds)
-                lemma_preds = []
-                preds_.append(p)
-            else:
-                lemma_preds.append(p)
-        preds_ += utils.shift_lemma_preds(k, lemma_preds)
-        return preds_
+    def save_model(self):
+        curDT = datetime.now()
+        date_time = curDT.strftime("%m-%d-%Y-%H:%M:%S")
 
-    def save_model(self, date_time):
         if not os.path.exists(self.model_folder):
             os.makedirs(self.model_folder)
         
@@ -60,22 +49,14 @@ class Test:
 
         torch.save(self.model.state_dict(), os.path.join(model_folder, f"e{self.epoch}.pt"))
 
-    def output(self, preds_lemma):
+    # def output(self, preds_lemma):    
+    #     pred_folder = os.path.join(self.pred_folder, date_time)
+        # pred_file = os.path.join(pred_folder, f"e{self.epoch}.pred")
+        # os.makedirs(pred_folder)
 
-        curDT = datetime.now()
-        date_time = curDT.strftime("%m-%d-%Y-%H:%M:%S")
-        
-        self.save_model(date_time)
-    
-        pred_folder = os.path.join(self.pred_folder, date_time)
-        pred_file = os.path.join(pred_folder, f"e{self.epoch}.pred")
-        os.makedirs(pred_folder)
-        if isinstance(self.loader.dataset):
-          preds_lemma = self.shift_preds(self.loader.dataset.k, preds_lemma)
-
-        with open(pred_file, 'a') as f:
-            for p in preds_lemma:
-                f.write(f"{p}\n")   
+        # with open(pred_file, 'a') as f:
+        #     for p in preds_lemma:
+        #         f.write(f"{p}\n")   
 
 
     def to_tac (self, line):
@@ -135,8 +116,8 @@ class Test:
         acc = accuracy_score(preds, labels)
         self.log['acc'].append(acc)
 
-        if acc > self.best_acc:   
-            self.best_acc = acc
+        if acc > self.lowerest_loss:   
+            self.lowerest_loss = acc
             self.output(preds_lemma)
         return acc
 
@@ -149,3 +130,28 @@ class Test:
         with open(os.path.join(self.pred_folder, 'log.json'), 'w') as w:
             json.dump(self.log, w, indent=4)    
         return acc
+
+    def valid(self):
+        self.model.eval()
+        sum_loss = 0
+        lemma_num = 0
+        batch_num = 0
+        with torch.no_grad():            
+            for _, batch in enumerate(self.loader):
+                if 'lemma' in batch.keys():
+                    lemma_num += 1
+                else:
+                    batch_num += 1
+                    input_ids = self.tokenizer(batch['train'], truncation = 'longest_first', return_tensors = 'pt').to(self.device)
+                    # print('self.tokenizer.decode(input_ids)', self.tokenizer.batch_decode(input_ids['input_ids']))
+                    outputs = self.model(**input_ids, labels = input_ids['input_ids'])
+                    batch_loss, _ = outputs[:2]
+                    sum_loss += batch_loss.detach().data
+
+        avg_loss = sum_loss.item()/(batch_num - lemma_num)
+        print(f"avg loss {avg_loss}")
+        
+        if avg_loss < self.lowerest_loss:   
+            self.lowerest_loss = avg_loss
+            self.save_model()
+        return avg_loss

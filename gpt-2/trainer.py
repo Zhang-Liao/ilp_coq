@@ -1,7 +1,7 @@
 import torch
 
 class Train:
-    def __init__(self, model, loader, optimizer, scheduler, tokenizer, batch_size, device, task):
+    def __init__(self, model, loader, optimizer, scheduler, tokenizer, batch_size, device):
         self.model = model 
         self.epoch = 0
         self.loader = loader
@@ -10,7 +10,6 @@ class Train:
         self.tokenizer = tokenizer
         self.batch_size = batch_size
         self.device = device
-        self.task = task
         torch.manual_seed(4391)
 
     def train(self):
