@@ -5,8 +5,6 @@ import argparse
 
 from lib import utils
 
-# bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl'
-# bias_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/rel1_bias.pl'
 
 tac2id_file = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json'
 neg_ratio = 10
@@ -29,21 +27,21 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
     for p in hyp_predc:
         writer.write(f"hyp_predc({p}).\n")
 
-def pr_hyps_predc(i, l, writer, predc, prop):
-    if prop:
-        utils.pr_hyps_prop_predc(i, l, writer)
-        return utils.add_hyps_prop_predc(l, predc)
-    else:
+def pr_hyps_predc(i, l, writer, predc, var):
+    if var:
         utils.pr_hyps_predc(i, l, writer)
         return utils.add_hyps_predc(l, predc)
-
-def pr_goal_predc(i, l, writer, predc, prop):
-    if prop:
-        utils.pr_goal_prop_predc(i, l, writer)
-        return utils.add_goal_prop_predc(l, predc)
     else:
+        utils.pr_hyps_prop_predc(i, l, writer)
+        return utils.add_hyps_prop_predc(l, predc)
+
+def pr_goal_predc(i, l, writer, predc, var):
+    if var:
         utils.pr_goal_predc(i, l, writer)
         return utils.add_goal_predc(l, predc)
+    else:
+        utils.pr_goal_prop_predc(i, l, writer)
+        return utils.add_goal_prop_predc(l, predc)
 
 def pr_bias(w, bias):
     with open(bias,'r') as r:
@@ -67,12 +65,12 @@ def pr_bk(poss, negs, fbk, tac, opts):
             if utils.not_lemma(l):
                 if row_i in poss:
                     l = json.loads(l)
-                    hyp_predc = pr_hyps_predc(row_i, l['hyps'], bk_w, hyp_predc, opts.prop)
-                    goal_predc = pr_goal_predc(row_i, l['goal'], bk_w, goal_predc, opts.prop)
+                    hyp_predc = pr_hyps_predc(row_i, l['hyps'], bk_w, hyp_predc, opts.var)
+                    goal_predc = pr_goal_predc(row_i, l['goal'], bk_w, goal_predc, opts.var)
                 elif row_i in negs:
                     l = json.loads(l)
-                    pr_hyps_predc(row_i, l['hyps'], bk_w, set(), opts.prop)
-                    pr_goal_predc(row_i, l['goal'], bk_w, set(), opts.prop)
+                    pr_hyps_predc(row_i, l['hyps'], bk_w, set(), opts.var)
+                    pr_goal_predc(row_i, l['goal'], bk_w, set(), opts.var)
             row_i += 1
         pr_mode(hyp_predc, goal_predc, bk_w, tac)
         pr_bias(bk_w, opts.bias)
@@ -126,7 +124,7 @@ parser.add_argument("--neg", type=str)
 parser.add_argument("--cluster", type=str)
 parser.add_argument("--dat", type=str)
 parser.add_argument("--out", type=str)
-parser.add_argument("--prop", action=argparse.BooleanOptionalAction)
+parser.add_argument("--var", action=argparse.BooleanOptionalAction)
 parser.add_argument("--bias", type=str)
 
 opts = parser.parse_args()
