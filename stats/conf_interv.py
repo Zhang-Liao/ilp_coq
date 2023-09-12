@@ -10,7 +10,9 @@ def sub_without_last(a, b):
 
 
 def conf(l):
-    conf = stats.norm.interval(0.95, loc=np.mean(l), scale=stats.sem(l))
+    # print('l', l)
+    # print('np.mean(l)', np.mean(l, axis = 0))
+    conf = stats.norm.interval(0.95, loc=np.mean(l, axis = 0), scale=stats.sem(l))
     return (np.append(conf[0], [0]), np.append(conf[1], [0]))
 
 def to_sec(l):
@@ -35,7 +37,7 @@ rel3_acc = load_acc("log/rel3_acc.csv")
 
 # rel2_time = []
 
-
+knn_mean = np.mean(knn_acc, axis = 0)
 prop_to_knn = sub_without_last(prop_acc, knn_acc)
 rel1_to_knn = sub_without_last(rel1_acc, knn_acc)
 rel2_to_knn = sub_without_last(rel2_acc, knn_acc)
@@ -51,10 +53,13 @@ conf_rel2_knn = conf(rel2_to_knn)
 conf_rel3_knn = conf(rel3_to_knn)
 
 k = list(range(0, 10))
-plt.plot(k, conf_prop_knn[0], label="prop")
-plt.plot(k, conf_rel1_knn[0], label="position")
-plt.plot(k, conf_rel2_knn[0], label="position + eq")
-plt.plot(k, conf_rel3_knn[0], label="position + var")
+# print(knn_acc)
+# print('knn mean', np.mean(knn_acc))
+plt.plot(k, knn_mean, label="knn mean")
+plt.plot(k, np.add(conf_prop_knn[0], knn_mean), label="prop")
+plt.plot(k, np.add(conf_rel1_knn[0], knn_mean), label="position")
+plt.plot(k, np.add(conf_rel2_knn[0], knn_mean), label="position + eq")
+plt.plot(k, np.add(conf_rel3_knn[0], knn_mean), label="position + var")
 
 plt.xlabel("lower bound")
 plt.ylabel("%")
@@ -63,10 +68,11 @@ plt.legend()
 plt.savefig("lower_bound.pdf", bbox_inches="tight")
 
 plt.clf()
-plt.plot(k, conf_prop_knn[1], label="prop")
-plt.plot(k, conf_rel1_knn[1], label="position")
-plt.plot(k, conf_rel2_knn[1], label="position + eq")
-plt.plot(k, conf_rel3_knn[1], label="position + var")
+plt.plot(k, knn_mean, label="knn mean")
+plt.plot(k, np.add(conf_prop_knn[1], knn_mean), label="prop")
+plt.plot(k, np.add(conf_rel1_knn[1], knn_mean), label="position")
+plt.plot(k, np.add(conf_rel2_knn[1], knn_mean), label="position + eq")
+plt.plot(k, np.add(conf_rel3_knn[1], knn_mean), label="position + var")
 
 plt.xlabel("upper bound")
 plt.ylabel("%")
