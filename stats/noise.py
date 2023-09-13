@@ -1,9 +1,11 @@
 import os
 import re
 
-dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/ten_split/predc_auto/neg10/rel1'
+dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/rand_train_test/train/rel1/train0'
 
 total = 0
+
+dct = {}
 
 for filename in os.listdir(dir):
     if os.path.splitext(filename)[-1] == '.b':
@@ -13,6 +15,13 @@ for filename in os.listdir(dir):
         assert(re.match(':- set\(noise, [0-9]+\)\.\n', line))
         noise = line.split('set(noise,')[1]
         noise = int(noise.split(').')[0])
+       
         total += noise
+        if noise not in dct.keys():
+            dct[noise] = 1
+        else:
+            dct[noise] += 1
 
+dct = dict(sorted(dct.items(), key = lambda x : x[0]))
 print(total)
+print(dct)
