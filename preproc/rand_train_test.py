@@ -38,7 +38,7 @@ def load_dataset():
                 dat = load_file(path, dat)
     return dat
 
-def iter(train, test, dat, i):
+def iter(train, test, valid, dat, i):
     with open(os.path.join(out_dir, f'train{i}.json'), 'w') as w:
         for lm in train:
             w.write(lm)
@@ -49,13 +49,20 @@ def iter(train, test, dat, i):
             w.write(lm)
             w.writelines(dat[lm])
 
+    with open(os.path.join(out_dir, f'valid{i}.json'), 'w') as w:
+        for lm in valid:
+            w.write(lm)
+            w.writelines(dat[lm])
+
 def iters(dat):
     for i in range(20):
         with open(os.path.join(split_dir, f'train{i}')) as r:
             train = r.readlines()
         with open(os.path.join(split_dir, f'test{i}')) as r:
             test = r.readlines()
-        iter(train, test, dat, i)
+        with open(os.path.join(split_dir, f'valid{i}')) as r:
+            valid = r.readlines()
+        iter(train, test, valid, dat, i)
 
 dat = load_dataset()
 iters(dat)
