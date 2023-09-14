@@ -90,22 +90,19 @@ def flatten_neg_mat(mat):
 def get_negs(neg_dict, poss, tac):
     negss = neg_dict[tac]
     needed_negs = []
-    try:
-        for pos in poss:
-            needed_negs += negss[str(pos)][:neg_ratio]
-    except:
-        print('poss', poss)
+    for pos in poss:
+        needed_negs += negss[str(pos)][:neg_ratio]
     needed_negs = list(set(needed_negs))
     needed_negs.sort()
     return needed_negs
 
-def pr_run(tac, out, run, rule):
-    load_path = out + '/' + tac
+def pr_run(tac, run):
+    # load_path = out + '/' + tac
     with open (run, 'w') as w:
         w.write(':- [\'/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/aleph_orig\'].\n')
-        w.write(f':-read_all(\'{load_path}\').\n')
+        w.write(f':-read_all(\'{tac}\').\n')
         w.write(':-induce.\n')
-        w.write(f':-write_rules(\'{rule}\').\n')
+        w.write(f':-write_rules(\'{tac}_rule.pl\').\n')
         w.write(':-halt.')
 
 def init_files(tac, out_dir):
@@ -149,7 +146,7 @@ with open(opts.cluster, 'r') as r:
             pr_bk(poss, negs, bk_file, safe_tac, opts)
             pr_exg_predc(poss, pos_file, safe_tac)
             pr_exg_predc(negs, neg_file, safe_tac)
-            pr_run(tac, opts.out, run_file, rule_file)
+            pr_run(tac, run_file)
 
 log = {
     'tac2id_file' : tac2id_file,
