@@ -79,8 +79,8 @@ def map_exg_row_ids(dict, mp):
 parser = argparse.ArgumentParser()
 parser.add_argument("--feat", type=str)
 parser.add_argument("--label", type=str)
-
 opts = parser.parse_args()
+
 root, ext = os.path.splitext(opts.label)
 
 dict = {}

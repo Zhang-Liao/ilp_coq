@@ -26,7 +26,6 @@ if completed == 0:
     with open(bk, 'r') as r:
         dat = r.readlines()
 
-
     for i in range(len(dat)):
         line = dat[i]
         if re.match(':- set\(noise, [0-9]+\)\.\n', line):
@@ -36,6 +35,7 @@ if completed == 0:
             dat[i] = f':- set(noise, {noise}).\n'
             # dat[i] = f'set(noise, 1000)\n'
             break
+
     with open(bk, 'w') as w:
         w.writelines(dat)
 

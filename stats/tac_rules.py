@@ -1,5 +1,5 @@
 import json
-
+import re
 file = "data/json/predicate/rand_train_test/train/prop/5k/train0/alltac_rule.pl"
 out = '/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/log/prop_tacs.json'
 

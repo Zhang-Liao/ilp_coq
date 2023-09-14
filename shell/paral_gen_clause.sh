@@ -12,23 +12,23 @@ loop_gen() {
   echo 'finish' $0
 }
 
+gen() {
+  swipl $0 >/dev/null
+  echo 'finish' $0
+}
+
 export -f loop_gen
+export -f gen
 
-pred=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/rand_train_test
-test=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/rand_train_test/test/prop
-# all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_predc.pl
-all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_prop_predc.pl
-
-for i in {3..5}; do
-  dir=data/json/predicate/rand_train_test/train/rel2/train$i
-  # dir=data/json/predicate/rand_train_test/predc/neg10rel/train$i
- 
-  find $dir -name "*.b" | parallel python init_noise.py --file {}
-
+for i in {2..4}; do
+  dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/rand_train_test/train/rel1_local/train0/noise$i
+  # dir=data/json/predicate/rand_train_test/train/no_clst/rel1/train$i
+  # find $dir -name "*.b" | parallel python init_noise.py --file {}
+  cd $dir
   find $dir -name "*_rule.pl" | parallel rm {}
-  { time find $dir -name "*.pl" | parallel --timeout 20m -j 40 bash -c loop_gen ; } 2> $dir/timelog
+  # { time find $dir -name "*.pl" | parallel --timeout 20m -j 40 bash -c loop_gen ; } 2> $dir/timelog
+  { time find $dir -name "*.pl" | parallel --timeout 5m -j 40 bash -c gen ; } 2> $dir/timelog
   echo ":- style_check(-singleton)." > $dir/tmp
   find $dir -name "*_rule.pl" | xargs -i cat {} >> $dir/tmp
   mv $dir/tmp $dir/alltac_rule.pl
-  # (python filter.py --clause $dir/alltac_rule.pl --pred $pred/test$i.eval --test $test/test$i --label $pred/test$i.label --all_predc $all_predc)&
 done

@@ -23,5 +23,3 @@ for filename in os.listdir(dir):
             dct[noise] += 1
 
 dct = dict(sorted(dct.items(), key = lambda x : x[0]))
-print(total)
-print(dct)
