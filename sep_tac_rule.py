@@ -15,9 +15,9 @@ with open(f_tac2id, 'r') as r:
 tacid = tac2id[tac]
 
 rules = rule_d[tac]
-for i in range(len(rules)):
-    f_w = os.path.join(out, f'{tacid}_n{i}.pl')
-    body = rules[i]
-    rule = f'tac(A, \"{tac}\") :- {body}'
-    with open(f_w, 'w') as w:
-        w.write(rule)
+rule_ids = zip(rules, range(len(rules)))
+rules = [f'tac(A, \"{tac}\", {i}) :- {b}\n' for b, i in rule_ids]
+f_w = os.path.join(out, f'{tacid}.pl') 
+with open(f_w, 'w') as w:
+    w.write(":- style_check(-singleton).\n")    
+    w.writelines(rules)

@@ -18,7 +18,12 @@ def read_clauses(clause_file, all_predc, prolog):
     prolog.consult(all_predc)
     return prolog
 
-
+def all_cls_ids(cls):
+    with open(cls, 'r') as r:
+        dat = r.readlines()
+        dat = [r for r in dat if r.startswith('tac')]
+    return set(range(len(dat)))
+        
 def read_exg_paths(example_dir):
     exg_paths = {}
     for filename in os.listdir(example_dir):
@@ -37,11 +42,10 @@ def check_cls(i, tac, exg_paths, prolog, queue):
     soln = prolog.query(f'tac({i}, "{tac}", TacId)')
     # print(f'tac({i}, "{tac}", TacId)')
     # exit(0)
-    for s in soln:
-        print(s['TacId'])
+    acc = [s['TacId'] for s in soln]
     # queue.put(bool(list(prolog.query(f'tac({i}, "{tac}")'))))
-    # queue.put((acc, rej))
-
+    queue.put(set(acc))
+    return queue
 
 def filter_row(i, tac, exg_paths, prolog):
     queue = Queue()
@@ -53,14 +57,13 @@ def filter_row(i, tac, exg_paths, prolog):
     child.join(timeout=5)
     child.terminate()
     # exit()
-    # if child.exitcode == None:
-    #     acc, rej = [], [clss]
-    # else:
-    #     acc, rej = queue.get()
-    # return acc, rej
-    return 0, 0
+    if child.exitcode == None:
+        acc = []
+    else:
+        acc = queue.get()
+    return acc
 
-def filter(exg_paths, prolog, f_pred, f_label, tac):
+def filter(exg_paths, prolog, f_pred, f_label, tac, all_cls):
     stats = {}
     i = 0
     with open(f_pred, "r") as r_preds, open(f_label, "r") as r_labels:
@@ -70,17 +73,22 @@ def filter(exg_paths, prolog, f_pred, f_label, tac):
         pred = pred.strip()
         label = label.strip()
         if (utils.not_lemma(pred)) & (tac in pred):
-            acc, rej = filter_row(i, tac, exg_paths, prolog)
+            acc = filter_row(i, tac, exg_paths, prolog)
+            # rej = all_cls.difference(acc)
             if tac == label:
-                stats[i] = {"TN": [], "TP": acc, "FN": rej, "FP": []}
+                if acc == set():
+                    stats[i] = {"FN": True}
+                else:
+                    stats[i] = {"TP": acc}
             else:
-                stats[i] = {"TN": rej, "TP": [], "FN": [], "FP": acc}
+                if acc == set():
+                    stats[i] = {'TN': True}
+                else:
+                    stats[i] = {'FP': acc}
         i += 1
-        print('row', i)
         # print(stats)
         if i % 100 == 0:
             print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
-
     return stats
 
 
@@ -98,6 +106,10 @@ assert opts.pred.endswith(".eval")
 
 exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.all_predc, Prolog())
+all_cls = all_cls_ids(opts.clause)
+stats = filter(exg_paths, prolog, opts.pred, opts.label, opts.tac, all_cls)
+out = ''
 
-stats = filter(exg_paths, prolog, opts.pred, opts.label, opts.tac)
-print(stats)
+with open(out, 'w') as w:
+    json.dump(out)
+# print(stats)
