@@ -17,13 +17,10 @@ def read_all_predc(all_predc, prolog):
     return prolog
 
 
-def load_clauses(dir):
-    cls = []
-    for filename in os.listdir(dir):
-        if filename.endswith(PL_SUFFIX):
-            cls.append(os.path.join(dir, filename))
-    cls.sort()
-    return cls
+def read_clauses(clause_file, all_predc, prolog):
+    prolog.consult(clause_file)
+    prolog.consult(all_predc)
+    return prolog
 
 
 def read_exg_paths(example_dir):
@@ -78,7 +75,7 @@ def filter_row(i, tac, exg_paths, prolog, clss):
     return acc, rej
 
 
-def filter(exg_paths, prolog, f_pred, cls, f_label, tac):
+def filter(exg_paths, prolog, f_pred, f_label, tac):
     stats = {}
     i = 0
     with open(f_pred, "r") as r_preds, open(f_label, "r") as r_labels:
@@ -88,7 +85,7 @@ def filter(exg_paths, prolog, f_pred, cls, f_label, tac):
         pred = pred.strip()
         label = label.strip()
         if (utils.not_lemma(pred)) & (tac in pred):
-            acc, rej = filter_row(i, pred, exg_paths, prolog, cls)
+            acc, rej = filter_row(i, pred, exg_paths, prolog)
             if tac == label:
                 stats[i] = {"TN": [], "TP": acc, "FN": rej, "FP": []}
             else:
@@ -115,8 +112,7 @@ opts = parser.parse_args()
 assert opts.pred.endswith(".eval")
 
 exg_paths = read_exg_paths(opts.test)
-prolog = read_all_predc(opts.all_predc, Prolog())
-cls = load_clauses(opts.clause)
+prolog = read_clauses(opts.clause, opts.all_predc, Prolog())
 
-stats = filter(exg_paths, prolog, opts.pred, cls, opts.label, opts.tac)
+stats = filter(exg_paths, prolog, opts.pred, opts.label, opts.tac)
 print(stats)
