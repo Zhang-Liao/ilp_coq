@@ -4,8 +4,6 @@ import sys
 import json
 
 import argparse
-import numpy as np
-import scipy.stats as stats
 
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils

@@ -9,13 +9,11 @@ _build/
 *.sexpr
 *_bk.pl
 *_exg.pl
-*_bias.pl
 *.b
 *.f
 *.n
 **/data/**/*.pl
 **/data/*.pl
-*.rule.pl
 *.pl.log
 file_order
 *.log
