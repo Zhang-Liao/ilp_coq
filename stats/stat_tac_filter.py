@@ -1,5 +1,7 @@
 import json
 import os
+import sys
+sys.path.append(os.path.dirname(sys.path[0]))
 
 import argparse
 from datetime import datetime
@@ -10,12 +12,6 @@ from pyswip import Prolog
 from lib import utils
 
 PL_SUFFIX = ".pl"
-
-
-def read_all_predc(all_predc, prolog):
-    prolog.consult(all_predc)
-    return prolog
-
 
 def read_clauses(clause_file, all_predc, prolog):
     prolog.consult(clause_file)
@@ -36,44 +32,33 @@ def read_exg_paths(example_dir):
     return exg_paths
 
 
-def check_cls(i, tac, prolog, cls, good):
-    prolog.consult(cls)
-    good.put(bool(list(prolog.query(f'tac({i}, "{tac}")'))))
-
-
-def check_clss(i, tac, exg_paths, prolog, queue, clss):
+def check_cls(i, tac, exg_paths, prolog, queue):
     prolog.consult(exg_paths[i])
-    acc = []
-    rej = []
-    for j in range(len(clss)):
-        good = Queue()
-        child = Process(
-            target=check_cls,
-            args=(i, tac, prolog, clss[j], good),
-        )
-        child.start()
-        if good.get() == None:
-            acc.append(j)
-        else:
-            rej.append(j)
-    queue.put((acc, rej))
+    soln = prolog.query(f'tac({i}, "{tac}", TacId)')
+    # print(f'tac({i}, "{tac}", TacId)')
+    # exit(0)
+    for s in soln:
+        print(s['TacId'])
+    # queue.put(bool(list(prolog.query(f'tac({i}, "{tac}")'))))
+    # queue.put((acc, rej))
 
 
-def filter_row(i, tac, exg_paths, prolog, clss):
+def filter_row(i, tac, exg_paths, prolog):
     queue = Queue()
     child = Process(
-        target=check_clss,
-        args=(i, utils.safe_tac(tac), exg_paths, prolog, queue, clss),
+        target=check_cls,
+        args=(i, utils.safe_tac(tac), exg_paths, prolog, queue),
     )
     child.start()
     child.join(timeout=5)
     child.terminate()
-    if child.exitcode == None:
-        acc, rej = [], [clss]
-    else:
-        acc, rej = queue.get()
-    return acc, rej
-
+    # exit()
+    # if child.exitcode == None:
+    #     acc, rej = [], [clss]
+    # else:
+    #     acc, rej = queue.get()
+    # return acc, rej
+    return 0, 0
 
 def filter(exg_paths, prolog, f_pred, f_label, tac):
     stats = {}
@@ -85,14 +70,14 @@ def filter(exg_paths, prolog, f_pred, f_label, tac):
         pred = pred.strip()
         label = label.strip()
         if (utils.not_lemma(pred)) & (tac in pred):
-            acc, rej = filter_row(i, pred, exg_paths, prolog)
+            acc, rej = filter_row(i, tac, exg_paths, prolog)
             if tac == label:
                 stats[i] = {"TN": [], "TP": acc, "FN": rej, "FP": []}
             else:
                 stats[i] = {"TN": rej, "TP": [], "FN": [], "FP": acc}
         i += 1
-        print(i)
-        print(stats)
+        print('row', i)
+        # print(stats)
         if i % 100 == 0:
             print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
 
