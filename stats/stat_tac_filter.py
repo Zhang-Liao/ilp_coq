@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+
 sys.path.append(os.path.dirname(sys.path[0]))
 
 import argparse
@@ -13,17 +14,20 @@ from lib import utils
 
 PL_SUFFIX = ".pl"
 
+
 def read_clauses(clause_file, all_predc, prolog):
     prolog.consult(clause_file)
     prolog.consult(all_predc)
     return prolog
 
+
 def all_cls_ids(cls):
-    with open(cls, 'r') as r:
+    with open(cls, "r") as r:
         dat = r.readlines()
-        dat = [r for r in dat if r.startswith('tac')]
+        dat = [r for r in dat if r.startswith("tac")]
     return set(range(len(dat)))
-        
+
+
 def read_exg_paths(example_dir):
     exg_paths = {}
     for filename in os.listdir(example_dir):
@@ -42,10 +46,11 @@ def check_cls(i, tac, exg_paths, prolog, queue):
     soln = prolog.query(f'tac({i}, "{tac}", TacId)')
     # print(f'tac({i}, "{tac}", TacId)')
     # exit(0)
-    acc = [s['TacId'] for s in soln]
+    acc = [s["TacId"] for s in soln]
     # queue.put(bool(list(prolog.query(f'tac({i}, "{tac}")'))))
     queue.put(set(acc))
     return queue
+
 
 def filter_row(i, tac, exg_paths, prolog):
     queue = Queue()
@@ -60,8 +65,9 @@ def filter_row(i, tac, exg_paths, prolog):
     if child.exitcode == None:
         acc = []
     else:
-        acc = queue.get()
+        acc = list(queue.get())
     return acc
+
 
 def filter(exg_paths, prolog, f_pred, f_label, tac, all_cls):
     stats = {}
@@ -76,18 +82,17 @@ def filter(exg_paths, prolog, f_pred, f_label, tac, all_cls):
             acc = filter_row(i, tac, exg_paths, prolog)
             # rej = all_cls.difference(acc)
             if tac == label:
-                if acc == set():
-                    stats[i] = {"FN": True}
+                if acc == []:
+                    stats[i] = "FN"
                 else:
                     stats[i] = {"TP": acc}
             else:
-                if acc == set():
-                    stats[i] = {'TN': True}
+                if acc == []:
+                    stats[i] = "TN"
                 else:
-                    stats[i] = {'FP': acc}
+                    stats[i] = {"FP": acc}
         i += 1
-        # print(stats)
-        if i % 100 == 0:
+        if i % 1000 == 0:
             print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
     return stats
 
@@ -108,8 +113,8 @@ exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.all_predc, Prolog())
 all_cls = all_cls_ids(opts.clause)
 stats = filter(exg_paths, prolog, opts.pred, opts.label, opts.tac, all_cls)
-out = ''
+out = os.path.splitext(opts.clause)[0] + "_stat.json"
 
-with open(out, 'w') as w:
-    json.dump(out)
+with open(out, "w") as w:
+    json.dump(stats, w, indent=4)
 # print(stats)
