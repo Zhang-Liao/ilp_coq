@@ -6,6 +6,7 @@ from datetime import datetime
 from multiprocessing import Process
 from multiprocessing import Queue
 from pyswip import Prolog
+import shutil
 
 from lib import utils
 from stats import acc
@@ -90,8 +91,9 @@ def filter(exg_paths, prolog, pred_file):
 def out(good_preds, reordered_preds, f_pred, clause, label):
     now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
     out_dir = os.path.join(f_pred[:-5], f'filter/{now}')
-    good_dir = os.path.join(out_dir, 'good')
+    good_dir = os.path.join(out_dir, 'good')    
     os.makedirs(good_dir)
+    shutil.copy(clause, out_dir)
     good = os.path.join(good_dir, os.path.basename(f_pred))
     with open(good, 'w') as w:
         for preds in good_preds:
