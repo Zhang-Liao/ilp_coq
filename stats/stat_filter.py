@@ -4,6 +4,7 @@ import sys
 import json
 
 import argparse
+from sklearn.metrics import f1_score
 
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
@@ -30,17 +31,23 @@ def load(f_good, f_label, f_pred):
     return labels, goodss, predss
 
 
-def neg_predict_value(dict):
+def detail_stat(dict):
     for tac, stat in dict.items():
-        neg = stat["TN"] + stat["FN"]
-        all = neg + stat["TP"] + stat["FP"]
+        # neg = stat["TN"] + stat["FN"]
+        # all = neg + stat["TP"] + stat["FP"]
 
-        if neg == 0:
-            dict[tac]["npv"] = 1
-        else:
-            dict[tac]["npv"] = stat["TN"] / (stat["TN"] + stat["FN"])
+        # if neg == 0:
+        #     dict[tac]["npv"] = 1
+        # else:
+        #     dict[tac]["npv"] = stat["TN"] / (stat["TN"] + stat["FN"])
 
-        dict[tac]["tn_div_all"] = stat["TN"] / all
+        # dict[tac]["tn_div_all"] = stat["TN"] / all
+        pred = [1] * (stat['TP'] + stat['FP']) + [0] * (stat['TN'] + stat['FN'])
+        label = [1] * stat['TP'] + [0] * stat['FP'] + [0] * stat['TN'] + [1] * stat['FN']
+        # truth = dict[tac]['TP'] + dict[tac]['TN']
+        # false = stat["FP"] + stat["FN"]
+        f1 = f1_score(label, pred, average='binary', zero_division = 1)
+        dict[tac]['f1'] = f1
     return dict
 
 
@@ -70,7 +77,7 @@ def stat(f_good, f_label, f_pred):
 
     items = tac_stats.items()
     tac_stats = dict(sorted(items, key=lambda x: x[1]["num"], reverse=True))
-    tac_stats = neg_predict_value(tac_stats)
+    tac_stats = detail_stat(tac_stats)
     stats = tac_stats.values()
 
     truth_neg = sum([s["TN"] for s in stats])
