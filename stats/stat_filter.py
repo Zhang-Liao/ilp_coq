@@ -14,7 +14,7 @@ def round_f(acc):
     return round(acc * 100, 5)
 
 
-def load(f_good, f_label, f_pred):
+def load(f_good, f_label, f_pred, f_reorder):
     with open(f_label, "r") as f:
         labels = f.read().splitlines()
     labels = [l.strip() for l in labels]
@@ -27,8 +27,12 @@ def load(f_good, f_label, f_pred):
         predss = f.read().splitlines()
     predss = [l.strip().split("\t") for l in predss]
 
-    assert len(goodss) == len(labels)
-    return labels, goodss, predss
+    with open(f_reorder, "r") as f:
+        reorders = f.read().splitlines()
+    reorders = [l.strip().split("\t") for l in reorders]
+
+    assert (len(goodss) == len(labels)) & (len(reorders) == len(labels))
+    return labels, goodss, predss, reorders
 
 
 def detail_stat(dict):
@@ -42,17 +46,35 @@ def detail_stat(dict):
         #     dict[tac]["npv"] = stat["TN"] / (stat["TN"] + stat["FN"])
 
         # dict[tac]["tn_div_all"] = stat["TN"] / all
-        pred = [1] * (stat['TP'] + stat['FP']) + [0] * (stat['TN'] + stat['FN'])
-        label = [1] * stat['TP'] + [0] * stat['FP'] + [0] * stat['TN'] + [1] * stat['FN']
+        pred = [1] * (stat["TP"] + stat["FP"]) + [0] * (stat["TN"] + stat["FN"])
+        label = (
+            [1] * stat["TP"] + [0] * stat["FP"] + [0] * stat["TN"] + [1] * stat["FN"]
+        )
         # truth = dict[tac]['TP'] + dict[tac]['TN']
         # false = stat["FP"] + stat["FN"]
-        f1 = f1_score(label, pred, average='binary', zero_division = 1)
-        dict[tac]['f1'] = f1
+        f1 = f1_score(label, pred, average="binary", zero_division=1)
+        dict[tac]["f1"] = f1
     return dict
 
 
-def stat(f_good, f_label, f_pred):
-    labels, goodss, predss = load(f_good, f_label, f_pred)
+def stat_top1(reorders, labels, stat):
+    i = 0
+    for pred, label in zip(reorders, labels):
+        if (utils.not_lemma(label)) & (pred != []) & (pred[0] == label):
+            if "top1" not in stat[label].keys():
+                stat[label]["top1"] = [i]
+            else:
+                stat[label]["top1"].append(i)
+        i += 1
+
+    for _, tac_stat in stat.items():
+        if "top1" in tac_stat.keys():
+            tac_stat["top1"] = {"num": len(tac_stat["top1"]), "id": tac_stat["top1"]}
+    return stat
+
+
+def stat(f_good, f_label, f_pred, f_reorder):
+    labels, goodss, predss, reorders = load(f_good, f_label, f_pred, f_reorder)
 
     tac_stats = {}
     for goods, label, preds in zip(goodss, labels, predss):
@@ -78,20 +100,12 @@ def stat(f_good, f_label, f_pred):
     items = tac_stats.items()
     tac_stats = dict(sorted(items, key=lambda x: x[1]["num"], reverse=True))
     tac_stats = detail_stat(tac_stats)
-    stats = tac_stats.values()
-
-    truth_neg = sum([s["TN"] for s in stats])
-    false_neg = sum([s["FN"] for s in stats])
-    all = sum([s["TN"] + s["TP"] + s["FN"] + s["FP"] for s in stats])
-    neg_pred_v = truth_neg / (truth_neg + false_neg)
-    tn_div_all = truth_neg / all
-
-    log = {"npv": neg_pred_v, "tn_div_all": tn_div_all}
-    log = log | tac_stats
+    tac_stats = stat_top1(reorders, labels, tac_stats)
+    # log = top1_stat | tac_stats
     # for tac, stat in tac_stats.ite
     out_dir = os.path.dirname(f_good)
     with open(os.path.join(out_dir, "stat_filter.json"), "w") as w:
-        json.dump(log, w, indent=4)
+        json.dump(tac_stats, w)
 
 
 if __name__ == "__main__":
@@ -99,7 +113,8 @@ if __name__ == "__main__":
         description="Returns false positive and false negative."
     )
     parser.add_argument("--good", type=str)
+    parser.add_argument("--reorder", type=str)
     parser.add_argument("--pred", type=str)
     parser.add_argument("--label", type=str)
     args = parser.parse_args()
-    stat(args.good, args.label, args.pred)
+    stat(args.good, args.label, args.pred, args.reorder)
