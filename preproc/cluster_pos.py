@@ -9,12 +9,13 @@ import joblib
 from k_means_constrained import KMeansConstrained
 import math
 import numpy as np
+
 # from sklearn.cluster import KMeans
 from sklearn.preprocessing import MultiLabelBinarizer
 
 from lib import utils
 
-MAX_CLUSTER_LEN = 50
+MAX_CLUSTER_LEN = 10
 
 
 def loader(feat_f, label_f):
@@ -47,20 +48,23 @@ def loader(feat_f, label_f):
     return dat_by_tac
 
 
+# def calculate_n(dat):
+#     n = dat / MAX_CLUSTER_LEN
+#     if n < 1:
+#         return 1
+#     else:
+#         return round(n)
+
+
 def calculate_n(dat):
-    n = dat / MAX_CLUSTER_LEN
-    if n < 1:
-        return 1
-    else:
-        return round(n)
-
-
-def calculate_n2(dat):
     return math.ceil(dat / MAX_CLUSTER_LEN)
 
 
-def calculate_min(dat):
-    return math.floor(dat / MAX_CLUSTER_LEN)
+def calculate_min(n_label, n_cls):
+    min_ = math.floor(n_label / n_cls)
+    if min_ == MAX_CLUSTER_LEN:
+        min_ -= 1
+    return min_
 
 
 def init_clusters(n):
@@ -96,9 +100,10 @@ def run_cluster(exgs):
         cls = [0] * n_label
         clusters = init_clusters(1)
     else:
+        n_cls = calculate_n(n_label)
         clf = KMeansConstrained(
-            n_clusters=calculate_n2(n_label),
-            size_min=calculate_min(n_label),
+            n_clusters=n_cls,
+            size_min=calculate_min(n_label, n_cls),
             size_max=MAX_CLUSTER_LEN,
             random_state=0,
         )
@@ -146,5 +151,5 @@ dat = loader(opts.feat, opts.label)
 cluster = cluster_by_tacs(dat)
 root, ext = os.path.splitext(opts.feat)
 
-with open(root + "_pos_eq50.json", "w") as w:
+with open(root + "_pos10.json", "w") as w:
     json.dump(cluster, w)
