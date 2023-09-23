@@ -1,5 +1,8 @@
-import os
 import json
+import os
+import sys
+
+sys.path.append(os.path.dirname(sys.path[0]))
 
 import argparse
 import joblib
@@ -46,7 +49,7 @@ def get_negs(ids, labels, label):
         if label2 != label:
             negs.append(int(id))
             n += 1
-            if n == 32:
+            if n == 100:
                 break
     return negs
 
