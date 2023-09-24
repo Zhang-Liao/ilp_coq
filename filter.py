@@ -108,7 +108,7 @@ def out(good_preds, reordered_preds, f_pred, clause, label):
             w.write(preds + '\n')
     acc.acc(reordered, label)
 
-    stat_filter.stat(good, label, f_pred)
+    stat_filter.stat(good, label, f_pred, reordered)
 
     log = {
         'clause': clause,
@@ -123,6 +123,8 @@ parser.add_argument("--pred", type=str)
 parser.add_argument("--test", type=str)
 parser.add_argument("--label", type=str)
 parser.add_argument("--all_predc", type=str)
+# parser.add_argument("--reorder", type=str)
+
 opts = parser.parse_args()
 
 assert(opts.pred.endswith('.eval'))
