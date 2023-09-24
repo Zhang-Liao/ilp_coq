@@ -28,27 +28,19 @@ conf_rel3 = conf(rel3_acc)
 
 k = list(range(0, 10))
 
-plt.plot(k, conf_knn[0], label="knn mean")
-plt.plot(k, conf_prop[0], label="prop")
-plt.plot(k, conf_rel1[0], label="position")
-plt.plot(k, conf_rel2[0], label="position + eq")
-plt.plot(k, conf_rel3[0], label="position + var")
+plt.plot(k, conf_knn[0], label="knn mean lower")
+plt.plot(k, conf_prop[0], label="prop lower")
+# plt.plot(k, conf_rel1[0], label="position lower")
+# plt.plot(k, conf_rel2[0], label="position + eq lower")
+plt.plot(k, conf_rel1[0], label="position + var lower")
 
-plt.xlabel("lower bound")
+
+plt.plot(k, conf_knn[1], label="knn mean upper")
+plt.plot(k, conf_prop[1], label="prop upper")
+plt.plot(k, conf_rel1[1], label="position upper")
+
+plt.xlabel("confidential interval")
 plt.ylabel("%")
 
 plt.legend()
-plt.savefig("lower_bound.pdf", bbox_inches="tight")
-
-plt.clf()
-plt.plot(k, conf_knn[1], label="knn mean")
-plt.plot(k, conf_prop[1], label="prop")
-plt.plot(k, conf_rel1[1], label="position")
-plt.plot(k, conf_rel2[1], label="position + eq")
-plt.plot(k, conf_rel3[1], label="position + var")
-
-plt.xlabel("upper bound")
-plt.ylabel("%")
-
-plt.legend()
-plt.savefig("upper_bound.pdf", bbox_inches="tight")
+plt.savefig("conf_inter.pdf", bbox_inches="tight")
