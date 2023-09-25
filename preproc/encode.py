@@ -20,7 +20,7 @@ def encode(dir):
             with open(f, 'r') as reader:
                 for l in reader:
                     l = l.strip()
-                    if utils.notlemma(l):
+                    if utils.not_lemma(l):
                         l = json.loads(l)
                         fs = [f[0] for f in l['feats']]
                         # for f in l['feats']:
