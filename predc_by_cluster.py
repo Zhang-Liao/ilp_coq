@@ -7,8 +7,8 @@ from lib import utils
 
 
 tac2id_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json"
-neg_ratio = 10
-max_neg_ratio = 32
+neg_ratio = 20
+max_neg_ratio = 100
 
 
 def pr_mode(hyp_predc, goal_predc, writer, tac):
@@ -108,17 +108,22 @@ def flatten_neg_mat(mat):
 def get_negs(neg_dict, poss, tac):
     negss = neg_dict[tac]
     needed_negs = []
-    n_pos = len(poss)
-    n_neg = 0
-    curr_neg = neg_ratio
 
-    while (n_neg < n_pos * neg_ratio) & (curr_neg <= max_neg_ratio):
-        for pos in poss:
-            needed_negs += negss[str(pos)][:curr_neg]
-        needed_negs = list(set(needed_negs))
-        needed_negs.sort()
-        curr_neg += 1
-        n_neg = len(needed_negs)
+    for pos in poss:
+        needed_negs += negss[str(pos)][:neg_ratio]
+    needed_negs = list(set(needed_negs))
+    needed_negs.sort()
+
+    # n_pos = len(poss)
+    # n_neg = 0
+    # curr_neg = neg_ratio
+    # while (n_neg < n_pos * neg_ratio) & (curr_neg <= max_neg_ratio):
+    #     for pos in poss:
+    #         needed_negs += negss[str(pos)][:curr_neg]
+    #     needed_negs = list(set(needed_negs))
+    #     needed_negs.sort()
+    #     curr_neg += 1
+    #     n_neg = len(needed_negs)
     return needed_negs
 
 
