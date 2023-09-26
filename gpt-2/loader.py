@@ -40,7 +40,7 @@ class LMDataset(CoqDataset):
         with open(path) as f:
             for l in f:
                 l = l.strip()
-                if utils.lemma_delimiter in l:
+                if utils.LEMMA in l:
                     self.data.append({'lemma':l})
                 else:
                     l = json.loads(l)
