@@ -74,7 +74,7 @@ def pr_hyps_predc(i, l, writer):
             var = hyp_name(ident[8:])
             writer.write(f"hyp_coq_var({i}, {var}, {name},{idx}).\n")
         elif ident != "coq_app":
-            writer.write(f"{ident}({i}, {name},{idx}).\n")
+            writer.write(f"{ident}({i}, {name}, {idx}).\n")
 
 
 def pr_hyps_anonym_predc(i, l, writer):
@@ -83,7 +83,12 @@ def pr_hyps_anonym_predc(i, l, writer):
         name = hyp_name(name)
         idx = hyp_idx(name, kind, idx)
         arity = under_max_arity(arity)
-        writer.write(f"{ident}{arity}({i}, {name},{idx}).\n")
+        if ident in ['case']:
+            continue
+        elif (ident.startswith("var")) | (arity == 0):
+            writer.write(f"{ident}({i}, {name}, {idx}).\n")
+        else:
+            writer.write(f"{ident}{arity}({i}, {name},{idx}).\n")
 
 
 def pr_goal_prop_predc(i, l, writer):
@@ -106,8 +111,15 @@ def pr_goal_predc(i, l, writer):
 def pr_goal_anonym_predc(i, l, writer):
     for ident, arity, idx in l:
         ident = to_predc_name(ident)
-        arity = under_max_arity(arity)
-        writer.write(f"{ident}{arity}({i},{goal_idx(idx)}).\n")
+        idx = goal_idx(idx)
+
+        if ident in ['case']:
+            continue
+        elif (ident.startswith("var")) | (arity == 0):
+            writer.write(f"{ident}({i},{idx}).\n")
+        else:
+            arity = under_max_arity(arity)
+            writer.write(f"{ident}{arity}({i},{idx}).\n")
 
 
 def add_hyps_prop_predc(l, predc_set):
@@ -126,8 +138,13 @@ def add_hyps_predc(l, predc_set):
 
 def add_hyps_anonym_predc(l, predc_set):
     for ident, arity, _, _, _ in l:
-        arity = under_max_arity(arity)
-        predc_set.add(to_predc_name(f"{ident}{arity}"))
+        if ident in ['case']:
+            continue
+        elif (ident.startswith("var")) | (arity == 0):
+            predc_set.add(to_predc_name(f"{ident}"))
+        else:
+            arity = under_max_arity(arity)
+            predc_set.add(to_predc_name(f"{ident}{arity}"))
     return predc_set
 
 
@@ -144,10 +161,16 @@ def add_goal_predc(l, predc_set):
             predc_set.add(to_predc_name(ident))
     return predc_set
 
+
 def add_goal_anonym_predc(l, predc_set):
     for ident, arity, _ in l:
-        arity = under_max_arity(arity)
-        predc_set.add(to_predc_name(f"{ident}{arity}"))
+        if ident in ['case']:
+            continue
+        elif (ident.startswith("var")) | (arity == 0):
+            predc_set.add(to_predc_name(f"{ident}"))
+        else:
+            arity = under_max_arity(arity)
+            predc_set.add(to_predc_name(f"{ident}{arity}"))
     return predc_set
 
 
