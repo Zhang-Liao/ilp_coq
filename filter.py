@@ -98,7 +98,7 @@ def out(good_preds, reordered_preds, f_pred, clause, label):
     with open(good, 'w') as w:
         for preds in good_preds:
             w.write(preds + '\n')
-    acc.acc(good, label)
+    acc.acc(good, label, clause)
 
     reordered_dir = os.path.join(out_dir, 'reorder')
     os.makedirs(reordered_dir)
@@ -106,7 +106,7 @@ def out(good_preds, reordered_preds, f_pred, clause, label):
     with open(reordered, 'w') as w:
         for preds in reordered_preds:
             w.write(preds + '\n')
-    acc.acc(reordered, label)
+    acc.acc(reordered, label, clause)
 
     stat_filter.stat(good, label, f_pred, reordered)
 
