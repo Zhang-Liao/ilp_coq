@@ -6,6 +6,7 @@ LEMMA = "#lemma"
 
 
 def under_max_arity(a):
+    a = int(a)
     if a < 4:
         return a
     else:
@@ -203,3 +204,29 @@ def feat_reader(label_f, label_encoder, feat_f, feat_encoder):
                 feats.append(fs)
         feats = feat_encoder.transform(feats)
     return feats, labels
+
+def load_file(f, dat):
+    lemma_states = []
+    with open(f, 'r') as reader:
+        for line in reader:
+            if not_lemma(line):
+                lemma_states.append(line)
+            else:
+                if lemma_states != []:
+                    dat[lemma] = lemma_states
+                lemma = line
+                lemma_states = []
+        dat[lemma] = lemma_states
+    return dat
+
+def valid_dat_f(f):
+    return f.endswith('.json') & (('plugins/' in f) | ('theories/' in f))
+
+def load_dataset(dir):
+    dat = {}
+    for root, _, files in os.walk(dir):
+        for file in files:
+            path = os.path.join(root, file)
+            if valid_dat_f(path):
+                dat = load_file(path, dat)
+    return dat
