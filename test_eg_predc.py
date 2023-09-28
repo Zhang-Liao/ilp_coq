@@ -25,14 +25,14 @@ def pr_predc(row_i, l, w, kind):
     elif kind == 'anonym':
         utils.pr_goal_anonym_predc(row_i, l['goal'], w)
         goal_predc = utils.add_goal_anonym_predc(l['goal'], set())
-        utils.pr_hyps_anonym_predc(row_i, l, w)
-        hyp_predc = utils.add_hyps_anonym_predc(l, set())
+        utils.pr_hyps_anonym_predc(row_i, l['hyps'], w)
+        hyp_predc = utils.add_hyps_anonym_predc(l['hyps'], set())
     return goal_predc, hyp_predc
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--test", type=str)
 parser.add_argument("--out", type=str)
-parser.add_argument("--kind", action=argparse.BooleanOptionalAction)
+parser.add_argument("--kind", type=str, choices=["prop", "var", "anonym"])
 
 opts = parser.parse_args()
 
