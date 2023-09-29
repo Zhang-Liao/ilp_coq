@@ -62,7 +62,6 @@ def pr_bias(w, bias):
     w.write(f":- set(noise, 0).\n")
 
 
-# def pr_bk(poss, negs, fbk, tac, dat_file, prop, bias):
 def pr_bk(poss, negs, fbk, tac, opts):
     hyp_predc = set()
     goal_predc = set()

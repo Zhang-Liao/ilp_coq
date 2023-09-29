@@ -24,11 +24,10 @@ def pr_goal_predc(predc, writer):
 def pr_multifiles(hyp_predc, goal_predc, w):
     w.write(f":- multifile hyp_predc/1.\n")
     w.write(f":- multifile goal_predc/1.\n")
-    w.write(f":- multifile hyp_coq_var/4.\n")
-    w.write(f":- multifile goal_coq_var/3.\n")
-    # TODO: replace by hyp_coq_var and goal_coq_var
-    w.write(f":- multifile var/2.\n")
-    w.write(f":- multifile var/3.\n")
+    if KIND == 'rel':
+        w.write(f":- multifile hyp_coq_var/4.\n")
+        w.write(f":- multifile goal_coq_var/3.\n")
+
 
     for p in hyp_predc:
         w.write(f":- multifile {p}/3.\n")
