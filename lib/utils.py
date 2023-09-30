@@ -29,8 +29,8 @@ def to_predc_name(s):
     s = s.replace(".", "_")
     if s.startswith("Coq_"):
         s = s[0].lower() + s[1:]
-    if not s.startswith("coq_"):
-        s = "coq_" + s
+    # if not s.startswith("coq_"):
+    #     s = "coq_" + s
     s = s.replace("'", "_quote")
     s = s.replace("₁", "_under1_")
     s = s.replace("₂", "_under2_")
@@ -56,16 +56,18 @@ def hyp_name(n):
         n = "coq_" + n
     return f'"{n}"'
 
+
 def ignore_arity(id, art):
-    return (id in ['coq_var', 'coq_rel', 'coq_evar']) | (art == 0)
+    return (id in ["coq_var", "coq_rel", "coq_evar"]) | (art == 0)
+
 
 def pr_hyps_prop_predc(i, l, writer):
     for ident, name, kind, idx in l:
-        ident = to_predc_name(ident)
-        name = hyp_name(name)
-        idx = hyp_idx(name, kind, idx)
         if ident != "coq_app":
-            writer.write(f"hyp_{ident}({i},{name},{idx}).\n")
+            ident = to_predc_name(ident)
+            name = hyp_name(name)
+            idx = hyp_idx(name, kind, idx)
+            writer.write(f"{ident}({i},{name},{idx}).\n")
 
 
 def pr_hyps_predc(i, l, writer):
@@ -86,9 +88,9 @@ def pr_hyps_anonym_predc(i, l, writer):
         name = hyp_name(name)
         idx = hyp_idx(name, kind, idx)
         arity = under_max_arity(arity)
-        if typ in ['coq_case']:
+        if typ in ["coq_case"]:
             continue
-        elif ignore_arity(typ, arity):        
+        elif ignore_arity(typ, arity):
             writer.write(f"hyp_{typ}({i},{name},{idx}).\n")
         else:
             writer.write(f"hyp_{typ}{arity}({i},{name},{idx}).\n")
@@ -116,9 +118,9 @@ def pr_goal_anonym_predc(i, l, writer):
         typ = to_predc_name(typ)
         idx = goal_idx(idx)
 
-        if typ in ['coq_case']:
+        if typ in ["coq_case"]:
             continue
-        elif ignore_arity(typ, arity):        
+        elif ignore_arity(typ, arity):
             writer.write(f"goal_{typ}({i},{idx}).\n")
         else:
             arity = under_max_arity(arity)
@@ -128,51 +130,54 @@ def pr_goal_anonym_predc(i, l, writer):
 def add_hyps_prop_predc(l, predc_set):
     for ident, _, _, _ in l:
         if ident != "coq_app":
-            predc_set.add(f'hyp_{to_predc_name(ident)}')
+            predc_set.add(f"hyp_{to_predc_name(ident)}")
     return predc_set
 
 
 def add_hyps_predc(l, predc_set):
     for ident, _, _, _ in l:
         if (ident != "coq_app") & (not ident.startswith("coq_var")):
-            predc_set.add(f'hyp_{to_predc_name(ident)}')
+            predc_set.add(f"hyp_{to_predc_name(ident)}")
     return predc_set
 
 
 def add_hyps_anonym_predc(l, predc_set):
     for typ, _ident, arity, _, _, _ in l:
-        if typ in ['coq_case']:
+        typ = to_predc_name(typ)
+        if typ in ["coq_case"]:
             continue
-        elif ignore_arity(typ, arity):        
-            predc_set.add(to_predc_name(f"hyp_{typ}"))
+        elif ignore_arity(typ, arity):
+            predc_set.add(f"hyp_{typ}")
         else:
             arity = under_max_arity(arity)
-            predc_set.add(to_predc_name(f"hyp_{typ}{arity}"))
+            predc_set.add(f"hyp_{typ}{arity}")
     return predc_set
 
 
 def add_goal_prop_predc(l, predc_set):
     for ident, _ in l:
         if ident != "coq_app":
-            predc_set.add(f'goal_{to_predc_name(ident)}')
+            predc_set.add(f"goal_{to_predc_name(ident)}")
     return predc_set
 
 
 def add_goal_predc(l, predc_set):
     for ident, _ in l:
         if (ident != "coq_app") & (not ident.startswith("coq_var")):
-            predc_set.add(f'goal_{to_predc_name(ident)}')
+            predc_set.add(f"goal_{to_predc_name(ident)}")
     return predc_set
+
 
 def add_goal_anonym_predc(l, predc_set):
     for typ, _ident, arity, _ in l:
-        if typ in ['coq_case']:
+        typ = to_predc_name(typ)
+        if typ in ["coq_case"]:
             continue
         elif ignore_arity(typ, arity):
-            predc_set.add('goal_' + to_predc_name(f"{typ}"))
+            predc_set.add(f"goal_{typ}")
         else:
             arity = under_max_arity(arity)
-            predc_set.add('goal_' +  to_predc_name(f"{typ}{arity}"))
+            predc_set.add(f"goal_{typ}{arity}")
     return predc_set
 
 
@@ -206,9 +211,10 @@ def feat_reader(label_f, label_encoder, feat_f, feat_encoder):
         feats = feat_encoder.transform(feats)
     return feats, labels
 
+
 def load_file(f, dat):
     lemma_states = []
-    with open(f, 'r') as reader:
+    with open(f, "r") as reader:
         for line in reader:
             if not_lemma(line):
                 lemma_states.append(line)
@@ -220,8 +226,10 @@ def load_file(f, dat):
         dat[lemma] = lemma_states
     return dat
 
+
 def valid_dat_f(f):
-    return f.endswith('.json') & (('plugins/' in f) | ('theories/' in f))
+    return f.endswith(".json") & (("plugins/" in f) | ("theories/" in f))
+
 
 def load_dataset(dir):
     dat = {}
