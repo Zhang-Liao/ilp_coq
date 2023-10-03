@@ -15,7 +15,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 
 from lib import utils
 
-MAX_CLUSTER_LEN = 10
+MAX_CLUSTER_LEN = 32
 
 
 def loader(feat_f, label_f):
@@ -140,10 +140,9 @@ parser.add_argument("--label", type=str)
 opts = parser.parse_args()
 
 feat_encoder = joblib.load(
-    "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/feat_encoder.gz"
+    "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/feat_encoder_neg.gz"
 )
-# feat_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_7.feat"
-# label_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split/split0_7.label"
+
 
 assert isinstance(feat_encoder, MultiLabelBinarizer)
 
@@ -151,5 +150,5 @@ dat = loader(opts.feat, opts.label)
 cluster = cluster_by_tacs(dat)
 root, ext = os.path.splitext(opts.feat)
 
-with open(root + "_pos10.json", "w") as w:
+with open(root + f"_pos{MAX_CLUSTER_LEN}.json", "w") as w:
     json.dump(cluster, w)
