@@ -1,9 +1,11 @@
-for i in {1..1}; do
-    (python predc_by_cluster.py --cluster data/json/neg/rand_train_test/train$i\_pos10.json \
-        --neg data/json/neg/rand_train_test/train$i\_neg.json \
-        --dat data/json/predicate/anonym/rand_train_test/train$i.json \
-        --out data/json/predicate/anonym/rand_train_test/train/p10n40/train$i \
-        --bias /home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/bias.pl \
+dat_dir=data/json/predicate/anonym/2percent_split
+for i in {1..9}; do
+    (python predc_by_cluster.py \
+        --cluster data/json/neg/2percent_split/train$i\_pos20.json \
+        --neg data/json/neg/2percent_split/train$i\_neg.json \
+        --dat $dat_dir/train$i.json \
+        --out $dat_dir/train/rel/p32n16/train$i \
+        --bias prolog/bias.pl \
         --kind anonym
         )&      
 done

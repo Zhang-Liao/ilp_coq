@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
 split_dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/rand_lemmas/2percent"
-dat_dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg"
+dat_dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/anonym"
 out_dir = os.path.join(dat_dir, "2percent_split")
 if not os.path.exists(out_dir):
     os.mkdir(out_dir)
