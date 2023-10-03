@@ -67,7 +67,7 @@ def pr_hyps_prop_predc(i, l, writer):
             ident = to_predc_name(ident)
             name = hyp_name(name)
             idx = hyp_idx(name, kind, idx)
-            writer.write(f"{ident}({i},{name},{idx}).\n")
+            writer.write(f"hyp_{ident}({i},{name},{idx}).\n")
 
 
 def pr_hyps_predc(i, l, writer):
