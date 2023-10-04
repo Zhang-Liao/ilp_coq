@@ -36,6 +36,10 @@ def load(f_good, f_label, f_pred, f_reorder):
 
 
 def detail_stat(dict):
+    all_tp = 0
+    all_tn = 0
+    all_fp = 0
+    all_fn = 0
     for tac, stat in dict.items():
         # neg = stat["TN"] + stat["FN"]
         # all = neg + stat["TP"] + stat["FP"]
@@ -46,31 +50,46 @@ def detail_stat(dict):
         #     dict[tac]["npv"] = stat["TN"] / (stat["TN"] + stat["FN"])
 
         # dict[tac]["tn_div_all"] = stat["TN"] / all
-        pred = [1] * (stat["TP"] + stat["FP"]) + [0] * (stat["TN"] + stat["FN"])
-        label = (
-            [1] * stat["TP"] + [0] * stat["FP"] + [0] * stat["TN"] + [1] * stat["FN"]
-        )
-        # truth = dict[tac]['TP'] + dict[tac]['TN']
-        # false = stat["FP"] + stat["FN"]
+        tp = stat["TP"]
+        tn = stat["TN"]
+        fp = stat["FP"]
+        fn = stat["FN"]
+        all_tp += tp
+        all_tn += tn
+        all_fp += fp
+        all_fn += fn
+        pred = [1] * (tp + fp) + [0] * (tn + fn)
+        label = [1] * tp + [0] * fp + [0] * tn + [1] * fn
         f1 = f1_score(label, pred, average="binary", zero_division=1)
         dict[tac]["f1"] = f1
-    return dict
+        if fp + fn == 0:
+            dict[tac]["filter_acc"] = 1
+        else:
+            dict[tac]["filter_acc"] = (tp + tn) / (tp + tn + fp + fn)
+    new_dict = {}
+    new_dict['filter_acc'] = (all_tp + all_tn) / (all_fp + all_fn)
+    new_dict['TP'] = all_tp
+    new_dict['TN'] = all_tn
+    new_dict['FP'] = all_fp
+    new_dict['FN'] = all_fn
+    new_dict['tac'] = dict 
+    return new_dict
 
 
-def stat_top1(reorders, labels, stat):
-    i = 0
-    for pred, label in zip(reorders, labels):
-        if (utils.not_lemma(label)) & (pred != []) & (pred[0] == label):
-            if "top1" not in stat[label].keys():
-                stat[label]["top1"] = [i]
-            else:
-                stat[label]["top1"].append(i)
-        i += 1
+# def stat_top1(reorders, labels, stat):
+#     i = 0
+#     for pred, label in zip(reorders, labels):
+#         if (utils.not_lemma(label)) & (pred != []) & (pred[0] == label):
+#             if "top1" not in stat[label].keys():
+#                 stat[label]["top1"] = [i]
+#             else:
+#                 stat[label]["top1"].append(i)
+#         i += 1
 
-    for _, tac_stat in stat.items():
-        if "top1" in tac_stat.keys():
-            tac_stat["top1"] = {"num": len(tac_stat["top1"]), "id": tac_stat["top1"]}
-    return stat
+#     for _, tac_stat in stat.items():
+#         if "top1" in tac_stat.keys():
+#             tac_stat["top1"] = {"num": len(tac_stat["top1"]), "id": tac_stat["top1"]}
+#     return stat
 
 
 def stat(f_good, f_label, f_pred, f_reorder):
@@ -100,7 +119,6 @@ def stat(f_good, f_label, f_pred, f_reorder):
     items = tac_stats.items()
     tac_stats = dict(sorted(items, key=lambda x: x[1]["num"], reverse=True))
     tac_stats = detail_stat(tac_stats)
-    tac_stats = stat_top1(reorders, labels, tac_stats)
     # log = top1_stat | tac_stats
     # for tac, stat in tac_stats.ite
     out_dir = os.path.dirname(f_good)
