@@ -20,3 +20,4 @@ file_order
 timelog
 *.pt
 *.csv
+*.split
