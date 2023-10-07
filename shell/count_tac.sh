@@ -1,4 +1,4 @@
-dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/theories/Structures
+dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/theories/MSets
 
 echo "number of proof states"
 grep -r -v "^#lemma" $dir | wc -l

@@ -24,24 +24,10 @@ def shuf_lines(dat, num, out):
 
 
 dataset = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg"
-file_order = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/file_order"
-out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/rand_lines"
-rand_line_num = 100
-dat = []
-with open(file_order, "r") as r:
-    files = r.readlines()
-    files = [f.strip() for f in files]
+sub_dir = "theories/MSets"
+out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/rand_lines/MSets"
+rand_line_num = 3000
 
-i = 0
-for f in files:
-    path = os.path.join(dataset, f)
-    if not os.path.exists(path):
-        raise FileNotFoundError(f)
-
-    with open(path, "r") as r:
-        for l in r:
-            if utils.not_lemma(l):
-                dat.append((i, l))
-            i += 1
+dat = utils.load_subdir_no_lemma(dataset, sub_dir)
 
 shuf_lines(dat, rand_line_num, out)

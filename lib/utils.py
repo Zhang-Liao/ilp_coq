@@ -231,6 +231,14 @@ def valid_dat_f(f):
     return f.endswith(".json") & (("plugins/" in f) | ("theories/" in f))
 
 
+def file_order():
+    forder = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/file_order"
+    with open(forder, "r") as r:
+        files = r.readlines()
+        files = [f.strip() for f in files]
+    return files
+
+
 def load_dataset(dir):
     dat = {}
     for root, _, files in os.walk(dir):
@@ -238,4 +246,21 @@ def load_dataset(dir):
             path = os.path.join(root, file)
             if valid_dat_f(path):
                 dat = load_file(path, dat)
+    return dat
+
+
+def load_subdir_no_lemma(dir, subdir):
+    dat = []
+    orders = file_order()
+    i = 0
+    for f in orders:
+        path = os.path.join(dir, f)
+        if not os.path.exists(path):
+            raise FileNotFoundError(f)
+        if subdir in f:
+            with open(path, "r") as r:
+                for l in r:
+                    if not_lemma(l):
+                        dat.append((i, l))
+                    i += 1
     return dat
