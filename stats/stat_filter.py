@@ -35,7 +35,7 @@ def load(f_good, f_label, f_pred, f_reorder):
     return labels, goodss, predss, reorders
 
 
-def detail_stat(dict):
+def detail_ilp_stat_ml(dict):
     all_tp = 0
     all_tn = 0
     all_fp = 0
@@ -67,12 +67,12 @@ def detail_stat(dict):
         else:
             dict[tac]["filter_acc"] = (tp + tn) / (tp + tn + fp + fn)
     new_dict = {}
-    new_dict['filter_acc'] = (all_tp + all_tn) / (all_fp + all_fn)
-    new_dict['TP'] = all_tp
-    new_dict['TN'] = all_tn
-    new_dict['FP'] = all_fp
-    new_dict['FN'] = all_fn
-    new_dict['tac'] = dict 
+    new_dict["filter_acc"] = (all_tp + all_tn) / (all_fp + all_fn)
+    new_dict["TP"] = all_tp
+    new_dict["TN"] = all_tn
+    new_dict["FP"] = all_fp
+    new_dict["FN"] = all_fn
+    new_dict["tac"] = dict
     return new_dict
 
 
@@ -92,7 +92,21 @@ def detail_stat(dict):
 #     return stat
 
 
-def stat(f_good, f_label, f_pred, f_reorder):
+def stat_ilp(predss, label):
+    n_preds = 0
+    n_corr = 0
+    for preds, l in zip(predss, label):
+        if l in preds:
+            n_corr += 1
+        n_preds += len(preds)
+    if n_corr == 0:
+        score = 0
+    else:
+        score = n_preds / n_corr
+    return n_preds, n_corr, score
+
+
+def stat_ilp_stat_ml(f_good, f_label, f_pred, f_reorder):
     labels, goodss, predss, reorders = load(f_good, f_label, f_pred, f_reorder)
 
     tac_stats = {}
@@ -118,7 +132,11 @@ def stat(f_good, f_label, f_pred, f_reorder):
 
     items = tac_stats.items()
     tac_stats = dict(sorted(items, key=lambda x: x[1]["num"], reverse=True))
-    tac_stats = detail_stat(tac_stats)
+    tac_stats = detail_ilp_stat_ml(tac_stats)
+    n_preds, n_corr, score = stat_ilp(predss, labels)
+    tac_stats["ilp_pred"] = n_preds
+    tac_stats["ilp_corr"] = n_corr
+    tac_stats["ilp_score"] = score
     # log = top1_stat | tac_stats
     # for tac, stat in tac_stats.ite
     out_dir = os.path.dirname(f_good)
@@ -135,4 +153,4 @@ if __name__ == "__main__":
     parser.add_argument("--pred", type=str)
     parser.add_argument("--label", type=str)
     args = parser.parse_args()
-    stat(args.good, args.label, args.pred, args.reorder)
+    stat_ilp_stat_ml(args.good, args.label, args.pred, args.reorder)
