@@ -7,8 +7,6 @@ from lib import utils
 
 
 tac2id_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json"
-neg_ratio = 20
-max_neg_ratio = 100
 
 
 def pr_mode(hyp_predc, goal_predc, writer, tac):
@@ -105,7 +103,7 @@ def flatten_neg_mat(mat):
     return flat
 
 
-def get_negs(neg_dict, poss, tac):
+def get_negs(neg_dict, poss, tac, neg_ratio):
     negss = neg_dict[tac]
     needed_negs = []
 
@@ -156,6 +154,7 @@ parser.add_argument("--dat", type=str)
 parser.add_argument("--out", type=str)
 parser.add_argument("--kind", type=str, choices=["prop", "var", "anonym"])
 parser.add_argument("--bias", type=str)
+parser.add_argument("--neg_ratio", type=int)
 
 opts = parser.parse_args()
 
@@ -174,7 +173,7 @@ with open(opts.cluster, "r") as r:
         for i in range(len(posss)):
             poss = posss[i]
             tac = str(tac_id) + "c" + str(i)
-            negs = get_negs(neg_dict, poss, origin_tac)
+            negs = get_negs(neg_dict, poss, origin_tac, opts.neg_ratio)
             bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac, opts.out)
             if not os.path.exists(opts.out):
                 os.makedirs(opts.out)
@@ -183,6 +182,6 @@ with open(opts.cluster, "r") as r:
             pr_exg_predc(negs, neg_file, safe_tac)
             pr_run(tac, run_file)
 
-log = {"tac2id_file": tac2id_file, "neg_ratio": neg_ratio, "options": opts.__dict__}
+log = {"tac2id_file": tac2id_file, "neg_ratio": opts.neg_ratio, "options": opts.__dict__}
 with open(os.path.join(opts.out, "log.json"), "w") as w:
     json.dump(log, w, indent=4)

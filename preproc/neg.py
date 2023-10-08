@@ -13,7 +13,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from lib import utils
 
 
-feat_encoder = joblib.load('/home/zhangliao/ilp_out_coq/ilp_out_coq/data/feat_encoder.gz')
+feat_encoder = joblib.load('/home/zhangliao/ilp_out_coq/ilp_out_coq/data/feat_encoder_neg.gz')
 label_encoder = joblib.load('/home/zhangliao/ilp_out_coq/ilp_out_coq/data/label_encoder.gz')
 
 assert(isinstance(label_encoder, LabelEncoder))
@@ -49,7 +49,7 @@ def get_negs(ids, labels, label):
         if label2 != label:
             negs.append(int(id))
             n += 1
-            if n == 100:
+            if n == 300:
                 break
     return negs
 

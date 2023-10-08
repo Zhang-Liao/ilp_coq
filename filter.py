@@ -90,7 +90,7 @@ def filter(exg_paths, prolog, pred_file):
 
 def out(good_preds, reordered_preds, f_pred, clause, label):
     now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
-    out_dir = os.path.join(f_pred[:-5], f'filter/{now}')
+    out_dir = os.path.join(f_pred[:-5], now)
     good_dir = os.path.join(out_dir, 'good')    
     os.makedirs(good_dir)
     shutil.copy(clause, out_dir)

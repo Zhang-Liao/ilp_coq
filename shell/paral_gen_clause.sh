@@ -1,34 +1,35 @@
-loop_gen() {
-  complete=0
-  file_len=${#0}
-  file_base_end=$(($file_len - 3))
-  file_base=${0:0:file_base_end}
-  rule_file="${file_base}_rule.pl"
-  while [ $complete == 0 ]; do
-    # swipl $0
-    swipl $0 >/dev/null
-    complete=$(python all_clause_generated.py --file "${rule_file}")
-  done
-  echo 'finish' $0
-}
-
 gen() {
   swipl $0 >/dev/null
   echo 'finish' $0
 }
 
-export -f loop_gen
 export -f gen
 
-for i in {2..4}; do
-  dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/rand_train_test/train/rel1_local/train0/noise$i
-  # dir=data/json/predicate/rand_train_test/train/no_clst/rel1/train$i
-  # find $dir -name "*.b" | parallel python init_noise.py --file {}
-  cd $dir
-  find $dir -name "*_rule.pl" | parallel rm {}
-  # { time find $dir -name "*.pl" | parallel --timeout 20m -j 40 bash -c loop_gen ; } 2> $dir/timelog
-  { time find $dir -name "*.pl" | parallel --timeout 5m -j 40 bash -c gen ; } 2> $dir/timelog
-  echo ":- style_check(-singleton)." > $dir/tmp
-  find $dir -name "*_rule.pl" | xargs -i cat {} >> $dir/tmp
-  mv $dir/tmp $dir/alltac_rule.pl
+# pred=data/json/origin_feat/2percent_split
+# test=data/json/predicate/anonym/2percent_split/test/anonym/rel
+# all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_predc.pl
+
+negs=(1 2 4 8 16 32)
+poss=(2 4 8 16 32)
+
+# for neg in "${negs[@]}"; do
+neg=1
+for pos in "${poss[@]}"; do
+  for i in {0..9}; do
+    (
+      # echo $i $neg $pos
+      dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/anonym/tune/MSets/train/rel/p$pos\n$neg/train$i
+      cd $dir
+      # find . -name "*_rule.pl" | parallel echo {}
+      # find . -name "*_rule.pl" | parallel rm {}
+      time find $dir -name "*.pl" | parallel --timeout 10m -j 10 bash -c gen
+      echo ":- style_check(-singleton)." >tmp
+      find . -name "*_rule.pl" | xargs -i cat {} >>tmp
+      cd -
+      python clean_rule.py --file $dir/tmp
+      mv $dir/tmp $dir/alltac_rule.pl
+      # python filter.py --clause $dir/alltac_rule.pl --pred $pred/test$i.eval --test $test/test$i --label $pred/test$i.label --all_predc $all_predc
+    ) &
+  done
 done
+# done
