@@ -47,33 +47,49 @@ def filter_tac(i, tac, exg_paths, prolog, good):
     # seems cause warnings in Prolog.
 
 
+# def filter_row(i, row, exg_paths, prolog):
+#     good_preds = []
+#     bad_preds = []
+#     preds = row.split("\t")[:10]
+#     for pred in preds:
+#         good = Queue()
+#         safe_pred = utils.safe_tac(pred)
+#         child = Process(
+#             target=filter_tac,
+#             args=(
+#                 i,
+#                 safe_pred,
+#                 exg_paths,
+#                 prolog,
+#                 good,
+#             ),
+#         )
+#         child.start()
+#         child.join(timeout=5)
+#         child.terminate()
+#         if child.exitcode == None:
+#             good_preds.append(pred)
+#         else:
+#             if good.get():
+#                 good_preds.append(pred)
+#             else:
+#                 bad_preds.append(pred)
+#     new_preds = good_preds + bad_preds
+#     # print(new_preds)
+#     return good_preds, new_preds
+
+
 def filter_row(i, row, exg_paths, prolog):
     good_preds = []
     bad_preds = []
     preds = row.split("\t")[:10]
     for pred in preds:
-        good = Queue()
         safe_pred = utils.safe_tac(pred)
-        child = Process(
-            target=filter_tac,
-            args=(
-                i,
-                safe_pred,
-                exg_paths,
-                prolog,
-                good,
-            ),
-        )
-        child.start()
-        child.join(timeout=5)
-        child.terminate()
-        if child.exitcode == None:
+        prolog.consult(exg_paths[i])
+        if bool(list(prolog.query(f'tac({i}, "{safe_pred}")'))):
             good_preds.append(pred)
         else:
-            if good.get():
-                good_preds.append(pred)
-            else:
-                bad_preds.append(pred)
+            bad_preds.append(pred)
     new_preds = good_preds + bad_preds
     # print(new_preds)
     return good_preds, new_preds

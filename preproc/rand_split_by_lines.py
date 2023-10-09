@@ -4,10 +4,11 @@ import sys
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
-split_dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/rand_lines/MSets"
+split_dir = "data/rand_lines/MSets"
 subdir = "theories/MSets"
-dat_dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg"
-out_dir = os.path.join(dat_dir, "MSets/tune/")
+dat_dir = "data/json/predicate/origin"
+out_dir = os.path.join(dat_dir, "tune/MSets/")
+
 if not os.path.exists(out_dir):
     os.makedirs(out_dir)
 
