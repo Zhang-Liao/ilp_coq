@@ -47,52 +47,51 @@ def filter_tac(i, tac, exg_paths, prolog, good):
     # seems cause warnings in Prolog.
 
 
-# def filter_row(i, row, exg_paths, prolog):
-#     good_preds = []
-#     bad_preds = []
-#     preds = row.split("\t")[:10]
-#     for pred in preds:
-#         good = Queue()
-#         safe_pred = utils.safe_tac(pred)
-#         child = Process(
-#             target=filter_tac,
-#             args=(
-#                 i,
-#                 safe_pred,
-#                 exg_paths,
-#                 prolog,
-#                 good,
-#             ),
-#         )
-#         child.start()
-#         child.join(timeout=5)
-#         child.terminate()
-#         if child.exitcode == None:
-#             good_preds.append(pred)
-#         else:
-#             if good.get():
-#                 good_preds.append(pred)
-#             else:
-#                 bad_preds.append(pred)
-#     new_preds = good_preds + bad_preds
-#     # print(new_preds)
-#     return good_preds, new_preds
-
-
 def filter_row(i, row, exg_paths, prolog):
     good_preds = []
     bad_preds = []
-    preds = row.split("\t")[:10]
+    preds = row.split("\t")[:20]
     for pred in preds:
+        good = Queue()
         safe_pred = utils.safe_tac(pred)
-        prolog.consult(exg_paths[i])
-        if bool(list(prolog.query(f'tac({i}, "{safe_pred}")'))):
+        child = Process(
+            target=filter_tac,
+            args=(
+                i,
+                safe_pred,
+                exg_paths,
+                prolog,
+                good,
+            ),
+        )
+        child.start()
+        child.join(timeout=5)
+        child.terminate()
+        if child.exitcode == None:
             good_preds.append(pred)
         else:
-            bad_preds.append(pred)
+            if good.get():
+                good_preds.append(pred)
+            else:
+                bad_preds.append(pred)
     new_preds = good_preds + bad_preds
     # print(new_preds)
     return good_preds, new_preds
+
+
+# def filter_row(i, row, exg_paths, prolog):
+#     good_preds = []
+#     bad_preds = []
+#     preds = row.split("\t")[:20]
+#     for pred in preds:
+#         safe_pred = utils.safe_tac(pred)
+#         prolog.consult(exg_paths[i])
+#         if bool(list(prolog.query(f'tac({i}, "{safe_pred}")'))):
+#             good_preds.append(pred)
+#         else:
+#             bad_preds.append(pred)
+#     new_preds = good_preds + bad_preds
+#     return good_preds, new_preds
 
 
 def filter_stat_ml(exg_paths, prolog, pred_file):
@@ -195,7 +194,6 @@ parser.add_argument("--pred", type=str, default=None)
 parser.add_argument("--test", type=str)
 parser.add_argument("--label", type=str)
 parser.add_argument("--all_predc", type=str)
-# parser.add_argument("--reorder", type=str)
 
 opts = parser.parse_args()
 
