@@ -3,9 +3,7 @@ import os
 import re
 
 num_of_test = 10
-test_dir = (
-    "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/2percent_split"
-)
+test_dir = "data/json/origin_feat/tune/MSets"
 
 
 def inti_stat():
@@ -40,10 +38,19 @@ for i in range(num_of_test):
         f_reorder = os.path.join(curr_dir, f"reorder/test{i}_stat.json")
         with open(f_reorder, "r") as r:
             reorder = json.load(r)
+            # try:
             info = re.match(
-                r".*/p(?P<pos>[0-9]+)n(?P<neg>[0-9]+)/.*",
+                r".*/rel/p(?P<pos>[0-9]+)n(?P<neg>[0-9]+)/.*",
+                # "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/anonym/tune/MSets/train/rel/p16n1/train2/alltac_rule.pl"
                 reorder["info"],
-            ).groupdict()
-            stat = update_stats(stat, info["pos"], info["neg"], i, reorder["accs"])
+            )
+            if info != None:
+                info = info.groupdict()
+                # except:
+                #     print(reorder)
+                #     exit()
+                stat = update_stats(stat, info["pos"], info["neg"], i, reorder["accs"])
 
-print(stat)
+# print(stat)
+with open("rel_stat.json", "w") as w:
+    json.dump(stat, w)
