@@ -21,11 +21,14 @@ def inti_stat():
 
 
 def update_stats(stat, pos, neg, split, acc):
+    if len(stat[int(pos)][int(neg)][split]) > 1:
+        assert False
     stat[int(pos)][int(neg)][split].append(acc)
     return stat
 
 
-stat = inti_stat()
+acc_stat = inti_stat()
+f1_stat = inti_stat()
 for i in range(num_of_test):
     test_i = os.path.join(test_dir, f"test{i}")
 
@@ -34,23 +37,31 @@ for i in range(num_of_test):
 
     for test_time in os.listdir(test_i):
         curr_dir = os.path.join(test_i, test_time)
-
+        f_ilp_stat = os.path.join(curr_dir, f"good/stat_filter.json")
         f_reorder = os.path.join(curr_dir, f"reorder/test{i}_stat.json")
-        with open(f_reorder, "r") as r:
-            reorder = json.load(r)
-            # try:
+        reorder_r = open(f_reorder, "r")
+        reorder = json.load(reorder_r)
+        try:
             info = re.match(
                 r".*/rel/p(?P<pos>[0-9]+)n(?P<neg>[0-9]+)/.*",
-                # "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/anonym/tune/MSets/train/rel/p16n1/train2/alltac_rule.pl"
                 reorder["info"],
             )
-            if info != None:
-                info = info.groupdict()
-                # except:
-                #     print(reorder)
-                #     exit()
-                stat = update_stats(stat, info["pos"], info["neg"], i, reorder["accs"])
+        except:
+            print(reorder)
+            exit()
+        if info != None:
+            info = info.groupdict()
+            # except:
+            #     print(reorder)
+            #     exit()
+            pos = info["pos"]
+            neg = info["neg"]
+            acc_stat = update_stats(acc_stat, pos, neg, i, reorder["accs"])
+            ilp_r = open(f_ilp_stat, "r")
+            ilp_stat = json.load(ilp_r)
+            f1_stat = update_stats(f1_stat, pos, neg, i, ilp_stat["f1"])
 
+stat = {"acc": acc_stat, "f1": f1_stat}
 # print(stat)
-with open("rel_stat.json", "w") as w:
+with open("rel_stat2.json", "w") as w:
     json.dump(stat, w)
