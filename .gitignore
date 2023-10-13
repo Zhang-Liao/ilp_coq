@@ -21,3 +21,4 @@ timelog
 *.pt
 *.csv
 *.split
+debug/
