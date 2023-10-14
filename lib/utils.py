@@ -61,24 +61,12 @@ def ignore_arity(id, art):
     return (id in ["coq_var", "coq_rel", "coq_evar"]) | (art == 0)
 
 
-def pr_hyps_prop_predc(i, l, writer):
+def pr_hyps_predc(i, l, writer):
     for ident, name, kind, idx in l:
         if ident != "coq_app":
             ident = to_predc_name(ident)
             name = hyp_name(name)
             idx = hyp_idx(name, kind, idx)
-            writer.write(f"hyp_{ident}({i},{name},{idx}).\n")
-
-
-def pr_hyps_predc(i, l, writer):
-    for ident, name, kind, idx in l:
-        ident = to_predc_name(ident)
-        name = hyp_name(name)
-        idx = hyp_idx(name, kind, idx)
-        if ident.startswith("coq_var_"):
-            var = hyp_name(ident[8:])
-            writer.write(f"hyp_coq_var({i},{var},{name},{idx}).\n")
-        elif ident != "coq_app":
             writer.write(f"hyp_{ident}({i},{name},{idx}).\n")
 
 
@@ -96,19 +84,9 @@ def pr_hyps_anonym_predc(i, l, writer):
             writer.write(f"hyp_{typ}{arity}({i},{name},{idx}).\n")
 
 
-def pr_goal_prop_predc(i, l, writer):
-    for ident, idx in l:
-        if ident != "coq_app":
-            ident = to_predc_name(ident)
-            writer.write(f"goal_{ident}({i},{goal_idx(idx)}).\n")
-
-
 def pr_goal_predc(i, l, writer):
     for ident, idx in l:
-        if ident.startswith("coq_var_"):
-            var = hyp_name(ident[8:])
-            writer.write(f"goal_coq_var({i},{var},{goal_idx(idx)}).\n")
-        elif ident != "coq_app":
+        if ident != "coq_app":
             ident = to_predc_name(ident)
             writer.write(f"goal_{ident}({i},{goal_idx(idx)}).\n")
 
@@ -127,16 +105,9 @@ def pr_goal_anonym_predc(i, l, writer):
             writer.write(f"goal_{typ}{arity}({i},{idx}).\n")
 
 
-def add_hyps_prop_predc(l, predc_set):
-    for ident, _, _, _ in l:
-        if ident != "coq_app":
-            predc_set.add(f"hyp_{to_predc_name(ident)}")
-    return predc_set
-
-
 def add_hyps_predc(l, predc_set):
     for ident, _, _, _ in l:
-        if (ident != "coq_app") & (not ident.startswith("coq_var")):
+        if ident != "coq_app":
             predc_set.add(f"hyp_{to_predc_name(ident)}")
     return predc_set
 
@@ -154,16 +125,9 @@ def add_hyps_anonym_predc(l, predc_set):
     return predc_set
 
 
-def add_goal_prop_predc(l, predc_set):
-    for ident, _ in l:
-        if ident != "coq_app":
-            predc_set.add(f"goal_{to_predc_name(ident)}")
-    return predc_set
-
-
 def add_goal_predc(l, predc_set):
     for ident, _ in l:
-        if (ident != "coq_app") & (not ident.startswith("coq_var")):
+        if ident != "coq_app":
             predc_set.add(f"goal_{to_predc_name(ident)}")
     return predc_set
 
@@ -264,3 +228,17 @@ def load_subdir_no_lemma(dir, subdir):
                         dat.append((i, l))
                     i += 1
     return dat
+
+
+COMMON_TAC = [
+    "auto",
+    "simpl",
+    "intros",
+    "intuition",
+    "split",
+    "reflexivity",
+    "trivial",
+    "discriminate",
+    "symmetry",
+    "assumption",
+]

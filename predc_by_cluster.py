@@ -29,24 +29,18 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
 
 
 def pr_hyps_predc(i, l, writer, predc, kind):
-    if kind == "prop":
+    if kind in ["rel", "prop"]:
         utils.pr_hyps_predc(i, l, writer)
         return utils.add_hyps_predc(l, predc)
-    elif kind == "rel":
-        utils.pr_hyps_prop_predc(i, l, writer)
-        return utils.add_hyps_prop_predc(l, predc)
     elif kind == "anonym":
         utils.pr_hyps_anonym_predc(i, l, writer)
         return utils.add_hyps_anonym_predc(l, predc)
 
 
 def pr_goal_predc(i, l, writer, predc, kind):
-    if kind == "prop":
+    if kind in ["rel", "prop"]:
         utils.pr_goal_predc(i, l, writer)
         return utils.add_goal_predc(l, predc)
-    elif kind == "rel":
-        utils.pr_goal_prop_predc(i, l, writer)
-        return utils.add_goal_prop_predc(l, predc)
     elif kind == "anonym":
         utils.pr_goal_anonym_predc(i, l, writer)
         return utils.add_goal_anonym_predc(l, predc)
