@@ -155,6 +155,7 @@ parser.add_argument("--out", type=str)
 parser.add_argument("--kind", type=str, choices=["prop", "var", "anonym"])
 parser.add_argument("--bias", type=str)
 parser.add_argument("--neg_ratio", type=int)
+parser.add_argument("--only_common", action=argparse.BooleanOptionalAction)
 
 opts = parser.parse_args()
 
@@ -168,20 +169,27 @@ num_tac = 0
 
 with open(opts.cluster, "r") as r:
     for origin_tac, posss in json.load(r).items():
-        safe_tac = utils.safe_tac(origin_tac)
-        tac_id = tac2id[safe_tac]
-        for i in range(len(posss)):
-            poss = posss[i]
-            tac = str(tac_id) + "c" + str(i)
-            negs = get_negs(neg_dict, poss, origin_tac, opts.neg_ratio)
-            bk_file, pos_file, neg_file, run_file, rule_file = init_files(tac, opts.out)
-            if not os.path.exists(opts.out):
-                os.makedirs(opts.out)
-            pr_bk(poss, negs, bk_file, safe_tac, opts)
-            pr_exg_predc(poss, pos_file, safe_tac)
-            pr_exg_predc(negs, neg_file, safe_tac)
-            pr_run(tac, run_file)
+        if (opts.only_common) & (origin_tac in utils.COMMON_TAC):
+            safe_tac = utils.safe_tac(origin_tac)
+            tac_id = tac2id[safe_tac]
+            for i in range(len(posss)):
+                poss = posss[i]
+                tac = str(tac_id) + "c" + str(i)
+                negs = get_negs(neg_dict, poss, origin_tac, opts.neg_ratio)
+                bk_file, pos_file, neg_file, run_file, rule_file = init_files(
+                    tac, opts.out
+                )
+                if not os.path.exists(opts.out):
+                    os.makedirs(opts.out)
+                pr_bk(poss, negs, bk_file, safe_tac, opts)
+                pr_exg_predc(poss, pos_file, safe_tac)
+                pr_exg_predc(negs, neg_file, safe_tac)
+                pr_run(tac, run_file)
 
-log = {"tac2id_file": tac2id_file, "neg_ratio": opts.neg_ratio, "options": opts.__dict__}
+log = {
+    "tac2id_file": tac2id_file,
+    "neg_ratio": opts.neg_ratio,
+    "options": opts.__dict__,
+}
 with open(os.path.join(opts.out, "log.json"), "w") as w:
     json.dump(log, w, indent=4)
