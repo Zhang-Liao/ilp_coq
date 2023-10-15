@@ -125,9 +125,11 @@ def stat_ilp_stat_ml(f_good, f_label, f_pred, f_reorder, common):
         if utils.not_lemma(label):
             preds = preds[:20]
             for p in preds:
-                if common & (p in utils.COMMON_TAC):
+                if common != None:
+                    if p in utils.COMMON_TAC:
+                        tac_stats = stat_one_pred(p, tac_stats, goods, label)
+                else:
                     tac_stats = stat_one_pred(p, tac_stats, goods, label)
-
     items = tac_stats.items()
     tac_stats = dict(sorted(items, key=lambda x: x[1]["num"], reverse=True))
     tac_stats = stat_ilp(tac_stats)
