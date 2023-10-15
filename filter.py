@@ -136,9 +136,10 @@ def ilp_pred(exg_paths, prolog, f_label):
     return predss
 
 
-def out_stat_ml(good_preds, reordered_preds, f_pred, clause, label):
-    now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
-    out_dir = os.path.join(f_pred[:-5], now)
+def out_stat_ml(good_preds, reordered_preds, f_pred, clause, label, info):
+    out_dir = os.path.join(f_pred[:-5], info)
+    if os.path.exists(out_dir):
+        assert False
     good_dir = os.path.join(out_dir, "good")
     os.makedirs(good_dir)
     shutil.copy(clause, out_dir)
@@ -156,7 +157,7 @@ def out_stat_ml(good_preds, reordered_preds, f_pred, clause, label):
             w.write(preds + "\n")
     acc.acc(reordered, label, clause)
 
-    stat_filter.stat_ilp_stat_ml(good, label, f_pred, reordered)
+    stat_filter.stat_ilp_stat_ml(good, label, f_pred, reordered, True)
 
     log = {
         "clause": clause,
@@ -165,46 +166,19 @@ def out_stat_ml(good_preds, reordered_preds, f_pred, clause, label):
         json.dump(log, w, indent=4)
 
 
-def out_ilp(predss, clause, f_label):
-    # now = datetime.now().strftime("%m-%d-%Y-%H:%M:%S")
-    # out_dir = os.path.join(f_label[:-6], "ilp_pred", now)
-    # os.makedirs(out_dir)
-    # shutil.copy(clause, out_dir)
-    # f_predss = os.path.join(out_dir, os.path.basename(f_label))
-    # with open(f_predss, "w") as w:
-    #     for preds in predss:
-    #         w.write(preds + "\n")
-    with open(f_label, "r") as f:
-        label = f.read().splitlines()
-    label = [l.strip() for l in label]
-    n_preds, n_corr, score = stat_filter.stat_ilp(predss, label)
-    print(n_preds, n_corr, score)
-    # acc.acc(good, label, clause)
-
-    # log = {
-    #     "clause": clause,
-    # }
-    # with open(os.path.join(out_dir, "log.json"), "w") as w:
-    #     json.dump(log, w, indent=4)
-
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--clause", type=str)
 parser.add_argument("--pred", type=str, default=None)
 parser.add_argument("--test", type=str)
 parser.add_argument("--label", type=str)
 parser.add_argument("--all_predc", type=str)
+parser.add_argument("--info", type=str, help="specify the output dir")
 
 opts = parser.parse_args()
 
 
 exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.all_predc, Prolog())
-if opts.pred != None:
-    assert opts.pred.endswith(".eval")
-    good_preds, reordered_preds = filter_stat_ml(exg_paths, prolog, opts.pred)
-    out_stat_ml(good_preds, reordered_preds, opts.pred, opts.clause, opts.label)
-else:
-    predss = ilp_pred(exg_paths, prolog, opts.label)
-    print(predss)
-    out_ilp(predss, "", opts.label)
+assert opts.pred.endswith(".eval")
+good_preds, reordered_preds = filter_stat_ml(exg_paths, prolog, opts.pred)
+out_stat_ml(good_preds, reordered_preds, opts.pred, opts.clause, opts.label, opts.info)
