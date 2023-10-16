@@ -59,7 +59,7 @@ def stat_acc(dat, params):
     plt.savefig("stats/rel_tune.pdf")
 
 
-def mK_f1_df(dat, params):
+def mk_f1_df(dat, params, predc):
     # assert (len(dat) == len(params))
     # dic = {"param": params, "f1": []}
     f1s = []
@@ -68,25 +68,44 @@ def mK_f1_df(dat, params):
             avg_f1 = np.mean(list(neg.values()))
             # avg_f1 = np.mean([f1 for f1 in neg.values()])
             f1s.append(avg_f1)
-    print(f1s, len(f1s))
-    print(params, len(params))
-
-    dic = {"param": params, "f1": f1s}
+    # print(f1s, len(f1s))
+    # print(params, len(params))
+    predcs = [predc] * len(f1s)
+    dic = {"param": params, "f1": f1s, "predc": predcs}
     df = pd.DataFrame(data=dic)
     return df
 
 
-def stat_f1(dat, params):
-    df = mK_f1_df(dat, params)
+def stat_f1(df):
+    # df = mk_f1_df(dat, params)
     print(df)
-    plt.figure(figsize=(20, 4.8))
-    sns.barplot(data=df, x="param", y="f1", color="tab:blue", width=0.5)
+    plt.figure(figsize=(24, 4.8))
+    sns.lineplot(data=df, x="param", y="f1", hue="predc")
     # plt.show()
-    plt.savefig("stats/prop_tune.pdf")
+    plt.savefig("stats/f1_tune.pdf")
 
 
-r = open("/home/zhangliao/ilp_out_coq/ilp_out_coq/prop_stat.json")
-dat = json.load(r)
-params = get_params(dat["acc"])
-# stat_acc(dat["acc"], params)
-stat_f1(dat["f1"], params)
+def mk_dfs(files):
+    dfs = []
+    for key, f in files:
+        r = open(f, "r")
+        dat = json.load(r)
+        params = get_params(dat["f1"])
+        df = mk_f1_df(dat["f1"], params, key)
+        dfs.append(df)
+    return pd.concat(dfs)
+
+
+f_stats = [
+    ("prop_origin", "/home/zhangliao/ilp_out_coq/ilp_out_coq/prop_origin_stat.json"),
+    ("rel_origin", "/home/zhangliao/ilp_out_coq/ilp_out_coq/rel_origin_stat.json"),
+    ("rel_anonym", "/home/zhangliao/ilp_out_coq/ilp_out_coq/rel_anonym_stat.json"),
+]
+
+df = mk_dfs(f_stats)
+stat_f1(df)
+# r_rel_origin = open("/home/zhangliao/ilp_out_coq/ilp_out_coq/rel_origin_stat.json")
+# dat_rel_origin = json.load(r_rel_origin)
+# params = get_params(dat_rel_origin["f1"])
+# df_rel_origin = mk_f1_df(dat_rel_origin["f1"], params)
+# stat_f1(df_rel_origin, params)
