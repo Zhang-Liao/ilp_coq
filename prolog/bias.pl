@@ -55,8 +55,6 @@ eq_subterm(N, Idx1, Idx2) :-
 :- modeb(3, hyp_position_left(+hyp_idx, +hyp_idx)).
 :- modeb(3, position_above(+goal_idx, +goal_idx)).
 :- modeb(3, position_above(+hyp_idx, +hyp_idx)).
-:- modeb(3, hyp_coq_var(+nat, -string, +string, -hyp_idx)).
-:- modeb(3, goal_coq_var(+nat, +string, -goal_idx)).
 :- modeb(3, eq_subterm(+nat, +goal_idx, +goal_idx)).
 :- modeb(3, eq_subterm(+nat, +hyp_idx, +hyp_idx)).
 :- modeb(3, eq_subterm(+nat, +goal_idx, +hyp_idx)).
@@ -64,8 +62,6 @@ eq_subterm(N, Idx1, Idx2) :-
 :- determination(tac/2, goal_position_left/2).
 :- determination(tac/2, hyp_position_left/2).
 :- determination(tac/2, position_above/2).
-:- determination(tac/2, hyp_coq_var/4).
-:- determination(tac/2, goal_coq_var/3).
 :- determination(tac/2, dif/2).
 :- determination(tac/2, eq_subterm/3).
 
