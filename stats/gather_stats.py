@@ -3,7 +3,7 @@ import os
 import re
 
 num_of_test = 10
-test_dir = "data/json/origin_feat/tune/MSets"
+test_dir = "data/json/origin_feat/tune/MSets/"
 
 
 def inti_stat():
@@ -27,33 +27,36 @@ def update_stats(stat, pos, neg, split, acc):
     return stat
 
 
+def check_miss(stats):
+    for pos in stats.keys():
+        for neg in stats[pos].keys():
+            for split, st in stats[pos][neg].items():
+                if st == []:
+                    print("miss: pos", pos, "neg", neg, "split", split)
+
+
 acc_stat = inti_stat()
 f1_stat = inti_stat()
 for i in range(num_of_test):
-    test_i = os.path.join(test_dir, f"test{i}")
-
+    stat_i = f"data/json/origin_feat/tune/MSets/test{i}/subsum/rel/anonym"
+    # test_i = os.path.join(test_dir, f"test{i}", "subsum")
     pred = os.path.join(test_dir, f"test{i}.eval")
     label = os.path.join(test_dir, f"test{i}.label")
 
-    for test_time in os.listdir(test_i):
-        curr_dir = os.path.join(test_i, test_time)
+    for param in os.listdir(stat_i):
+        # test_time = f"subsum/{test_time}"
+        curr_dir = os.path.join(stat_i, param)
         f_ilp_stat = os.path.join(curr_dir, f"good/stat_filter.json")
         f_reorder = os.path.join(curr_dir, f"reorder/test{i}_stat.json")
         reorder_r = open(f_reorder, "r")
         reorder = json.load(reorder_r)
         try:
-            info = re.match(
-                r".*/rel/p(?P<pos>[0-9]+)n(?P<neg>[0-9]+)/.*",
-                reorder["info"],
-            )
+            info = re.match(r".*p(?P<pos>[0-9]+)n(?P<neg>[0-9]+).*", param)
         except:
-            print(reorder)
+            print("fail to match", param)
             exit()
         if info != None:
             info = info.groupdict()
-            # except:
-            #     print(reorder)
-            #     exit()
             pos = info["pos"]
             neg = info["neg"]
             acc_stat = update_stats(acc_stat, pos, neg, i, reorder["accs"])
@@ -61,7 +64,8 @@ for i in range(num_of_test):
             ilp_stat = json.load(ilp_r)
             f1_stat = update_stats(f1_stat, pos, neg, i, ilp_stat["f1"])
 
-stat = {"acc": acc_stat, "f1": f1_stat}
+stat = {"info": stat_i, "acc": acc_stat, "f1": f1_stat}
 # print(stat)
-with open("rel_stat2.json", "w") as w:
+check_miss(stat["f1"])
+with open("rel_anonym_stat.json", "w") as w:
     json.dump(stat, w)
