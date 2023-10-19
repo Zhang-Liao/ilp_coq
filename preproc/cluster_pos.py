@@ -51,6 +51,7 @@ def calculate_n(dat, max_cls):
 
 
 def calculate_min(n_label, n_cls, max_cls):
+    # Using floor to avoid n_cls * min > n_label
     min_ = math.floor(n_label / n_cls)
     if min_ == max_cls:
         min_ -= 1
