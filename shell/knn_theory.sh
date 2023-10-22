@@ -1,32 +1,40 @@
-pred() {
+eval() {
 
     train_x=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/tune/MSets/train$2.feat
     train_y=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/origin_feat/tune/MSets/train$2.label
     file=${1%".json"}
     test_x=$file.feat
+    test_y=$file.label
     pred_y=$file.eval
+
+    IFS=/ read -ra splits <<<$pred_y
+    only_pred_name=${splits[-1]}
     knn/_build/default/bin/main.exe -train_x $train_x -train_y $train_y -test_x $test_x
     cp $pred_y $3
+    python stats/acc.py --pred $3/$only_pred_name --label $test_y
 }
 
-export -f pred
+export -f eval
 
 dataset=data/json/origin_feat/merge
-theory=theories/Arith.json
-IFS=/ read -ra ADDR <<<$theory
-kind=${ADDR[0]}
+theories=('theories/Classes.json' 'plugins/ssr.json' 'theories/Lists.json' 'theories/QArith.json' 'theories/Numbers.json')
 
-for i in {0..0}; do
-    train_dir=data/json/origin_feat/tune/MSets
-    train_i=$train_dir/train$i
-    train_x=$train.feat
-    train_y=$train.label
-    out=$train_dir/test/train$i/$kind
-    mkdir -p $out
-    # find $theory/$subdir -name "*.json" | parallel pred {} $i
-    pred $dataset/$theory $i $out
-    # echo $theory/$subdir
-    # python move_knn_eval.py --source $theory/$subdir --dest $out
+for theory in ${theories[@]}; do
+    IFS=/ read -ra splits <<<$theory
+    kind=${splits[0]}
+    # Only test theories parallelly to avoid k-NNs of different train.feat files output to the same .eval file.
+    (
+        for i in {0..0}; do
+            train_dir=data/json/origin_feat/tune/MSets
+            train_i=$train_dir/train$i
+            train_x=$train.feat
+            train_y=$train.label
+            out=$train_dir/test/train$i/$kind
+            mkdir -p $out
+            eval $dataset/$theory $i $out
+        done
+    ) &
+
 done
 
 # bash -c "pred" 1 2
