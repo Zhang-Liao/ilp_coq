@@ -1,5 +1,6 @@
 import json
 import os
+import warnings
 
 import argparse
 from datetime import datetime
@@ -139,7 +140,9 @@ def ilp_pred(exg_paths, prolog, f_label):
 def out_stat_ml(good_preds, reordered_preds, f_pred, clause, label, info):
     out_dir = os.path.join(f_pred[:-5], info)
     if os.path.exists(out_dir):
-        assert False
+        os.removedirs(out_dir)
+        warnings.warn("remove the existed statistic in", out_dir)
+        raise ValueError(out_dir, "have already existed")
     good_dir = os.path.join(out_dir, "good")
     os.makedirs(good_dir)
     shutil.copy(clause, out_dir)

@@ -24,12 +24,12 @@ for theory in ${theories[@]}; do
     kind=${splits[0]}
     # Only test theories parallelly to avoid k-NNs of different train.feat files output to the same .eval file.
     (
-        for i in {0..0}; do
+        for i in {0..9}; do
             train_dir=data/json/origin_feat/tune/MSets
             train_i=$train_dir/train$i
             train_x=$train.feat
             train_y=$train.label
-            out=$train_dir/test/train$i/$kind
+            out=$train_dir/test_theory/train$i/$kind
             mkdir -p $out
             eval $dataset/$theory $i $out
         done
