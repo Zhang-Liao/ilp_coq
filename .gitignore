@@ -1,5 +1,5 @@
 _build/
-*.json
+# *.json
 *.pyc
 *.gz
 *.feat
@@ -12,6 +12,8 @@ _build/
 *.b
 *.f
 *.n
+**/data/**/*.json
+
 **/data/**/*.pl
 **/data/*.pl
 *.pl.log
@@ -22,3 +24,4 @@ timelog
 *.csv
 *.split
 debug/
+pred/
