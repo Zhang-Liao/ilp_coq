@@ -160,7 +160,7 @@ def out_stat_ml(good_preds, reordered_preds, f_pred, clause, label, info):
             w.write(preds + "\n")
     acc.acc(reordered, label, clause)
 
-    stat_filter.stat_ilp_stat_ml(good, label, f_pred, reordered, True)
+    stat_filter.stat_ilp_stat_ml(good, label, f_pred, reordered, False)
 
     log = {
         "clause": clause,

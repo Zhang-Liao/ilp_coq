@@ -125,7 +125,7 @@ def stat_ilp_stat_ml(f_good, f_label, f_pred, f_reorder, common):
         if utils.not_lemma(label):
             preds = preds[:20]
             for p in preds:
-                if common != None:
+                if common:
                     if p in utils.COMMON_TAC:
                         tac_stats = stat_one_pred(p, tac_stats, goods, label)
                 else:
@@ -150,6 +150,6 @@ if __name__ == "__main__":
     parser.add_argument("--reorder", type=str)
     parser.add_argument("--pred", type=str)
     parser.add_argument("--label", type=str)
-    parser.add_argument("--only_common", action=argparse.BooleanOptionalAction)
+    parser.add_argument("--only_common", action="store_true")
     args = parser.parse_args()
     stat_ilp_stat_ml(args.good, args.label, args.pred, args.reorder, args.only_common)
