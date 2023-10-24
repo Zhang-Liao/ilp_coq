@@ -1,0 +1,15 @@
+/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/alltac/prop_origin_stat.json
+param          p4n16
+f1          0.245196
+predc    prop_origin
+Name: 10, dtype: object
+/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/alltac/rel_origin_stat.json
+param         p8n32
+f1         0.270623
+predc    rel_origin
+Name: 17, dtype: object
+/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/alltac/rel_anonym_stat.json
+param         p4n32
+f1         0.222812
+predc    rel_anonym
+Name: 11, dtype: object

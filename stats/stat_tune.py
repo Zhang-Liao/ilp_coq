@@ -78,11 +78,11 @@ def mk_f1_df(dat, params, predc):
 
 def stat_f1(df):
     # df = mk_f1_df(dat, params)
-    print(df)
+    # print(df)
     plt.figure(figsize=(24, 4.8))
     sns.lineplot(data=df, x="param", y="f1", hue="predc")
     # plt.show()
-    plt.savefig("stats/f1_tune.pdf")
+    # plt.savefig("stats/f1_tune.pdf")
 
 
 def mk_dfs(files):
@@ -92,14 +92,25 @@ def mk_dfs(files):
         dat = json.load(r)
         params = get_params(dat["f1"])
         df = mk_f1_df(dat["f1"], params, key)
+        print(f)
+        print(df.loc[df["f1"].idxmax()])
         dfs.append(df)
     return pd.concat(dfs)
 
 
 f_stats = [
-    ("prop_origin", "/home/zhangliao/ilp_out_coq/ilp_out_coq/prop_origin_stat.json"),
-    ("rel_origin", "/home/zhangliao/ilp_out_coq/ilp_out_coq/rel_origin_stat.json"),
-    ("rel_anonym", "/home/zhangliao/ilp_out_coq/ilp_out_coq/rel_anonym_stat.json"),
+    (
+        "prop_origin",
+        "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/alltac/prop_origin_stat.json",
+    ),
+    (
+        "rel_origin",
+        "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/alltac/rel_origin_stat.json",
+    ),
+    (
+        "rel_anonym",
+        "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/alltac/rel_anonym_stat.json",
+    ),
 ]
 
 df = mk_dfs(f_stats)
