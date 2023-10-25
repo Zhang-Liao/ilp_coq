@@ -41,20 +41,34 @@ def cal_f1(tp, fp, tn, fn):
     return f1_score(label, pred, average="binary", zero_division=1)
 
 
+def update_tp(all_tp, all_tn, all_fp, all_fn, tp, tn, fp, fn):
+    all_tp += tp
+    all_tn += tn
+    all_fp += fp
+    all_fn += fn
+    return all_tp, all_tn, all_fp, all_fn
+
+
+def init_tp():
+    return 0, 0, 0, 0
+
+
 def stat_ilp(dic):
-    all_tp = 0
-    all_tn = 0
-    all_fp = 0
-    all_fn = 0
+    all_tp, all_tn, all_fp, all_fn = init_tp()
+    no_ign_tp, no_ign_tn, no_ign_fp, no_ign_fn = init_tp()
     for tac, stat in dic.items():
         tp = stat["TP"]
         tn = stat["TN"]
         fp = stat["FP"]
         fn = stat["FN"]
-        all_tp += tp
-        all_tn += tn
-        all_fp += fp
-        all_fn += fn
+        all_tp, all_tn, all_fp, all_fn = update_tp(
+            all_tp, all_tn, all_fp, all_fn, tp, tn, fp, fn
+        )
+        if tac not in utils.IGNORED_TACS:
+            no_ign_tp, no_ign_tn, no_ign_fp, no_ign_fn = update_tp(
+                no_ign_tp, no_ign_tn, no_ign_fp, no_ign_fn, tp, tn, fp, fn
+            )
+
         dic[tac]["f1"] = cal_f1(tp, fp, tn, fn)
 
     ilp_stat = {
@@ -63,39 +77,10 @@ def stat_ilp(dic):
         "FP": all_fp,
         "FN": all_fn,
         "f1": cal_f1(all_tp, all_fp, all_tn, all_fn),
+        "f1_without_ignored_tac": cal_f1(no_ign_tp, no_ign_fp, no_ign_tn, no_ign_fn),
     }
     new_dict = ilp_stat | dic
     return new_dict
-
-
-# def stat_top1(reorders, labels, stat):
-#     i = 0
-#     for pred, label in zip(reorders, labels):
-#         if (utils.not_lemma(label)) & (pred != []) & (pred[0] == label):
-#             if "top1" not in stat[label].keys():
-#                 stat[label]["top1"] = [i]
-#             else:
-#                 stat[label]["top1"].append(i)
-#         i += 1
-
-#     for _, tac_stat in stat.items():
-#         if "top1" in tac_stat.keys():
-#             tac_stat["top1"] = {"num": len(tac_stat["top1"]), "id": tac_stat["top1"]}
-#     return stat
-
-
-# def stat_ilp(predss, label):
-#     n_preds = 0
-#     n_corr = 0
-#     for preds, l in zip(predss, label):
-#         if l in preds:
-#             n_corr += 1
-#         n_preds += len(preds)
-#     if n_corr == 0:
-#         score = 0
-#     else:
-#         score = n_corr / n_preds
-#     return n_preds, n_corr, score
 
 
 def stat_one_pred(p, stats, goods, label):
@@ -133,10 +118,7 @@ def stat_ilp_stat_ml(f_good, f_label, f_pred, f_reorder, common):
     items = tac_stats.items()
     tac_stats = dict(sorted(items, key=lambda x: x[1]["num"], reverse=True))
     tac_stats = stat_ilp(tac_stats)
-    # ilp_stats = {"ilp_pred": n_preds, "ilp_corr": n_corr, "ilp_score": score}
-    # log = top1_stat | tac_stats
-    # for tac, stat in tac_stats.ite
-    # tac_stats = ilp_stats | tac_stats
+
     out_dir = os.path.dirname(f_good)
     with open(os.path.join(out_dir, "stat_filter.json"), "w") as w:
         json.dump(tac_stats, w)

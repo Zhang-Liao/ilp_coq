@@ -32,18 +32,22 @@ def check_miss(stats):
                     print("miss: pos", pos, "neg", neg, "split", split)
 
 
-def update_theory_stat(i, f1s, file, root, theory):
+def update_theory_stat(i, stat, file, root, theory):
     reader = open(os.path.join(root, file), "r")
-    stat = json.load(reader)
-    f1 = stat["f1"]
+    file_stat = json.load(reader)
+    f1 = file_stat["f1"]
+    f1_no_ign = file_stat["f1_no_ignored_tac"]
     # print(f1)
     splits = root.split("/")
     if ("anonym" in splits) & ("rel" in splits):
-        f1s["anonym_rel"][theory][i] = f1
+        stat["f1"]["anonym_rel"][theory][i] = f1
+        stat["f1_no_ignored_tac"]["anonym_rel"][theory][i] = f1_no_ign
     elif ("origin" in splits) & ("rel" in splits):
-        f1s["origin_rel"][theory][i] = f1
+        stat["f1"]["origin_rel"][theory][i] = f1
+        stat["f1_no_ignored_tac"]["origin_rel"][theory][i] = f1_no_ign
     elif ("origin" in splits) & ("prop" in splits):
-        f1s["origin_prop"][theory][i] = f1
+        stat["f1"]["origin_prop"][theory][i] = f1
+        stat["f1_no_ignored_tac"]["origin_prop"][theory][i] = f1_no_ign
     else:
         raise FileNotFoundError("stat_filter exist in unexpected path")
 
@@ -52,7 +56,7 @@ def update_theory_stats(dir, i, stat, theory):
     for root, _, files in os.walk(dir):
         for f in files:
             if f.endswith("stat_filter.json"):
-                f1 = update_theory_stat(i, stat["f1"], f, root, theory)
+                f1 = update_theory_stat(i, stat, f, root, theory)
 
 
 stat = {"acc": init_stat(), "f1": init_stat()}

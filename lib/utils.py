@@ -250,3 +250,5 @@ THEORIES = [
     "theories/QArith",
     "theories/Numbers",
 ]
+
+IGNORED_TACS = ["intros", "split"]
