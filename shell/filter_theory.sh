@@ -1,13 +1,13 @@
 predc_kind=rel
-anonym=origin
-param=p4n4
+anonym=anonym
+param=p4n32
 knn_pred=data/json/origin_feat/tune/MSets/test_theory
-test_predc=data/json/predicate/origin/merge/test/prop
+test_predc=data/json/predicate/$anonym/merge/test/anonym
 train_predc=data/json/predicate/$anonym/tune/MSets/train/$predc_kind/$param
-# theories=('theories/Classes' 'plugins/ssr' 'theories/Lists' 'theories/QArith' 'theories/Numbers')
-theories=('plugins/ssr')
+theories=('theories/Classes' 'plugins/ssr' 'theories/Lists' 'theories/QArith' 'theories/Numbers')
+# theories=('plugins/ssr')
 
-all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_predc.pl
+all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_predc.pl
 
 for theory in ${theories[@]}; do
     for i in {0..9}; do

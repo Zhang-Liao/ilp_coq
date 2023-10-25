@@ -242,3 +242,11 @@ COMMON_TAC = [
     "symmetry",
     "assumption",
 ]
+
+THEORIES = [
+    "theories/Classes",
+    "plugins/ssr",
+    "theories/Lists",
+    "theories/QArith",
+    "theories/Numbers",
+]
