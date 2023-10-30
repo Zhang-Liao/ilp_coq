@@ -1,13 +1,14 @@
 import json
 import os
 import sys
+
 sys.path.append(os.path.dirname(sys.path[0]))
 
 from lib import utils
 
-DAT_DIR = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/anonym/"
-OUT = "/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_anonym_predc.pl"
-KIND = "anonym"
+DAT_DIR = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/origin"
+OUT = "/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_prop_predc.pl"
+KIND = "prop"
 assert KIND in ["prop", "rel", "anonym"]
 
 
@@ -24,10 +25,6 @@ def pr_goal_predc(predc, writer):
 def pr_multifiles(hyp_predc, goal_predc, w):
     w.write(f":- multifile hyp_predc/1.\n")
     w.write(f":- multifile goal_predc/1.\n")
-    if KIND == 'rel':
-        w.write(f":- multifile hyp_coq_var/4.\n")
-        w.write(f":- multifile goal_coq_var/3.\n")
-
 
     for p in hyp_predc:
         w.write(f":- multifile {p}/3.\n")
@@ -38,25 +35,13 @@ def pr_multifiles(hyp_predc, goal_predc, w):
 def row_predc(r, hyp_predc, goal_predc):
     r = json.loads(r)
 
-    if KIND == "prop":
-        goal_predc = utils.add_goal_prop_predc(r["goal"], goal_predc)
-        hyp_predc = utils.add_hyps_prop_predc(r["hyps"], hyp_predc)
-    elif KIND == "rel":
+    if KIND in ["prop", "rel"]:
         goal_predc = utils.add_goal_predc(r["goal"], goal_predc)
         hyp_predc = utils.add_hyps_predc(r["hyps"], hyp_predc)
     elif KIND == "anonym":
         goal_predc = utils.add_goal_anonym_predc(r["goal"], goal_predc)
         hyp_predc = utils.add_hyps_anonym_predc(r["hyps"], hyp_predc)
     return hyp_predc, goal_predc
-
-
-# def file_predc(file, hyp_predc, goal_predc):
-#     with (open(file, 'r') as reader):
-#         for l in reader:
-#             l = l.strip()
-#             if utils.not_lemma(l):
-#                 row_predc(l, hyp_predc, goal_predc)
-#     return hyp_predc, goal_predc
 
 
 def read_predc():

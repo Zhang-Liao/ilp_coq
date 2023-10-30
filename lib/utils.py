@@ -213,6 +213,22 @@ def load_dataset(dir):
     return dat
 
 
+def load_dataset_no_lemma(dir):
+    dat = []
+    orders = file_order()
+    i = 0
+    for f in orders:
+        path = os.path.join(dir, f)
+        if not os.path.exists(path):
+            raise FileNotFoundError(f)
+        with open(path, "r") as r:
+            for l in r:
+                if not_lemma(l):
+                    dat.append((i, l))
+                i += 1
+    return dat
+
+
 def load_subdir_no_lemma(dir, subdir):
     dat = []
     orders = file_order()
