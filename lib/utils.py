@@ -63,7 +63,7 @@ def ignore_arity(id, art):
 
 def pr_hyps_predc(i, l, writer):
     for ident, name, kind, idx in l:
-        if ident != "coq_app":
+        if ident not in ["coq_app", "coq_case"]:
             ident = to_predc_name(ident)
             name = hyp_name(name)
             idx = hyp_idx(name, kind, idx)
@@ -86,7 +86,7 @@ def pr_hyps_anonym_predc(i, l, writer):
 
 def pr_goal_predc(i, l, writer):
     for ident, idx in l:
-        if ident != "coq_app":
+        if ident not in ["coq_app", "coq_case"]:
             ident = to_predc_name(ident)
             writer.write(f"goal_{ident}({i},{goal_idx(idx)}).\n")
 
@@ -107,7 +107,7 @@ def pr_goal_anonym_predc(i, l, writer):
 
 def add_hyps_predc(l, predc_set):
     for ident, _, _, _ in l:
-        if ident != "coq_app":
+        if ident not in ["coq_app", "coq_case"]:
             predc_set.add(f"hyp_{to_predc_name(ident)}")
     return predc_set
 
@@ -127,7 +127,7 @@ def add_hyps_anonym_predc(l, predc_set):
 
 def add_goal_predc(l, predc_set):
     for ident, _ in l:
-        if ident != "coq_app":
+        if ident not in ["coq_app", "coq_case"]:
             predc_set.add(f"goal_{to_predc_name(ident)}")
     return predc_set
 
