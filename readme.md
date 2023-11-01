@@ -21,4 +21,5 @@ ignore: Int (mis include), Float (mis include), Fix, CoFix, Case, LetIn, Proj, S
 ignore: Int (mis include), Float (mis include), Sort, Meta, App
 include: the other
 
-Cannot show all the details of encoding because it is complicate, e.g., only one identidier of Constructor ... To explain, first, show the tree structure, then show encoding by position. For anonymous,only keep ...
+Cannot show all the details of encoding because it is complicate, e.g., only one identidier of Constructor ... To explain, first, show the tree structure, then show encoding by position. Some constructors (App,...) are ignored because they have been indicated by their arguments. Appendix pseudocode shows the structure of Coq, which predicates are used, do not need explain the meaning of each argument.
+For anonymous,only keep ...
