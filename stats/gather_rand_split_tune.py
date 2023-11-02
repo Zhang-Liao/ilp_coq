@@ -38,7 +38,7 @@ def check_miss(stats):
 acc_stat = inti_stat()
 f1_stat = inti_stat()
 for i in range(num_of_test):
-    stat_i = f"data/json/origin_feat/tune/MSets/test{i}/prop/origin"
+    stat_i = f"data/json/origin_feat/tune/MSets/test{i}/rel/anonym"
     # test_i = os.path.join(test_dir, f"test{i}", "subsum")
     pred = os.path.join(test_dir, f"test{i}.eval")
     label = os.path.join(test_dir, f"test{i}.label")
@@ -67,5 +67,5 @@ for i in range(num_of_test):
 stat = {"info": stat_i, "acc": acc_stat, "f1": f1_stat}
 # print(stat)
 check_miss(stat["f1"])
-with open("rel_prop_stat.json", "w") as w:
+with open("rel_anonym_stat.json", "w") as w:
     json.dump(stat, w)
