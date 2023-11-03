@@ -17,34 +17,31 @@ def init_stat():
     return stat
 
 
-def check_miss(stats):
-    for pos in stats.keys():
-        for neg in stats[pos].keys():
-            for split, st in stats[pos][neg].items():
-                if st == []:
-                    print("miss: pos", pos, "neg", neg, "split", split)
-
-
-def update_stat(i, stat, file, root):
-    reader = open(os.path.join(root, file), "r")
-    file_stat = json.load(reader)
-    f1 = file_stat["f1"]
-    f1_no_ign = file_stat["f1_no_ignored_tac"]
-    # print(f1)
+def update_stat(i, stat, f_stat, root):
+    path_splits = root.split("/")
+    test_dir = "/".join(path_splits[:-1])
+    reorder_f = os.path.join(test_dir, f"reorder/valid{i}_stat.json")
+    reader = open(os.path.join(root, f_stat), "r")
+    ilp_stat = json.load(reader)
+    f1 = ilp_stat["f1"]
+    f1_no_ign = ilp_stat["f1_no_ignored_tac"]
+    # ???
+    reorder_reader = open(reorder_f, "r")
+    reorder_stat = json.load(reorder_reader)
+    acc = reorder_stat["accs"]
     splits = root.split("/")
     if ("anonym" in splits) & ("rel" in splits):
-        try:
-            stat["f1"]["anonym_rel"][i] = f1
-            stat["f1_no_ignored_tac"]["anonym_rel"][i] = f1_no_ign
-        except:
-            print("fail in", os.path.join(root, file))
-            exit()
+        stat["f1"]["anonym_rel"][i] = f1
+        stat["f1_no_ignored_tac"]["anonym_rel"][i] = f1_no_ign
+        stat["acc"]["anonym_rel"][i] = acc
     elif ("origin" in splits) & ("rel" in splits):
         stat["f1"]["origin_rel"][i] = f1
         stat["f1_no_ignored_tac"]["origin_rel"][i] = f1_no_ign
+        stat["acc"]["origin_rel"][i] = acc
     elif ("origin" in splits) & ("prop" in splits):
         stat["f1"]["origin_prop"][i] = f1
         stat["f1_no_ignored_tac"]["origin_prop"][i] = f1_no_ign
+        stat["acc"]["origin_prop"][i] = acc
     else:
         raise FileNotFoundError("stat_filter exist in unexpected path")
 
