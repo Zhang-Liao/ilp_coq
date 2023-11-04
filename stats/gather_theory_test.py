@@ -24,12 +24,11 @@ def init_stat():
     return stat
 
 
-def check_miss(stats):
-    for pos in stats.keys():
-        for neg in stats[pos].keys():
-            for split, st in stats[pos][neg].items():
-                if st == []:
-                    print("miss: pos", pos, "neg", neg, "split", split)
+def init_knn_stat():
+    stat = {}
+    for t in utils.THEORIES:
+        stat[t] = {}
+    return stat
 
 
 def update_theory_stat(i, stat, ilp_stat_f, root, theory):
@@ -71,14 +70,24 @@ def update_theory_stats(dir, i, stat, theory):
                 update_theory_stat(i, stat, f, root, theory)
 
 
-stat = {"acc": init_stat(), "f1": init_stat(), "f1_no_ignored_tac": init_stat()}
+def update_knn(dir, theory, stat):
+    file = os.path.join(dir, f"{theory}_stat.json")
+    reader = open(file, "r")
+    knn_stat = json.load(reader)
+    stat[theory][i] = knn_stat["accs"]
+
+
+ilp_stat = {"acc": init_stat(), "f1": init_stat(), "f1_no_ignored_tac": init_stat()}
+knn_stat = init_knn_stat()
 for i in range(num_of_test):
     stat_i = f"data/json/origin_feat/tune/MSets/test_theory/train{i}"
     for theory in utils.THEORIES:
         dir = os.path.join(stat_i, theory)
-        update_theory_stats(dir, i, stat, theory)
+        update_knn(stat_i, theory, knn_stat)
+        update_theory_stats(dir, i, ilp_stat, theory)
 
-# check_miss(stat)
 with open("theory_stat.json", "w") as w:
-    json.dump(stat, w)
-# print(stat)
+    json.dump(ilp_stat, w)
+
+with open("knn_theory_stat.json", "w") as w:
+    json.dump(knn_stat, w)
