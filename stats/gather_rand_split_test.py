@@ -17,11 +17,11 @@ def init_stat():
     return stat
 
 
-def update_stat(i, stat, f_stat, root):
+def update_stat(i, stat, ilp_stat_f, root):
     path_splits = root.split("/")
     test_dir = "/".join(path_splits[:-1])
     reorder_f = os.path.join(test_dir, f"reorder/valid{i}_stat.json")
-    reader = open(os.path.join(root, f_stat), "r")
+    reader = open(os.path.join(root, ilp_stat_f), "r")
     ilp_stat = json.load(reader)
     f1 = ilp_stat["f1"]
     f1_no_ign = ilp_stat["f1_no_ignored_tac"]

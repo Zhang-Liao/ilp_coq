@@ -32,26 +32,34 @@ def check_miss(stats):
                     print("miss: pos", pos, "neg", neg, "split", split)
 
 
-def update_theory_stat(i, stat, file, root, theory):
-    reader = open(os.path.join(root, file), "r")
-    file_stat = json.load(reader)
+def update_theory_stat(i, stat, ilp_stat_f, root, theory):
+    theory_name = theory.split("/")[-1]
+    path_splits = root.split("/")
+    test_dir = "/".join(path_splits[:-1])
+    reorder_f = os.path.join(test_dir, f"reorder/{theory_name}_stat.json")
+    ilp_reader = open(os.path.join(root, ilp_stat_f), "r")
+    reorder_reader = open(reorder_f, "r")
+
+    file_stat = json.load(ilp_reader)
+    reorder_stat = json.load(reorder_reader)
     f1 = file_stat["f1"]
     f1_no_ign = file_stat["f1_no_ignored_tac"]
+    acc = reorder_stat["accs"]
     # print(f1)
     splits = root.split("/")
     if ("anonym" in splits) & ("rel" in splits):
-        try:
-            stat["f1"]["anonym_rel"][theory][i] = f1
-            stat["f1_no_ignored_tac"]["anonym_rel"][theory][i] = f1_no_ign
-        except:
-            print("fail in", os.path.join(root, file))
-            exit()
+        stat["f1"]["anonym_rel"][theory][i] = f1
+        stat["f1_no_ignored_tac"]["anonym_rel"][theory][i] = f1_no_ign
+        stat["acc"]["anonym_rel"][theory][i] = acc
     elif ("origin" in splits) & ("rel" in splits):
         stat["f1"]["origin_rel"][theory][i] = f1
         stat["f1_no_ignored_tac"]["origin_rel"][theory][i] = f1_no_ign
+        stat["acc"]["origin_rel"][theory][i] = acc
+
     elif ("origin" in splits) & ("prop" in splits):
         stat["f1"]["origin_prop"][theory][i] = f1
         stat["f1_no_ignored_tac"]["origin_prop"][theory][i] = f1_no_ign
+        stat["acc"]["origin_prop"][theory][i] = acc
     else:
         raise FileNotFoundError("stat_filter exist in unexpected path")
 
@@ -60,7 +68,7 @@ def update_theory_stats(dir, i, stat, theory):
     for root, _, files in os.walk(dir):
         for f in files:
             if f.endswith("stat_filter.json"):
-                f1 = update_theory_stat(i, stat, f, root, theory)
+                update_theory_stat(i, stat, f, root, theory)
 
 
 stat = {"acc": init_stat(), "f1": init_stat(), "f1_no_ignored_tac": init_stat()}
