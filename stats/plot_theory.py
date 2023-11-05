@@ -33,6 +33,13 @@ def mk_acc_df(ilp_stat, knn_stat, theory):
                 dat["kind"].append(predc)
                 dat["acc"].append(acc[i])
                 dat["top-k"].append(i + 1)
+
+    for acc in knn_stat[theory].values():
+        for i in range(len(acc)):
+            dat["kind"].append("knn")
+            dat["acc"].append(acc[i])
+            dat["top-k"].append(i + 1)
+
     return dat
     # for acc in knn_stat.values():
     #     for i in range(len(acc)):
@@ -41,10 +48,9 @@ def mk_acc_df(ilp_stat, knn_stat, theory):
     #         dat["top-k"].append(i + 1)
 
 
-def mk_theories_acc_dfs(ilp_stat):
-    dfs = []
+def plot_theories_acc(ilp_stat, knn_stat):
     for theory in utils.THEORIES:
-        df = mk_acc_df(ilp_stat, {}, theory)
+        df = mk_acc_df(ilp_stat, knn_stat, theory)
         sns.lineplot(data=df, x="top-k", y="acc", hue="kind")
         # plt.show()
         theory_name = theory.split("/")[-1]
@@ -53,12 +59,13 @@ def mk_theories_acc_dfs(ilp_stat):
         # dfs.append(df)
 
 
-f_stats = "theory_stat.json"
-stat = json.load(open(f_stats, "r"))
-
+ilp_stat_f = "stats/alltac/ilp_theory_stat.json"
+knn_stat_f = "knn_theory_stat.json"
+ilp_stat = json.load(open(ilp_stat_f, "r"))
+knn_stat = json.load(open(knn_stat_f, "r"))
 
 # f1_df = mk_f1_df(stat)
 # sns.barplot(data=f1_df, x="theory", y="f1", hue="predc")
 # plt.show()
 # plt.savefig("stats/alltac/theory_stat_no_ignored.pdf")
-mk_theories_acc_dfs(stat)
+plot_theories_acc(ilp_stat, knn_stat)
