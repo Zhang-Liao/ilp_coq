@@ -1,0 +1,261 @@
+{
+    "Bool": {
+        "discriminate": 3,
+        "intros": 16,
+        "trivial": 20,
+        "assumption": 6,
+        "intuition": 47,
+        "reflexivity": 7,
+        "intro": 4,
+        "simpl": 3,
+        "auto": 32
+    },
+    "ZArith": {
+        "intros": 335,
+        "trivial": 622,
+        "assumption": 28,
+        "intuition": 101,
+        "reflexivity": 88,
+        "split": 77,
+        "simpl": 588,
+        "auto": 480
+    },
+    "NArith": {
+        "intros": 108,
+        "trivial": 317,
+        "assumption": 14,
+        "reflexivity": 64,
+        "intro": 14,
+        "split": 23,
+        "simpl": 278,
+        "auto": 84
+    },
+    "Strings": {
+        "discriminate": 796,
+        "intros": 34,
+        "assumption": 9,
+        "reflexivity": 4477,
+        "intro": 267,
+        "split": 14,
+        "simpl": 114,
+        "auto": 159
+    },
+    "Lists": {
+        "intros": 195,
+        "trivial": 73,
+        "assumption": 26,
+        "intuition": 66,
+        "reflexivity": 64,
+        "split": 86,
+        "simpl": 481,
+        "auto": 631
+    },
+    "FSets": {
+        "discriminate": 149,
+        "intros": 1097,
+        "trivial": 123,
+        "intuition": 491,
+        "reflexivity": 74,
+        "split": 225,
+        "simpl": 1011,
+        "auto": 2593
+    },
+    "QArith": {
+        "discriminate": 19,
+        "intros": 129,
+        "assumption": 57,
+        "reflexivity": 84,
+        "intro": 10,
+        "split": 23,
+        "simpl": 167,
+        "auto": 119
+    },
+    "Reals": {
+        "intros": 3132,
+        "assumption": 3354,
+        "intuition": 241,
+        "reflexivity": 938,
+        "intro": 1865,
+        "split": 844,
+        "simpl": 1024,
+        "auto": 357
+    },
+    "MSets": {
+        "discriminate": 89,
+        "intros": 547,
+        "trivial": 123,
+        "intuition": 391,
+        "reflexivity": 70,
+        "split": 156,
+        "simpl": 451,
+        "auto": 1352
+    },
+    "Init": {
+        "discriminate": 10,
+        "intros": 45,
+        "trivial": 45,
+        "assumption": 88,
+        "reflexivity": 62,
+        "split": 49,
+        "simpl": 42,
+        "auto": 60
+    },
+    "micromega": {
+        "discriminate": 49,
+        "intros": 438,
+        "assumption": 46,
+        "reflexivity": 174,
+        "intro": 49,
+        "split": 34,
+        "simpl": 587,
+        "auto": 275
+    },
+    "Arith": {
+        "discriminate": 8,
+        "intros": 51,
+        "trivial": 93,
+        "reflexivity": 15,
+        "split": 53,
+        "simpl": 110,
+        "auto": 57
+    },
+    "Logic": {
+        "intros": 78,
+        "trivial": 94,
+        "assumption": 89,
+        "reflexivity": 73,
+        "split": 98,
+        "simpl": 21,
+        "auto": 80
+    },
+    "Wellfounded": {
+        "intros": 57,
+        "trivial": 5,
+        "assumption": 9,
+        "intro": 17,
+        "split": 5,
+        "simpl": 11,
+        "auto": 10
+    },
+    "PArith": {
+        "discriminate": 19,
+        "intros": 63,
+        "trivial": 257,
+        "reflexivity": 22,
+        "split": 34,
+        "simpl": 357,
+        "auto": 156
+    },
+    "Numbers": {
+        "discriminate": 89,
+        "intros": 1059,
+        "trivial": 1225,
+        "reflexivity": 92,
+        "split": 464,
+        "simpl": 524,
+        "auto": 1055
+    },
+    "setoid_ring": {
+        "discriminate": 90,
+        "intros": 328,
+        "trivial": 374,
+        "reflexivity": 559,
+        "split": 34,
+        "simpl": 1070,
+        "auto": 47
+    },
+    "Classes": {
+        "intros": 40,
+        "assumption": 13,
+        "intuition": 10,
+        "split": 27,
+        "reflexivity": 5,
+        "auto": 48
+    },
+    "Structures": {
+        "discriminate": 21,
+        "intros": 90,
+        "intuition": 97,
+        "split": 46,
+        "simpl": 115,
+        "auto": 331
+    },
+    "Sorting": {
+        "intros": 91,
+        "trivial": 74,
+        "intro": 7,
+        "split": 32,
+        "simpl": 147,
+        "auto": 205
+    },
+    "rtauto": {
+        "intros": 17,
+        "trivial": 9,
+        "assumption": 5,
+        "reflexivity": 24,
+        "simpl": 278,
+        "auto": 43
+    },
+    "Vectors": {
+        "discriminate": 5,
+        "intros": 29,
+        "split": 4,
+        "reflexivity": 12,
+        "simpl": 27
+    },
+    "Program": {
+        "intros": 26,
+        "assumption": 6,
+        "reflexivity": 6,
+        "simpl": 3,
+        "auto": 5
+    },
+    "Sets": {
+        "intros": 59,
+        "intuition": 28,
+        "split": 43,
+        "simpl": 35,
+        "auto": 49
+    },
+    "btauto": {
+        "assumption": 8,
+        "intuition": 38,
+        "reflexivity": 14,
+        "simpl": 83,
+        "auto": 84
+    },
+    "nsatz": {
+        "intros": 19,
+        "trivial": 14,
+        "reflexivity": 6,
+        "intro": 0,
+        "simpl": 22
+    },
+    "Relations": {
+        "intros": 12,
+        "split": 8,
+        "assumption": 13,
+        "auto": 71
+    },
+    "Floats": {
+        "intros": 7,
+        "simpl": 11,
+        "reflexivity": 8,
+        "auto": 3
+    },
+    "omega": {
+        "intros": 4,
+        "intro": 4,
+        "reflexivity": 11,
+        "assumption": 3
+    },
+    "Setoids": {
+        "intros": 2,
+        "reflexivity": 0,
+        "assumption": 2
+    },
+    "funind": {
+        "intros": 0
+    },
+    "ssr": {}
+}
