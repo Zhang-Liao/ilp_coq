@@ -17,7 +17,7 @@ for i in range(num_of_test):
         reader = open(f_log, "r")
         reorder = json.load(reader)
         info = re.match(
-            r".*/rel/p(?P<pos>[0-9]+)n(?P<neg>[0-9]+)/.*",
+            r".*/prop/p(?P<pos>[0-9]+)n(?P<neg>[0-9]+)/.*",
             reorder["clause"],
         )
         if info != None:
@@ -25,4 +25,4 @@ for i in range(num_of_test):
             pos = int(info["pos"])
             neg = int(info["neg"])
             if (pos == 4) & (neg == 4):
-                print("pos", pos, "neg", neg, 'split', i, "log", f_log)
+                print("pos", pos, "neg", neg, "split", i, "log", f_log)

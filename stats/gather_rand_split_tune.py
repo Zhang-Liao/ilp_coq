@@ -50,11 +50,7 @@ for i in range(num_of_test):
         f_reorder = os.path.join(curr_dir, f"reorder/test{i}_stat.json")
         reorder_r = open(f_reorder, "r")
         reorder = json.load(reorder_r)
-        try:
-            info = re.match(r".*p(?P<pos>[0-9]+)n(?P<neg>[0-9]+).*", param)
-        except:
-            print("fail to match", param)
-            exit()
+        info = re.match(r".*p(?P<pos>[0-9]+)n(?P<neg>[0-9]+).*", param)
         if info != None:
             info = info.groupdict()
             pos = info["pos"]
