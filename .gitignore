@@ -25,3 +25,5 @@ timelog
 *.split
 debug/
 pred/
+stats/*.json
+stats/**/*.json
