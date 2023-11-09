@@ -1,9 +1,9 @@
 pred=data/json/origin_feat/tune/QArith/test_theory/theories/Lists.eval
 label=data/json/origin_feat/merge/theories/Lists.label
-all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_predc.pl
+all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_predc.pl
 negs=(1 2 4 8 16 32)
 poss=(2 4 8 16 32)
-anonym=anonym
+anonym=origin
 kind=rel
 test=data/json/predicate/$anonym/merge/test/theories/Lists
 for neg in "${negs[@]}"; do
