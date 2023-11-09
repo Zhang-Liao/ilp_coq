@@ -47,30 +47,35 @@ eq_subterm(N, Idx1, Idx2) :-
         node(N, Idx2, Predc, RelativeIdx2),
         node(N, Idx1, Predc, RelativeIdx2)).
 
+is_goal_root([]).
+
 % :- modeh(1, tac(+nat, #string)).
-:- modeb(3, dif(+string, +string)).
-:- modeb(3, dif(+hyp_idx, +hyp_idx)).
-:- modeb(3, dif(+goal_idx, +goal_idx)).
-:- modeb(3, goal_position_left(+goal_idx, +goal_idx)).
-:- modeb(3, hyp_position_left(+hyp_idx, +hyp_idx)).
-:- modeb(3, position_above(+goal_idx, +goal_idx)).
-:- modeb(3, position_above(+hyp_idx, +hyp_idx)).
-:- modeb(3, eq_subterm(+nat, +goal_idx, +goal_idx)).
-:- modeb(3, eq_subterm(+nat, +hyp_idx, +hyp_idx)).
-:- modeb(3, eq_subterm(+nat, +goal_idx, +hyp_idx)).
+:- modeb(20, dif(+string, +string)).
+:- modeb(20, dif(+hyp_idx, +hyp_idx)).
+:- modeb(20, dif(+goal_idx, +goal_idx)).
+:- modeb(20, goal_position_left(+goal_idx, +goal_idx)).
+:- modeb(20, hyp_position_left(+hyp_idx, +hyp_idx)).
+:- modeb(20, position_above(+goal_idx, +goal_idx)).
+:- modeb(20, position_above(+hyp_idx, +hyp_idx)).
+:- modeb(20, eq_subterm(+nat, +goal_idx, +goal_idx)).
+:- modeb(20, eq_subterm(+nat, +hyp_idx, +hyp_idx)).
+:- modeb(20, eq_subterm(+nat, +goal_idx, +hyp_idx)).
+:- modeb(20, is_goal_root(+goal_idx)).
+
 
 :- determination(tac/2, goal_position_left/2).
 :- determination(tac/2, hyp_position_left/2).
 :- determination(tac/2, position_above/2).
 :- determination(tac/2, dif/2).
 :- determination(tac/2, eq_subterm/3).
+:- determination(tac/2, is_goal_root/1).
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
 :- set(search, heuristic).
 :- set(openlist, 50).
 :- set(verbosity, 0).
-:- set(clauselength, 32).
+:- set(clauselength, 100).
 :- set(depth, 1000).
 
 :- set(nodes, 15000).
