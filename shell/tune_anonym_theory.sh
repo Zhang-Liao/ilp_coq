@@ -10,7 +10,9 @@ theories=('theories/Sorting' 'theories/Numbers')
 for theory in "${theories[@]}"; do
     for neg in "${negs[@]}"; do
         (
+
             for pos in "${poss[@]}"; do
+
                 dir=data/json/predicate/$anonym/tune/QArith/train/$kind/p$pos\n$neg
                 python filter.py --clause $dir/alltac_rule.pl \
                     --pred $knn_pred/$theory.eval \
@@ -18,6 +20,7 @@ for theory in "${theories[@]}"; do
                     --label data/json/origin_feat/merge/$theory.label \
                     --all_predc $all_predc \
                     --info $kind/$anonym/p$pos\n$neg
+
             done
         ) &
     done
