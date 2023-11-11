@@ -47,7 +47,6 @@ eq_subterm(N, Idx1, Idx2) :-
         node(N, Idx2, Predc, RelativeIdx2),
         node(N, Idx1, Predc, RelativeIdx2)).
 
-is_goal_root([]).
 
 % :- modeh(1, tac(+nat, #string)).
 :- modeb(20, dif(+string, +string)).
@@ -60,7 +59,6 @@ is_goal_root([]).
 :- modeb(20, eq_subterm(+nat, +goal_idx, +goal_idx)).
 :- modeb(20, eq_subterm(+nat, +hyp_idx, +hyp_idx)).
 :- modeb(20, eq_subterm(+nat, +goal_idx, +hyp_idx)).
-:- modeb(20, is_goal_root(+goal_idx)).
 
 
 :- determination(tac/2, goal_position_left/2).
@@ -68,7 +66,6 @@ is_goal_root([]).
 :- determination(tac/2, position_above/2).
 :- determination(tac/2, dif/2).
 :- determination(tac/2, eq_subterm/3).
-:- determination(tac/2, is_goal_root/1).
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
