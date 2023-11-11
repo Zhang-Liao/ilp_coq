@@ -77,7 +77,7 @@ def stat_ilp(dic):
         "FP": all_fp,
         "FN": all_fn,
         "f1": cal_f1(all_tp, all_fp, all_tn, all_fn),
-        "f1_without_ignored_tac": cal_f1(no_ign_tp, no_ign_fp, no_ign_tn, no_ign_fn),
+        "f1_no_ignored_tac": cal_f1(no_ign_tp, no_ign_fp, no_ign_tn, no_ign_fn),
     }
     new_dict = ilp_stat | dic
     return new_dict
