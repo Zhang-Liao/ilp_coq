@@ -65,27 +65,41 @@ def stat_f1(df):
     plt.figure(figsize=(24, 4.8))
     sns.lineplot(data=df, x="param", y="f1", hue="kind")
     # plt.show()
-    plt.savefig("stats/tune_in_lists.pdf")
+    plt.savefig("stats/tune_QArith_nontrivial_f1.pdf")
 
 
-def mk_f1_df(file, theory):
-    reader = open(file, "r")
-    dat = json.load(reader)
+def mk_f1_df(stat, theory, name):
+    # print(theory)
+    # name = theory.split("/")[-1]
     dic = {"kind": [], "f1": [], "param": []}
-    for kind, kind_stat in dat["f1"].items():
+    # print(stat.keys())
+    # exit()
+    for kind, kind_stat in stat.items():
         theory_stat = kind_stat[theory]
         for pos, pos_stat in theory_stat.items():
             for neg, f1 in pos_stat.items():
-                dic["kind"].append(kind)
+                dic["kind"].append(f"{kind}_{name}")
                 dic["f1"].append(f1)
                 dic["param"].append(f"p{pos}n{neg}")
 
     df = pd.DataFrame(data=dic)
-    print(df)
+    # print(df)
     return df
 
 
-f_stats = "stats/tune_in_Lists.json"
-theory = "theories/Lists"
-df = mk_f1_df(f_stats, theory)
+def mk_f1_dfs(stat, theories):
+    dfs = []
+    for theory in theories:
+        name = theory.split("/")[-1]
+        # dfs.append(mk_f1_df(stat["f1"], theory, name))
+        dfs.append(mk_f1_df(stat["f1_no_ignored_tac"], theory, f"{name}_nontrivial"))
+    return pd.concat(dfs)
+
+
+f_stats = "tune_QArith.json"
+reader = open(f_stats, "r")
+stat = json.load(reader)
+theories = ["theories/Lists"]
+# theories = ["theories/Lists", "theories/Sorting", "aver"]
+df = mk_f1_dfs(stat, theories)
 stat_f1(df)
