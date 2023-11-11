@@ -141,10 +141,10 @@ def out_stat_ml(good_preds, reordered_preds, f_pred, clause, label, info):
     out_dir = os.path.join(f_pred[:-5], info)
     if os.path.exists(out_dir):
         shutil.rmtree(out_dir)
-        warnings.warn("remove the existed statistic in", out_dir)
-        raise ValueError(out_dir, "have already existed")
+        warnings.warn("remove the existed statistic in " + out_dir)
     good_dir = os.path.join(out_dir, "good")
-    os.makedirs(good_dir)
+    if not os.path.exists(good_dir):
+        os.makedirs(good_dir)
     shutil.copy(clause, out_dir)
     good = os.path.join(good_dir, os.path.basename(f_pred))
     with open(good, "w") as w:

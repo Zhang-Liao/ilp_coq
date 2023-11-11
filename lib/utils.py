@@ -14,7 +14,6 @@ ignored_coq_constructors = [
     "coq_cast",
     "coq_proj",
     "coq_sort",
-    
 ]
 
 
@@ -273,11 +272,11 @@ COMMON_TAC = [
 ]
 
 THEORIES = [
-    "theories/Classes",
-    "plugins/ssr",
-    "theories/Lists",
-    "theories/QArith",
+    "theories/Sorting",
     "theories/Numbers",
+    "theories/Init",
+    "theories/Vectors",
+    "plugins/setoid_ring",
 ]
 
 IGNORED_TACS = ["intros", "split"]
