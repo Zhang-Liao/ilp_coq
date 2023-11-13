@@ -27,3 +27,5 @@ debug/
 pred/
 stats/*.json
 stats/**/*.json
+stats/*.pdf
+stats/**/*.pdf
