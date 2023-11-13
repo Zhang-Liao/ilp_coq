@@ -93,7 +93,8 @@ def pr_hyps_anonym_predc(i, l, writer):
         elif ignore_arity(typ, arity):
             writer.write(f"hyp_{typ}({i},{name},{idx}).\n")
         else:
-            writer.write(f"hyp_{typ}{arity}({i},{name},{idx}).\n")
+            # writer.write(f"hyp_{typ}{arity}({i},{name},{idx}).\n")
+            writer.write(f"hyp_{typ}({i},{name},{idx}).\n")
 
 
 def pr_goal_predc(i, l, writer):
@@ -113,8 +114,9 @@ def pr_goal_anonym_predc(i, l, writer):
         elif ignore_arity(typ, arity):
             writer.write(f"goal_{typ}({i},{idx}).\n")
         else:
-            arity = under_max_arity(arity)
-            writer.write(f"goal_{typ}{arity}({i},{idx}).\n")
+            # arity = under_max_arity(arity)
+            # writer.write(f"goal_{typ}{arity}({i},{idx}).\n")
+            writer.write(f"goal_{typ}({i},{idx}).\n")
 
 
 def add_hyps_predc(l, predc_set):
@@ -132,8 +134,9 @@ def add_hyps_anonym_predc(l, predc_set):
         elif ignore_arity(typ, arity):
             predc_set.add(f"hyp_{typ}")
         else:
-            arity = under_max_arity(arity)
-            predc_set.add(f"hyp_{typ}{arity}")
+            predc_set.add(f"hyp_{typ}")
+            # arity = under_max_arity(arity)
+            # predc_set.add(f"hyp_{typ}{arity}")
     return predc_set
 
 
@@ -152,8 +155,9 @@ def add_goal_anonym_predc(l, predc_set):
         elif ignore_arity(typ, arity):
             predc_set.add(f"goal_{typ}")
         else:
-            arity = under_max_arity(arity)
-            predc_set.add(f"goal_{typ}{arity}")
+            # arity = under_max_arity(arity)
+            # predc_set.add(f"goal_{typ}{arity}")
+            predc_set.add(f"goal_{typ}")
     return predc_set
 
 
