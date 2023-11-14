@@ -24,6 +24,8 @@ def get_theory_files(theory):
 
 def merge_files(dest, files):
     # print(dest)
+    if os.path.exists(dest):
+        os.remove(dest)
     w = open(dest, "a+")
     for f in files:
         r = open(f, "r")

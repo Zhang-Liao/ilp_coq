@@ -124,8 +124,6 @@ goal_coq_construct2(-1, []).
 goal_coq_evar(-1, []).
 
 
-hyp_coq_var(-1, "", "", []).
-goal_coq_var(-1, "", []).
 in_case_no_goal_predc_exist(-1,[]).
 goal_predc(in_case_no_goal_predc_exist).
 in_case_no_hyp_predc_exist(-1,-1,[]).

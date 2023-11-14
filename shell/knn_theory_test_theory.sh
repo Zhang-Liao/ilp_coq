@@ -18,7 +18,8 @@ export -f eval
 
 dataset=data/json/origin_feat/merge
 # theories=('theories/Classes.json' 'plugins/ssr.json' 'theories/Lists.json' 'theories/QArith.json' 'theories/Numbers.json')
-theories=('theories/Lists.json')
+# theories=('theories/Sorting.json')
+theories=('theories/Init.json' 'plugins/setoid_ring.json' 'theories/Vectors.json')
 train_theory=QArith
 for theory in ${theories[@]}; do
     IFS=/ read -ra splits <<<$theory
