@@ -1,14 +1,13 @@
+noarity=_noarity
 predc_kind=rel
 anonym=anonym
-param=p32n16
+param=p16n16
 knn_pred=data/json/origin_feat/tune/QArith/test_theory
-test_predc=data/json/predicate/$anonym/merge/test/
-clause=data/json/predicate/$anonym/tune/QArith/train/$predc_kind/$param/alltac_rule.pl
-# theories=('theories/Sorting')
-theories=('theories/Init' 'plugins/setoid_ring' 'theories/Vectors')
-# theories=('plugins/ssr')
+test_predc=data/json/predicate/$anonym/merge/test$noarity/
+clause=data/json/predicate/$anonym/tune/QArith/train/$predc_kind$noarity/$param/alltac_rule.pl
+theories=('theories/Sorting' 'theories/Numbers' 'theories/Init' 'plugins/setoid_ring' 'theories/Vectors')
 
-all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_predc.pl
+all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym$noarity\_predc.pl
 
 for theory in ${theories[@]}; do
     (python filter.py --clause $clause \
