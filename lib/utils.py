@@ -73,6 +73,14 @@ def ignore_arity(id, art):
     return (id in ["coq_var", "coq_rel", "coq_evar"]) | (art == 0)
 
 
+def mk_anonym_predc(typ, ident):
+    # additional constants other than them during the dataset generation
+    if ident in ["Coq.Init.Logic.False"]:
+        return ident
+    else:
+        return typ
+
+
 def pr_hyps_predc(i, l, writer):
     for ident, name, kind, idx in l:
         if ident not in ["coq_app"]:
@@ -83,18 +91,15 @@ def pr_hyps_predc(i, l, writer):
 
 
 def pr_hyps_anonym_predc(i, l, writer):
-    for typ, _ident, arity, name, kind, idx in l:
-        typ = to_predc_name(typ)
+    for typ, ident, _arity, name, kind, idx in l:
+        predc = mk_anonym_predc(typ, ident)
+        predc = to_predc_name(predc)
         name = hyp_name(name)
         idx = hyp_idx(name, kind, idx)
-        arity = under_max_arity(arity)
-        if typ in ["coq_case"]:
+        if predc in ["coq_case"]:
             continue
-        elif ignore_arity(typ, arity):
-            writer.write(f"hyp_{typ}({i},{name},{idx}).\n")
         else:
-            # writer.write(f"hyp_{typ}{arity}({i},{name},{idx}).\n")
-            writer.write(f"hyp_{typ}({i},{name},{idx}).\n")
+            writer.write(f"hyp_{predc}({i},{name},{idx}).\n")
 
 
 def pr_goal_predc(i, l, writer):
@@ -105,18 +110,15 @@ def pr_goal_predc(i, l, writer):
 
 
 def pr_goal_anonym_predc(i, l, writer):
-    for typ, _ident, arity, idx in l:
-        typ = to_predc_name(typ)
+    for typ, ident, _arity, idx in l:
+        predc = mk_anonym_predc(typ, ident)
+        predc = to_predc_name(predc)
         idx = goal_idx(idx)
 
-        if typ in ["coq_case"]:
+        if predc in ["coq_case"]:
             continue
-        elif ignore_arity(typ, arity):
-            writer.write(f"goal_{typ}({i},{idx}).\n")
         else:
-            # arity = under_max_arity(arity)
-            # writer.write(f"goal_{typ}{arity}({i},{idx}).\n")
-            writer.write(f"goal_{typ}({i},{idx}).\n")
+            writer.write(f"goal_{predc}({i},{idx}).\n")
 
 
 def add_hyps_predc(l, predc_set):
@@ -127,16 +129,13 @@ def add_hyps_predc(l, predc_set):
 
 
 def add_hyps_anonym_predc(l, predc_set):
-    for typ, _ident, arity, _, _, _ in l:
-        typ = to_predc_name(typ)
-        if typ in ["coq_case"]:
+    for typ, ident, _arity, _, _, _ in l:
+        predc = mk_anonym_predc(typ, ident)
+        predc = to_predc_name(predc)
+        if predc in ["coq_case"]:
             continue
-        elif ignore_arity(typ, arity):
-            predc_set.add(f"hyp_{typ}")
         else:
-            predc_set.add(f"hyp_{typ}")
-            # arity = under_max_arity(arity)
-            # predc_set.add(f"hyp_{typ}{arity}")
+            predc_set.add(f"hyp_{predc}")
     return predc_set
 
 
@@ -148,16 +147,13 @@ def add_goal_predc(l, predc_set):
 
 
 def add_goal_anonym_predc(l, predc_set):
-    for typ, _ident, arity, _ in l:
-        typ = to_predc_name(typ)
-        if typ in ["coq_case"]:
+    for typ, ident, _arity, _ in l:
+        predc = mk_anonym_predc(typ, ident)
+        predc = to_predc_name(typ)
+        if predc in ["coq_case"]:
             continue
-        elif ignore_arity(typ, arity):
-            predc_set.add(f"goal_{typ}")
         else:
-            # arity = under_max_arity(arity)
-            # predc_set.add(f"goal_{typ}{arity}")
-            predc_set.add(f"goal_{typ}")
+            predc_set.add(f"goal_{predc}")
     return predc_set
 
 
