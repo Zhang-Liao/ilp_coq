@@ -277,10 +277,11 @@ COMMON_TAC = [
 
 THEORIES = [
     "theories/Sorting",
-    "theories/Numbers",
+    "theories/NArith",
+    # "theories/Numbers",
     "theories/Init",
     "theories/Vectors",
     "plugins/setoid_ring",
 ]
 
-IGNORED_TACS = ["intros", "split"]
+IGNORED_TACS = ["intros"]
