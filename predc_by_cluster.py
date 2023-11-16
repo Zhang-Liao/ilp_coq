@@ -101,21 +101,21 @@ def get_negs(neg_dict, poss, tac, neg_ratio):
     negss = neg_dict[tac]
     needed_negs = []
 
-    for pos in poss:
-        needed_negs += negss[str(pos)][:neg_ratio]
-    needed_negs = list(set(needed_negs))
-    needed_negs.sort()
+    # for pos in poss:
+    #     needed_negs += negss[str(pos)][:neg_ratio]
+    # needed_negs = list(set(needed_negs))
+    # needed_negs.sort()
 
-    # n_pos = len(poss)
-    # n_neg = 0
-    # curr_neg = neg_ratio
-    # while (n_neg < n_pos * neg_ratio) & (curr_neg <= max_neg_ratio):
-    #     for pos in poss:
-    #         needed_negs += negss[str(pos)][:curr_neg]
-    #     needed_negs = list(set(needed_negs))
-    #     needed_negs.sort()
-    #     curr_neg += 1
-    #     n_neg = len(needed_negs)
+    n_pos = len(poss)
+    n_neg = 0
+    curr_neg = neg_ratio
+    while (n_neg < n_pos * neg_ratio) & (curr_neg < 100):
+        for pos in poss:
+            needed_negs += negss[str(pos)][:curr_neg]
+        needed_negs = list(set(needed_negs))
+        needed_negs.sort()
+        curr_neg += 1
+        n_neg = len(needed_negs)
     return needed_negs
 
 
