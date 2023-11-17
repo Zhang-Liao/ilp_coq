@@ -5,8 +5,11 @@ gen() {
 
 export -f gen
 
-negs=(1 2 4 8 16 32)
-poss=(2 4 8 16 32)
+# negs=(1 2 4 8 16 32)
+# poss=(2 4 8 16 32)
+
+negs=(32)
+poss=(4)
 
 anonym=origin
 kind=prop
@@ -16,8 +19,8 @@ for neg in "${negs[@]}"; do
     for pos in "${poss[@]}"; do
       dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/$anonym/tune/QArith/train/$kind/p$pos\n$neg
       cd $dir
-      find $dir -name "*_rule.pl" | parallel rm {}
-      time find $dir -name "*.pl" | parallel --timeout 10m -j 10 bash -c gen
+      rm alltac_rule.pl
+      time find $dir -name "*.pl" | parallel --timeout 5m -j 10 bash -c gen
       echo ":- style_check(-singleton)." >tmp
       find . -name "*_rule.pl" | xargs -i cat {} >>tmp
       cd -
