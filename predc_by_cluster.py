@@ -12,9 +12,9 @@ tac2id_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json"
 def pr_mode(hyp_predc, goal_predc, writer, tac):
     writer.write(f':- modeh(1, tac(+nat, "{tac}")).\n')
     for p in goal_predc:
-        writer.write(f":- modeb(20, {p}(+nat, -goal_idx)).\n")
+        writer.write(f":- modeb(*, {p}(+nat, -goal_idx)).\n")
     for p in hyp_predc:
-        writer.write(f":- modeb(20, {p}(+nat, -string, -hyp_idx)).\n")
+        writer.write(f":- modeb(*, {p}(+nat, -string, -hyp_idx)).\n")
 
     for p in goal_predc:
         writer.write(f":- determination(tac/2, {p}/2).\n")

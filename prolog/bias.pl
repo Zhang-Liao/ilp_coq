@@ -49,16 +49,16 @@ eq_subterm(N, Idx1, Idx2) :-
 
 
 % :- modeh(1, tac(+nat, #string)).
-:- modeb(20, dif(+string, +string)).
-:- modeb(20, dif(+hyp_idx, +hyp_idx)).
-:- modeb(20, dif(+goal_idx, +goal_idx)).
-:- modeb(20, goal_position_left(+goal_idx, +goal_idx)).
-:- modeb(20, hyp_position_left(+hyp_idx, +hyp_idx)).
-:- modeb(20, position_above(+goal_idx, +goal_idx)).
-:- modeb(20, position_above(+hyp_idx, +hyp_idx)).
-:- modeb(20, eq_subterm(+nat, +goal_idx, +goal_idx)).
-:- modeb(20, eq_subterm(+nat, +hyp_idx, +hyp_idx)).
-:- modeb(20, eq_subterm(+nat, +goal_idx, +hyp_idx)).
+:- modeb(*, dif(+string, +string)).
+:- modeb(*, dif(+hyp_idx, +hyp_idx)).
+:- modeb(*, dif(+goal_idx, +goal_idx)).
+:- modeb(*, goal_position_left(+goal_idx, +goal_idx)).
+:- modeb(*, hyp_position_left(+hyp_idx, +hyp_idx)).
+:- modeb(*, position_above(+goal_idx, +goal_idx)).
+:- modeb(*, position_above(+hyp_idx, +hyp_idx)).
+:- modeb(*, eq_subterm(+nat, +goal_idx, +goal_idx)).
+:- modeb(*, eq_subterm(+nat, +hyp_idx, +hyp_idx)).
+:- modeb(*, eq_subterm(+nat, +goal_idx, +hyp_idx)).
 
 
 :- determination(tac/2, goal_position_left/2).
