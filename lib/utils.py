@@ -77,6 +77,8 @@ def mk_anonym_predc(typ, ident):
     # additional constants other than them during the dataset generation
     if ident in ["Coq.Init.Logic.False"]:
         return ident
+    elif ident in ["coq_ind", "coq_const", "coq_construct"]:
+        return "coq_ident"
     else:
         return typ
 
@@ -280,4 +282,4 @@ THEORIES = [
     "plugins/setoid_ring",
 ]
 
-IGNORED_TACS = ["intros"]
+IGNORED_TACS = ["intros", "split"]
