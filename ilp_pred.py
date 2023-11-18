@@ -64,10 +64,10 @@ def pred_row(i, exg_paths, prolog):
     return pred
 
 
-def ilp_pred(exg_paths, prolog, pred_file):
+def ilp_pred(exg_paths, prolog, label_f):
     preds = []
     i = 0
-    with open(pred_file, "r") as f:
+    with open(label_f, "r") as f:
         for r in f:
             r = r.strip()
             if utils.not_lemma(r):
@@ -84,20 +84,21 @@ def ilp_pred(exg_paths, prolog, pred_file):
     return preds
 
 
-def out_stat_ml(ilp_pred, knn_pred, clause, label, info):
-    out_dir = os.path.join(knn_pred[:-5], info)
-    if os.path.exists(out_dir):
-        shutil.rmtree(out_dir)
-        warnings.warn("remove the existed statistic in " + out_dir)
+def out_stat_ilp(ilp_pred, out_theory, clause, label, info):
+    theory = out_theory.split("/")[-1]
+    out_dir = os.path.join(out_theory, info)
     pred_dir = os.path.join(out_dir, "ilp_pred")
+    # if os.path.exists(pred_dir):
+    #     shutil.rmtree(pred_dir)
+    #     warnings.warn("remove the existed statistic in " + pred_dir)
     if not os.path.exists(pred_dir):
         os.makedirs(pred_dir)
     shutil.copy(clause, out_dir)
-    ilp_pred_f = os.path.join(pred_dir, os.path.basename(knn_pred))
+    ilp_pred_f = os.path.join(pred_dir, os.path.basename(theory) + ".eval")
     with open(ilp_pred_f, "w") as w:
         for pred in ilp_pred:
             w.write(pred + "\n")
-
+    print('ilp_pred_f', ilp_pred_f)
     stat_ilp_pred.stat_ilp(ilp_pred_f, label)
 
     log = {
@@ -109,7 +110,7 @@ def out_stat_ml(ilp_pred, knn_pred, clause, label, info):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--clause", type=str)
-parser.add_argument("--pred", type=str, default=None)
+parser.add_argument("--out_theory", type=str, default=None)
 parser.add_argument("--test", type=str)
 parser.add_argument("--label", type=str)
 parser.add_argument("--all_predc", type=str)
@@ -120,6 +121,5 @@ opts = parser.parse_args()
 
 exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.all_predc, Prolog())
-assert opts.pred.endswith(".eval")
-preds = ilp_pred(exg_paths, prolog, opts.pred)
-# out_stat_ml(good_preds, reordered_preds, opts.pred, opts.clause, opts.label, opts.info)
+preds = ilp_pred(exg_paths, prolog, opts.label)
+out_stat_ilp(preds, opts.out_theory, opts.clause, opts.label, opts.info)
