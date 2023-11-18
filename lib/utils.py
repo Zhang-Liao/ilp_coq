@@ -77,7 +77,7 @@ def mk_anonym_predc(typ, ident):
     # additional constants other than them during the dataset generation
     if ident in ["Coq.Init.Logic.False"]:
         return ident
-    elif ident in ["coq_ind", "coq_const", "coq_construct"]:
+    elif typ in ["coq_ind", "coq_const", "coq_construct"]:
         return "coq_ident"
     else:
         return typ
@@ -151,7 +151,7 @@ def add_goal_predc(l, predc_set):
 def add_goal_anonym_predc(l, predc_set):
     for typ, ident, _arity, _ in l:
         predc = mk_anonym_predc(typ, ident)
-        predc = to_predc_name(typ)
+        predc = to_predc_name(predc)
         if predc in ["coq_case"]:
             continue
         else:

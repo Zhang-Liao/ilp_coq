@@ -29,7 +29,7 @@ def pr_mode(hyp_predc, goal_predc, writer, tac):
 
 
 def pr_hyps_predc(i, l, writer, predc, kind):
-    if kind in ["rel", "prop"]:
+    if kind in ["prop"]:
         utils.pr_hyps_predc(i, l, writer)
         return utils.add_hyps_predc(l, predc)
     elif kind == "anonym":
@@ -38,7 +38,7 @@ def pr_hyps_predc(i, l, writer, predc, kind):
 
 
 def pr_goal_predc(i, l, writer, predc, kind):
-    if kind in ["rel", "prop"]:
+    if kind in ["prop"]:
         utils.pr_goal_predc(i, l, writer)
         return utils.add_goal_predc(l, predc)
     elif kind == "anonym":
@@ -101,21 +101,23 @@ def get_negs(neg_dict, poss, tac, neg_ratio):
     negss = neg_dict[tac]
     needed_negs = []
 
-    # for pos in poss:
-    #     needed_negs += negss[str(pos)][:neg_ratio]
-    # needed_negs = list(set(needed_negs))
-    # needed_negs.sort()
+    # set neg
+    for pos in poss:
+        needed_negs += negss[str(pos)][:neg_ratio]
+    needed_negs = list(set(needed_negs))
+    needed_negs.sort()
 
-    n_pos = len(poss)
-    n_neg = 0
-    curr_neg = neg_ratio
-    while (n_neg < n_pos * neg_ratio) & (curr_neg < 100):
-        for pos in poss:
-            needed_negs += negss[str(pos)][:curr_neg]
-        needed_negs = list(set(needed_negs))
-        needed_negs.sort()
-        curr_neg += 1
-        n_neg = len(needed_negs)
+    # unique neg per pos
+    # n_pos = len(poss)
+    # n_neg = 0
+    # curr_neg = neg_ratio
+    # while (n_neg < n_pos * neg_ratio) & (curr_neg < 100):
+    #     for pos in poss:
+    #         needed_negs += negss[str(pos)][:curr_neg]
+    #     needed_negs = list(set(needed_negs))
+    #     needed_negs.sort()
+    #     curr_neg += 1
+    #     n_neg = len(needed_negs)
     return needed_negs
 
 
@@ -162,7 +164,7 @@ parser.add_argument("--neg", type=str)
 parser.add_argument("--cluster", type=str)
 parser.add_argument("--dat", type=str)
 parser.add_argument("--out", type=str)
-parser.add_argument("--kind", type=str, choices=["prop", "rel", "anonym"])
+parser.add_argument("--kind", type=str, choices=["prop", "anonym"])
 parser.add_argument("--bias", type=str)
 parser.add_argument("--neg_ratio", type=int)
 parser.add_argument("--only_common", action=argparse.BooleanOptionalAction)

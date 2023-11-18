@@ -80,21 +80,6 @@ def filter_row(i, row, exg_paths, prolog):
     return good_preds, new_preds
 
 
-# def filter_row(i, row, exg_paths, prolog):
-#     good_preds = []
-#     bad_preds = []
-#     preds = row.split("\t")[:20]
-#     for pred in preds:
-#         safe_pred = utils.safe_tac(pred)
-#         prolog.consult(exg_paths[i])
-#         if bool(list(prolog.query(f'tac({i}, "{safe_pred}")'))):
-#             good_preds.append(pred)
-#         else:
-#             bad_preds.append(pred)
-#     new_preds = good_preds + bad_preds
-#     return good_preds, new_preds
-
-
 def filter_stat_ml(exg_paths, prolog, pred_file):
     good_pred_mat = []
     reordered_mat = []
