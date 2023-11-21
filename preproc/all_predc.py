@@ -6,9 +6,9 @@ sys.path.append(os.path.dirname(sys.path[0]))
 
 from lib import utils
 
-DAT_DIR = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/origin"
-OUT = "/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_prop_predc.pl"
-KIND = "prop"
+DAT_DIR = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/anonym"
+OUT = "/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_ident_predc2.pl"
+KIND = "anonym"
 assert KIND in ["prop", "rel", "anonym"]
 
 
@@ -20,6 +20,11 @@ def pr_hyp_predc(predc, writer):
 def pr_goal_predc(predc, writer):
     for p in predc:
         writer.write(f"{p}(-1, []).\n")
+
+
+def pr_goal_to_hyp(goal, hyp, writer):
+    for x in utils.goal_predc_to_hyp_predc(goal, hyp):
+        writer.write(f"{x}\n")
 
 
 def pr_multifiles(hyp_predc, goal_predc, w):
@@ -62,6 +67,7 @@ def pr_predc(hyp, goal):
         pr_multifiles(hyp, goal, w)
         pr_hyp_predc(hyp, w)
         pr_goal_predc(goal, w)
+        pr_goal_to_hyp(goal, hyp, w)
 
 
 if os.path.exists(OUT):

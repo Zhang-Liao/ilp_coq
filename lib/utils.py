@@ -159,6 +159,14 @@ def add_goal_anonym_predc(l, predc_set):
     return predc_set
 
 
+def goal_predc_to_hyp_predc(goal_predcs, hyp_predcs):
+    goal_to_hyp = set()
+    for g_p in goal_predcs:
+        h_p = f"hyp_{g_p[5:]}"
+        if h_p in hyp_predcs:
+            goal_to_hyp.add(f"goal_predc_to_hyp_predc({g_p}, {h_p})")
+    return goal_to_hyp        
+        
 def safe_tac(t):
     t = t.replace("\\", "bkslash")
     # t = t.replace("'", 'quote')
