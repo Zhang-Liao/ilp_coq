@@ -1,5 +1,3 @@
-hyp_coq_var(-1, "", "", []).
-goal_coq_var(-1, "", []).
 in_case_no_goal_predc_exist(-1,[]).
 goal_predc(in_case_no_goal_predc_exist).
 in_case_no_hyp_predc_exist(-1,-1,[]).
@@ -26,27 +24,59 @@ goal_idx(Idx) :- nat_idx(Idx).
 
 hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 
-node(N, Idx, P, RelativeIdx) :-
+goal_node(N, Idx, P, RelativeIdx) :-
     goal_predc(P),
-    Fact =.. [P, N, NodeIdx], Fact,
     prefix(Idx, NodeIdx),
+    Fact =.. [P, N, NodeIdx], Fact,
+    % print(Fact), nl,
     append(Idx, RelativeIdx, NodeIdx).
 
-node(N, Idx, Predc, RelativeIdx) :-
+hyp_node(N, Idx, Predc, RelativeIdx) :-
     hyp_predc(Predc),
     Fact =.. [Predc, N, _Name, NodeIdx], Fact,
     prefix(Idx, NodeIdx),
     append(Idx, RelativeIdx, NodeIdx).
 
-eq_subterm(N, Idx1, Idx2) :-
+eq_goal_term(N, Idx1, Idx2) :-
     dif(Idx1, Idx2),
     forall(
-        node(N, Idx1, Predc, RelativeIdx1),
-        node(N, Idx2, Predc, RelativeIdx1)),
+        goal_node(N, Idx1, Predc, RelativeIdx1),
+        goal_node(N, Idx2, Predc, RelativeIdx1)),
     forall(
-        node(N, Idx2, Predc, RelativeIdx2),
-        node(N, Idx1, Predc, RelativeIdx2)).
+        goal_node(N, Idx2, Predc, RelativeIdx2),
+        goal_node(N, Idx1, Predc, RelativeIdx2)).
 
+eq_hyp_term(N, Idx1, Idx2) :-
+    dif(Idx1, Idx2),
+    forall(
+        hyp_node(N, Idx1, Predc, RelativeIdx1),
+        hyp_node(N, Idx2, Predc, RelativeIdx1)),
+    forall(
+        hyp_node(N, Idx2, Predc, RelativeIdx2),
+        hyp_node(N, Idx1, Predc, RelativeIdx2)).
+
+
+eq_goal_hyp_term(N, GoalIdx, HypIdx) :-
+    forall(
+        goal_node(N, GoalIdx, GoalPredc1, RelativeIdx1),
+        (
+            goal_predc_to_hyp_predc(GoalPredc1, HypPredc1),
+            hyp_node(N, HypIdx, HypPredc1, RelativeIdx1)
+        )
+    ),
+    forall(
+        goal_node(N, HypIdx, HypPredc2, RelativeIdx2),
+        (
+            goal_predc_to_hyp_predc(GoalPredc2, HypPredc2),
+            hyp_node(N, GoalIdx, GoalPredc2, RelativeIdx2)
+        )
+    ).
+
+is_goal_root(N, Idx) :-
+    \+ (
+        goal_predc(P),
+        prefix(NodeIdx, Idx), dif(NodeIdx, Idx),
+        Fact =.. [P, N, NodeIdx], Fact).
 
 % :- modeh(1, tac(+nat, #string)).
 :- modeb(*, dif(+string, +string)).
@@ -56,16 +86,19 @@ eq_subterm(N, Idx1, Idx2) :-
 :- modeb(*, hyp_position_left(+hyp_idx, +hyp_idx)).
 :- modeb(*, position_above(+goal_idx, +goal_idx)).
 :- modeb(*, position_above(+hyp_idx, +hyp_idx)).
-:- modeb(*, eq_subterm(+nat, +goal_idx, +goal_idx)).
-:- modeb(*, eq_subterm(+nat, +hyp_idx, +hyp_idx)).
-:- modeb(*, eq_subterm(+nat, +goal_idx, +hyp_idx)).
+:- modeb(20, eq_goal_term(+nat, +goal_idx, +goal_idx)).
+:- modeb(20, eq_hyp_term(+nat, +hyp_idx, +hyp_idx)).
+:- modeb(20, eq_goal_hyp_term(+nat, +goal_idx, +hyp_idx)).
+:- modeb(20, is_goal_root(+nat, +goal_idx)).
 
 
 :- determination(tac/2, goal_position_left/2).
 :- determination(tac/2, hyp_position_left/2).
 :- determination(tac/2, position_above/2).
-:- determination(tac/2, dif/2).
-:- determination(tac/2, eq_subterm/3).
+:- determination(tac/2, is_goal_root/2).
+:- determination(tac/2, eq_goal_term/3).
+:- determination(tac/2, eq_hyp_term/3).
+:- determination(tac/2, eq_goal_hyp_term/3).
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
