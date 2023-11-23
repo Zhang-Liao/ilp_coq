@@ -11,21 +11,25 @@ tac2id_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json"
 
 def pr_mode(hyp_predc, goal_predc, writer, tac):
     writer.write(f':- modeh(1, tac(+nat, "{tac}")).\n')
-    for p in goal_predc:
-        writer.write(f":- modeb(*, {p}(+nat, -goal_idx)).\n")
-    for p in hyp_predc:
-        writer.write(f":- modeb(*, {p}(+nat, -string, -hyp_idx)).\n")
 
     for p in goal_predc:
-        writer.write(f":- determination(tac/2, {p}/2).\n")
+        writer.write(f':- modeb(*, goal_node(#"{p}", +nat, -goal_idx)).\n')
     for p in hyp_predc:
-        writer.write(f":- determination(tac/2, {p}/3).\n")
+        writer.write(f':- modeb(*, hyp_node(#"{p}", +nat, -string, -hyp_idx)).\n')
 
     for p in goal_predc:
-        writer.write(f"goal_predc({p}).\n")
-
+        writer.write(f":- determination(tac/2, goal_node/3).\n")
     for p in hyp_predc:
-        writer.write(f"hyp_predc({p}).\n")
+        writer.write(f":- determination(tac/2, hyp_node/4).\n")
+
+    # for p in goal_predc:
+    #     writer.write(f"goal_predc({p}).\n")
+
+    # for p in hyp_predc:
+    #     writer.write(f"hyp_predc({p}).\n")
+
+    # for trans in utils.goal_predc_to_hyp_predc(goal_predc, hyp_predc):
+    #     writer.write(f"{trans}\n")
 
 
 def pr_hyps_predc(i, l, writer, predc, kind):
@@ -167,7 +171,6 @@ parser.add_argument("--out", type=str)
 parser.add_argument("--kind", type=str, choices=["prop", "anonym"])
 parser.add_argument("--bias", type=str)
 parser.add_argument("--neg_ratio", type=int)
-parser.add_argument("--only_common", action=argparse.BooleanOptionalAction)
 
 opts = parser.parse_args()
 

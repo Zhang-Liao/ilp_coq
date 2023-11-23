@@ -77,8 +77,8 @@ def mk_anonym_predc(typ, ident):
     # additional constants other than them during the dataset generation
     if ident in ["Coq.Init.Logic.False"]:
         return ident
-    elif typ in ["coq_ind", "coq_const", "coq_construct"]:
-        return "coq_ident"
+    # elif typ in ["coq_ind", "coq_const", "coq_construct"]:
+    #     return "coq_ident"
     else:
         return typ
 
@@ -89,7 +89,7 @@ def pr_hyps_predc(i, l, writer):
             ident = to_predc_name(ident)
             name = hyp_name(name)
             idx = hyp_idx(name, kind, idx)
-            writer.write(f"hyp_{ident}({i},{name},{idx}).\n")
+            writer.write(f'hyp_node("{ident}",{i},{name},{idx}).\n')
 
 
 def pr_hyps_anonym_predc(i, l, writer):
@@ -101,14 +101,14 @@ def pr_hyps_anonym_predc(i, l, writer):
         if predc in ["coq_case"]:
             continue
         else:
-            writer.write(f"hyp_{predc}({i},{name},{idx}).\n")
+            writer.write(f'hyp_node("{predc}",{i},{name},{idx}).\n')
 
 
 def pr_goal_predc(i, l, writer):
     for ident, idx in l:
         if ident not in ["coq_app"]:
             ident = to_predc_name(ident)
-            writer.write(f"goal_{ident}({i},{goal_idx(idx)}).\n")
+            writer.write(f'goal_node("{ident}",{i},{goal_idx(idx)}).\n')
 
 
 def pr_goal_anonym_predc(i, l, writer):
@@ -120,7 +120,7 @@ def pr_goal_anonym_predc(i, l, writer):
         if predc in ["coq_case"]:
             continue
         else:
-            writer.write(f"goal_{predc}({i},{idx}).\n")
+            writer.write(f'goal_node("{predc}",{i},{idx}).\n')
 
 
 def add_hyps_predc(l, predc_set):
@@ -159,14 +159,15 @@ def add_goal_anonym_predc(l, predc_set):
     return predc_set
 
 
-def goal_predc_to_hyp_predc(goal_predcs, hyp_predcs):
-    goal_to_hyp = set()
-    for g_p in goal_predcs:
-        h_p = f"hyp_{g_p[5:]}"
-        if h_p in hyp_predcs:
-            goal_to_hyp.add(f"goal_predc_to_hyp_predc({g_p}, {h_p})")
-    return goal_to_hyp        
-        
+# def goal_predc_to_hyp_predc(goal_predcs, hyp_predcs):
+#     goal_to_hyp = set()
+#     for g_p in goal_predcs:
+#         h_p = f"hyp_{g_p[5:]}"
+#         if h_p in hyp_predcs:
+#             goal_to_hyp.add(f"goal_predc_to_hyp_predc({g_p}, {h_p})")
+#     return goal_to_hyp
+
+
 def safe_tac(t):
     t = t.replace("\\", "bkslash")
     # t = t.replace("'", 'quote')
