@@ -1,8 +1,3 @@
-in_case_no_goal_predc_exist(-1,[]).
-goal_predc(in_case_no_goal_predc_exist).
-in_case_no_hyp_predc_exist(-1,-1,[]).
-hyp_predc(in_case_no_hyp_predc_exist).
-
 hyp_typ(hyp_ass).
 hyp_typ(hyp_dc).
 hyp_typ(hyp_dt).
@@ -24,61 +19,109 @@ goal_idx(Idx) :- nat_idx(Idx).
 
 hyp_idx([_, Typ| Idx]) :- hyp_typ(Typ), nat_idx(Idx).
 
-goal_node(N, Idx, P, RelativeIdx) :-
-    goal_predc(P),
-    prefix(Idx, NodeIdx),
-    Fact =.. [P, N, NodeIdx], Fact,
-    % print(Fact), nl,
-    append(Idx, RelativeIdx, NodeIdx).
-
-hyp_node(N, Idx, Predc, RelativeIdx) :-
-    hyp_predc(Predc),
-    Fact =.. [Predc, N, _Name, NodeIdx], Fact,
-    prefix(Idx, NodeIdx),
-    append(Idx, RelativeIdx, NodeIdx).
-
-eq_goal_term(N, Idx1, Idx2) :-
-    dif(Idx1, Idx2),
+goal_term_children_in_goal_term(N, Idx1, Idx2):-
     forall(
-        goal_node(N, Idx1, Predc, RelativeIdx1),
-        goal_node(N, Idx2, Predc, RelativeIdx1)),
-    forall(
-        goal_node(N, Idx2, Predc, RelativeIdx2),
-        goal_node(N, Idx1, Predc, RelativeIdx2)).
-
-eq_hyp_term(N, Idx1, Idx2) :-
-    dif(Idx1, Idx2),
-    forall(
-        hyp_node(N, Idx1, Predc, RelativeIdx1),
-        hyp_node(N, Idx2, Predc, RelativeIdx1)),
-    forall(
-        hyp_node(N, Idx2, Predc, RelativeIdx2),
-        hyp_node(N, Idx1, Predc, RelativeIdx2)).
-
-
-eq_goal_hyp_term(N, GoalIdx, HypIdx) :-
-    forall(
-        goal_node(N, GoalIdx, GoalPredc1, RelativeIdx1),
         (
-            goal_predc_to_hyp_predc(GoalPredc1, HypPredc1),
-            hyp_node(N, HypIdx, HypPredc1, RelativeIdx1)
-        )
-    ),
-    forall(
-        goal_node(N, HypIdx, HypPredc2, RelativeIdx2),
+            prefix(Idx1, Child1),
+            goal_node(Node, N, Child1)
+        ),
         (
-            goal_predc_to_hyp_predc(GoalPredc2, HypPredc2),
-            hyp_node(N, GoalIdx, GoalPredc2, RelativeIdx2)
+            append(Idx1, RelativeIdx1, Child1),
+            append(Idx2, RelativeIdx1, Child2),
+            goal_node(Node, N, Child2)
         )
     ).
 
-is_goal_root(N, Idx) :-
-    \+ (
-        goal_predc(P),
-        prefix(NodeIdx, Idx), dif(NodeIdx, Idx),
-        Fact =.. [P, N, NodeIdx], Fact).
 
-% :- modeh(1, tac(+nat, #string)).
+goal_term_children_in_hyp_term(N, Idx1, Idx2) :-
+    forall(
+        (
+            prefix(Idx1, Child1),
+            goal_node(Node, N, Child1)
+        ),
+        (
+            append(Idx1, RelativeIdx1, Child1),
+            append(Idx2, RelativeIdx1, Child2),
+            hyp_node(Node, N, _Name, Child2)
+        )
+    ).
+
+hyp_term_children_in_goal_term(N, Idx1, Idx2) :-
+    forall(
+        (
+            prefix(Idx1, Child1),
+            hyp_node(Node, N, _Name, Child1)
+        ),
+        (
+            append(Idx1, RelativeIdx1, Child1),
+            append(Idx2, RelativeIdx1, Child2),
+            goal_node(Node, N, Child2)
+        )
+    ).
+
+eq_goal_term(N, Idx1, Idx2) :-
+    dif(Idx1, Idx2),
+    goal_term_children_in_goal_term(N, Idx1, Idx2),
+    goal_term_children_in_goal_term(N, Idx1, Idx2).
+
+eq_goal_hyp_term(N, GoalIdx, HypIdx) :-
+    goal_term_children_in_hyp_term(N, GoalIdx, HypIdx),
+    hyp_term_children_in_goal_term(N, HypIdx, GoalIdx).
+
+is_goal_root(N, Idx) :-
+\+ (
+    prefix(Parent, Idx), 
+    dif(Parent, Idx),
+    goal_node(_Node, N, Parent)).
+
+is_hyp_root(N, Idx) :-
+\+ (
+    prefix(Parent, Idx),
+    hyp_idx(Parent),
+    dif(Parent, Idx),
+    hyp_node(_Node, N, _Name, Parent)).
+
+rmv_ele_from_list(_, [], []).
+rmv_ele_from_list(X, [X | Tl], Tl).
+rmv_ele_from_list(X, [H | Tl1], [H | Tl2]) :-
+    dif(X, H),
+    rmv_ele_from_list(X, Tl1, Tl2).
+
+dif_lists(L, [], L).
+
+dif_lists([], L, L).
+
+dif_lists([H |Tl], L, Difs) :-
+    member(H, L), !, rmv_ele_from_list(H, L, LeftL),
+    dif_lists(Tl, LeftL, Difs).
+
+dif_lists([H |Tl], L, [H | Difs]) :- dif_lists(Tl, L, Difs).
+
+similar_lists(L1, L2) :- dif_lists(L1, L2, Dif), length(Dif, Len), Len < 2.
+
+similar_goal_terms(N, Idx1, Idx2) :-
+    dif(Idx1, Idx2),
+    findall(
+        Child1, 
+        (prefix(Idx1, ChildIdx1), goal_node(Child1, N, ChildIdx1)), 
+        Children1),
+    findall(
+        Child2, 
+        (prefix(Idx2, ChildIdx2), goal_node(Child2, N, ChildIdx2)), 
+        Children2),
+    similar_lists(Children1, Children2).
+
+similar_goal_hyp_terms(N, GoalIdx, HypIdx) :-
+    findall(
+        Child1, 
+        (prefix(GoalIdx, ChildIdx1), goal_node(Child1, N, ChildIdx1)), 
+        Children1),
+    findall(
+        Child2, 
+        (prefix(HypIdx, ChildIdx2), hyp_node(Child2, N, _, ChildIdx2)), 
+        Children2),
+    similar_lists(Children1, Children2).
+
 :- modeb(*, dif(+string, +string)).
 :- modeb(*, dif(+hyp_idx, +hyp_idx)).
 :- modeb(*, dif(+goal_idx, +goal_idx)).
@@ -86,26 +129,32 @@ is_goal_root(N, Idx) :-
 :- modeb(*, hyp_position_left(+hyp_idx, +hyp_idx)).
 :- modeb(*, position_above(+goal_idx, +goal_idx)).
 :- modeb(*, position_above(+hyp_idx, +hyp_idx)).
-:- modeb(20, eq_goal_term(+nat, +goal_idx, +goal_idx)).
-:- modeb(20, eq_hyp_term(+nat, +hyp_idx, +hyp_idx)).
-:- modeb(20, eq_goal_hyp_term(+nat, +goal_idx, +hyp_idx)).
-:- modeb(20, is_goal_root(+nat, +goal_idx)).
+:- modeb(*, eq_goal_term(+nat, +goal_idx, +goal_idx)).
+% :- modeb(*, eq_hyp_term(+nat, +hyp_idx, +hyp_idx)).
+:- modeb(*, eq_goal_hyp_term(+nat, +goal_idx, +hyp_idx)).
+:- modeb(*, is_goal_root(+nat, +goal_idx)).
+:- modeb(*, is_hyp_root(+nat, +hyp_idx)).
+:- modeb(*, similar_goal_terms(+nat, +goal_idx, +goal_idx)).
+:- modeb(*, similar_goal_hyp_terms(+nat, +goal_idx, +hyp_idx)).
 
-
+:- determination(tac/2, dif/2).
 :- determination(tac/2, goal_position_left/2).
 :- determination(tac/2, hyp_position_left/2).
 :- determination(tac/2, position_above/2).
 :- determination(tac/2, is_goal_root/2).
+:- determination(tac/2, is_hyp_root/2).
 :- determination(tac/2, eq_goal_term/3).
-:- determination(tac/2, eq_hyp_term/3).
+% :- determination(tac/2, eq_hyp_term/3).
 :- determination(tac/2, eq_goal_hyp_term/3).
+:- determination(tac/2, similar_goal_terms/3).
+:- determination(tac/2, similar_goal_hyp_terms/3).
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
 :- set(search, heuristic).
-:- set(openlist, 50).
+% :- set(openlist, 50).
 :- set(verbosity, 0).
 :- set(clauselength, 100).
 :- set(depth, 1000).
 
-:- set(nodes, 15000).
+:- set(nodes, 25000).
