@@ -79,6 +79,8 @@ def mk_anonym_predc(typ, ident):
         return ident
     # elif typ in ["coq_ind", "coq_const", "coq_construct"]:
     #     return "coq_ident"
+    elif ident in ["Coq.Init.Logic.not"]:
+        return "coq_const"
     else:
         return typ
 
@@ -96,12 +98,13 @@ def pr_hyps_anonym_predc(i, l, writer):
     for typ, ident, _arity, name, kind, idx in l:
         predc = mk_anonym_predc(typ, ident)
         predc = to_predc_name(predc)
+        ident = to_predc_name(ident)
         name = hyp_name(name)
         idx = hyp_idx(name, kind, idx)
         if predc in ["coq_case"]:
             continue
         else:
-            writer.write(f'hyp_node("{predc}",{i},{name},{idx}).\n')
+            writer.write(f"hyp_node({predc},{i},{name},{idx},{ident}).\n")
 
 
 def pr_goal_predc(i, l, writer):
@@ -116,47 +119,49 @@ def pr_goal_anonym_predc(i, l, writer):
         predc = mk_anonym_predc(typ, ident)
         predc = to_predc_name(predc)
         idx = goal_idx(idx)
-
+        ident = to_predc_name(ident)
         if predc in ["coq_case"]:
             continue
         else:
-            writer.write(f'goal_node("{predc}",{i},{idx}).\n')
+            writer.write(f"goal_node({predc},{i},{idx},{ident}).\n")
 
 
 def add_hyps_predc(l, predc_set):
     for ident, _, _, _ in l:
         if ident not in ["coq_app"]:
-            predc_set.add(f"hyp_{to_predc_name(ident)}")
+            predc_set.add(to_predc_name(ident))
     return predc_set
 
 
-def add_hyps_anonym_predc(l, predc_set):
+def add_hyps_anonym_predc(l, predc_set, ident_set):
     for typ, ident, _arity, _, _, _ in l:
         predc = mk_anonym_predc(typ, ident)
         predc = to_predc_name(predc)
         if predc in ["coq_case"]:
             continue
         else:
-            predc_set.add(f"hyp_{predc}")
-    return predc_set
+            predc_set.add(predc)
+            ident_set.add(to_predc_name(ident))
+    return predc_set, ident_set
 
 
 def add_goal_predc(l, predc_set):
     for ident, _ in l:
         if ident not in ["coq_app"]:
-            predc_set.add(f"goal_{to_predc_name(ident)}")
+            predc_set.add(to_predc_name(ident))
     return predc_set
 
 
-def add_goal_anonym_predc(l, predc_set):
+def add_goal_anonym_predc(l, predc_set, ident_set):
     for typ, ident, _arity, _ in l:
         predc = mk_anonym_predc(typ, ident)
         predc = to_predc_name(predc)
         if predc in ["coq_case"]:
             continue
         else:
-            predc_set.add(f"goal_{predc}")
-    return predc_set
+            predc_set.add(predc)
+            ident_set.add(to_predc_name(ident))
+    return predc_set, ident_set
 
 
 # def goal_predc_to_hyp_predc(goal_predcs, hyp_predcs):
