@@ -23,3 +23,10 @@ include: the other
 
 Cannot show all the details of encoding because it is complicate, e.g., only one identidier of Constructor ... To explain, first, show the tree structure, then show encoding by position. Some constructors (App,...) are ignored because they have been indicated by their arguments. Appendix pseudocode shows the structure of Coq, which predicates are used, do not need explain the meaning of each argument. ML community cannot understand anyway.
 For anonymous,only keep some constructors.
+
+
+## do not use mode that has identifiers
+goal_node(coq_const,1943,[0,1,0,0,0],coq_QArith_QArith_base_Qpower_positive).
+with n type (coq_const), the space is n * number of idx * number of different
+identifers = $n^3$.
+If we use above for the clause, search space is $n^6$
