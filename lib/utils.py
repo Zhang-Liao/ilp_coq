@@ -36,6 +36,12 @@ def lemma_name(l):
     return l.split("\t")[1]
 
 
+def hyp_name(n):
+    if n[0].isupper():
+        n = "coq_" + n
+    return f'"{n}"'
+
+
 ## For predicates
 def to_predc_name(s):
     s = s.replace(".", "_")
@@ -50,6 +56,13 @@ def to_predc_name(s):
     return s
 
 
+def to_ident(ident, typ):
+    if typ == "coq_var":
+        return hyp_name(ident)
+    else:
+        return to_predc_name(ident)
+
+
 def goal_idx(idx):
     idx = ",".join([str(i) for i in idx])
     idx = "[" + idx + "]"
@@ -61,12 +74,6 @@ def hyp_idx(name, kind, idx):
     idx = ",".join(idx)
     idx = "[" + idx + "]"
     return idx
-
-
-def hyp_name(n):
-    if n[0].isupper():
-        n = "coq_" + n
-    return f'"{n}"'
 
 
 def ignore_arity(id, art):
@@ -98,13 +105,14 @@ def pr_hyps_anonym_predc(i, l, writer):
     for typ, ident, _arity, name, kind, idx in l:
         predc = mk_anonym_predc(typ, ident)
         predc = to_predc_name(predc)
-        ident = to_predc_name(ident)
+        ident = to_ident(ident)
         name = hyp_name(name)
         idx = hyp_idx(name, kind, idx)
         if predc in ["coq_case"]:
             continue
         else:
-            writer.write(f"hyp_node({predc},{i},{name},{idx},{ident}).\n")
+            # writer.write(f"hyp_node({predc},{i},{name},{idx},{ident}).\n")
+            writer.write(f"hyp_node({predc},{i},{name},{idx}).\n")
 
 
 def pr_goal_predc(i, l, writer):
@@ -119,11 +127,12 @@ def pr_goal_anonym_predc(i, l, writer):
         predc = mk_anonym_predc(typ, ident)
         predc = to_predc_name(predc)
         idx = goal_idx(idx)
-        ident = to_predc_name(ident)
+        ident = to_ident(ident)
         if predc in ["coq_case"]:
             continue
         else:
-            writer.write(f"goal_node({predc},{i},{idx},{ident}).\n")
+            # writer.write(f"goal_node({predc},{i},{idx},{ident}).\n")
+            writer.write(f"goal_node({predc},{i},{idx}).\n")
 
 
 def add_hyps_predc(l, predc_set):
@@ -141,7 +150,7 @@ def add_hyps_anonym_predc(l, predc_set, ident_set):
             continue
         else:
             predc_set.add(predc)
-            ident_set.add(to_predc_name(ident))
+            ident_set.add(to_ident(ident))
     return predc_set, ident_set
 
 
@@ -160,7 +169,7 @@ def add_goal_anonym_predc(l, predc_set, ident_set):
             continue
         else:
             predc_set.add(predc)
-            ident_set.add(to_predc_name(ident))
+            ident_set.add(to_ident(ident))
     return predc_set, ident_set
 
 
