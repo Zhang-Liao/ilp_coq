@@ -105,7 +105,7 @@ def pr_hyps_anonym_predc(i, l, writer):
     for typ, ident, _arity, name, kind, idx in l:
         predc = mk_anonym_predc(typ, ident)
         predc = to_predc_name(predc)
-        ident = to_ident(ident)
+        ident = to_ident(ident, typ)
         name = hyp_name(name)
         idx = hyp_idx(name, kind, idx)
         if predc in ["coq_case"]:
@@ -127,7 +127,7 @@ def pr_goal_anonym_predc(i, l, writer):
         predc = mk_anonym_predc(typ, ident)
         predc = to_predc_name(predc)
         idx = goal_idx(idx)
-        ident = to_ident(ident)
+        ident = to_ident(ident, typ)
         if predc in ["coq_case"]:
             continue
         else:
@@ -150,7 +150,7 @@ def add_hyps_anonym_predc(l, predc_set, ident_set):
             continue
         else:
             predc_set.add(predc)
-            ident_set.add(to_ident(ident))
+            ident_set.add(to_ident(ident, typ))
     return predc_set, ident_set
 
 
@@ -169,7 +169,7 @@ def add_goal_anonym_predc(l, predc_set, ident_set):
             continue
         else:
             predc_set.add(predc)
-            ident_set.add(to_ident(ident))
+            ident_set.add(to_ident(ident, typ))
     return predc_set, ident_set
 
 

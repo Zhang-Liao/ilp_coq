@@ -26,7 +26,22 @@ For anonymous,only keep some constructors.
 
 
 ## do not use mode that has identifiers
+
 goal_node(coq_const,1943,[0,1,0,0,0],coq_QArith_QArith_base_Qpower_positive).
 with n type (coq_const), the space is n * number of idx * number of different
 identifers = $n^3$.
 If we use above for the clause, search space is $n^6$
+30000 node heuristic can only generate a clause of 5 atoms.
+tac(A,"reflexivity") :-
+   goal_node(coq_Init_Logic_iff,A,B,C), goal_node(coq_Init_Logic_iff,A,D,C), is_goal_root(A,D), goal_node(coq_Init_Logic_iff,A,D,E), goal_node(coq_var,A,D,F).
+
+## choose a search strategy
+
+for simpl, assumption, trivial, reflexivity, auto.
+* no ident
+   * bf. 30 rules.
+   * bf open list 10. fewer rules. do not search all the short rules.
+   * heuris. Can learn more rules. heuris learn 51 rules.
+   * heuris open list 50. can only learn 36 rules and simple structures.
+* ident
+   * heuris. 51 rules. Can learn one rule for trivial. Fewer rules for reflexivity. Space too large? similar_goal_terms only occurs once.
