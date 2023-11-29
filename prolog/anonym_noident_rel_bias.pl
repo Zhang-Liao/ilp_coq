@@ -170,8 +170,8 @@ similar_goal_hyp_terms(N, GoalIdx, HypIdx) :-
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
-:- set(search, heuristic).
-% :- set(openlist, 10).
+% :- set(search, heuristic).
+:- set(openlist, 50).
 :- set(verbosity, 0).
 :- set(clauselength, 1000).
 :- set(depth, 1000).
