@@ -25,16 +25,6 @@ Cannot show all the details of encoding because it is complicate, e.g., only one
 For anonymous,only keep some constructors.
 
 
-## do not use mode that has identifiers
-
-goal_node(coq_const,1943,[0,1,0,0,0],coq_QArith_QArith_base_Qpower_positive).
-with n type (coq_const), the space is n * number of idx * number of different
-identifers = $n^3$.
-If we use above for the clause, search space is $n^6$
-30000 node heuristic can only generate a clause of 5 atoms.
-tac(A,"reflexivity") :-
-   goal_node(coq_Init_Logic_iff,A,B,C), goal_node(coq_Init_Logic_iff,A,D,C), is_goal_root(A,D), goal_node(coq_Init_Logic_iff,A,D,E), goal_node(coq_var,A,D,F).
-
 ## choose a search strategy
 
 for simpl, assumption, trivial, reflexivity, auto.
@@ -45,3 +35,25 @@ for simpl, assumption, trivial, reflexivity, auto.
    * heuris open list 50. can only learn 36 rules and simple structures.
 * ident
    * heuris. 51 rules. Can learn one rule for trivial. Fewer rules for reflexivity. Space too large? similar_goal_terms only occurs once.
+
+## bk
+
+### do not use mode that has identifiers
+
+goal_node(coq_const,1943,[0,1,0,0,0],coq_QArith_QArith_base_Qpower_positive).
+with n type (coq_const), the space is n * number of idx * number of different
+identifers = $n^3$.
+If we use above for the clause, search space is $n^6$
+30000 node heuristic can only generate a clause of 5 atoms.
+tac(A,"reflexivity") :-
+   goal_node(coq_Init_Logic_iff,A,B,C), goal_node(coq_Init_Logic_iff,A,D,C), is_goal_root(A,D), goal_node(coq_Init_Logic_iff,A,D,E), goal_node(coq_var,A,D,F).
+
+### use identifiers
+
+train in QArith, valid in Lists. If do not use:
+- anonym_rel best at p16n16. f1 = 0.216. work for simpl, intros, auto, assumption. 
+  - But auto, assumption has a lot of FP. use identifiers?
+  - reflexivity does not work. no equal_goal_terms are learned.
+similar_goal_terms ignore equal_goal_terms. May also be related to do not use identifiers.
+  - seldom predict assumption.
+- anonym_prop best at p16n32. f1=0.214. only work for simpl, intros
