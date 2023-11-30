@@ -1,4 +1,4 @@
-:- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_rel_bk.pl')
+:- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_rel_bk.pl').
 
 :- modeb(*, dif(+string, +string)).
 :- modeb(*, dif(+hyp_idx, +hyp_idx)).
