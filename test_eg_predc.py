@@ -21,15 +21,10 @@ def init_out(i, out_dir):
 def pr_predc(row_i, l, w, kind):
     if kind in ["prop", "rel"]:
         utils.pr_goal_predc(row_i, l["goal"], w)
-        goal_predc = utils.add_goal_predc(l["goal"], set())
         utils.pr_hyps_predc(row_i, l["hyps"], w)
-        hyp_predc = utils.add_hyps_predc(l["hyps"], set())
     elif kind == "anonym":
         utils.pr_goal_anonym_predc(row_i, l["goal"], w)
-        goal_predc = utils.add_goal_anonym_predc(l["goal"], set())
         utils.pr_hyps_anonym_predc(row_i, l["hyps"], w)
-        hyp_predc = utils.add_hyps_anonym_predc(l["hyps"], set())
-    return goal_predc, hyp_predc
 
 
 parser = argparse.ArgumentParser()
@@ -51,10 +46,5 @@ with open(opts.test, "r") as r:
             out = init_out(row_i, opts.out)
             with open(out, "a") as w:
                 w.write(":-style_check(-discontiguous).\n")
-                goal_predc, hyp_predc = pr_predc(row_i, l, w, opts.kind)
-                for p in goal_predc:
-                    w.write(f"goal_predc({p}).\n")
-                for p in hyp_predc:
-                    w.write(f"hyp_predc({p}).\n")
-
+                pr_predc(row_i, l, w, opts.kind)
         row_i += 1
