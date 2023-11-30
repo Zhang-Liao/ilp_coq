@@ -159,14 +159,14 @@ parser.add_argument("--clause", type=str)
 parser.add_argument("--pred", type=str, default=None)
 parser.add_argument("--test", type=str)
 parser.add_argument("--label", type=str)
-parser.add_argument("--all_predc", type=str)
+parser.add_argument("--bk", type=str)
 parser.add_argument("--info", type=str, help="specify the output dir")
 
 opts = parser.parse_args()
 
 
 exg_paths = read_exg_paths(opts.test)
-prolog = read_clauses(opts.clause, opts.all_predc, Prolog())
+prolog = read_clauses(opts.clause, opts.bk, Prolog())
 assert opts.pred.endswith(".eval")
 good_preds, reordered_preds = filter_stat_ml(exg_paths, prolog, opts.pred)
 out_stat_ml(good_preds, reordered_preds, opts.pred, opts.clause, opts.label, opts.info)
