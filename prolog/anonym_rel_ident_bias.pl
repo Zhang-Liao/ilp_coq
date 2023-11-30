@@ -18,14 +18,14 @@ goal_above(N, Idx1, Idx2) :-
     \+ (
         above_aux(Idx1, Idx3),
         above_aux(Idx3, Idx2),
-        goal_node(_Predc, N, Idx3)).
+        goal_node(_Predc, N, Idx3, _Ident)).
 
 hyp_above(N, Idx1, Idx2) :-
     above_aux(Idx1, Idx2),
     \+ (
         above_aux(Idx1, Idx3),
         above_aux(Idx3, Idx2),
-        hyp_node(_Predc, N, _Name, Idx3)).
+        hyp_node(_Predc, N, _Name, Idx3, _Ident)).
 
 
 nat_idx([]).
@@ -39,12 +39,12 @@ goal_term_children_in_goal_term(N, Idx1, Idx2):-
     forall(
         (
             prefix(Idx1, Child1),
-            goal_node(Predc, N, Child1)
+            goal_node(Predc, N, Child1, Ident)
         ),
         (
             append(Idx1, RelativeIdx1, Child1),
             append(Idx2, RelativeIdx1, Child2),
-            goal_node(Predc, N, Child2)
+            goal_node(Predc, N, Child2, Ident)
         )
     ).
 
@@ -53,12 +53,12 @@ goal_term_children_in_hyp_term(N, Idx1, Idx2) :-
     forall(
         (
             prefix(Idx1, Child1),
-            goal_node(Predc, N, Child1)
+            goal_node(Predc, N, Child1, Ident)
         ),
         (
             append(Idx1, RelativeIdx1, Child1),
             append(Idx2, RelativeIdx1, Child2),
-            hyp_node(Predc, N, _Name, Child2)
+            hyp_node(Predc, N, _Name, Child2, Ident)
         )
     ).
 
@@ -66,12 +66,12 @@ hyp_term_children_in_goal_term(N, HypIdx, GoalIdx) :-
     forall(
         (
             prefix(HypIdx, Child1),
-            hyp_node(Predc, N, _Name, Child1)
+            hyp_node(Predc, N, _Name, Child1, Ident)
         ),
         (
             append(HypIdx, RelativeIdx1, Child1),
             append(GoalIdx, RelativeIdx1, Child2),
-            goal_node(Predc, N, Child2)
+            goal_node(Predc, N, Child2, Ident)
         )
     ).
 
@@ -88,14 +88,14 @@ is_goal_root(N, Idx) :-
 \+ (
     prefix(Parent, Idx), 
     dif(Parent, Idx),
-    goal_node(_Predc, N, Parent)).
+    goal_node(_Predc, N, Parent, _Ident)).
 
 is_hyp_root(N, Idx) :-
 \+ (
     prefix(Parent, Idx),
     hyp_idx(Parent),
     dif(Parent, Idx),
-    hyp_node(_Predc, N, _Name, Parent)).
+    hyp_node(_Predc, N, _Name, Parent, _Ident)).
 
 rmv_ele_from_list(_, [], []).
 rmv_ele_from_list(X, [X | Tl], Tl).
@@ -121,22 +121,22 @@ similar_goal_terms(N, Idx1, Idx2) :-
     dif(Idx1, Idx2),
     findall(
         Child1, 
-        (prefix(Idx1, ChildIdx1), goal_node(Child1, N, ChildIdx1)), 
+        (prefix(Idx1, ChildIdx1), goal_node(_Predc1, N, ChildIdx1, Child1)), 
         Children1),
     findall(
         Child2, 
-        (prefix(Idx2, ChildIdx2), goal_node(Child2, N, ChildIdx2)), 
+        (prefix(Idx2, ChildIdx2), goal_node(_Predc2, N, ChildIdx2, Child2)), 
         Children2),
     similar_lists(Children1, Children2).
 
 similar_goal_hyp_terms(N, GoalIdx, HypIdx) :-
     findall(
         Child1, 
-        (prefix(GoalIdx, ChildIdx1), goal_node(Child1, N, ChildIdx1)), 
+        (prefix(GoalIdx, ChildIdx1), goal_node(_Predc1, N, ChildIdx1, Child1)), 
         Children1),
     findall(
         Child2, 
-        (prefix(HypIdx, ChildIdx2), hyp_node(Child2, N, _, ChildIdx2)), 
+        (prefix(HypIdx, ChildIdx2), hyp_node(_Predc2, N, _, ChildIdx2, Child2)), 
         Children2),
     similar_lists(Children1, Children2).
 
@@ -170,8 +170,8 @@ similar_goal_hyp_terms(N, GoalIdx, HypIdx) :-
 
 :- set(construct_bottom, false).
 :- set(refine, auto).
-% :- set(search, heuristic).
-:- set(openlist, 50).
+:- set(search, heuristic).
+% :- set(openlist, 50).
 :- set(verbosity, 0).
 :- set(clauselength, 1000).
 :- set(depth, 1000).

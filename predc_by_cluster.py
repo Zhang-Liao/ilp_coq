@@ -23,25 +23,27 @@ def pr_origin_mode(writer, tac):
     writer.write(f":- determination(tac/2, hyp_node/4).\n")
 
 
+# def pr_anonym_mode(writer, tac, ident):
+#     for id in ident:
+#         writer.write(f"coq_ident({id}).\n")
+
+#     writer.write(f':- modeh(1, tac(+nat, "{tac}")).\n')
+#     writer.write(f":- modeb(*, goal_node(#coq_predc, +nat, -goal_idx, -coq_ident)).\n")
+#     writer.write(
+#         f":- modeb(*, hyp_node(#coq_predc, +nat, -string, -hyp_idx, -coq_ident)).\n"
+#     )
+
+#     writer.write(f":- determination(tac/2, goal_node/4).\n")
+#     writer.write(f":- determination(tac/2, hyp_node/5).\n")
+
+
 def pr_anonym_mode(writer, tac, ident):
-    for id in ident:
-        writer.write(f"coq_ident({id}).\n")
-
     writer.write(f':- modeh(1, tac(+nat, "{tac}")).\n')
-    writer.write(f":- modeb(*, goal_node(#coq_predc, +nat, -goal_idx, -coq_ident)).\n")
-    writer.write(
-        f":- modeb(*, hyp_node(#coq_predc, +nat, -string, -hyp_idx, -coq_ident)).\n"
-    )
+    writer.write(f":- modeb(*, goal_node(#coq_predc, +nat, -goal_idx)).\n")
+    writer.write(f":- modeb(*, hyp_node(#coq_predc, +nat, -string, -hyp_idx)).\n")
 
-    # for p in goal_predc:
-    #     writer.write(f':- modeb(*, goal_node("{p}", +nat, -goal_idx, +coq_ident)).\n')
-    # for p in hyp_predc:
-    #     writer.write(
-    #         f':- modeb(*, hyp_node("{p}", +nat, -string, -hyp_idx, +coq_ident)).\n'
-    #     )
-
-    writer.write(f":- determination(tac/2, goal_node/4).\n")
-    writer.write(f":- determination(tac/2, hyp_node/5).\n")
+    writer.write(f":- determination(tac/2, goal_node/3).\n")
+    writer.write(f":- determination(tac/2, hyp_node/4).\n")
 
 
 def pr_mode(hyp_predc, goal_predc, writer, tac, ident, kind):
