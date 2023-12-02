@@ -15,26 +15,6 @@ from stats import acc
 from stats import stat_filter
 
 
-# def mk_rule_dic(dat):
-#     dic = {}
-#     is_hd = True
-#     for r in dat:
-#         r = r.strip()
-#         hd = re.match(
-#             r"tac(A,\"(?P<tac>)\",(?P<i>)):-",
-#             r,
-#         )
-#         if hd != None:
-#             hd = hd.groupdict()
-#             tac = str(hd["tac"])
-#             i = int(info["i"])
-#             if tac not in dic.keys():
-#                 dic[tac].append(i)
-
-#         if r.startswith("tac(A,"):
-#             info = re.match(r".*p(?P<pos>[0-9]+)n(?P<neg>[0-9]+).*", param)
-
-
 def read_clauses(clause_file, all_predc, prolog):
     prolog.consult(clause_file)
     prolog.consult(all_predc)
@@ -105,7 +85,6 @@ def filter_stat_ml(exg_paths, prolog, pred_file):
             if i % 100 == 0:
                 print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
                 # return preds_mat
-                break
     return accept_dics
 
 
@@ -122,15 +101,6 @@ def out_stat_ml(accept_dics, f_pred, clause, label, info):
     with open(good, "w") as w:
         for accept in accept_dics:
             w.write(json.dumps(accept) + "\n")
-    # acc.acc(good, label, clause)
-
-    # reordered_dir = os.path.join(out_dir, "reorder")
-    # os.makedirs(reordered_dir)
-    # reordered = os.path.join(reordered_dir, os.path.basename(f_pred))
-    # with open(reordered, "w") as w:
-    #     for preds in reordered_preds:
-    #         w.write(preds + "\n")
-    # acc.acc(reordered, label, clause)
 
     # stat_filter.stat_ilp_stat_ml(good, label, f_pred, reordered, False)
 

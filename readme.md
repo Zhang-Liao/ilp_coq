@@ -57,3 +57,7 @@ train in QArith, valid in Lists. If do not use:
 similar_goal_terms ignore equal_goal_terms. May also be related to do not use identifiers.
   - seldom predict assumption.
 - anonym_prop best at p16n32. f1=0.214. only work for simpl, intros
+
+## filter
+
+Do not contain reorder because after removing bad rules, reoredred predictions are different. 
