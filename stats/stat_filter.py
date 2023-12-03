@@ -5,14 +5,13 @@ import json
 
 import argparse
 import re
-from sklearn.metrics import f1_score
 
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
 
 def init_tac_stat():
-    return {"TP": 0, "FP": 0, "FN": 0, "TN": 0, "rule": {}}
+    return {"TP": 0, "FP": 0, "FN": 0, "rule": {}}
 
 
 def init_rule_stat():
@@ -208,9 +207,7 @@ def stat_one_pred(p, stats, goods, label, rule_ids):
         )
 
 
-def stat_ilp_stat_ml(f_good, f_label, f_pred, f_rule):
-    labels, goodss, predss, rules = load(f_good, f_label, f_pred, f_rule)
-    rule_ids = mk_rule_ids_dic(rules)
+def stat_ilp_stat_ml(goodss, labels, predss, rule_ids, out):
     tac_stats = init_stat(rule_ids)
     for goods, label, preds in zip(goodss, labels, predss):
         if utils.not_lemma(label):
@@ -224,8 +221,7 @@ def stat_ilp_stat_ml(f_good, f_label, f_pred, f_rule):
     clean_stat(tac_stats["tactic"])
     tac_stats = cal_f1_precision(tac_stats)
 
-    out_dir = os.path.dirname(f_good)
-    with open(os.path.join(out_dir, "stat_filter.json"), "w") as w:
+    with open(os.path.join(out, "stat_filter.json"), "w") as w:
         json.dump(tac_stats, w)
 
 
@@ -238,4 +234,8 @@ if __name__ == "__main__":
     parser.add_argument("--label", type=str)
     parser.add_argument("--rule", type=str)
     args = parser.parse_args()
-    stat_ilp_stat_ml(args.good, args.label, args.pred, args.rule)
+
+    labels, goodss, predss, rules = load(args.good, args.label, args.pred, args.rule)
+    rule_ids = mk_rule_ids_dic(rules)
+    out = os.path.dirname(args.good)
+    stat_ilp_stat_ml(labels, goodss, predss, rule_ids, out)
