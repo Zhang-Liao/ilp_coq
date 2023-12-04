@@ -8,8 +8,9 @@ export -f gen
 negs=(1 2 4 8 16 32)
 poss=(2 4 8 16 32)
 
-anonym=anonym
-kind=rel_noarity
+anonym=anonym_ident
+kind=rel_id_simandeq
+# /home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/anonym_ident/tune/QArith/train/rel_id_simandeq
 for neg in "${negs[@]}"; do
   (
 
@@ -21,8 +22,9 @@ for neg in "${negs[@]}"; do
       echo ":- style_check(-singleton)." >tmp
       find . -name "*_rule.pl" | xargs -i cat {} >>tmp
       cd -
-      python clean_rule.py --file $dir/tmp
+      python post_proc_rule.py --file $dir/tmp
       mv $dir/tmp $dir/alltac_rule.pl
+      # python post_proc_rule.py --file $dir/alltac_rule.pl
     done
-  ) &
+  )
 done

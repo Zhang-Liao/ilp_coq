@@ -36,6 +36,7 @@ def lemma_name(l):
     return l.split("\t")[1]
 
 
+# The names of hypotheses are much more flexible than identifiers; thus, we them convert to strings.
 def hyp_name(n):
     if n[0].isupper():
         n = "coq_" + n
@@ -84,8 +85,6 @@ def mk_anonym_predc(typ, ident):
     # additional constants other than them during the dataset generation
     if ident in ["Coq.Init.Logic.False"]:
         return ident
-    # elif typ in ["coq_ind", "coq_const", "coq_construct"]:
-    #     return "coq_ident"
     elif ident in ["Coq.Init.Logic.not"]:
         return "coq_const"
     else:
@@ -111,8 +110,8 @@ def pr_hyps_anonym_predc(i, l, writer):
         if predc in ["coq_case"]:
             continue
         else:
-            # writer.write(f"hyp_node({predc},{i},{name},{idx},{ident}).\n")
-            writer.write(f"hyp_node({predc},{i},{name},{idx}).\n")
+            writer.write(f"hyp_node({predc},{i},{name},{idx},{ident}).\n")
+            # writer.write(f"hyp_node({predc},{i},{name},{idx}).\n")
 
 
 def pr_goal_predc(i, l, writer):
@@ -131,8 +130,8 @@ def pr_goal_anonym_predc(i, l, writer):
         if predc in ["coq_case"]:
             continue
         else:
-            # writer.write(f"goal_node({predc},{i},{idx},{ident}).\n")
-            writer.write(f"goal_node({predc},{i},{idx}).\n")
+            writer.write(f"goal_node({predc},{i},{idx},{ident}).\n")
+            # writer.write(f"goal_node({predc},{i},{idx}).\n")
 
 
 def add_hyps_predc(l, predc_set):
@@ -171,15 +170,6 @@ def add_goal_anonym_predc(l, predc_set, ident_set):
             predc_set.add(predc)
             ident_set.add(to_ident(ident, typ))
     return predc_set, ident_set
-
-
-# def goal_predc_to_hyp_predc(goal_predcs, hyp_predcs):
-#     goal_to_hyp = set()
-#     for g_p in goal_predcs:
-#         h_p = f"hyp_{g_p[5:]}"
-#         if h_p in hyp_predcs:
-#             goal_to_hyp.add(f"goal_predc_to_hyp_predc({g_p}, {h_p})")
-#     return goal_to_hyp
 
 
 def safe_tac(t):
@@ -281,6 +271,13 @@ def load_subdir_no_lemma(dir, subdir):
                         dat.append((i, l))
                     i += 1
     return dat
+
+
+def update_dic(dic, new_item, default, key):
+    if key not in dic.keys():
+        dic[key] = default
+    else:
+        dic[key].update(new_item)
 
 
 COMMON_TAC = [
