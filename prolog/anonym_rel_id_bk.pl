@@ -121,7 +121,7 @@ dif_lists([H |Tl], L, [H | Difs]) :- dif_lists(Tl, L, Difs).
 similar_lists(L1, L2) :- dif_lists(L1, L2, Dif), length(Dif, Len), Len < 2.
 
 similar_goal_terms(N, Idx1, Idx2) :-
-    \+ (eq_goal_term(N, Idx1, Idx2)),
+    % \+ (eq_goal_term(N, Idx1, Idx2)),
     dif(Idx1, Idx2),
     findall(
         Child1, 

@@ -144,7 +144,6 @@ similar_goal_hyp_terms(N, GoalIdx, HypIdx) :-
 :- determination(tac/2, is_goal_root/2).
 :- determination(tac/2, is_hyp_root/2).
 :- determination(tac/2, eq_goal_term/3).
-% :- determination(tac/2, eq_hyp_term/3).
 :- determination(tac/2, eq_goal_hyp_term/3).
 :- determination(tac/2, similar_goal_terms/3).
 :- determination(tac/2, similar_goal_hyp_terms/3).
