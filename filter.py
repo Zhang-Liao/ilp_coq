@@ -90,29 +90,35 @@ def filter_stat_ml(exg_paths, prolog, pred_file):
 
 def out_stat_ml(accept_dics, f_pred, f_rule, label, info):
     out_dir = os.path.join(f_pred[:-5], info)
-    # if os.path.exists(out_dir):
-    #     shutil.rmtree(out_dir)
-    #     warnings.warn("remove the existed statistic in " + out_dir)
+    if os.path.exists(out_dir):
+        shutil.rmtree(out_dir)
+        warnings.warn("remove the existed statistic in " + out_dir)
     good_dir = os.path.join(out_dir, "good")
-    # if not os.path.exists(good_dir):
-    #     os.makedirs(good_dir)
-    # shutil.copy(f_rule, out_dir)
+    if not os.path.exists(good_dir):
+        os.makedirs(good_dir)
+    shutil.copy(f_rule, out_dir)
     good = os.path.join(good_dir, os.path.basename(f_pred))
-    # with open(good, "w") as w:
-    #     for accept in accept_dics:
-    #         w.write(json.dumps(accept) + "\n")
+    with open(good, "w") as w:
+        for accept in accept_dics:
+            w.write(json.dumps(accept) + "\n")
 
-    labels, goodss, predss, rule_ids, out = stat_filter.init_dat(
+    labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
         good, label, f_pred, f_rule
     )
 
     stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, good_dir)
 
-    # log = {
-    #     "clause": clause,
-    # }
-    # with open(os.path.join(out_dir, "log.json"), "w") as w:
-    #     json.dump(log, w, indent=4)
+
+# def out_stat_ml(_, f_pred, f_rule, label, info):
+#     out_dir = os.path.join(f_pred[:-5], info)
+#     good_dir = os.path.join(out_dir, "good")
+#     good = os.path.join(good_dir, os.path.basename(f_pred))
+
+#     labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
+#         good, label, f_pred, f_rule
+#     )
+
+#     stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, good_dir)
 
 
 parser = argparse.ArgumentParser()
@@ -129,6 +135,6 @@ opts = parser.parse_args()
 exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.bk, Prolog())
 assert opts.pred.endswith(".eval")
-# accept_dics = filter_stat_ml(exg_paths, prolog, opts.pred)
-# out_stat_ml(accept_dics, opts.pred, opts.clause, opts.label, opts.info)
-out_stat_ml([], opts.pred, opts.clause, opts.label, opts.info)
+accept_dics = filter_stat_ml(exg_paths, prolog, opts.pred)
+out_stat_ml(accept_dics, opts.pred, opts.clause, opts.label, opts.info)
+# out_stat_ml([], opts.pred, opts.clause, opts.label, opts.info)

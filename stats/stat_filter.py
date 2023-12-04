@@ -73,7 +73,6 @@ def load(f_good, f_label, f_pred, f_rule):
     with open(f_rule, "r") as f:
         rules = f.readlines()
     rules = [l.strip() for l in rules]
-
     assert len(goodss) == len(labels)
     return labels, goodss, predss, rules
 
@@ -147,7 +146,7 @@ def update_rule_id_stat(stat, goods, bads, good_key, bad_key):
 def clean_stat(stat):
     tac_to_clean = []
     for tac, values in stat.items():
-        if values["TP"] + values["TP"] + values["FN"] == 0:
+        if values["TP"] + values["FP"] + values["FN"] == 0:
             tac_to_clean.append(tac)
 
     for tac in tac_to_clean:
