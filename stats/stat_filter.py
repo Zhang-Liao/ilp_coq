@@ -225,6 +225,13 @@ def stat_ilp_stat_ml(goodss, labels, predss, rule_ids, out):
         json.dump(tac_stats, w)
 
 
+def init_dat(f_good, f_label, f_pred, f_rule):
+    labels, goodss, predss, rules = load(f_good, f_label, f_pred, f_rule)
+    rule_ids = mk_rule_ids_dic(rules)
+    out = os.path.dirname(f_good)
+    return labels, goodss, predss, rule_ids, out
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Returns false positive and false negative."
@@ -235,7 +242,7 @@ if __name__ == "__main__":
     parser.add_argument("--rule", type=str)
     args = parser.parse_args()
 
-    labels, goodss, predss, rules = load(args.good, args.label, args.pred, args.rule)
-    rule_ids = mk_rule_ids_dic(rules)
-    out = os.path.dirname(args.good)
+    labels, goodss, predss, rule_ids, out = init_dat(
+        args.good, args.label, args.pred, args.rule
+    )
     stat_ilp_stat_ml(labels, goodss, predss, rule_ids, out)

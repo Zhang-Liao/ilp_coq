@@ -7,6 +7,7 @@ from datetime import datetime
 from multiprocessing import Process
 from multiprocessing import Queue
 from pyswip import Prolog
+import re
 import shutil
 
 from lib import utils
@@ -35,22 +36,14 @@ def read_exg_paths(example_dir):
 
 
 def filter_tac(i, tac, exg_paths, prolog, good):
-    # Why passing Prolog from filter_row cause warnings?
-    # prolog = Prolog()
-    # prolog.assertz('style_check(-singleton)') error ?
     prolog.consult(exg_paths[i])
-    # print(f'tac({i}, \"{tac}\")')
-    good.put(bool(list(prolog.query(f'tac({i}, "{tac}")'))))
-    # except:
-    # TODO: better solution instead of ignoring the error.
-    # Clause may contain predicates that not in the example. Now, I
-    # treat it as failure and continue. Add all predicates initially
-    # seems cause warnings in Prolog.
+    query = list(prolog.query(f'tac({i},"{tac}",X)'))
+    pos_ids = sorted(set([int(p["X"]) for p in query]))
+    good.put(pos_ids)
 
 
 def filter_row(i, row, exg_paths, prolog):
-    good_preds = []
-    bad_preds = []
+    accept_dic = {}
     preds = row.split("\t")[:20]
     for pred in preds:
         good = Queue()
@@ -68,90 +61,58 @@ def filter_row(i, row, exg_paths, prolog):
         child.start()
         child.join(timeout=5)
         child.terminate()
-        if child.exitcode == None:
-            good_preds.append(pred)
-        else:
-            if good.get():
-                good_preds.append(pred)
-            else:
-                bad_preds.append(pred)
-    new_preds = good_preds + bad_preds
+        # not over the time limit
+        if child.exitcode != None:
+            accepts = good.get()
+            if accepts != []:
+                accept_dic[pred] = accepts
     # print(new_preds)
-    return good_preds, new_preds
+    return accept_dic
 
 
 def filter_stat_ml(exg_paths, prolog, pred_file):
-    good_pred_mat = []
-    reordered_mat = []
+    accept_dics = []
     i = 0
     with open(pred_file, "r") as f:
         for r in f:
             r = r.strip()
             if utils.not_lemma(r):
-                good_preds, reordered = filter_row(i, r, exg_paths, prolog)
-                good_preds = "\t".join(good_preds)
-                reordered = "\t".join(reordered)
-                good_pred_mat.append(good_preds)
-                reordered_mat.append(reordered)
+                accept_dic = filter_row(i, r, exg_paths, prolog)
+                accept_dics.append(accept_dic)
             else:
-                good_pred_mat.append(r)
-                reordered_mat.append(r)
+                accept_dics.append(r)
             i += 1
             if i % 100 == 0:
                 print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
                 # return preds_mat
-    return good_pred_mat, reordered_mat
+    return accept_dics
 
 
-def ilp_pred(exg_paths, prolog, f_label):
-    predss = []
-    i = 0
-    with open(f_label, "r") as f:
-        for r in f:
-            r = r.strip()
-            if utils.not_lemma(r):
-                prolog.consult(exg_paths[i])
-                preds = prolog.query(f"tac({i}, Tac)")
-                preds = [str(p["Tac"], encoding="utf-8") for p in preds]
-                predss.append(preds)
-            else:
-                predss.append(r)
-            i += 1
-            if i % 100 == 0:
-                print(i, datetime.now().strftime("%m-%d-%Y-%H:%M:%S"))
-    return predss
-
-
-def out_stat_ml(good_preds, reordered_preds, f_pred, clause, label, info):
+def out_stat_ml(accept_dics, f_pred, f_rule, label, info):
     out_dir = os.path.join(f_pred[:-5], info)
-    if os.path.exists(out_dir):
-        shutil.rmtree(out_dir)
-        warnings.warn("remove the existed statistic in " + out_dir)
+    # if os.path.exists(out_dir):
+    #     shutil.rmtree(out_dir)
+    #     warnings.warn("remove the existed statistic in " + out_dir)
     good_dir = os.path.join(out_dir, "good")
-    if not os.path.exists(good_dir):
-        os.makedirs(good_dir)
-    shutil.copy(clause, out_dir)
+    # if not os.path.exists(good_dir):
+    #     os.makedirs(good_dir)
+    # shutil.copy(f_rule, out_dir)
     good = os.path.join(good_dir, os.path.basename(f_pred))
-    with open(good, "w") as w:
-        for preds in good_preds:
-            w.write(preds + "\n")
-    acc.acc(good, label, clause)
+    # with open(good, "w") as w:
+    #     for accept in accept_dics:
+    #         w.write(json.dumps(accept) + "\n")
 
-    reordered_dir = os.path.join(out_dir, "reorder")
-    os.makedirs(reordered_dir)
-    reordered = os.path.join(reordered_dir, os.path.basename(f_pred))
-    with open(reordered, "w") as w:
-        for preds in reordered_preds:
-            w.write(preds + "\n")
-    acc.acc(reordered, label, clause)
+    labels, goodss, predss, rule_ids, out = stat_filter.init_dat(
+        good, label, f_pred, f_rule
+    )
 
-    stat_filter.stat_ilp_stat_ml(good, label, f_pred, reordered, False)
+    stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, good_dir)
 
-    log = {
-        "clause": clause,
-    }
-    with open(os.path.join(out_dir, "log.json"), "w") as w:
-        json.dump(log, w, indent=4)
+    # log = {
+    #     "clause": clause,
+    # }
+    # with open(os.path.join(out_dir, "log.json"), "w") as w:
+    #     json.dump(log, w, indent=4)
 
 
 parser = argparse.ArgumentParser()
@@ -168,5 +129,6 @@ opts = parser.parse_args()
 exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.bk, Prolog())
 assert opts.pred.endswith(".eval")
-good_preds, reordered_preds = filter_stat_ml(exg_paths, prolog, opts.pred)
-out_stat_ml(good_preds, reordered_preds, opts.pred, opts.clause, opts.label, opts.info)
+# accept_dics = filter_stat_ml(exg_paths, prolog, opts.pred)
+# out_stat_ml(accept_dics, opts.pred, opts.clause, opts.label, opts.info)
+out_stat_ml([], opts.pred, opts.clause, opts.label, opts.info)
