@@ -39,7 +39,7 @@ def filter_rules(f_stat, precision):
     good_rules = init_rules(stat["tactic"])
     for tac, tac_stat in stat["tactic"].items():
         for rule, rule_stat in tac_stat["rule"].items():
-            if rule_stat["precision"] > precision:
+            if rule_stat["precision"] >= precision:
                 good_rules[tac].add(int(rule))
     return good_rules
 
@@ -68,6 +68,17 @@ def filter_goodss(goodss, tac_ids):
     return new_goodss
 
 
+def mk_stat(stat_f, good_f, pred_f, label_f, prec):
+    rules = filter_rules(stat_f, prec)
+    labels, goodss, predss = load(good_f, label_f, pred_f)
+    goodss = filter_goodss(goodss, rules)
+    subdir = str(int(100 * prec))
+    out = os.path.join(os.path.dirname(good_f), subdir)
+    if not os.path.exists(out):
+        os.mkdir(out)
+    stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rules, out)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Returns false positive and false negative."
@@ -78,11 +89,4 @@ if __name__ == "__main__":
     parser.add_argument("--label", type=str)
     parser.add_argument("--precision", type=float)
     args = parser.parse_args()
-    rules = filter_rules(args.stat, args.precision)
-    labels, goodss, predss = load(args.good, args.label, args.pred)
-    goodss = filter_goodss(goodss, rules)
-    subdir = str(int(100 * args.precision))
-    out = os.path.join(os.path.dirname(args.good), subdir)
-    if not os.path.exists(out):
-        os.mkdir(out)
-    stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rules, out)
+    mk_stat(args.stat, args.good, args.pred, args.label, args.precision)

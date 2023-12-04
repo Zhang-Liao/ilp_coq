@@ -11,8 +11,8 @@ import re
 import shutil
 
 from lib import utils
-from stats import acc
 from stats import stat_filter
+from stats import stat_at_precision
 
 
 def read_clauses(clause_file, all_predc, prolog):
@@ -88,37 +88,46 @@ def filter_stat_ml(exg_paths, prolog, pred_file):
     return accept_dics
 
 
-def out_stat_ml(accept_dics, f_pred, f_rule, label, info):
-    out_dir = os.path.join(f_pred[:-5], info)
-    if os.path.exists(out_dir):
-        shutil.rmtree(out_dir)
-        warnings.warn("remove the existed statistic in " + out_dir)
-    good_dir = os.path.join(out_dir, "good")
-    if not os.path.exists(good_dir):
-        os.makedirs(good_dir)
-    shutil.copy(f_rule, out_dir)
-    good = os.path.join(good_dir, os.path.basename(f_pred))
-    with open(good, "w") as w:
-        for accept in accept_dics:
-            w.write(json.dumps(accept) + "\n")
-
-    labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
-        good, label, f_pred, f_rule
-    )
-
-    stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, good_dir)
+def at_precisions(stat_f, good_f, pred_f, label_f):
+    for prec in [0, 0.05, 0.1, 0.15, 0.2]:
+        stat_at_precision.mk_stat(stat_f, good_f, pred_f, label_f, prec)
 
 
-# def out_stat_ml(_, f_pred, f_rule, label, info):
-#     out_dir = os.path.join(f_pred[:-5], info)
+# def out_stat_ml(accept_dics, pred_f, rule_f, label_f, info):
+#     out_dir = os.path.join(pred_f[:-5], info)
+#     if os.path.exists(out_dir):
+#         shutil.rmtree(out_dir)
+#         warnings.warn("remove the existed statistic in " + out_dir)
 #     good_dir = os.path.join(out_dir, "good")
-#     good = os.path.join(good_dir, os.path.basename(f_pred))
+#     if not os.path.exists(good_dir):
+#         os.makedirs(good_dir)
+#     shutil.copy(rule_f, out_dir)
+#     good_f = os.path.join(good_dir, os.path.basename(pred_f))
+#     with open(good_f, "w") as w:
+#         for accept in accept_dics:
+#             w.write(json.dumps(accept) + "\n")
 
 #     labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
-#         good, label, f_pred, f_rule
+#         good_f, label_f, pred_f, rule_f
 #     )
 
 #     stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, good_dir)
+#     stat_f = os.path.join(out_dir, "stat_filter.json")
+#     at_precisions(stat_f, good_f, pred_f, label_f)
+
+
+def out_stat_ml(_, pred_f, rule_f, label_f, info):
+    out_dir = os.path.join(pred_f[:-5], info)
+    good_dir = os.path.join(out_dir, "good")
+    good_f = os.path.join(good_dir, os.path.basename(pred_f))
+
+    # labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
+    #     good_f, label_f, pred_f, rule_f
+    # )
+
+    # stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, good_dir)
+    stat_f = os.path.join(good_dir, "stat_filter.json")
+    at_precisions(stat_f, good_f, pred_f, label_f)
 
 
 parser = argparse.ArgumentParser()
@@ -135,6 +144,6 @@ opts = parser.parse_args()
 exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.bk, Prolog())
 assert opts.pred.endswith(".eval")
-accept_dics = filter_stat_ml(exg_paths, prolog, opts.pred)
-out_stat_ml(accept_dics, opts.pred, opts.clause, opts.label, opts.info)
-# out_stat_ml([], opts.pred, opts.clause, opts.label, opts.info)
+# accept_dics = filter_stat_ml(exg_paths, prolog, opts.pred)
+# out_stat_ml(accept_dics, opts.pred, opts.clause, opts.label, opts.info)
+out_stat_ml([], opts.pred, opts.clause, opts.label, opts.info)
