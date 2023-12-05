@@ -59,47 +59,52 @@ def stat_acc(dat, params):
     plt.savefig("stats/rel_tune.pdf")
 
 
-def stat_f1(df):
-    # df = mk_f1_df(dat, params)
-    # print(df)
-    plt.figure(figsize=(24, 4.8))
-    sns.lineplot(data=df, x="param", y="f1", hue="kind")
-    # plt.show()
-    plt.savefig("stats/tune_QArith_nontrivial_f1.pdf")
+def stat_f1(dfs):
+    for df in dfs:
+        prec = df.iloc[0]["prec"]
+        plt.figure(figsize=(24, 4.8))
+        sns.lineplot(data=df, x="param", y="f1", hue="kind")
+        # plt.show()
+        plt.savefig(f"stats/tune{prec}.png")
 
 
 def mk_f1_df(stat, theory, name):
     # print(theory)
     # name = theory.split("/")[-1]
-    dic = {"kind": [], "f1": [], "param": []}
+    dic = {"kind": [], "f1": [], "param": [], "prec": []}
     # print(stat.keys())
     # exit()
     for kind, kind_stat in stat.items():
         theory_stat = kind_stat[theory]
         for pos, pos_stat in theory_stat.items():
-            for neg, f1 in pos_stat.items():
-                dic["kind"].append(f"{kind}_{name}")
-                dic["f1"].append(f1)
-                dic["param"].append(f"p{pos}n{neg}")
-
+            for neg, neg_stat in pos_stat.items():
+                for prec, f1 in neg_stat.items():
+                    # if "anonym" in kind:
+                    dic["kind"].append(f"{kind}_{name}")
+                    dic["f1"].append(f1)
+                    dic["param"].append(f"p{pos}n{neg}")
+                    dic["prec"].append(prec)
     df = pd.DataFrame(data=dic)
     # print(df)
     return df
 
 
-def mk_f1_dfs(stat, theories):
+def mk_f1_dfs(stat, theory):
     dfs = []
-    for theory in theories:
-        name = theory.split("/")[-1]
-        # dfs.append(mk_f1_df(stat["f1"], theory, name))
-        dfs.append(mk_f1_df(stat["f1_no_ignored_tac"], theory, f"{name}_nontrivial"))
-    return pd.concat(dfs)
+    name = theory.split("/")[-1]
+    df = mk_f1_df(stat["f1"], theory, name)
+    sub_dfs = [y for x, y in df.groupby("prec")]
+
+    # dfs.append(mk_f1_df(stat["f1"], theory, name))
+    # dfs.append(mk_f1_df(stat["f1_no_ignored_tac"], theory, f"{name}_nontrivial"))
+    # return pd.concat(dfs)
+    return sub_dfs
 
 
-f_stats = "tune_QArith.json"
+f_stats = "stats/QArith_tune_debug.json"
 reader = open(f_stats, "r")
 stat = json.load(reader)
-theories = ["theories/Lists"]
-# theories = ["theories/Lists", "theories/Sorting", "aver"]
-df = mk_f1_dfs(stat, theories)
-stat_f1(df)
+theory = "theories/Lists"
+dfs = mk_f1_dfs(stat, theory)
+# print(df)
+stat_f1(dfs)
