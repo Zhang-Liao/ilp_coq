@@ -11,11 +11,7 @@ sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
 num_of_test = 10
-# test_dir = "data/json/origin_feat/tune/MSets/"
-# param = ""
-# anonym = "origin"
-# predc_kind = ""
-# assert anonym in ["origin", "anonym"]
+precs = [0, 0.05, 0.10, 0.15, 0.2]
 KINDS = ["anonym_rel", "anonym_prop", "origin_prop", "origin_rel"]
 POS = [2, 4, 8, 16, 32]
 NEG = [1, 2, 4, 8, 16, 32]
@@ -31,6 +27,9 @@ def init_stat(theories):
                 stat[kind][theory][p] = {}
                 for n in NEG:
                     stat[kind][theory][p][n] = {}
+                    for prec in precs:
+                        prec = int(prec * 100)
+                        stat[kind][theory][p][n][prec] = {}
     return stat
 
 
@@ -51,41 +50,49 @@ def init_knn_stat(theory):
     return stat
 
 
-def update_theory_stat(stat, ilp_stat_f, root, theory, pos, neg):
+def are_elements_nearby(lst, elem1, elem2):
+    for i in range(len(lst) - 1):
+        if lst[i] == elem1 and lst[i + 1] == elem2:
+            return True
+    return False
+
+
+def good_prec(splits, prec):
+    if prec == 0:
+        return splits[-1] == "good"
+    else:
+        return str(int(100 * prec)) in splits
+
+
+def update_theory_stat(stat, ilp_stat_f, root, theory, pos, neg, prec):
     theory_name = theory.split("/")[-1]
     path_splits = root.split("/")
     test_dir = "/".join(path_splits[:-1])
     reorder_f = os.path.join(test_dir, f"reorder/{theory_name}_stat.json")
     ilp_reader = open(os.path.join(root, ilp_stat_f), "r")
-    reorder_reader = open(reorder_f, "r")
 
     file_stat = json.load(ilp_reader)
     # reorder_stat = json.load(reorder_reader)
     f1 = file_stat["f1"]
-    try:
-        f1_no_ign = file_stat["f1_no_ignored_tac"]
-    except:
-        print("error in")
-        print(os.path.join(root, ilp_stat_f))
-        exit()
+    f1_no_ign = file_stat["f1_no_ignored_tac"]
     # acc = reorder_stat["accs"]
     # print(f1)
     splits = root.split("/")
-    if ("anonym" in splits) & ("rel2" in splits):
-        stat["f1"]["anonym_rel"][theory][pos][neg] = f1
-        stat["f1_no_ignored_tac"]["anonym_rel"][theory][pos][neg] = f1_no_ign
+    if ("anonym_id" in splits) & ("rel" in splits):
+        stat["f1"]["anonym_rel"][theory][pos][neg][prec] = f1
+        stat["f1_no_ignored_tac"]["anonym_rel"][theory][pos][neg][prec] = f1_no_ign
         # stat["acc"]["anonym_rel"][theory][pos][neg] = acc
-    elif ("anonym" in splits) & ("prop" in splits):
-        stat["f1"]["anonym_prop"][theory][pos][neg] = f1
-        stat["f1_no_ignored_tac"]["anonym_prop"][theory][pos][neg] = f1_no_ign
+    elif ("anonym_noarity" in splits) & ("prop" in splits):
+        stat["f1"]["anonym_prop"][theory][pos][neg][prec] = f1
+        stat["f1_no_ignored_tac"]["anonym_prop"][theory][pos][neg][prec] = f1_no_ign
         # stat["acc"]["anonym_prop"][theory][pos][neg] = acc
-    elif ("origin" in splits) & ("rel2" in splits):
-        stat["f1"]["origin_rel"][theory][pos][neg] = f1
-        stat["f1_no_ignored_tac"]["origin_rel"][theory][pos][neg] = f1_no_ign
+    elif ("origin" in splits) & ("rel" in splits):
+        stat["f1"]["origin_rel"][theory][pos][neg][prec] = f1
+        stat["f1_no_ignored_tac"]["origin_rel"][theory][pos][neg][prec] = f1_no_ign
         # stat["acc"]["origin_rel"][theory][pos][neg] = acc
     elif ("origin" in splits) & ("prop" in splits):
-        stat["f1"]["origin_prop"][theory][pos][neg] = f1
-        stat["f1_no_ignored_tac"]["origin_prop"][theory][pos][neg] = f1_no_ign
+        stat["f1"]["origin_prop"][theory][pos][neg][prec] = f1
+        stat["f1_no_ignored_tac"]["origin_prop"][theory][pos][neg][prec] = f1_no_ign
         # stat["acc"]["origin_prop"][theory][pos][neg] = acc
     else:
         warnings.warn("skip " + os.path.join(root, ilp_stat_f))
@@ -96,14 +103,15 @@ def update_theory_stats(dir, stat, theory):
         for f in files:
             path = os.path.join(root, f)
             info = re.match(
-                r".*p(?P<pos>[0-9]+)n(?P<neg>[0-9]+).*/stat_filter.json", path
+                r".*p(?P<pos>[0-9]+)n(?P<neg>[0-9]+).*/good/(?P<prec>[0-9]+)/stat_filter.json",
+                path,
             )
             if info != None:
                 info = info.groupdict()
                 pos = int(info["pos"])
                 neg = int(info["neg"])
-                # if f.endswith("stat_filter.json"):
-                update_theory_stat(stat, f, root, theory, pos, neg)
+                prec = int(info["prec"])
+                update_theory_stat(stat, f, root, theory, pos, neg, prec)
 
 
 def update_knn(dir, theory, stat):
@@ -131,8 +139,11 @@ def cal_aver_f1(stat, key):
 
 
 theories = ["theories/Lists"]
+# theories = ["plugins/setoid_ring"]
+# theories = ["theories/Init"]
+
 ilp_stat = {
-    "acc": init_stat(theories),
+    # "acc": init_stat(theories),
     "f1": init_stat(theories),
     "f1_no_ignored_tac": init_stat(theories),
 }
@@ -148,7 +159,7 @@ for theory in theories:
 # cal_aver_f1(ilp_stat, "f1")
 # cal_aver_f1(ilp_stat, "f1_no_ignored_tac")
 
-with open("QArith_tune2.json", "w") as w:
+with open("QArith_tune_debug.json", "w") as w:
     json.dump(ilp_stat, w)
 
 # with open("knn_List.json", "w") as w:
