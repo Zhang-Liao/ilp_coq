@@ -89,7 +89,7 @@ def filter_stat_ml(exg_paths, prolog, pred_file):
 
 
 def at_precisions(stat_f, good_f, pred_f, label_f):
-    for prec in [0, 0.05, 0.1, 0.15, 0.2]:
+    for prec in [0.05, 0.1, 0.15, 0.2]:
         stat_at_precision.mk_stat(stat_f, good_f, pred_f, label_f, prec)
 
 
