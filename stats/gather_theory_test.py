@@ -8,15 +8,21 @@ import warnings
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
-# THEORIES = ["theories/NArith", "theories/Arith", "theories/Sets", "theories/MSets"]
+THEORIES = [
+    "theories/Sorting"
+    "theories/Init"
+    "plugins/setoid_ring"
+    "theories/Vectors"
+    "theories/NArith"
+]
 
 num_of_test = 10
 predc_kinds = ["anonym_rel", "origin_prop", "origin_rel", "anonym_prop"]
 params = {
-    "anonym_rel": "p16n16",
-    "anonym_prop": "p4n2",
-    "origin_prop": "p4n32",
-    "origin_rel": "p16n16",
+    "anonym_rel": ["p2n16", "20"],
+    "anonym_prop": ["p2n32", "15"]
+    # "origin_prop": "p4n32",
+    # "origin_rel": "p16n16",
 }
 
 
@@ -36,41 +42,46 @@ def init_knn_stat():
     return stat
 
 
+def params_in_path(splits, kind):
+    param = params[kind]
+    return all(map(lambda x: x in splits, param))
+
+
 def update_theory_stat(stat, ilp_stat_f, root, theory):
     theory_name = theory.split("/")[-1]
     path_splits = root.split("/")
     test_dir = "/".join(path_splits[:-1])
     reorder_f = os.path.join(test_dir, f"reorder/{theory_name}_stat.json")
     ilp_reader = open(os.path.join(root, ilp_stat_f), "r")
-    reorder_reader = open(reorder_f, "r")
+    # reorder_reader = open(reorder_f, "r")
 
     file_stat = json.load(ilp_reader)
-    reorder_stat = json.load(reorder_reader)
+    # reorder_stat = json.load(reorder_reader)
     f1 = file_stat["f1"]
     f1_no_ign = file_stat["f1_no_ignored_tac"]
-    acc = reorder_stat["accs"]
+    # acc = reorder_stat["accs"]
     # print(f1)
     splits = root.split("/")
-    if ("anonym_noarity" in splits) & ("rel20" in splits):
-        if params["anonym_rel"] in splits:
+    if ("anonym_id" in splits) & ("rel" in splits):
+        if params_in_path(splits, "anonym_rel"):
             stat["f1"]["anonym_rel"][theory] = f1
-            stat["f1_no_ignored_tac"]["anonym_rel"][theory] = f1_no_ign
-            stat["acc"]["anonym_rel"][theory] = acc
-    elif ("anonym_noarity" in splits) & ("prop" in splits):
-        if params["anonym_prop"] in splits:
+            # stat["f1_no_ignored_tac"]["anonym_rel"][theory] = f1_no_ign
+            # stat["acc"]["anonym_rel"][theory] = acc
+    elif ("anonym_id" in splits) & ("prop" in splits):
+        if params_in_path(splits, "anonym_prop"):
             stat["f1"]["anonym_prop"][theory] = f1
-            stat["f1_no_ignored_tac"]["anonym_prop"][theory] = f1_no_ign
-            stat["acc"]["anonym_prop"][theory] = acc
-    elif ("origin" in splits) & ("rel20" in splits):
-        if params["origin_rel"] in splits:
-            stat["f1"]["origin_rel"][theory] = f1
-            stat["f1_no_ignored_tac"]["origin_rel"][theory] = f1_no_ign
-            stat["acc"]["origin_rel"][theory] = acc
-    elif ("origin" in splits) & ("prop" in splits):
-        if params["origin_prop"] in splits:
-            stat["f1"]["origin_prop"][theory] = f1
-            stat["f1_no_ignored_tac"]["origin_prop"][theory] = f1_no_ign
-            stat["acc"]["origin_prop"][theory] = acc
+            # stat["f1_no_ignored_tac"]["anonym_prop"][theory] = f1_no_ign
+            # stat["acc"]["anonym_prop"][theory] = acc
+    # elif ("origin" in splits) & ("rel20" in splits):
+    #     if params["origin_rel"] in splits:
+    #         stat["f1"]["origin_rel"][theory] = f1
+    #         stat["f1_no_ignored_tac"]["origin_rel"][theory] = f1_no_ign
+    #         stat["acc"]["origin_rel"][theory] = acc
+    # elif ("origin" in splits) & ("prop" in splits):
+    #     if params["origin_prop"] in splits:
+    #         stat["f1"]["origin_prop"][theory] = f1
+    #         stat["f1_no_ignored_tac"]["origin_prop"][theory] = f1_no_ign
+    #         stat["acc"]["origin_prop"][theory] = acc
     else:
         warnings.warn("skip " + os.path.join(root, ilp_stat_f))
 
@@ -90,17 +101,16 @@ def update_knn(dir, theory, stat):
 
 
 ilp_stat = {"acc": init_stat(), "f1": init_stat(), "f1_no_ignored_tac": init_stat()}
-info = {"info": "mode 20"}
 
-knn_stat = init_knn_stat()
+# knn_stat = init_knn_stat()
 test_dir = f"data/json/origin_feat/tune/QArith/test_theory/"
 for theory in utils.THEORIES:
     dir = os.path.join(test_dir, theory)
-    update_knn(test_dir, theory, knn_stat)
+    # update_knn(test_dir, theory, knn_stat)
     update_theory_stats(dir, ilp_stat, theory)
 
-ilp_stat = info | params | ilp_stat
-with open("QArith_noarity_test.json", "w") as w:
+ilp_stat = params | ilp_stat
+with open("QArith_test.json", "w") as w:
     json.dump(ilp_stat, w)
 
 # with open("knn_theory_stat.json", "w") as w:

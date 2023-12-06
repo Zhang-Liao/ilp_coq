@@ -1,5 +1,5 @@
 # noarity=_noarity
-descript=''
+descript=_id
 knn_pred=data/json/origin_feat/tune/QArith/test_theory
 bk=prolog/anonym_prop_bk.pl
 
