@@ -1,4 +1,4 @@
-:- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_prop_bk.pl')
+:- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_prop_bk.pl').
 :- set(construct_bottom, false).
 :- set(refine, auto).
 :- set(search, heuristic).
