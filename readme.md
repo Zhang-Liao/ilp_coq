@@ -64,4 +64,15 @@ Do not contain reorder because after removing bad rules, reoredred predictions a
 
 ## orthogonalization
 
-Even if in the validation dataset anonym_rel can learn good rules, but in theories/Init, "exact eq_refl" occurs for 511 times and can also be solved by auto. Cause a lot of false positives. If replace "exact eq_refl" to "auto", the performance will be very good. In plugins/setoid_ring, false positives are caused by using "reflexivity" and "trivial" to replace "auto". In theories/vectors, "f_equal" and "reflexivity" cause problems.
+Even if in the validation dataset anonym_rel can learn good rules, but in theories/Init, "exact eq_refl" occurs for 511 times and can also be solved by auto. Cause a lot of false positives. If replace "exact eq_refl" to "auto", the performance will be very good. In plugins/setoid_ring, false positives are caused by using "reflexivity" and "trivial" to replace "auto". In theories/vectors, "reflexivity" cause problems.
+But in setoid_ring, seems not due to orthogo.
+
+why hard written replace reflexivity, trivial, assumption with auto?
+running takes a lot of time, sometimes cannot be finished in time.
+
+## predicates
+
+### intros
+
+Seems very difficult to learn rules with high precision, too many choices.
+intros :- prod, is_root. can be applied with many states. a lof of intros with arguments ...

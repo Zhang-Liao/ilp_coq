@@ -19,8 +19,8 @@ THEORIES = [
 num_of_test = 10
 predc_kinds = ["anonym_rel", "origin_prop", "origin_rel", "anonym_prop"]
 params = {
-    "anonym_rel": ["p2n16", "20"],
-    "anonym_prop": ["p2n32", "15"]
+    "anonym_rel": ["p2n16", "0"],
+    "anonym_prop": ["p2n32", "0"]
     # "origin_prop": "p4n32",
     # "origin_rel": "p16n16",
 }
