@@ -16,16 +16,15 @@ eval() {
 
 export -f eval
 
-dataset=data/json/origin_feat/merge
-# theories=('theories/Classes.json' 'plugins/ssr.json' 'theories/Lists.json' 'theories/QArith.json' 'theories/Numbers.json')
-# theories=('theories/Sorting.json')
-theories=('theories/Init.json' 'plugins/setoid_ring.json' 'theories/Vectors.json')
+dataset=data/json/ortho/feat/merge
+theories=('theories/Lists.json' 'theories/Init.json' 'plugins/setoid_ring.json' 'theories/Vectors.json' 'theories/NArith' 'theories/Sorting')
+
 train_theory=QArith
 for theory in ${theories[@]}; do
     IFS=/ read -ra splits <<<$theory
     kind=${splits[0]}
     (
-        train_dir=data/json/origin_feat/tune/$train_theory
+        train_dir=data/json/ortho/feat/tune/$train_theory
         train_x=$train.feat
         train_y=$train.label
         out=$train_dir/test_theory/$kind
@@ -34,5 +33,3 @@ for theory in ${theories[@]}; do
     ) &
 
 done
-
-# bash -c "pred" 1 2
