@@ -75,5 +75,16 @@ running takes a lot of time, sometimes cannot be finished in time.
 ### intros
 
 Seems very difficult to learn rules with high precision, too many choices.
-intros :- prod, is_root. can be applied with many states. destruct, unfold, induction ...
- a lof of intros with arguments ...
+intros :- prod, is_root. can be applied with many states. destruct, unfold, induction ... a lof of intros with arguments ...
+
+## do not work after orthogonalization
+
+still exists some very simple rules that causes a lot of FP.
+
+1. higher precision? -> work now
+2. valid in two sets?
+
+## why too many neg pos does work?
+
+Our BK can only capture a small part of the usage of tactics.
+
