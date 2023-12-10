@@ -14,11 +14,6 @@ def pr_origin_mode(writer, tac):
     writer.write(f":- modeb(*, goal_node(#coq_predc, +nat, -goal_idx)).\n")
     writer.write(f":- modeb(*, hyp_node(#coq_predc, +nat, -string, -hyp_idx)).\n")
 
-    # for p in goal_predc:
-    #     writer.write(f':- modeb(*, goal_node("{p}", +nat, -goal_idx)).\n')
-    # for p in hyp_predc:
-    #     writer.write(f':- modeb(*, hyp_node("{p}", +nat, -string, -hyp_idx)).\n')
-
     writer.write(f":- determination(tac/2, goal_node/3).\n")
     writer.write(f":- determination(tac/2, hyp_node/4).\n")
 

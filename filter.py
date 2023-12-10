@@ -90,7 +90,8 @@ def filter_stat_ml(exg_paths, prolog, pred_file):
 
 
 def at_precisions(stat_f, good_f, pred_f, label_f, rule_f):
-    for prec in [0.05, 0.1, 0.15, 0.2, 0.25]:
+    for prec in [0.1, 0.2, 0.3, 0.4, 0.5]:
+        # for prec in [0.05, 0.1, 0.15, 0.2, 0.25]:
         stat_at_precision.mk_stat(stat_f, good_f, pred_f, label_f, prec, rule_f)
 
 
@@ -128,6 +129,7 @@ def out_stat_ml(accept_dics, pred_f, rule_f, label_f, info):
 #         good_f, label_f, pred_f, rule_f
 #     )
 #     prec0_dir = os.path.join(good_dir, "0")
+#     os.makedirs(prec0_dir, exist_ok=True)
 #     stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, prec0_dir)
 #     stat_f = os.path.join(prec0_dir, "stat_filter.json")
 #     at_precisions(stat_f, good_f, pred_f, label_f, rule_f)
