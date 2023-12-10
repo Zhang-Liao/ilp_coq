@@ -1,8 +1,22 @@
-:- multifile hyp_node/5.
+:- multifile hyp_node/4.
 
 hyp_node(dummy, -1, [], []).
 
 :- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/common_bk.pl').
+
+goal_above(N, Idx1, Idx2) :-
+    above_aux(Idx1, Idx2),
+    \+ (
+        above_aux(Idx1, Idx3),
+        above_aux(Idx3, Idx2),
+        goal_node(_Predc, N, Idx3)).
+
+hyp_above(N, Idx1, Idx2) :-
+    above_aux(Idx1, Idx2),
+    \+ (
+        above_aux(Idx1, Idx3),
+        above_aux(Idx3, Idx2),
+        hyp_node(_Predc, N, _Name, Idx3)).
 
 goal_term_children_in_goal_term(N, Idx1, Idx2):-
     forall(
@@ -16,7 +30,6 @@ goal_term_children_in_goal_term(N, Idx1, Idx2):-
             goal_node(Predc, N, Child2)
         )
     ).
-
 
 goal_term_children_in_hyp_term(N, Idx1, Idx2) :-
     forall(
