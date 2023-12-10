@@ -1,7 +1,7 @@
 theory=QArith
-neg_dir=data/json/neg/merge/theories/$theory
-dat_file=data/json/predicate/anonym/merge/theories/$theory.json
-out_dir=data/json/predicate/anonym/tune/$theory
+neg_dir=data/json/ortho/feat/merge/theories/$theory
+dat_file=data/json/ortho/predicate/anonym/merge/theories/$theory.json
+out_dir=data/json/ortho/predicate/anonym/tune/$theory
 neg_ratios=(1 2 4 8 16 32)
 kind=prop
 clusters=(2 4 8 16 32)

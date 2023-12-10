@@ -1,10 +1,12 @@
 theory=QArith
-neg_dir=data/json/neg/merge/theories/$theory
-dat_file=data/json/predicate/anonym/merge/theories/$theory.json
-out_dir=data/json/predicate/anonym/tune/$theory
+neg_dir=data/json/ortho/feat/merge/theories/$theory
+dat_file=data/json/ortho/predicate/anonym/merge/theories/$theory.json
+out_dir=data/json/ortho/predicate/anonym/tune/$theory
 neg_ratios=(1 2 4 8 16 32)
 kind=rel
 clusters=(2 4 8 16 32)
+# neg_ratios=(4)
+# clusters=(4)
 
 for neg_ratio in "${neg_ratios[@]}"; do
     (
@@ -14,7 +16,7 @@ for neg_ratio in "${neg_ratios[@]}"; do
                 --neg $neg_dir/$theory\_neg.json \
                 --dat $dat_file \
                 --out $out_dir/train/$kind/p$cluster\n$neg_ratio \
-                --bias prolog/bias.pl \
+                --bias prolog/anonym_rel_id_bias.pl \
                 --kind anonym \
                 --neg_ratio $neg_ratio
         done

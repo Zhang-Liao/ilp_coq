@@ -8,14 +8,14 @@ export -f gen
 negs=(1 2 4 8 16 32)
 poss=(2 4 8 16 32)
 
-anonym=anonym_ident
-kind=rel_id_simandeq
+anonym=anonym
+kind=rel
 # /home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/anonym_ident/tune/QArith/train/rel_id_simandeq
 for neg in "${negs[@]}"; do
   (
 
     for pos in "${poss[@]}"; do
-      dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/$anonym/tune/QArith/train/$kind/p$pos\n$neg
+      dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ortho/predicate/$anonym/tune/QArith/train/$kind/p$pos\n$neg
       cd $dir
       find $dir -name "*_rule.pl" | parallel rm {}
       time find $dir -name "*.pl" | parallel --timeout 5m -j 10 bash -c gen
@@ -26,5 +26,5 @@ for neg in "${negs[@]}"; do
       mv $dir/tmp $dir/alltac_rule.pl
       # python post_proc_rule.py --file $dir/alltac_rule.pl
     done
-  )
+  ) &
 done

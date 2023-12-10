@@ -97,7 +97,7 @@ def pr_hyps_predc(i, l, writer):
             ident = to_predc_name(ident)
             name = hyp_name(name)
             idx = hyp_idx(name, kind, idx)
-            writer.write(f'hyp_node("{ident}",{i},{name},{idx}).\n')
+            writer.write(f"hyp_node({ident},{i},{name},{idx}).\n")
 
 
 def pr_hyps_anonym_predc(i, l, writer):
@@ -118,7 +118,7 @@ def pr_goal_predc(i, l, writer):
     for ident, idx in l:
         if ident not in ["coq_app"]:
             ident = to_predc_name(ident)
-            writer.write(f'goal_node("{ident}",{i},{goal_idx(idx)}).\n')
+            writer.write(f"goal_node({ident},{i},{goal_idx(idx)}).\n")
 
 
 def pr_goal_anonym_predc(i, l, writer):
@@ -279,19 +279,6 @@ def update_dic(dic, new_item, default, key):
     else:
         dic[key].update(new_item)
 
-
-COMMON_TAC = [
-    "auto",
-    "simpl",
-    "intros",
-    "intuition",
-    "split",
-    "reflexivity",
-    "trivial",
-    "discriminate",
-    "symmetry",
-    "assumption",
-]
 
 THEORIES = [
     "theories/Sorting",
