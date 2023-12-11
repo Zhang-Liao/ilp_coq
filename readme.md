@@ -88,3 +88,15 @@ still exists some very simple rules that causes a lot of FP.
 
 Our BK can only capture a small part of the usage of tactics.
 
+tac(A,"auto",7) :-
+    goal_node(coq_const,A,B,C), is_goal_root(A,B), hyp_node(coq_const,A,D,E,C), is_hyp_root(A,E), eq_goal_hyp_term(A,B,E).
+"TP": 24, "FP": 3, "FN": 943, "TN": 2618, "precision": 0.8888889
+
+## f1 in test dataset
+
+in "theories/Vectors": 0.2278481, lower than other theories. The tactics used there are quite nontrivial.
+
+## case studies
+
+tac(A,"simpl",6) :-
+    goal_node(coq_const,A,B,C), goal_node(coq_const,A,D,E), goal_above(A,D,B), goal_node(coq_var,A,F,G), goal_above(A,B,F), goal_node(coq_construct,A,H,I), goal_above(A,B,H).
