@@ -71,8 +71,9 @@ is_hyp_root(N, Idx) :-
     hyp_node(_Predc, N, _Name, Parent)).
 
 similar_goal_terms(N, Idx1, Idx2) :-
+    \+ prefix(Idx1, Idx2),
+    \+ prefix(Idx2, Idx1),
     \+ (eq_goal_term(N, Idx1, Idx2)),
-    dif(Idx1, Idx2),
     findall(
         Child1, 
         (prefix(Idx1, ChildIdx1), goal_node(Child1, N, ChildIdx1)), 

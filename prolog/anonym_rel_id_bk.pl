@@ -124,8 +124,9 @@ is_hyp_root(N, Idx) :-
 % similar_lists(L1, L2) :- dif_lists(L1, L2, Dif), length(Dif, Len), Len < 2.
 
 similar_goal_terms(N, Idx1, Idx2) :-
+    \+ prefix(Idx1, Idx2),
+    \+ prefix(Idx2, Idx1),
     \+ (eq_goal_term(N, Idx1, Idx2)),
-    dif(Idx1, Idx2),
     findall(
         Child1, 
         (prefix(Idx1, ChildIdx1), goal_node(_Predc1, N, ChildIdx1, Child1)), 
