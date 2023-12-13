@@ -5,6 +5,10 @@ import re
 def parse_tac(s):
     return s[7:][:-5]
 
+def tail_cut(rule):
+    if (rule.endswith('.')) & (not rule.endswith(',!.')):
+        rule = rule[:-1] + ',!.'
+    return rule
 
 def mk_rule_dic(dat):
     dct = {}
@@ -21,10 +25,11 @@ def mk_rule_dic(dat):
             body += r
 
         if r.endswith("."):
+            rule = tail_cut(body)
             if hd not in dct.keys():
-                dct[hd] = [body]
+                dct[hd] = [rule]
             else:
-                dct[hd].append(body)
+                dct[hd].append(rule)
 
     return dct
 
@@ -62,7 +67,7 @@ def rmv_too_general(dict):
             r = rules[i]
             other = rules[:i] + rules[i + 1 :]
             if not too_general(r, other):
-                new_rules.append((", ".join(r)) + ".")
+                new_rules.append((",".join(r)) + ".")
         dict[tac] = new_rules
     return dict
 
