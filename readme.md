@@ -95,8 +95,53 @@ tac(A,"auto",7) :-
 ## f1 in test dataset
 
 in "theories/Vectors": 0.2278481, lower than other theories. The tactics used there are quite nontrivial.
-
+score not high in sorting: auto in sorting is difficult to learn
+"state":"T : Tree, X0 : (forall (a : A) (T1 T2 : Tree), leA_Tree a T1 -> leA_Tree a T2 -> is_heap T1 -> P T1 -> is_heap T2 -> P T2 -> P (Tree_Node a T1 T2)), X : (P Tree_Leaf), P : (Tree -> Type), singletonBag := (SingletonBag eqA eqA_dec) : (A -> multiset A), emptyBag := (EmptyBag A) : (multiset A), leA_antisym : (forall x y : A, leA x y -> leA y x -> eqA x y), leA_trans : (forall x y z : A, leA x y -> leA y z -> leA x z), leA_refl : (forall x y : A, eqA x y -> leA x y), eqA_dec : (forall x y : A, {eqA x y} + {~ eqA x y}), leA_dec : (forall x y : A, {leA x y} + {leA y x}), gtA := (fun x y : A => ~ leA x y) : (A -> A -> Prop), eqA : (relation A), leA : (relation A), A : Type |- (is_heap Tree_Leaf -> P Tree_Leaf)
 ## case studies
 
 tac(A,"simpl",6) :-
     goal_node(coq_const,A,B,C), goal_node(coq_const,A,D,E), goal_above(A,D,B), goal_node(coq_var,A,F,G), goal_above(A,B,F), goal_node(coq_construct,A,H,I), goal_above(A,B,H).
+
+tac(A,"auto",16) :-
+    hyp_node(coq_const,A,B,C,D), is_hyp_root(A,C), goal_node(coq_const,A,E,D), eq_goal_hyp_term(A,E,C), is_goal_root(A,E).
+
+data/json/ortho/feat/tune/QArith/test_theory/theories/Lists/rel/anonym/p16n4/alltac_rule.pl
+8450c7_rule.pl:   goal_node(coq_ind,A,B,C), hyp_node(coq_ind,A,D,E,F), goal_node(coq_Init_Logic_eq,A,G,H), is_goal_root(A,G), 
+zhangliao@dai-05:~/ilp_out_coq/ilp_out_coq/data/json/ortho/predicate/anonym/tune/QArith/train/rel/p16n4$ cat 8450c7.f
+{"state":"H : (0 <= Z.neg n)%Z, n : positive, a : Z |- ((0 ?= Z.neg n)%Z = Gt)","hyps":[["coq_ind","Coq.Numbers.BinNums.Z",0,"a","hyp_ass",[]],["coq_ind","Coq.Numbers.BinNums.positive",0,"n","hyp_ass",[]],["coq_const","Coq.ZArith.BinInt.Z.le",2,"H","hyp_ass",[0]],["coq_construct","Coq.Numbers.BinNums.Z0",0,"H","hyp_ass",[0,0]],["coq_construct","Coq.Numbers.BinNums.Zneg",1,"H","hyp_ass",[0,1,0]],["coq_var","n",0,"H","hyp_ass",[0,1,0,0]]],"goal":[["Coq.Init.Logic.eq","Coq.Init.Logic.eq",3,[0]],["coq_ind","Coq.Init.Datatypes.comparison",0,[0,0]],["coq_const","Coq.ZArith.BinIntDef.Z.compare",2,[0,1,0]],["coq_construct","Coq.Numbers.BinNums.Z0",0,[0,1,0,0]],["coq_construct","Coq.Numbers.BinNums.Zneg",1,[0,1,0,1,0]],["coq_var","n",0,[0,1,0,1,0,0]],["coq_construct","Coq.Init.Datatypes.Gt",0,[0,2]]],"tac":"auto"}
+
+tac(A,"auto",9) :-
+    goal_node(coq_ind,A,B,C), hyp_node(coq_ind,A,D,E,F), goal_node(coq_Init_Logic_eq,A,G,H), is_goal_root(A,G), goal_node(coq_construct,A,I,J), goal_position_left(B,I), goal_node(coq_construct,A,K,J), goal_position_left(K,I).
+
+tac(A,"auto",10) :-
+    goal_node(coq_construct,A,B,C), goal_node(coq_Init_Logic_eq,A,D,E), goal_above(A,D,B), goal_node(coq_construct,A,F,C), eq_goal_term(A,F,B).
+
+tac(A,"f_equal",0) :-
+    goal_node(coq_Init_Logic_eq,A,B,C), goal_node(coq_const,A,D,E), goal_node(coq_const,A,F,G), similar_goal_terms(A,F,D), goal_above(A,B,D).
+
+tac(A,"split",0) :-
+    goal_node(coq_Init_Logic_and,A,B,C), is_goal_root(A,B).
+
+
+|- (g' * (xc * x) = xc * (g' * x))
+"goal":[["Coq.Init.Logic.eq","Coq.Init.Logic.eq",3,[0]],["coq_ind","Coq.Numbers.BinNums.Z",0,[0,0]],["coq_const","Coq.ZArith.BinIntDef.Z.mul",2,[0,1,0]],["coq_var","g'",0,[0,1,0,0]],["coq_const","Coq.ZArith.BinIntDef.Z.mul",2,[0,1,0,1,0]],["coq_var","xc",0,[0,1,0,1,0,0]],["coq_var","x",0,[0,1,0,1,0,1]],["coq_const","Coq.ZArith.BinIntDef.Z.mul",2,[0,2,0]],["coq_var","xc",0,[0,2,0,0]],["coq_const","Coq.ZArith.BinIntDef.Z.mul",2,[0,2,0,1,0]],["coq_var","g'",0,[0,2,0,1,0,0]],["coq_var","x",0,[0,2,0,1,0,1]]],"
+??
+tac(A,"ring",1) :-
+    goal_node(coq_ind,A,B,C), goal_node(coq_construct,A,D,E), goal_node(coq_const,A,F,G), goal_above(A,F,D), goal_node(coq_const,A,H,G), goal_above(A,H,F), goal_node(coq_const,A,I,J), similar_goal_terms(A,I,H), goal_node(coq_Init_Logic_eq,A,K,L), goal_above(A,K,H).
+
+## constants in anonymous
+
+
+use True corresponds to False even if it is uncommon
+
+how to use true false?
+- include true and false becasuse very common
+- In QArith, true false are useless one inversion, Lists, inversion
+
+how to use andb, orb, negb?
+- no andb negb in QArith
+- In Lists, andb only works for true && forallb l = true
+
+how to use not?
+- must use, very common
+

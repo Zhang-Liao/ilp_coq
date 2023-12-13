@@ -83,10 +83,18 @@ def ignore_arity(id, art):
 
 def mk_anonym_predc(typ, ident):
     # additional constants other than them during the dataset generation
-    if ident in ["Coq.Init.Logic.False"]:
+    if ident in [
+        "Coq.Init.Logic.False",
+        "Coq.Init.Logic.True",
+        "Coq.Init.Logic.and",
+        "Coq.Init.Logic.iff",
+        "Coq.Init.Logic.or",
+        "Coq.Init.Logic.not",
+        "Coq.Init.Logic.eq",
+        "Coq.Init.Datatypes.true",
+        "Coq.Init.Datatypes.false",
+    ]:
         return ident
-    elif ident in ["Coq.Init.Logic.not"]:
-        return "coq_const"
     else:
         return typ
 
