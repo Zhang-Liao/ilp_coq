@@ -25,7 +25,7 @@ rmv_ele_from_list(X, [H | Tl1], [H | Tl2]) :-
     dif(X, H),
     rmv_ele_from_list(X, Tl1, Tl2).
 
-dif_lists(L, [], L).
+dif_lists(L, [], L) :- !.
 
 dif_lists([], L, L).
 
