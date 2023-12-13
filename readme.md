@@ -14,15 +14,49 @@ Rel | Evar | Construct | Ind  | Var | Const | Int | Float
 
 ### anonym
 
-ignore: Int (mis include), Float (mis include), Fix, CoFix, Case, LetIn, Proj, Sort, Meta
+#### leaf
 
-## origin
+let atom_to_predc_and_id tm =
+match tm with
+| Rel _ -> ("coq_rel", Some "coq_rel")
+| Evar _ -> ("coq_evar", Some "coq_evar")
+| Construct (c, _u) -> "coq_construct", Some id
+| Ind (i, _u) -> "coq_ind", Some id
+| Var id -> ("coq_var", Some (Names.Id.to_string id))
+| Const (c, _u) -> "coq_const", Some id
 
-ignore: Int (mis include), Float (mis include), Sort, Meta, App
-include: the other
+#### coq constructor
 
-Cannot show all the details of encoding because it is complicate, e.g., only one identidier of Constructor ... To explain, first, show the tree structure, then show encoding by position. Some constructors (App,...) are ignored because they have been indicated by their arguments. Appendix pseudocode shows the structure of Coq, which predicates are used, do not need explain the meaning of each argument. ML community cannot understand anyway.
-For anonymous,only keep some constructors.
+| Prod -> "coq_prod"
+| Lambda (_, t, b) -> "coq_lambda"
+| Case (ci, pb, b, l) -> "coq_case"
+
+### origin
+
+#### leaf
+
+| Rel _ -> "coq_rel"
+| Evar _ -> "coq_evar"
+| Construct (c, _u) -> constructor2s c
+| Ind (i, _u) -> inductive2s i
+| Var id -> "coq_var_" ^ id2s id
+| Const (c, _u) -> constant2s c
+| Int n -> "coq_int"
+| Float n -> "coq_float"
+| Sort _ -> "coq_sort"
+| Meta _ -> "coq_meta"
+
+#### coq constructor
+
+| Prod _ -> "coq_prod"
+| Lambda _ -> "coq_lambda"
+| Fix _ -> "coq_fix"
+| CoFix _ -> "coq_cofix"
+| Case _ -> "coq_case"
+| LetIn _ -> "coq_letin"
+| Proj _ -> "coq_proj"
+| Cast _ -> "coq_cast"
+| App _ -> "coq_app"
 
 
 ## choose a search strategy

@@ -3,6 +3,8 @@ import sys
 
 sys.path.append(os.path.dirname(sys.path[0]))
 LEMMA = "#lemma"
+
+# already ignored in tactician
 ignored_coq_constructors = [
     "coq_int",
     "coq_float",
