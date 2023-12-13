@@ -65,7 +65,7 @@ def stat_f1(dfs):
         plt.figure(figsize=(24, 4.8))
         sns.lineplot(data=df, x="param", y="f1", hue="kind")
         # plt.show()
-        plt.savefig(f"stats/tune{prec}.png")
+        plt.savefig(f"stats/ortho_tune{prec}.png")
 
 
 def best_param(df):
@@ -83,11 +83,10 @@ def mk_f1_df(stat, theory, name):
         for pos, pos_stat in theory_stat.items():
             for neg, neg_stat in pos_stat.items():
                 for prec, f1 in neg_stat.items():
-                    if "anonym" in kind:
-                        dic["kind"].append(f"{kind}_{name}")
-                        dic["f1"].append(f1)
-                        dic["param"].append(f"p{pos}n{neg}")
-                        dic["prec"].append(prec)
+                    dic["kind"].append(f"{kind}_{name}")
+                    dic["f1"].append(f1)
+                    dic["param"].append(f"p{pos}n{neg}")
+                    dic["prec"].append(prec)
     df = pd.DataFrame(data=dic)
     best_param(df)
     return df
@@ -103,7 +102,7 @@ def mk_f1_dfs(stat, theory):
     return sub_dfs
 
 
-f_stats = "stats/QArith_tune_debug.json"
+f_stats = "stats/ortho/tune_ortho.json"
 reader = open(f_stats, "r")
 stat = json.load(reader)
 theory = "theories/Lists"

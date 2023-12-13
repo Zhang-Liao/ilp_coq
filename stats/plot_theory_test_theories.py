@@ -17,8 +17,9 @@ def to_theory_name(theory):
 
 def mk_f1_df(stat):
     dat = {"predc": [], "f1": [], "theory": []}
-    for kind, kind_stat in stat["f1_no_ignored_tac"].items():
+    for kind, kind_stat in stat["f1"].items():
         for theory, f1 in kind_stat.items():
+            # f1 = kind_stat[theory].items()
             dat["predc"].append(kind)
             dat["f1"].append(f1)
             dat["theory"].append(to_theory_name(theory))
@@ -26,55 +27,10 @@ def mk_f1_df(stat):
     return df
 
 
-def mk_acc_df(ilp_stat, knn_stat, theory):
-    dat = {"kind": [], "acc": [], "top-k": []}
-    for predc, predc_stat in ilp_stat["acc"].items():
-        for acc in predc_stat[theory].values():
-            for i in range(len(acc)):
-                dat["kind"].append(predc)
-                dat["acc"].append(acc[i])
-                dat["top-k"].append(i + 1)
-
-    # for acc in knn_stat[theory].values():
-    #     for i in range(len(acc)):
-    #         dat["kind"].append("knn")
-    #         dat["acc"].append(acc[i])
-    #         dat["top-k"].append(i + 1)
-
-    return dat
-    # for acc in knn_stat.values():
-    #     for i in range(len(acc)):
-    #         dat["kind"].append("knn")
-    #         dat["acc"].append(acc[i])
-    #         dat["top-k"].append(i + 1)
-
-
-def plot_theories_acc(ilp_stat, knn_stat):
-    theories = [
-        "theories/Sorting",
-        "theories/Numbers",
-        "theories/Init",
-        "theories/Vectors",
-        "plugins/setoid_ring",
-    ]
-
-    for theory in theories:
-        df = mk_acc_df(ilp_stat, knn_stat, theory)
-        sns.lineplot(data=df, x="top-k", y="acc", hue="kind")
-        # plt.show()
-        theory_name = theory.split("/")[-1]
-        plt.savefig(f"stats/alltac/acc_{theory_name}.pdf")
-        plt.clf()
-        # dfs.append(df)
-
-
-ilp_stat_f = "stats/QArith_test.json"
-# knn_stat_f = "knn_theory_stat.json"
+ilp_stat_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/ortho/ortho_test.json"
 ilp_stat = json.load(open(ilp_stat_f, "r"))
-# knn_stat = json.load(open(knn_stat_f, "r"))
 
 f1_df = mk_f1_df(ilp_stat)
 sns.barplot(data=f1_df, x="theory", y="f1", hue="predc")
 # plt.show()
-plt.savefig("stats/alltac/test_QArith_no_ignored.pdf")
-# plot_theories_acc(ilp_stat, knn_stat)
+plt.savefig("stats/ortho/test.pdf")
