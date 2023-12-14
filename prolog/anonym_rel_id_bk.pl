@@ -63,8 +63,8 @@ goal_term_children_in_hyp_term(N, Idx1, Idx2) :-
             goal_node(Predc, N, Child1, Ident)
         ),
         (
-            append(Idx1, RelativeIdx1, Child1),
-            append(Idx2, RelativeIdx1, Child2),
+            append(Idx1, RelativeIdx, Child1),
+            append(Idx2, RelativeIdx, Child2),
             hyp_node(Predc, N, _Name, Child2, Ident)
         )
     ).
@@ -76,11 +76,27 @@ hyp_term_children_in_goal_term(N, HypIdx, GoalIdx) :-
             hyp_node(Predc, N, _Name, Child1, Ident)
         ),
         (
-            append(HypIdx, RelativeIdx1, Child1),
-            append(GoalIdx, RelativeIdx1, Child2),
+            append(HypIdx, RelativeIdx, Child1),
+            append(GoalIdx, RelativeIdx, Child2),
             goal_node(Predc, N, Child2, Ident)
         )
     ).
+
+hyp_term_children_in_hyp_term(N, HypIdx1, HypIdx2) :-
+    forall(
+        (
+            prefix(HypIdx1, Child1),
+            hyp_node(Predc, N, Name1, Child1, Ident)
+        ),
+        (
+            append(HypIdx1, RelativeIdx, Child1),
+            append(HypIdx2, RelativeIdx, Child2),
+            dif(Name1, Name2),
+            dif(HypIdx1, HypIdx2),
+            hyp_node(Predc, N, Name2, Child2, Ident)
+        )
+    ).
+
 
 % eq_goal_term(N, Idx1, Idx2) :-
 %     dif(Idx1, Idx2),

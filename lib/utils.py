@@ -18,6 +18,7 @@ ignored_coq_constructors = [
     "coq_sort",
 ]
 
+coq_identifier = ['coq_var', 'coq_const', 'coq_constructor', 'coq_ind']
 
 def under_max_arity(a):
     a = int(a)
@@ -120,8 +121,9 @@ def pr_hyps_anonym_predc(i, l, writer):
         if predc in ["coq_case"]:
             continue
         else:
+            if predc in coq_identifier:
+                writer.write(f"hyp_node(coq_identifier,{i},{name},{idx},{ident}).\n")
             writer.write(f"hyp_node({predc},{i},{name},{idx},{ident}).\n")
-            # writer.write(f"hyp_node({predc},{i},{name},{idx}).\n")
 
 
 def pr_goal_predc(i, l, writer):
@@ -140,8 +142,9 @@ def pr_goal_anonym_predc(i, l, writer):
         if predc in ["coq_case"]:
             continue
         else:
+            if predc in coq_identifier:
+                writer.write(f"goal_node(coq_identifier,{i},{idx},{ident}).\n")
             writer.write(f"goal_node({predc},{i},{idx},{ident}).\n")
-            # writer.write(f"goal_node({predc},{i},{idx}).\n")
 
 
 def add_hyps_predc(l, predc_set):
@@ -158,6 +161,8 @@ def add_hyps_anonym_predc(l, predc_set, ident_set):
         if predc in ["coq_case"]:
             continue
         else:
+            if predc in coq_identifier:
+                predc_set.add('coq_identifier')
             predc_set.add(predc)
             ident_set.add(to_ident(ident, typ))
     return predc_set, ident_set
@@ -177,6 +182,8 @@ def add_goal_anonym_predc(l, predc_set, ident_set):
         if predc in ["coq_case"]:
             continue
         else:
+            if predc in coq_identifier:
+                predc_set.add('coq_identifier')            
             predc_set.add(predc)
             ident_set.add(to_ident(ident, typ))
     return predc_set, ident_set

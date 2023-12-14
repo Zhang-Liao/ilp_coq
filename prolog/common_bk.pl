@@ -46,3 +46,7 @@ eq_goal_term(N, Idx1, Idx2) :-
 eq_goal_hyp_term(N, GoalIdx, HypIdx) :-
     goal_term_children_in_hyp_term(N, GoalIdx, HypIdx),
     hyp_term_children_in_goal_term(N, HypIdx, GoalIdx).
+
+eq_hyp_term(N, HypIdx1, HypIdx2) :-
+    hyp_term_children_in_hyp_term(N, HypIdx1, HypIdx2),
+    hyp_term_children_in_hyp_term(N, HypIdx2, HypIdx1).

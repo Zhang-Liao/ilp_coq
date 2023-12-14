@@ -1,7 +1,7 @@
 :- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/rel_noid_bk.pl').
 
-:- modeb(*, dif(+string, +string)).
-:- modeb(*, dif(+hyp_idx, +hyp_idx)).
+% :- modeb(*, dif(+string, +string)).
+% :- modeb(*, dif(+hyp_idx, +hyp_idx)).
 :- modeb(*, dif(+goal_idx, +goal_idx)).
 :- modeb(*, goal_position_left(+goal_idx, +goal_idx)).
 :- modeb(*, hyp_position_left(+hyp_idx, +hyp_idx)).

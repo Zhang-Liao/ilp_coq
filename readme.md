@@ -114,6 +114,10 @@ running takes a lot of time, sometimes cannot be finished in time.
 Seems very difficult to learn rules with high precision, too many choices.
 intros :- prod, is_root. can be applied with many states. destruct, unfold, induction ... a lof of intros with arguments ...
 
+### dif
+
+only for goal, in data/json/ortho/feat/tune/QArith/test_theory/theories/Lists/rel/anonym_old_const/p2n1/alltac_rule.pl, alomost all dif is for goal
+
 ## do not work after orthogonalization
 
 still exists some very simple rules that causes a lot of FP.
