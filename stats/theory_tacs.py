@@ -6,36 +6,36 @@ sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
 
-def stat_theory(theory):
+def stat_theory(file):
     tacs = {}
-    for root, _, files in os.walk(theory):
-        for f in files:
-            if f.endswith(".json"):
-                r = open(os.path.join(root, f), "r")
-                dat = r.readlines()
-                for l in dat:
-                    if utils.not_lemma(l):
-                        t = json.loads(l)["tac"]
-                        if t not in tacs.keys():
-                            tacs[t] = 0
-                        else:
-                            tacs[t] += 1
-    tacs = sorted(tacs.items(), key=lambda x: x[1], reverse=True)[:30]
-    # tacs = list(tacs.items())[:30]
-    # print(tacs)
+    r = open(file, "r")
+    dat = r.readlines()
+    for l in dat:
+        if utils.not_lemma(l):
+            t = json.loads(l)["tac"]
+            if t not in tacs.keys():
+                tacs[t] = 0
+            else:
+                tacs[t] += 1
+    tacs = sorted(tacs.items(), key=lambda x: x[1], reverse=True)[:20]
     return dict(tacs)
 
 
-dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg"
+dir = "data/json/ortho/before_after/merge"
 out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/theory_tac.json"
-
-
+subdirs = [os.path.join(dir, 'theories'), os.path.join(dir, 'plugins')]
 tacs = {}
-theories = utils.THEORIES + ["theories/MSets"]
-for theory in theories:
-    curr_dir = os.path.join(dir, theory)
-    # tacs[theory] = {}
-    tacs[theory] = stat_theory(curr_dir)
+for subdir in subdirs:
+    for file in os.listdir(subdir):
+        if file.endswith(".json"):        
+            theory = os.path.basename(file)[:-5]
+            path = os.path.join(subdir, file)
+            tacs[theory] = stat_theory(path)
+    
+# for file in os.listdir(os.path.join(dir, 'plugins')):
+#     theory = os.path.basename(file)
+#     tacs[theory] = stat_theory(file)
+
 
 # print(tacs)
 
