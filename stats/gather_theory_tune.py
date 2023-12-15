@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
 num_of_test = 10
-precs = [0, 0.10, 0.2, 0.3, 0.4, 0.5]
+precs = [0, 10, 20, 30, 40]
 # precs = [0, 0.05, 0.10, 0.15, 0.2]
 KINDS = ["anonym_rel", "anonym_prop", "origin_prop", "origin_rel"]
 POS = [2, 4, 8, 16, 32]
@@ -29,7 +29,6 @@ def init_stat(theories):
                 for n in NEG:
                     stat[kind][theory][p][n] = {}
                     for prec in precs:
-                        prec = int(prec * 100)
                         stat[kind][theory][p][n][prec] = {}
     return stat
 
@@ -79,17 +78,17 @@ def update_theory_stat(stat, ilp_stat_f, root, theory, pos, neg, prec):
     # acc = reorder_stat["accs"]
     # print(f1)
     splits = root.split("/")
-    if ("anonym" in splits) & ("rel" in splits):
+    if ("anonym" in splits) & ("rel_ident" in splits):
         stat["f1"]["anonym_rel"][theory][pos][neg][prec] = f1
         # stat["f1_no_ignored_tac"]["anonym_rel"][theory][pos][neg][prec] = f1_no_ign
-    elif ("anonym" in splits) & ("prop" in splits):
+    elif ("anonym" in splits) & ("prop_ident" in splits):
         stat["f1"]["anonym_prop"][theory][pos][neg][prec] = f1
         # stat["f1_no_ignored_tac"]["anonym_prop"][theory][pos][neg][prec] = f1_no_ign
-    elif ("origin" in splits) & ("rel" in splits):
-        stat["f1"]["origin_rel"][theory][pos][neg][prec] = f1
+    # elif ("origin" in splits) & ("rel" in splits):
+    #     stat["f1"]["origin_rel"][theory][pos][neg][prec] = f1
         # stat["f1_no_ignored_tac"]["origin_rel"][theory][pos][neg][prec] = f1_no_ign
-    elif ("origin" in splits) & ("prop" in splits):
-        stat["f1"]["origin_prop"][theory][pos][neg][prec] = f1
+    # elif ("origin" in splits) & ("prop" in splits):
+    #     stat["f1"]["origin_prop"][theory][pos][neg][prec] = f1
         # stat["f1_no_ignored_tac"]["origin_prop"][theory][pos][neg][prec] = f1_no_ign
     else:
         warnings.warn("skip " + os.path.join(root, ilp_stat_f))
