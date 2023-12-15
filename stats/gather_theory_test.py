@@ -19,8 +19,8 @@ THEORIES = [
 num_of_test = 10
 predc_kinds = ["anonym_rel", "origin_prop", "origin_rel", "anonym_prop"]
 params = {
-    "anonym_rel": ["p2n16", "0"],
-    "anonym_prop": ["p2n32", "0"]
+    "anonym_rel": ["p2n2", "0"],
+    "anonym_prop": ["p2n2", "0"]
     # "origin_prop": "p4n32",
     # "origin_rel": "p16n16",
 }
@@ -53,35 +53,28 @@ def update_theory_stat(stat, ilp_stat_f, root, theory):
     test_dir = "/".join(path_splits[:-1])
     reorder_f = os.path.join(test_dir, f"reorder/{theory_name}_stat.json")
     ilp_reader = open(os.path.join(root, ilp_stat_f), "r")
-    # reorder_reader = open(reorder_f, "r")
 
     file_stat = json.load(ilp_reader)
-    # reorder_stat = json.load(reorder_reader)
     f1 = file_stat["f1"]
-    f1_no_ign = file_stat["f1_no_ignored_tac"]
-    # acc = reorder_stat["accs"]
+    # f1_no_ign = file_stat["f1_no_ignored_tac"]
     # print(f1)
     splits = root.split("/")
-    if ("anonym_id" in splits) & ("rel" in splits):
-        if params_in_path(splits, "anonym_rel"):
+    if ("anonym" in splits) & ("rel" in splits):
+        if params_in_path(splits, "rel_ident"):
             stat["f1"]["anonym_rel"][theory] = f1
             # stat["f1_no_ignored_tac"]["anonym_rel"][theory] = f1_no_ign
-            # stat["acc"]["anonym_rel"][theory] = acc
-    elif ("anonym_id" in splits) & ("prop" in splits):
+    elif ("anonym" in splits) & ("prop_ident" in splits):
         if params_in_path(splits, "anonym_prop"):
             stat["f1"]["anonym_prop"][theory] = f1
             # stat["f1_no_ignored_tac"]["anonym_prop"][theory] = f1_no_ign
-            # stat["acc"]["anonym_prop"][theory] = acc
     # elif ("origin" in splits) & ("rel20" in splits):
     #     if params["origin_rel"] in splits:
     #         stat["f1"]["origin_rel"][theory] = f1
     #         stat["f1_no_ignored_tac"]["origin_rel"][theory] = f1_no_ign
-    #         stat["acc"]["origin_rel"][theory] = acc
     # elif ("origin" in splits) & ("prop" in splits):
     #     if params["origin_prop"] in splits:
     #         stat["f1"]["origin_prop"][theory] = f1
     #         stat["f1_no_ignored_tac"]["origin_prop"][theory] = f1_no_ign
-    #         stat["acc"]["origin_prop"][theory] = acc
     else:
         warnings.warn("skip " + os.path.join(root, ilp_stat_f))
 
@@ -93,25 +86,15 @@ def update_theory_stats(dir, stat, theory):
                 update_theory_stat(stat, f, root, theory)
 
 
-def update_knn(dir, theory, stat):
-    file = os.path.join(dir, f"{theory}_stat.json")
-    reader = open(file, "r")
-    knn_stat = json.load(reader)
-    stat[theory] = knn_stat["accs"]
 
+ilp_stat = {"f1": init_stat()}
 
-ilp_stat = {"acc": init_stat(), "f1": init_stat(), "f1_no_ignored_tac": init_stat()}
-
-# knn_stat = init_knn_stat()
 test_dir = f"data/json/origin_feat/tune/QArith/test_theory/"
 for theory in utils.THEORIES:
     dir = os.path.join(test_dir, theory)
-    # update_knn(test_dir, theory, knn_stat)
     update_theory_stats(dir, ilp_stat, theory)
 
 ilp_stat = params | ilp_stat
-with open("QArith_test.json", "w") as w:
+with open("QArith_ident_test.json", "w") as w:
     json.dump(ilp_stat, w)
 
-# with open("knn_theory_stat.json", "w") as w:
-#     json.dump(knn_stat, w)
