@@ -6,66 +6,13 @@ import pandas as pd
 import seaborn as sns
 
 
-def get_params(dat):
-    params = []
-    for pos in dat.keys():
-        for neg in dat[pos].keys():
-            params.append(f"p{pos}n{neg}")
-    return params
-
-
-def aver(dat):
-    # df_dat = {}
-    dat_mat = []
-    for pos in dat.keys():
-        for neg in dat[pos].keys():
-            accs = list(dat[pos][neg].values())
-            accs = [a[0] for a in accs]
-            accs = np.array(accs)
-            aver = np.average(accs, axis=0)
-            dat_mat.append(aver)
-    dat_mat = np.array(dat_mat)
-    return dat_mat
-
-
-def rank(dat_mat):
-    num_rows, num_cols = dat_mat.shape
-    for i in range(num_cols):
-        column = dat_mat[:, i]
-        # for r in dat_mat:
-        sort_r = sorted(column, reverse=True)
-        dat_mat[:, i] = [sort_r.index(x) for x in column]
-    return np.ndarray.tolist(dat_mat)
-
-
-def mK_acc_df(dat, params):
-    # assert (len(dat) == len(params))
-    dic = {"topk": [], "rank among params": [], "param": []}
-    for accs, param in zip(dat, params):
-        for i in range(len(accs)):
-            dic["topk"].append(i)
-            dic["rank among params"].append(accs[i])
-            dic["param"].append(param)
-    df = pd.DataFrame(data=dic)
-    return df
-
-
-def stat_acc(dat, params):
-    rows = aver(dat)
-    rows = rank(rows)
-    df = mK_acc_df(rows, params)
-    sns.lineplot(data=df, x="topk", y="rank among params", hue="param")
-    # plt.show()
-    plt.savefig("stats/rel_tune.pdf")
-
-
-def stat_f1(dfs):
-    for df in dfs:
-        prec = df.iloc[0]["prec"]
-        plt.figure(figsize=(24, 4.8))
-        sns.lineplot(data=df, x="param", y="f1", hue="kind")
+# def stat_f1(dfs):
+#     for df in dfs:
+#         prec = df.iloc[0]["prec"]
+#         plt.figure(figsize=(24, 4.8))
+#         sns.lineplot(data=df, x="param", y="f1", hue="kind")
         # plt.show()
-        plt.savefig(f"stats/ortho_tune{prec}.png")
+        # plt.savefig(f"stats/ortho_tune{prec}.png")
 
 
 def best_param(df):
@@ -83,10 +30,11 @@ def mk_f1_df(stat, theory, name):
         for pos, pos_stat in theory_stat.items():
             for neg, neg_stat in pos_stat.items():
                 for prec, f1 in neg_stat.items():
-                    dic["kind"].append(f"{kind}_{name}")
-                    dic["f1"].append(f1)
-                    dic["param"].append(f"p{pos}n{neg}")
-                    dic["prec"].append(prec)
+                    if 'anonym' in kind:
+                        dic["kind"].append(f"{kind}_{name}")
+                        dic["f1"].append(f1)
+                        dic["param"].append(f"p{pos}n{neg}")
+                        dic["prec"].append(prec)
     df = pd.DataFrame(data=dic)
     best_param(df)
     return df
@@ -102,10 +50,10 @@ def mk_f1_dfs(stat, theory):
     return sub_dfs
 
 
-f_stats = "stats/ortho/tune_ortho.json"
+f_stats = "tune_ortho_logic.json"
 reader = open(f_stats, "r")
 stat = json.load(reader)
-theory = "theories/Lists"
+theory = "theories/Logic"
 dfs = mk_f1_dfs(stat, theory)
 # print(df)
-stat_f1(dfs)
+# stat_f1(dfs)

@@ -90,18 +90,16 @@ def filter_stat_ml(exg_paths, prolog, pred_file):
 
 
 def at_precisions(stat_f, good_f, pred_f, label_f, rule_f):
-    for prec in [0.1, 0.2, 0.3, 0.4, 0.5]:
+    for prec in [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35]:
         # for prec in [0.05, 0.1, 0.15, 0.2, 0.25]:
         stat_at_precision.mk_stat(stat_f, good_f, pred_f, label_f, prec, rule_f)
 
 
 def out_stat_ml(accept_dics, pred_f, rule_f, label_f, info):
     out_dir = os.path.join(pred_f[:-5], info)
-    if os.path.exists(out_dir):
-        shutil.rmtree(out_dir)
-        warnings.warn("remove the existed statistic in " + out_dir)
     good_dir = os.path.join(out_dir, "good")
-    os.makedirs(good_dir, exist_ok=True)
+    if not os.path.exists(good_dir):
+      os.makedirs(good_dir, exist_ok=True)
     shutil.copy(rule_f, out_dir)
     good_f = os.path.join(good_dir, os.path.basename(pred_f))
     with open(good_f, "w") as w:
@@ -113,7 +111,8 @@ def out_stat_ml(accept_dics, pred_f, rule_f, label_f, info):
     )
 
     prec0_dir = os.path.join(good_dir, "0")
-    os.makedirs(prec0_dir, exist_ok=True)
+    if not os.path.exists (prec0_dir):
+        os.makedirs(prec0_dir, exist_ok=True)
 
     stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, prec0_dir)
     stat_f = os.path.join(prec0_dir, "stat_filter.json")
