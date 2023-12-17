@@ -187,3 +187,10 @@ how to use andb, orb, negb?
 how to use not?
 
 * must use, very common
+
+## valid
+
+Lists (4642) and Logic(3262), reasonable size and various tactics.
+Do not have strange distribution, theory string "Strings": "reflexivity": 4477.
+NArith may be related to QArith
+
