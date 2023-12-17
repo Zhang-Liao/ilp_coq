@@ -1,15 +1,12 @@
 knn_pred=data/json/ortho/feat/tune/QArith/test_theory
 bk=prolog/prop_bk.pl
-# negs=(1 2 4 8 16 32)
-# poss=(2 4 8 16 32)
-
-negs=(1)
-poss=(4)
+negs=(1 2 4 8 16)
+poss=(2 4 8 16 32)
 
 anonym=origin
 kind=prop
 test=data/json/ortho/predicate/$anonym/merge/test/
-theories=('theories/Lists')
+theories=('theories/ListsLogic')
 for theory in "${theories[@]}"; do
     for neg in "${negs[@]}"; do
 
@@ -23,7 +20,7 @@ for theory in "${theories[@]}"; do
                     --label data/json/ortho/feat/merge/$theory.label \
                     --bk $bk \
                     --info $kind/$anonym/p$pos\n$neg
-            )
+            ) &
 
         done
 

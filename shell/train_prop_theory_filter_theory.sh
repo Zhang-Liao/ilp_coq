@@ -1,19 +1,17 @@
-predc_kind=prop
 anonym=origin
-param=p4n32
-knn_pred=data/json/origin_feat/tune/QArith/test_theory
-test_predc=data/json/predicate/$anonym/merge/test/
-clause=data/json/predicate/$anonym/tune/QArith/train/$predc_kind/$param/alltac_rule.pl
-theories=('theories/Numbers')
-# theories=('plugins/ssr')
+param=p2n2
+knn_pred=data/json/ortho/feat/tune/QArith/test_theory
+test=data/json/ortho/predicate/$anonym/merge/test/
+clause=data/json/ortho/feat/tune/QArith/test_theory/theories/ListsLogic/prop/origin/p2n2/good/15/alltac_rule.pl
+theories=('theories/Sorting' 'theories/Init' 'plugins/setoid_ring' 'theories/Vectors' 'theories/NArith')
 
-all_predc=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/all_prop_predc.pl
+bk=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/prop_bk.pl
 
 for theory in ${theories[@]}; do
     (python filter.py --clause $clause \
         --pred $knn_pred/$theory.eval \
-        --test $test_predc/$theory \
-        --label data/json/origin_feat/merge/$theory.label \
-        --all_predc $all_predc \
-        --info $predc_kind/$anonym/$param)
+        --test $test/$theory \
+        --label data/json/ortho/feat/merge/$theory.label \
+        --bk $bk \
+        --info prop/$anonym/$param) &
 done
