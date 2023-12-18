@@ -59,6 +59,21 @@ hyp_term_children_in_goal_term(N, HypIdx, GoalIdx) :-
         )
     ).
 
+hyp_term_children_in_hyp_term(N, HypIdx1, HypIdx2) :-
+    forall(
+        (
+            prefix(HypIdx1, Child1),
+            hyp_node(Predc, N, Name1, Child1)
+        ),
+        (
+            append(HypIdx1, RelativeIdx, Child1),
+            append(HypIdx2, RelativeIdx, Child2),
+            dif(Name1, Name2),
+            dif(HypIdx1, HypIdx2),
+            hyp_node(Predc, N, Name2, Child2)
+        )
+    ).
+
 is_goal_root(N, Idx) :-
 \+ (
     prefix(Parent, Idx), 

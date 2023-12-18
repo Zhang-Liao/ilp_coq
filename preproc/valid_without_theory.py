@@ -85,16 +85,30 @@ def rand_lines(all_lines):
     dat = [l[1] for l in lines]
     return ids, dat
 
+def load_lines_by_ids(id_lines, ids_f):
+    dat = []
+    all_lines = [l[1] for l in id_lines]
+    r = open(ids_f, 'r')
+    ids = r.readlines()
+    ids = [int(x) for x in ids]
+    for id in ids:
+        dat.append(all_lines[id])
+    return dat
 
-merge_dir = "data/json/ortho/feat/merge"
-valid_dir = os.path.join(merge_dir, "valid")
-os.makedirs(valid_dir, exist_ok=True)
+merge_dir = "data/json/ortho/predicate/anonym/merge"
+rand_ids_f = 'data/json/ortho/feat/merge/valid/valid_ids'
 dat = load_dat(merge_dir)
 print('data length without train and test', len(dat))
-ids, rand_dat = rand_lines(dat)
 
-with open(os.path.join(valid_dir, 'valid_ids'), 'w') as w:
-    w.writelines(ids)
+if rand_ids_f == None: 
+    ids, rand_dat = rand_lines(dat)
 
-with open(os.path.join(valid_dir, 'dat.json'), 'w') as w:
-    w.writelines(rand_dat)
+    with open(os.path.join(merge_dir, 'valid_ids'), 'w') as w:
+        w.writelines(ids)
+
+    with open(os.path.join(merge_dir, 'valid.json'), 'w') as w:
+        w.writelines(rand_dat)
+else:
+    rand_dat = load_lines_by_ids(dat, rand_ids_f)
+    with open(os.path.join(merge_dir, 'valid.json'), 'w') as w:
+        w.writelines(rand_dat)
