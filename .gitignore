@@ -28,4 +28,9 @@ stats/*.json
 stats/**/*.json
 stats/*.pdf
 stats/**/*.pdf
+<<<<<<< HEAD
 dependences
+=======
+
+prolog/Lists
+>>>>>>> bf7b3c6 (minor)

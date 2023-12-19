@@ -111,7 +111,7 @@ hyp_term_children_in_hyp_term(N, HypIdx1, HypIdx2) :-
 
 is_goal_root(N, Idx) :-
 \+ (
-    prefix(Parent, Idx), 
+    prefix(Parent, Idx),
     dif(Parent, Idx),
     goal_node(_Predc, N, Parent, _Ident)).
 
@@ -146,30 +146,22 @@ similar_goal_terms(N, Idx1, Idx2) :-
     \+ prefix(Idx2, Idx1),
     \+ (eq_goal_term(N, Idx1, Idx2)),
     findall(
-        Child1, 
-        (
-            prefix(Idx1, ChildIdx1), 
-            dif(Predc1, coq_identifier), 
-            goal_node(Predc1, N, ChildIdx1, Child1)
-        ), 
+        Child1,
+        (prefix(Idx1, ChildIdx1), goal_node(_Predc1, N, ChildIdx1, Child1)),
         Children1),
     findall(
-        Child2, 
-        (
-            prefix(Idx2, ChildIdx2),
-            dif(Predc2, coq_identifier), 
-            goal_node(Predc2, N, ChildIdx2, Child2)
-        ), 
+        Child2,
+        (prefix(Idx2, ChildIdx2), goal_node(_Predc2, N, ChildIdx2, Child2)),
         Children2),
     similar_lists(Children1, Children2).
 
 % similar_goal_hyp_terms(N, GoalIdx, HypIdx) :-
 %     findall(
-%         Child1, 
-%         (prefix(GoalIdx, ChildIdx1), goal_node(_Predc1, N, ChildIdx1, Child1)), 
+%         Child1,
+%         (prefix(GoalIdx, ChildIdx1), goal_node(_Predc1, N, ChildIdx1, Child1)),
 %         Children1),
 %     findall(
-%         Child2, 
-%         (prefix(HypIdx, ChildIdx2), hyp_node(_Predc2, N, _, ChildIdx2, Child2)), 
+%         Child2,
+%         (prefix(HypIdx, ChildIdx2), hyp_node(_Predc2, N, _, ChildIdx2, Child2)),
 %         Children2),
 %     similar_lists(Children1, Children2).
