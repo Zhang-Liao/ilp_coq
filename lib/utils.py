@@ -234,7 +234,6 @@ def load_file(f, dat):
         dat[lemma] = lemma_states
     return dat
 
-
 def valid_dat_f(f):
     return f.endswith(".json") & (("plugins/" in f) | ("theories/" in f))
 
@@ -271,6 +270,7 @@ def load_dataset_no_lemma(dir):
                     dat.append((i, l))
                 i += 1
     return dat
+
 
 
 def load_subdir_no_lemma(dir, subdir):
