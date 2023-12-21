@@ -25,7 +25,7 @@ def cal_accs(ranks, total):
     return accs
 
 
-def acc(pred, f_label, info):
+def acc(pred, f_label):
     with open(pred, "r") as f:
         lines1 = f.read().splitlines()
     lines1 = [l.strip().split("\t") for l in lines1]
@@ -47,7 +47,7 @@ def acc(pred, f_label, info):
     print("total", total)
     print(f"accs: {accs}")
 
-    log = {"accs": accs, "test": f_label, "info": info}
+    log = {"accs": accs, "test": f_label}
     stat = os.path.splitext(pred)[0] + "_stat.json"
     with open(stat, "w") as w:
         json.dump(log, w, indent=4)
@@ -59,6 +59,5 @@ if __name__ == "__main__":
     )
     parser.add_argument("--pred", type=str)
     parser.add_argument("--label", type=str)
-    parser.add_argument("--info", type=str, default="")
     args = parser.parse_args()
-    acc(args.pred, args.label, args.info)
+    acc(args.pred, args.label)

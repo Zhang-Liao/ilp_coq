@@ -10,7 +10,9 @@ from pyswip import Prolog
 import re
 import shutil
 
+from stats import acc
 from lib import utils
+import reorder
 from stats import stat_filter
 from stats import stat_at_precision
 
@@ -117,13 +119,12 @@ def out_stat_ml(accept_dics, pred_f, rule_f, label_f, info):
     stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, prec0_dir)
     stat_f = os.path.join(prec0_dir, "stat_filter.json")
     at_precisions(stat_f, good_f, pred_f, label_f, rule_f)
-
+    reorder.reorder(good_f, pred_f, label_f)
 
 # def out_stat_ml(_, pred_f, rule_f, label_f, info):
 #     out_dir = os.path.join(pred_f[:-5], info)
 #     good_dir = os.path.join(out_dir, "good")
 #     good_f = os.path.join(good_dir, os.path.basename(pred_f))
-
 #     labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
 #         good_f, label_f, pred_f, rule_f
 #     )
@@ -132,7 +133,7 @@ def out_stat_ml(accept_dics, pred_f, rule_f, label_f, info):
 #     stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, prec0_dir)
 #     stat_f = os.path.join(prec0_dir, "stat_filter.json")
 #     at_precisions(stat_f, good_f, pred_f, label_f, rule_f)
-
+#     reorder.reorder(good_f, pred_f, label_f)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--clause", type=str)
