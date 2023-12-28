@@ -12,7 +12,7 @@ import seaborn as sns
 #         plt.figure(figsize=(24, 4.8))
 #         sns.lineplot(data=df, x="param", y="f1", hue="kind")
         # plt.show()
-        # plt.savefig(f"stats/ortho_tune{prec}.png")
+        # plt.savefig(f"stats/ortho_tune{prec}.png", bbox_inches='tight')
 
 
 def best_param(df):
@@ -44,16 +44,12 @@ def mk_f1_dfs(stat, theory):
     name = theory.split("/")[-1]
     df = mk_f1_df(stat["f1"], theory, name)
     sub_dfs = [y for x, y in df.groupby("prec")]
-
-    # dfs.append(mk_f1_df(stat["f1"], theory, name))
-    # dfs.append(mk_f1_df(stat["f1_no_ignored_tac"], theory, f"{name}_nontrivial"))
     return sub_dfs
 
 
-f_stats = "tune_ortho_logic.json"
+f_stats = "/home/zhangliao/ilp_out_coq/ilp_out_coq/tune_valid.json"
 reader = open(f_stats, "r")
 stat = json.load(reader)
-theory = "theories/Logic"
+# theory = "theories/ListsLogic"
+theory = "valid"
 dfs = mk_f1_dfs(stat, theory)
-# print(df)
-# stat_f1(dfs)
