@@ -121,8 +121,8 @@ def pr_hyps_anonym_predc(i, l, writer):
         if predc in ["coq_case"]:
             continue
         else:
-            if predc in coq_identifier:
-                writer.write(f"hyp_node(coq_identifier,{i},{name},{idx},{ident}).\n")
+            # if predc in coq_identifier:
+            #     writer.write(f"hyp_node(coq_identifier,{i},{name},{idx},{ident}).\n")
             writer.write(f"hyp_node({predc},{i},{name},{idx},{ident}).\n")
 
 
@@ -142,8 +142,8 @@ def pr_goal_anonym_predc(i, l, writer):
         if predc in ["coq_case"]:
             continue
         else:
-            if predc in coq_identifier:
-                writer.write(f"goal_node(coq_identifier,{i},{idx},{ident}).\n")
+            # if predc in coq_identifier:
+            #     writer.write(f"goal_node(coq_identifier,{i},{idx},{ident}).\n")
             writer.write(f"goal_node({predc},{i},{idx},{ident}).\n")
 
 
@@ -161,8 +161,8 @@ def add_hyps_anonym_predc(l, predc_set, ident_set):
         if predc in ["coq_case"]:
             continue
         else:
-            if predc in coq_identifier:
-                predc_set.add('coq_identifier')
+            # if predc in coq_identifier:
+            #     predc_set.add('coq_identifier')
             predc_set.add(predc)
             ident_set.add(to_ident(ident, typ))
     return predc_set, ident_set
@@ -182,8 +182,8 @@ def add_goal_anonym_predc(l, predc_set, ident_set):
         if predc in ["coq_case"]:
             continue
         else:
-            if predc in coq_identifier:
-                predc_set.add('coq_identifier')            
+            # if predc in coq_identifier:
+            #     predc_set.add('coq_identifier')            
             predc_set.add(predc)
             ident_set.add(to_ident(ident, typ))
     return predc_set, ident_set
