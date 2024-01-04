@@ -24,10 +24,9 @@
 :- determination(tac/2, eq_hyp_term/3).
 :- determination(tac/2, similar_goal_terms/3).
 
-:- set(construct_bottom, false).
-:- set(refine, auto).
-:- set(search, heuristic).
-% :- set(openlist, 50).
+% :- set(construct_bottom, false).
+% :- set(refine, auto).
+% :- set(search, heuristic).
 :- set(verbosity, 0).
 :- set(clauselength, 1000).
 :- set(depth, 1000).
