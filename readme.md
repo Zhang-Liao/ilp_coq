@@ -195,3 +195,16 @@ Do not have strange distribution, theory string "Strings": "reflexivity": 4477.
 NArith may be related to QArith
 
 random split valid does work? most states in complicated theory
+
+## randvalid
+
+Lists Logic do not work for bf search
+valid
+['Logic', 'ZArith', 'Classes', 'FSets', 'rtauto']
+test
+['PArith', 'Numbers', 'btauto', 'Arith', 'Strings']
+
+
+## preselection
+
+increate preselection cannot improve performance because for many tactics, the same proof state can be applied with many tactics. Rarely used tactics caused a lot of false positives. Maybe BK cannot capture their behaviors.

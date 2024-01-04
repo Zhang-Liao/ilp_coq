@@ -133,10 +133,7 @@ parser.add_argument("--max_cluster", type=int)
 
 opts = parser.parse_args()
 
-feat_encoder = joblib.load(
-    "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/feat_encoder_neg.gz"
-)
-
+feat_encoder = joblib.load("data/QArith_feat_encoder.gz")
 
 assert isinstance(feat_encoder, MultiLabelBinarizer)
 
