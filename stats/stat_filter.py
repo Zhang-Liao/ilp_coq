@@ -11,7 +11,7 @@ from lib import utils
 
 
 def init_tac_stat():
-    return {"TP": 0, "FP": 0, "FN": 0, "rule": {}}
+    return {"TP": 0, "FP": 0, "FN": 0, 'TN': 0, "rule": {}}
 
 
 def init_rule_stat():
@@ -109,16 +109,11 @@ def cal_precision(rules):
 
 def cal_f1_precision(stat):
     all_tp, all_fp, all_fn = init_tp()
-    no_ign_tp, no_ign_fp, no_ign_fn = init_tp()
     for tac, tac_stat in stat["tactic"].items():
         tp = tac_stat["TP"]
         fp = tac_stat["FP"]
         fn = tac_stat["FN"]
         all_tp, all_fp, all_fn = update_tp(all_tp, all_fp, all_fn, tp, fp, fn)
-        if tac not in utils.IGNORED_TACS:
-            no_ign_tp, no_ign_fp, no_ign_fn = update_tp(
-                no_ign_tp, no_ign_fp, no_ign_fn, tp, fp, fn
-            )
         cal_precision(tac_stat["rule"])
         tac_stat["f1"] = cal_f1(tp, fp, fn)
     ilp_stat = {
@@ -126,19 +121,15 @@ def cal_f1_precision(stat):
         "FP": all_fp,
         "FN": all_fn,
         "f1": cal_f1(all_tp, all_fp, all_fn),
-        "f1_no_ignored_tac": cal_f1(no_ign_tp, no_ign_fp, no_ign_fn),
     }
     new_dict = ilp_stat | stat
     return new_dict
 
 
 def update_rule_id_stat(stat, goods, bads, good_key, bad_key):
-    try:
-        for good in goods:
-            stat[good][good_key] += 1
-    except:
-        print(stat)
-        exit()
+    for good in goods:
+        stat[good][good_key] += 1
+
     for bad in bads:
         stat[bad][bad_key] += 1
 
@@ -205,6 +196,8 @@ def stat_one_pred(p, stats, goods, label, rule_ids):
             "FN",
         )
 
+    if (list(goods.keys()) == []) & (p != label):
+        stats[p]["TN"] += 1        
 
 
 def stat_ilp_stat_ml(goodss, labels, predss, rule_ids, out):
