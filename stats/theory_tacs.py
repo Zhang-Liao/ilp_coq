@@ -14,15 +14,15 @@ def stat_theory(file):
         if utils.not_lemma(l):
             t = json.loads(l)["tac"]
             if t not in tacs.keys():
-                tacs[t] = 0
+                tacs[t] = 1
             else:
                 tacs[t] += 1
     tacs = sorted(tacs.items(), key=lambda x: x[1], reverse=True)[:20]
     return dict(tacs)
 
 
-dir = "data/json/ortho/before_after/merge"
-out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/theory_tac.json"
+dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/feat/merge"
+out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/theory_origin_tac.json"
 subdirs = [os.path.join(dir, 'theories'), os.path.join(dir, 'plugins')]
 tacs = {}
 for subdir in subdirs:
