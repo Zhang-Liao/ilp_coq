@@ -19,7 +19,7 @@ def init_out(i, out_dir):
 
 
 def pr_predc(row_i, l, w, kind):
-    if kind in ["prop", "rel"]:
+    if kind == "origin":
         utils.pr_goal_predc(row_i, l["goal"], w)
         utils.pr_hyps_predc(row_i, l["hyps"], w)
     elif kind == "anonym":
@@ -30,7 +30,7 @@ def pr_predc(row_i, l, w, kind):
 parser = argparse.ArgumentParser()
 parser.add_argument("--test", type=str)
 parser.add_argument("--out", type=str)
-parser.add_argument("--kind", type=str, choices=["prop", "anonym"])
+parser.add_argument("--kind", type=str, choices=["origin", "anonym"])
 
 opts = parser.parse_args()
 

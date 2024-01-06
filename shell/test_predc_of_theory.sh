@@ -1,11 +1,10 @@
 
-theories=('theories/Sorting' 'theories/Init' 'plugins/setoid_ring' 'theories/Vectors' 'theories/NArith')
-
-# theories=('theories/ListsLogic.json')
-
+theories=('theories/Sorting' 'theories/Init' 'plugins/setoid_ring' 'theories/Vectors' 'valid/valid')
+# theories=('valid/valid')
+# theories=('theories/PArith' 'theories/Numbers' 'plugins/btauto' 'theories/Arith' 'theories/Strings')
 gen() {
-    kind=prop
-    dataset=data/json/ortho/predicate/origin/merge
+    kind=origin
+    dataset=data/json/ortho/predicate/$kind/merge
     out_dir=$dataset/test/$1
     python test_eg_predc.py --test $dataset/$1.json --out $out_dir --kind $kind
 }
@@ -13,5 +12,5 @@ gen() {
 export -f gen
 
 for theory in ${theories[@]}; do
-    gen $theory &
+    (gen $theory)&
 done
