@@ -21,8 +21,8 @@ def stat_theory(file):
     return dict(tacs)
 
 
-dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/feat/merge"
-out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/theory_origin_tac.json"
+dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/rev_ortho/feat/merge"
+out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/theory_ortho_tac.json"
 subdirs = [os.path.join(dir, 'theories'), os.path.join(dir, 'plugins')]
 tacs = {}
 for subdir in subdirs:
@@ -31,15 +31,6 @@ for subdir in subdirs:
             theory = os.path.basename(file)[:-5]
             path = os.path.join(subdir, file)
             tacs[theory] = stat_theory(path)
-    
-# for file in os.listdir(os.path.join(dir, 'plugins')):
-#     theory = os.path.basename(file)
-#     tacs[theory] = stat_theory(file)
-
-
-# print(tacs)
-
-# tacs = dict(sorted(tacs.items(), key=lambda x: x[1], reverse=True))
 
 with open(out, "w") as w:
     json.dump(tacs, w, indent=4)

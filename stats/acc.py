@@ -45,9 +45,9 @@ def acc(pred, f_label):
     total = len(ranks)
     accs = cal_accs(ranks, total)
     print("total", total)
-    print(f"accs: {accs}")
+    print(f"acc: {accs}")
 
-    log = {"accs": accs, "test": f_label}
+    log = {"acc": accs, "test": f_label}
     stat = os.path.splitext(pred)[0] + "_stat.json"
     with open(stat, "w") as w:
         json.dump(log, w, indent=4)
