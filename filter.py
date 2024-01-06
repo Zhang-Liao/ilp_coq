@@ -16,6 +16,28 @@ import reorder
 from stats import stat_filter
 from stats import stat_at_precision
 
+COMMON = [
+    "auto",
+    "simpl",
+    "intros",
+    "ring",
+    "simpl in *",
+    "auto with *",
+    "split",
+    "field",
+    "discriminate",
+    "auto with qarith",
+    "simpl_mult",
+    "qc",
+    "ring_simplify",
+    "red",
+    "intros (x1, x2) (y1, y2)",
+    "intro",
+    "intros H0",
+    "eauto",
+    "unfold Qnum, Qden",
+    "f_equal"
+]
 
 def read_clauses(clause_file, all_predc, prolog):
     prolog.consult(clause_file)
@@ -46,7 +68,7 @@ def filter_tac(i, tac, exg_paths, prolog, good):
 
 def filter_row(i, row, exg_paths, prolog):
     accept_dic = {}
-    preds = row.split("\t")[:20]
+    preds = row.split("\t")[:50]
     for pred in preds:
         good = Queue()
         safe_pred = utils.safe_tac(pred)
@@ -142,6 +164,7 @@ parser.add_argument("--test", type=str)
 parser.add_argument("--label", type=str)
 parser.add_argument("--bk", type=str)
 parser.add_argument("--info", type=str, help="specify the output dir")
+# parser.add_argument("--common", type=str, help="specify the output dir")
 
 opts = parser.parse_args()
 
