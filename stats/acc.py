@@ -18,7 +18,7 @@ def round_acc(acc):
 
 def cal_accs(ranks, total):
     accs = []
-    for i in range(20):
+    for i in range(50):
         num = len([r for r in ranks if (r <= i + 1) & (r != -1)])
         acc = round_acc(num / total)
         accs.append(acc)
