@@ -200,11 +200,17 @@ random split valid does work? most states in complicated theory
 
 Lists Logic do not work for bf search
 valid
-['Logic', 'ZArith', 'Classes', 'FSets', 'rtauto']
-test
 ['PArith', 'Numbers', 'btauto', 'Arith', 'Strings']
 
 
 ## preselection
 
 increate preselection cannot improve performance because for many tactics, the same proof state can be applied with many tactics. Rarely used tactics caused a lot of false positives. Maybe BK cannot capture their behaviors.
+
+## new validation
+
+remove dependencies between training, validation and test
+FSets cannot as validation because most theories do not depend on it
+using it, few theories can be chosen
+old validation: 'theories/Logic' 'theories/ZArith' 'theories/Classes' 'theories/FSets' 'plugins/rtauto'
+new:'theories/ZArith' 'theories/Logic' 'theories/Classes'

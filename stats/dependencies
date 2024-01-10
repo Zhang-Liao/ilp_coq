@@ -1,0 +1,545 @@
+theories/Init/Byte.sexpr:theories/Init/Datatypes.sexpr theories/Init/Logic.sexpr theories/Init/Specif.sexpr theories/Init/Nat.sexpr
+theories/Init/Datatypes.sexpr:theories/Init/Notations.sexpr theories/Init/Logic.sexpr
+theories/Init/Decimal.sexpr:theories/Init/Datatypes.sexpr
+theories/Init/Logic.sexpr:theories/Init/Notations.sexpr
+theories/Init/Logic_Type.sexpr:theories/Init/Datatypes.sexpr theories/Init/Logic.sexpr
+theories/Init/Nat.sexpr:theories/Init/Notations.sexpr theories/Init/Logic.sexpr theories/Init/Datatypes.sexpr theories/Init/Decimal.sexpr
+theories/Init/Notations.sexpr:
+theories/Init/Peano.sexpr:theories/Init/Notations.sexpr theories/Init/Datatypes.sexpr theories/Init/Logic.sexpr theories/Init/Nat.sexpr
+theories/Init/Prelude.sexpr:theories/Init/Notations.sexpr theories/Init/Logic.sexpr theories/Init/Logic_Type.sexpr theories/Init/Datatypes.sexpr theories/Init/Specif.sexpr theories/Init/Byte.sexpr theories/Init/Decimal.sexpr theories/Init/Nat.sexpr theories/Init/Peano.sexpr theories/Init/Wf.sexpr theories/Init/Tactics.sexpr theories/Init/Tauto.sexpr
+theories/Init/Specif.sexpr:theories/Init/Notations.sexpr theories/Init/Datatypes.sexpr theories/Init/Logic.sexpr
+theories/Init/Tactics.sexpr:theories/Init/Notations.sexpr theories/Init/Logic.sexpr theories/Init/Specif.sexpr
+theories/Init/Tauto.sexpr:theories/Init/Notations.sexpr theories/Init/Datatypes.sexpr theories/Init/Logic.sexpr
+theories/Init/Wf.sexpr:theories/Init/Notations.sexpr theories/Init/Logic.sexpr theories/Init/Datatypes.sexpr
+theories/Arith/Arith.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith_base.sexpr plugins/setoid_ring/ArithRing.sexpr
+theories/Arith/Arith_base.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Le.sexpr theories/Arith/Lt.sexpr theories/Arith/Plus.sexpr theories/Arith/Gt.sexpr theories/Arith/Minus.sexpr theories/Arith/Mult.sexpr theories/Arith/Between.sexpr theories/Arith/Peano_dec.sexpr theories/Arith/Compare_dec.sexpr theories/Arith/Factorial.sexpr theories/Arith/EqNat.sexpr theories/Arith/Wf_nat.sexpr
+theories/Arith/Between.sexpr:theories/Init/Prelude.sexpr theories/Arith/Le.sexpr theories/Arith/Lt.sexpr
+theories/Arith/Bool_nat.sexpr:theories/Init/Prelude.sexpr theories/Arith/Compare_dec.sexpr theories/Arith/Peano_dec.sexpr theories/Bool/Sumbool.sexpr
+theories/Arith/Compare.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith_base.sexpr theories/Arith/Peano_dec.sexpr theories/Arith/Compare_dec.sexpr theories/Arith/Wf_nat.sexpr theories/Arith/Min.sexpr theories/Arith/Max.sexpr
+theories/Arith/Compare_dec.sexpr:theories/Init/Prelude.sexpr theories/Arith/Le.sexpr theories/Arith/Lt.sexpr theories/Arith/Gt.sexpr theories/Logic/Decidable.sexpr theories/Arith/PeanoNat.sexpr
+theories/Arith/Div2.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Even.sexpr
+theories/Arith/EqNat.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr
+theories/Arith/Euclid.sexpr:theories/Init/Prelude.sexpr theories/Arith/Mult.sexpr theories/Arith/Compare_dec.sexpr theories/Arith/Wf_nat.sexpr
+theories/Arith/Even.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr
+theories/Arith/Factorial.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Plus.sexpr theories/Arith/Mult.sexpr theories/Arith/Lt.sexpr
+theories/Arith/Gt.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Le.sexpr theories/Arith/Lt.sexpr theories/Arith/Plus.sexpr
+theories/Arith/Le.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr
+theories/Arith/Lt.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Le.sexpr
+theories/Arith/Max.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr
+theories/Arith/Min.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr
+theories/Arith/Minus.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Lt.sexpr theories/Arith/Le.sexpr
+theories/Arith/Mult.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Plus.sexpr theories/Arith/Minus.sexpr theories/Arith/Le.sexpr theories/Arith/Lt.sexpr
+theories/Arith/PeanoNat.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NProperties.sexpr theories/Structures/OrdersFacts.sexpr
+theories/Arith/Peano_dec.sexpr:theories/Init/Prelude.sexpr theories/Logic/Decidable.sexpr theories/Arith/PeanoNat.sexpr theories/Logic/Eqdep_dec.sexpr theories/Arith/Le.sexpr theories/Arith/Lt.sexpr
+theories/Arith/Plus.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Le.sexpr theories/Arith/Lt.sexpr
+theories/Arith/Wf_nat.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Lt.sexpr theories/Arith/Le.sexpr theories/Arith/Compare_dec.sexpr theories/Logic/Decidable.sexpr
+theories/Bool/Bool.sexpr:theories/Init/Prelude.sexpr 
+theories/Bool/BoolEq.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr
+theories/Bool/Bvector.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Bool/Sumbool.sexpr theories/Vectors/Vector.sexpr theories/Arith/Minus.sexpr
+theories/Bool/DecBool.sexpr:theories/Init/Prelude.sexpr 
+theories/Bool/IfProp.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr
+theories/Bool/Sumbool.sexpr:theories/Init/Prelude.sexpr 
+theories/Bool/Zerob.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith.sexpr theories/Bool/Bool.sexpr
+theories/Classes/CEquivalence.sexpr:theories/Init/Prelude.sexpr theories/Program/Basics.sexpr theories/Program/Tactics.sexpr theories/Classes/Init.sexpr theories/Relations/Relation_Definitions.sexpr theories/Classes/CRelationClasses.sexpr theories/Classes/CMorphisms.sexpr
+theories/Classes/CMorphisms.sexpr:theories/Init/Prelude.sexpr theories/Program/Basics.sexpr theories/Program/Tactics.sexpr theories/Classes/CRelationClasses.sexpr theories/Relations/Relation_Definitions.sexpr
+theories/Classes/CRelationClasses.sexpr:theories/Init/Prelude.sexpr theories/Classes/Init.sexpr theories/Program/Basics.sexpr theories/Program/Tactics.sexpr
+theories/Classes/DecidableClass.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Arith/Arith.sexpr theories/ZArith/ZArith.sexpr
+theories/Classes/EquivDec.sexpr:theories/Init/Prelude.sexpr theories/Classes/Equivalence.sexpr theories/Logic/Decidable.sexpr theories/Bool/Bool.sexpr theories/Arith/Peano_dec.sexpr theories/Program/Program.sexpr theories/Lists/List.sexpr
+theories/Classes/Equivalence.sexpr:theories/Init/Prelude.sexpr theories/Program/Basics.sexpr theories/Program/Tactics.sexpr theories/Classes/Init.sexpr theories/Relations/Relation_Definitions.sexpr theories/Classes/RelationClasses.sexpr theories/Classes/Morphisms.sexpr
+theories/Classes/Init.sexpr:theories/Init/Prelude.sexpr theories/Program/Basics.sexpr
+theories/Classes/Morphisms.sexpr:theories/Init/Prelude.sexpr theories/Program/Basics.sexpr theories/Program/Tactics.sexpr theories/Relations/Relation_Definitions.sexpr theories/Classes/RelationClasses.sexpr
+theories/Classes/Morphisms_Prop.sexpr:theories/Init/Prelude.sexpr theories/Classes/Morphisms.sexpr theories/Program/Basics.sexpr theories/Program/Tactics.sexpr
+theories/Classes/Morphisms_Relations.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relation_Definitions.sexpr theories/Classes/Morphisms.sexpr theories/Program/Program.sexpr
+theories/Classes/RelationClasses.sexpr:theories/Init/Prelude.sexpr theories/Classes/Init.sexpr theories/Program/Basics.sexpr theories/Program/Tactics.sexpr theories/Relations/Relation_Definitions.sexpr
+theories/Classes/RelationPairs.sexpr:theories/Init/Prelude.sexpr theories/Lists/SetoidList.sexpr theories/Relations/Relations.sexpr theories/Classes/Morphisms.sexpr
+theories/Classes/SetoidClass.sexpr:theories/Init/Prelude.sexpr theories/Program/Program.sexpr theories/Relations/Relation_Definitions.sexpr theories/Classes/RelationClasses.sexpr theories/Classes/Morphisms.sexpr
+theories/Classes/SetoidDec.sexpr:theories/Init/Prelude.sexpr theories/Classes/SetoidClass.sexpr theories/Logic/Decidable.sexpr theories/Program/Program.sexpr theories/Arith/Arith.sexpr theories/Bool/Bool.sexpr
+theories/Classes/SetoidTactics.sexpr:theories/Init/Prelude.sexpr theories/Classes/CRelationClasses.sexpr theories/Classes/CMorphisms.sexpr theories/Classes/Morphisms.sexpr theories/Classes/Morphisms_Prop.sexpr theories/Classes/RelationClasses.sexpr theories/Relations/Relation_Definitions.sexpr theories/Classes/Equivalence.sexpr theories/Program/Basics.sexpr theories/Program/Tactics.sexpr
+theories/Compat/AdmitAxiom.sexpr:theories/Init/Prelude.sexpr 
+theories/Compat/Coq810.sexpr:theories/Init/Prelude.sexpr theories/Compat/Coq811.sexpr
+theories/Compat/Coq811.sexpr:theories/Init/Prelude.sexpr 
+theories/Compat/Coq89.sexpr:theories/Init/Prelude.sexpr theories/Compat/Coq810.sexpr
+theories/FSets/FMapAVL.sexpr:theories/Init/Prelude.sexpr plugins/funind/FunInd.sexpr theories/FSets/FMapInterface.sexpr theories/FSets/FMapList.sexpr theories/ZArith/ZArith.sexpr theories/ZArith/Int.sexpr
+theories/FSets/FMapFacts.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Structures/DecidableType.sexpr theories/Structures/DecidableTypeEx.sexpr theories/Structures/OrderedType.sexpr theories/Classes/Morphisms.sexpr theories/FSets/FMapInterface.sexpr
+theories/FSets/FMapFullAVL.sexpr:theories/Init/Prelude.sexpr plugins/funind/FunInd.sexpr plugins/funind/Recdef.sexpr theories/FSets/FMapInterface.sexpr theories/FSets/FMapList.sexpr theories/ZArith/ZArith.sexpr theories/ZArith/Int.sexpr theories/FSets/FMapAVL.sexpr plugins/micromega/Lia.sexpr
+theories/FSets/FMapInterface.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Structures/DecidableType.sexpr theories/Structures/OrderedType.sexpr
+theories/FSets/FMapList.sexpr:theories/Init/Prelude.sexpr plugins/funind/FunInd.sexpr theories/FSets/FMapInterface.sexpr
+theories/FSets/FMapPositive.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Structures/OrderedType.sexpr theories/ZArith/ZArith.sexpr theories/Structures/OrderedTypeEx.sexpr theories/FSets/FMapInterface.sexpr
+theories/FSets/FMapWeakList.sexpr:theories/Init/Prelude.sexpr plugins/funind/FunInd.sexpr theories/FSets/FMapInterface.sexpr
+theories/FSets/FMaps.sexpr:theories/Init/Prelude.sexpr theories/Structures/OrderedType.sexpr theories/Structures/OrderedTypeEx.sexpr theories/Structures/OrderedTypeAlt.sexpr theories/Structures/DecidableType.sexpr theories/Structures/DecidableTypeEx.sexpr theories/FSets/FMapInterface.sexpr theories/FSets/FMapPositive.sexpr theories/FSets/FMapFacts.sexpr theories/FSets/FMapWeakList.sexpr theories/FSets/FMapList.sexpr
+theories/FSets/FSetAVL.sexpr:theories/Init/Prelude.sexpr theories/FSets/FSetInterface.sexpr theories/ZArith/ZArith.sexpr theories/ZArith/Int.sexpr theories/FSets/FSetCompat.sexpr theories/MSets/MSetAVL.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersAlt.sexpr
+theories/FSets/FSetBridge.sexpr:theories/Init/Prelude.sexpr theories/FSets/FSetInterface.sexpr
+theories/FSets/FSetCompat.sexpr:theories/Init/Prelude.sexpr theories/FSets/FSetInterface.sexpr theories/FSets/FSetFacts.sexpr theories/MSets/MSetInterface.sexpr theories/MSets/MSetFacts.sexpr
+theories/FSets/FSetDecide.sexpr:theories/Init/Prelude.sexpr theories/Logic/Decidable.sexpr theories/Setoids/Setoid.sexpr theories/Structures/DecidableTypeEx.sexpr theories/FSets/FSetFacts.sexpr theories/FSets/FSetInterface.sexpr
+theories/FSets/FSetEqProperties.sexpr:theories/Init/Prelude.sexpr theories/FSets/FSetProperties.sexpr theories/Bool/Zerob.sexpr theories/Bool/Sumbool.sexpr theories/Structures/DecidableTypeEx.sexpr
+theories/FSets/FSetFacts.sexpr:theories/Init/Prelude.sexpr theories/Structures/DecidableTypeEx.sexpr theories/FSets/FSetInterface.sexpr
+theories/FSets/FSetInterface.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Structures/OrderedType.sexpr theories/Structures/DecidableType.sexpr
+theories/FSets/FSetList.sexpr:theories/Init/Prelude.sexpr theories/FSets/FSetInterface.sexpr theories/FSets/FSetCompat.sexpr theories/MSets/MSetList.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersAlt.sexpr
+theories/FSets/FSetPositive.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/PArith/BinPos.sexpr theories/Structures/OrderedType.sexpr theories/Structures/OrderedTypeEx.sexpr theories/FSets/FSetInterface.sexpr
+theories/FSets/FSetProperties.sexpr:theories/Init/Prelude.sexpr theories/FSets/FSetInterface.sexpr theories/Structures/DecidableTypeEx.sexpr theories/FSets/FSetFacts.sexpr theories/FSets/FSetDecide.sexpr
+theories/FSets/FSetToFiniteSet.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Finite_sets.sexpr theories/FSets/FSetInterface.sexpr theories/FSets/FSetProperties.sexpr theories/Structures/OrderedTypeEx.sexpr theories/Structures/DecidableTypeEx.sexpr
+theories/FSets/FSetWeakList.sexpr:theories/Init/Prelude.sexpr theories/FSets/FSetInterface.sexpr theories/Structures/Equalities.sexpr theories/FSets/FSetCompat.sexpr theories/MSets/MSetWeakList.sexpr
+theories/FSets/FSets.sexpr:theories/Init/Prelude.sexpr theories/Structures/OrderedType.sexpr theories/Structures/OrderedTypeEx.sexpr theories/Structures/OrderedTypeAlt.sexpr theories/Structures/DecidableType.sexpr theories/Structures/DecidableTypeEx.sexpr theories/FSets/FSetInterface.sexpr theories/FSets/FSetBridge.sexpr theories/FSets/FSetFacts.sexpr theories/FSets/FSetDecide.sexpr theories/FSets/FSetProperties.sexpr theories/FSets/FSetEqProperties.sexpr theories/FSets/FSetWeakList.sexpr theories/FSets/FSetList.sexpr theories/FSets/FSetPositive.sexpr theories/FSets/FSetAVL.sexpr
+theories/Floats/FloatAxioms.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith.sexpr theories/Numbers/Cyclic/Int63/Int63.sexpr theories/Floats/SpecFloat.sexpr theories/Floats/PrimFloat.sexpr theories/Floats/FloatOps.sexpr
+theories/Floats/FloatClass.sexpr:theories/Init/Prelude.sexpr 
+theories/Floats/FloatLemmas.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith.sexpr theories/Numbers/Cyclic/Int63/Int63.sexpr theories/Floats/SpecFloat.sexpr theories/Floats/PrimFloat.sexpr theories/Floats/FloatOps.sexpr theories/Floats/FloatAxioms.sexpr plugins/micromega/Psatz.sexpr
+theories/Floats/FloatOps.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith.sexpr theories/Numbers/Cyclic/Int63/Int63.sexpr theories/Floats/SpecFloat.sexpr theories/Floats/PrimFloat.sexpr
+theories/Floats/Floats.sexpr:theories/Init/Prelude.sexpr theories/Floats/FloatClass.sexpr theories/Floats/PrimFloat.sexpr theories/Floats/SpecFloat.sexpr theories/Floats/FloatOps.sexpr theories/Floats/FloatAxioms.sexpr theories/Floats/FloatLemmas.sexpr
+theories/Floats/PrimFloat.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Cyclic/Int63/Int63.sexpr theories/Floats/FloatClass.sexpr
+theories/Floats/SpecFloat.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith.sexpr theories/Floats/FloatClass.sexpr
+theories/Lists/List.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Le.sexpr theories/Arith/Gt.sexpr theories/Arith/Minus.sexpr theories/Bool/Bool.sexpr theories/Arith/Lt.sexpr
+theories/Lists/ListDec.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Logic/Decidable.sexpr
+theories/Lists/ListSet.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr
+theories/Lists/ListTactics.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/Lists/List.sexpr
+theories/Lists/SetoidList.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Sorting/Sorted.sexpr theories/Setoids/Setoid.sexpr theories/Program/Basics.sexpr theories/Classes/Morphisms.sexpr
+theories/Lists/SetoidPermutation.sexpr:theories/Init/Prelude.sexpr theories/Sorting/Permutation.sexpr theories/Lists/SetoidList.sexpr
+theories/Lists/StreamMemo.sexpr:theories/Init/Prelude.sexpr theories/Logic/Eqdep_dec.sexpr theories/Lists/Streams.sexpr
+theories/Lists/Streams.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/Berardi.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/ChoiceFacts.sexpr:theories/Init/Prelude.sexpr theories/Classes/RelationClasses.sexpr theories/Init/Logic.sexpr theories/Arith/Wf_nat.sexpr theories/Logic/Decidable.sexpr theories/Setoids/Setoid.sexpr theories/Arith/Arith.sexpr theories/Logic/ClassicalFacts.sexpr theories/Logic/PropExtensionalityFacts.sexpr
+theories/Logic/Classical.sexpr:theories/Init/Prelude.sexpr theories/Logic/Classical_Prop.sexpr theories/Logic/Classical_Pred_Type.sexpr
+theories/Logic/ClassicalChoice.sexpr:theories/Init/Prelude.sexpr theories/Logic/ClassicalUniqueChoice.sexpr theories/Logic/RelationalChoice.sexpr theories/Logic/ChoiceFacts.sexpr
+theories/Logic/ClassicalDescription.sexpr:theories/Init/Prelude.sexpr theories/Logic/Classical.sexpr theories/Logic/Description.sexpr theories/Logic/ChoiceFacts.sexpr
+theories/Logic/ClassicalEpsilon.sexpr:theories/Init/Prelude.sexpr theories/Logic/Classical.sexpr theories/Logic/ChoiceFacts.sexpr
+theories/Logic/ClassicalFacts.sexpr:theories/Init/Prelude.sexpr theories/Logic/PropExtensionalityFacts.sexpr theories/Logic/Hurkens.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Wf_nat.sexpr theories/Classes/RelationClasses.sexpr
+theories/Logic/ClassicalUniqueChoice.sexpr:theories/Init/Prelude.sexpr theories/Logic/Classical.sexpr theories/Setoids/Setoid.sexpr
+theories/Logic/Classical_Pred_Type.sexpr:theories/Init/Prelude.sexpr theories/Logic/Classical_Prop.sexpr
+theories/Logic/Classical_Prop.sexpr:theories/Init/Prelude.sexpr theories/Logic/ClassicalFacts.sexpr theories/Logic/EqdepFacts.sexpr
+theories/Logic/ConstructiveEpsilon.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith.sexpr
+theories/Logic/Decidable.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/Description.sexpr:theories/Init/Prelude.sexpr theories/Logic/ChoiceFacts.sexpr
+theories/Logic/Diaconescu.sexpr:theories/Init/Prelude.sexpr theories/Logic/ClassicalFacts.sexpr theories/Logic/ChoiceFacts.sexpr
+theories/Logic/Epsilon.sexpr:theories/Init/Prelude.sexpr theories/Logic/ChoiceFacts.sexpr
+theories/Logic/Eqdep.sexpr:theories/Init/Prelude.sexpr theories/Logic/EqdepFacts.sexpr
+theories/Logic/EqdepFacts.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/Eqdep_dec.sexpr:theories/Init/Prelude.sexpr theories/Logic/EqdepFacts.sexpr
+theories/Logic/ExtensionalFunctionRepresentative.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/ExtensionalityFacts.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/FinFun.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Arith/Compare_dec.sexpr theories/Arith/EqNat.sexpr theories/Logic/Decidable.sexpr theories/Lists/ListDec.sexpr theories/Vectors/Fin.sexpr
+theories/Logic/FunctionalExtensionality.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/HLevels.sexpr:theories/Init/Prelude.sexpr theories/Logic/FunctionalExtensionality.sexpr
+theories/Logic/Hurkens.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/IndefiniteDescription.sexpr:theories/Init/Prelude.sexpr theories/Logic/ChoiceFacts.sexpr
+theories/Logic/JMeq.sexpr:theories/Init/Prelude.sexpr theories/Logic/Eqdep.sexpr
+theories/Logic/ProofIrrelevance.sexpr:theories/Init/Prelude.sexpr theories/Logic/ProofIrrelevanceFacts.sexpr
+theories/Logic/ProofIrrelevanceFacts.sexpr:theories/Init/Prelude.sexpr theories/Logic/EqdepFacts.sexpr
+theories/Logic/PropExtensionality.sexpr:theories/Init/Prelude.sexpr theories/Logic/ClassicalFacts.sexpr
+theories/Logic/PropExtensionalityFacts.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/PropFacts.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/RelationalChoice.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/SetIsType.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/SetoidChoice.sexpr:theories/Init/Prelude.sexpr theories/Logic/ClassicalChoice.sexpr theories/Logic/ExtensionalFunctionRepresentative.sexpr theories/Logic/ChoiceFacts.sexpr theories/Logic/ClassicalFacts.sexpr theories/Classes/RelationClasses.sexpr
+theories/Logic/StrictProp.sexpr:theories/Init/Prelude.sexpr 
+theories/Logic/WKL.sexpr:theories/Init/Prelude.sexpr theories/Logic/WeakFan.sexpr theories/Lists/List.sexpr plugins/omega/Omega.sexpr theories/Arith/Compare_dec.sexpr theories/Arith/Le.sexpr theories/Arith/Lt.sexpr
+theories/Logic/WeakFan.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr
+theories/MSets/MSetAVL.sexpr:theories/Init/Prelude.sexpr plugins/funind/FunInd.sexpr theories/MSets/MSetInterface.sexpr theories/MSets/MSetGenTree.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Int.sexpr
+theories/MSets/MSetDecide.sexpr:theories/Init/Prelude.sexpr theories/Logic/Decidable.sexpr theories/Setoids/Setoid.sexpr theories/Structures/DecidableTypeEx.sexpr theories/MSets/MSetFacts.sexpr theories/MSets/MSetInterface.sexpr
+theories/MSets/MSetEqProperties.sexpr:theories/Init/Prelude.sexpr theories/MSets/MSetProperties.sexpr theories/Bool/Zerob.sexpr theories/Bool/Sumbool.sexpr plugins/omega/Omega.sexpr theories/Structures/DecidableTypeEx.sexpr theories/FSets/FSetEqProperties.sexpr
+theories/MSets/MSetFacts.sexpr:theories/Init/Prelude.sexpr theories/Structures/DecidableTypeEx.sexpr theories/MSets/MSetInterface.sexpr
+theories/MSets/MSetGenTree.sexpr:theories/Init/Prelude.sexpr plugins/funind/FunInd.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersFacts.sexpr theories/MSets/MSetInterface.sexpr theories/Arith/PeanoNat.sexpr
+theories/MSets/MSetInterface.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Lists/SetoidList.sexpr theories/Classes/RelationClasses.sexpr theories/Classes/Morphisms.sexpr theories/Classes/RelationPairs.sexpr theories/Structures/Equalities.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersFacts.sexpr
+theories/MSets/MSetList.sexpr:theories/Init/Prelude.sexpr theories/MSets/MSetInterface.sexpr theories/Structures/OrdersFacts.sexpr theories/Structures/OrdersLists.sexpr theories/Logic/Eqdep_dec.sexpr
+theories/MSets/MSetPositive.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/PArith/BinPos.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersEx.sexpr theories/MSets/MSetInterface.sexpr
+theories/MSets/MSetProperties.sexpr:theories/Init/Prelude.sexpr theories/MSets/MSetInterface.sexpr theories/Structures/DecidableTypeEx.sexpr theories/Structures/OrdersLists.sexpr theories/MSets/MSetFacts.sexpr theories/MSets/MSetDecide.sexpr
+theories/MSets/MSetRBT.sexpr:theories/Init/Prelude.sexpr theories/MSets/MSetGenTree.sexpr theories/Bool/Bool.sexpr theories/Lists/List.sexpr theories/PArith/BinPos.sexpr theories/PArith/Pnat.sexpr theories/Setoids/Setoid.sexpr theories/Lists/SetoidList.sexpr theories/Arith/PeanoNat.sexpr
+theories/MSets/MSetToFiniteSet.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Finite_sets.sexpr theories/MSets/MSetInterface.sexpr theories/MSets/MSetProperties.sexpr theories/Structures/OrdersEx.sexpr
+theories/MSets/MSetWeakList.sexpr:theories/Init/Prelude.sexpr theories/MSets/MSetInterface.sexpr
+theories/MSets/MSets.sexpr:theories/Init/Prelude.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersEx.sexpr theories/Structures/OrdersAlt.sexpr theories/Structures/Equalities.sexpr theories/MSets/MSetInterface.sexpr theories/MSets/MSetFacts.sexpr theories/MSets/MSetDecide.sexpr theories/MSets/MSetProperties.sexpr theories/MSets/MSetEqProperties.sexpr theories/MSets/MSetWeakList.sexpr theories/MSets/MSetList.sexpr theories/MSets/MSetPositive.sexpr theories/MSets/MSetAVL.sexpr
+theories/NArith/BinNat.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr theories/PArith/BinPos.sexpr theories/Classes/RelationClasses.sexpr theories/Classes/Morphisms.sexpr theories/Setoids/Setoid.sexpr theories/Structures/Equalities.sexpr theories/Structures/OrdersFacts.sexpr theories/Structures/GenericMinMax.sexpr theories/Bool/Bool.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NMaxMin.sexpr theories/Numbers/Natural/Abstract/NProperties.sexpr theories/NArith/BinNatDef.sexpr
+theories/NArith/BinNatDef.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr theories/PArith/BinPos.sexpr
+theories/NArith/NArith.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/NArith/Nnat.sexpr theories/NArith/Ndiv_def.sexpr theories/NArith/Nsqrt_def.sexpr theories/NArith/Ngcd_def.sexpr theories/NArith/Ndigits.sexpr plugins/setoid_ring/NArithRing.sexpr
+theories/NArith/Ndec.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Bool/Sumbool.sexpr theories/Arith/Arith.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/PArith/Pnat.sexpr theories/NArith/Nnat.sexpr theories/NArith/Ndigits.sexpr
+theories/NArith/Ndigits.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Classes/Morphisms.sexpr theories/Setoids/Setoid.sexpr theories/Bool/Bvector.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/Arith/PeanoNat.sexpr theories/PArith/Pnat.sexpr theories/NArith/Nnat.sexpr theories/Program/Basics.sexpr theories/Strings/ByteVector.sexpr
+theories/NArith/Ndist.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith.sexpr theories/Arith/Min.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/NArith/Ndigits.sexpr
+theories/NArith/Ndiv_def.sexpr:theories/Init/Prelude.sexpr theories/NArith/BinNat.sexpr
+theories/NArith/Ngcd_def.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr
+theories/NArith/Nnat.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/Arith/PeanoNat.sexpr theories/PArith/Pnat.sexpr
+theories/NArith/Nsqrt_def.sexpr:theories/Init/Prelude.sexpr theories/NArith/BinNat.sexpr
+theories/Numbers/Cyclic/Abstract/CyclicAxioms.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith.sexpr plugins/micromega/Lia.sexpr theories/ZArith/Znumtheory.sexpr theories/ZArith/Zpow_facts.sexpr theories/Numbers/Cyclic/Abstract/DoubleType.sexpr
+theories/Numbers/Cyclic/Abstract/DoubleType.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr
+theories/Numbers/Cyclic/Abstract/NZCyclic.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/ZArith/ZArith.sexpr theories/ZArith/Zpow_facts.sexpr theories/Numbers/Cyclic/Abstract/DoubleType.sexpr theories/Numbers/Cyclic/Abstract/CyclicAxioms.sexpr plugins/micromega/Lia.sexpr
+theories/Numbers/Cyclic/Int31/Cyclic31.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Arith/Min.sexpr theories/Numbers/Cyclic/Int31/Int31.sexpr theories/ZArith/Znumtheory.sexpr theories/ZArith/Zgcd_alt.sexpr theories/ZArith/Zpow_facts.sexpr theories/Numbers/Cyclic/Abstract/CyclicAxioms.sexpr plugins/micromega/Lia.sexpr
+theories/Numbers/Cyclic/Int31/Int31.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NaryFunctions.sexpr theories/Arith/Wf_nat.sexpr theories/ZArith/ZArith.sexpr theories/Numbers/Cyclic/Abstract/DoubleType.sexpr
+theories/Numbers/Cyclic/Int31/Ring31.sexpr:theories/Init/Prelude.sexpr plugins/micromega/Lia.sexpr theories/Numbers/Cyclic/Int31/Int31.sexpr theories/Numbers/Cyclic/Int31/Cyclic31.sexpr theories/Numbers/Cyclic/Abstract/CyclicAxioms.sexpr
+theories/Numbers/Cyclic/Int63/Cyclic63.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Cyclic/Abstract/CyclicAxioms.sexpr theories/ZArith/ZArith.sexpr theories/Numbers/Cyclic/Int63/Int63.sexpr
+theories/Numbers/Cyclic/Int63/Int63.sexpr:theories/Init/Prelude.sexpr theories/Unicode/Utf8.sexpr theories/Numbers/Cyclic/Abstract/DoubleType.sexpr plugins/micromega/Lia.sexpr theories/ZArith/Zpow_facts.sexpr theories/ZArith/Zgcd_alt.sexpr theories/ZArith/ZArith.sexpr
+theories/Numbers/Cyclic/Int63/Ring63.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Cyclic/Int63/Cyclic63.sexpr theories/Numbers/Cyclic/Abstract/CyclicAxioms.sexpr
+theories/Numbers/Cyclic/ZModulo/ZModulo.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/ZArith/ZArith.sexpr theories/ZArith/Znumtheory.sexpr theories/ZArith/Zpow_facts.sexpr theories/Numbers/Cyclic/Abstract/DoubleType.sexpr theories/Numbers/Cyclic/Abstract/CyclicAxioms.sexpr plugins/micromega/Lia.sexpr
+theories/Numbers/Integer/Abstract/ZAdd.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZBase.sexpr
+theories/Numbers/Integer/Abstract/ZAddOrder.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZLt.sexpr
+theories/Numbers/Integer/Abstract/ZAxioms.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Bool/Bool.sexpr theories/Numbers/NatInt/NZParity.sexpr theories/Numbers/NatInt/NZPow.sexpr theories/Numbers/NatInt/NZSqrt.sexpr theories/Numbers/NatInt/NZLog.sexpr theories/Numbers/NatInt/NZGcd.sexpr theories/Numbers/NatInt/NZDiv.sexpr theories/Numbers/NatInt/NZBits.sexpr
+theories/Numbers/Integer/Abstract/ZBase.sexpr:theories/Init/Prelude.sexpr theories/Logic/Decidable.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/NatInt/NZProperties.sexpr
+theories/Numbers/Integer/Abstract/ZBits.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Numbers/Integer/Abstract/ZPow.sexpr theories/Numbers/Integer/Abstract/ZDivFloor.sexpr theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr theories/Numbers/Integer/Abstract/ZParity.sexpr theories/Numbers/NatInt/NZLog.sexpr
+theories/Numbers/Integer/Abstract/ZDivEucl.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr theories/Numbers/NatInt/NZDiv.sexpr
+theories/Numbers/Integer/Abstract/ZDivFloor.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr theories/Numbers/NatInt/NZDiv.sexpr
+theories/Numbers/Integer/Abstract/ZDivTrunc.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr theories/Numbers/NatInt/NZDiv.sexpr
+theories/Numbers/Integer/Abstract/ZGcd.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr theories/Numbers/NatInt/NZGcd.sexpr
+theories/Numbers/Integer/Abstract/ZLcm.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr theories/Numbers/Integer/Abstract/ZGcd.sexpr theories/Numbers/Integer/Abstract/ZDivTrunc.sexpr theories/Numbers/Integer/Abstract/ZDivFloor.sexpr
+theories/Numbers/Integer/Abstract/ZLt.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZMul.sexpr
+theories/Numbers/Integer/Abstract/ZMaxMin.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Structures/GenericMinMax.sexpr
+theories/Numbers/Integer/Abstract/ZMul.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAdd.sexpr
+theories/Numbers/Integer/Abstract/ZMulOrder.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAddOrder.sexpr
+theories/Numbers/Integer/Abstract/ZParity.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Numbers/NatInt/NZParity.sexpr
+theories/Numbers/Integer/Abstract/ZPow.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr theories/Numbers/Integer/Abstract/ZParity.sexpr theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr theories/Numbers/NatInt/NZPow.sexpr
+theories/Numbers/Integer/Abstract/ZProperties.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZMaxMin.sexpr theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr theories/Numbers/Integer/Abstract/ZParity.sexpr theories/Numbers/Integer/Abstract/ZPow.sexpr theories/Numbers/Integer/Abstract/ZDivTrunc.sexpr theories/Numbers/Integer/Abstract/ZDivFloor.sexpr theories/Numbers/Integer/Abstract/ZGcd.sexpr theories/Numbers/Integer/Abstract/ZLcm.sexpr theories/Numbers/NatInt/NZLog.sexpr theories/Numbers/NatInt/NZSqrt.sexpr theories/Numbers/Integer/Abstract/ZBits.sexpr
+theories/Numbers/Integer/Abstract/ZSgnAbs.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZMulOrder.sexpr
+theories/Numbers/Integer/Binary/ZBinary.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZProperties.sexpr theories/ZArith/BinInt.sexpr
+theories/Numbers/Integer/NatPairs/ZNatPairs.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr plugins/setoid_ring/Ring.sexpr
+theories/Numbers/NatInt/NZAdd.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZBase.sexpr
+theories/Numbers/NatInt/NZAddOrder.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZBase.sexpr theories/Numbers/NatInt/NZMul.sexpr theories/Numbers/NatInt/NZOrder.sexpr
+theories/Numbers/NatInt/NZAxioms.sexpr:theories/Init/Prelude.sexpr theories/Structures/Equalities.sexpr theories/Structures/Orders.sexpr theories/Numbers/NumPrelude.sexpr theories/Structures/GenericMinMax.sexpr
+theories/Numbers/NatInt/NZBase.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr
+theories/Numbers/NatInt/NZBits.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZMulOrder.sexpr theories/Numbers/NatInt/NZParity.sexpr theories/Numbers/NatInt/NZPow.sexpr theories/Numbers/NatInt/NZDiv.sexpr theories/Numbers/NatInt/NZLog.sexpr
+theories/Numbers/NatInt/NZDiv.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZMulOrder.sexpr
+theories/Numbers/NatInt/NZDomain.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NumPrelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZBase.sexpr theories/Numbers/NatInt/NZOrder.sexpr theories/Numbers/NatInt/NZAddOrder.sexpr theories/Arith/Plus.sexpr theories/Arith/Minus.sexpr
+theories/Numbers/NatInt/NZGcd.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZMulOrder.sexpr
+theories/Numbers/NatInt/NZLog.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZMulOrder.sexpr theories/Numbers/NatInt/NZPow.sexpr
+theories/Numbers/NatInt/NZMul.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZBase.sexpr theories/Numbers/NatInt/NZAdd.sexpr
+theories/Numbers/NatInt/NZMulOrder.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZAddOrder.sexpr
+theories/Numbers/NatInt/NZOrder.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZBase.sexpr theories/Logic/Decidable.sexpr theories/Structures/OrdersTac.sexpr
+theories/Numbers/NatInt/NZParity.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZMulOrder.sexpr
+theories/Numbers/NatInt/NZPow.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZMulOrder.sexpr
+theories/Numbers/NatInt/NZProperties.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZMulOrder.sexpr
+theories/Numbers/NatInt/NZSqrt.sexpr:theories/Init/Prelude.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZMulOrder.sexpr
+theories/Numbers/Natural/Abstract/NAdd.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NBase.sexpr
+theories/Numbers/Natural/Abstract/NAddOrder.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NOrder.sexpr
+theories/Numbers/Natural/Abstract/NAxioms.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/NatInt/NZAxioms.sexpr theories/Numbers/NatInt/NZParity.sexpr theories/Numbers/NatInt/NZPow.sexpr theories/Numbers/NatInt/NZSqrt.sexpr theories/Numbers/NatInt/NZLog.sexpr theories/Numbers/NatInt/NZDiv.sexpr theories/Numbers/NatInt/NZGcd.sexpr theories/Numbers/NatInt/NZBits.sexpr
+theories/Numbers/Natural/Abstract/NBase.sexpr:theories/Init/Prelude.sexpr theories/Logic/Decidable.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/NatInt/NZProperties.sexpr
+theories/Numbers/Natural/Abstract/NBits.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/Natural/Abstract/NPow.sexpr theories/Numbers/Natural/Abstract/NDiv.sexpr theories/Numbers/Natural/Abstract/NParity.sexpr theories/Numbers/Natural/Abstract/NLog.sexpr
+theories/Numbers/Natural/Abstract/NDefOps.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Classes/RelationPairs.sexpr theories/Numbers/Natural/Abstract/NStrongRec.sexpr
+theories/Numbers/Natural/Abstract/NDiv.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/NatInt/NZDiv.sexpr
+theories/Numbers/Natural/Abstract/NGcd.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/NatInt/NZGcd.sexpr
+theories/Numbers/Natural/Abstract/NIso.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NBase.sexpr
+theories/Numbers/Natural/Abstract/NLcm.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/Natural/Abstract/NDiv.sexpr theories/Numbers/Natural/Abstract/NGcd.sexpr
+theories/Numbers/Natural/Abstract/NLog.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/Natural/Abstract/NPow.sexpr theories/Numbers/Natural/Abstract/NParity.sexpr theories/Numbers/NatInt/NZLog.sexpr
+theories/Numbers/Natural/Abstract/NMaxMin.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Structures/GenericMinMax.sexpr
+theories/Numbers/Natural/Abstract/NMulOrder.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAddOrder.sexpr
+theories/Numbers/Natural/Abstract/NOrder.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAdd.sexpr
+theories/Numbers/Natural/Abstract/NParity.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/NatInt/NZParity.sexpr
+theories/Numbers/Natural/Abstract/NPow.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/Natural/Abstract/NParity.sexpr theories/Numbers/NatInt/NZPow.sexpr
+theories/Numbers/Natural/Abstract/NProperties.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NMaxMin.sexpr theories/Numbers/Natural/Abstract/NParity.sexpr theories/Numbers/Natural/Abstract/NPow.sexpr theories/Numbers/Natural/Abstract/NSqrt.sexpr theories/Numbers/Natural/Abstract/NLog.sexpr theories/Numbers/Natural/Abstract/NDiv.sexpr theories/Numbers/Natural/Abstract/NGcd.sexpr theories/Numbers/Natural/Abstract/NLcm.sexpr theories/Numbers/Natural/Abstract/NBits.sexpr
+theories/Numbers/Natural/Abstract/NSqrt.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr theories/Numbers/NatInt/NZSqrt.sexpr
+theories/Numbers/Natural/Abstract/NStrongRec.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NSub.sexpr
+theories/Numbers/Natural/Abstract/NSub.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Natural/Abstract/NMulOrder.sexpr
+theories/Numbers/Natural/Binary/NBinary.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr theories/Numbers/Natural/Abstract/NProperties.sexpr
+theories/Numbers/Natural/Peano/NPeano.sexpr:theories/Init/Prelude.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Even.sexpr theories/Numbers/Natural/Abstract/NAxioms.sexpr
+theories/Numbers/AltBinNotations.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr
+theories/Numbers/BinNums.sexpr:theories/Init/Prelude.sexpr 
+theories/Numbers/DecimalFacts.sexpr:theories/Init/Prelude.sexpr theories/Init/Decimal.sexpr
+theories/Numbers/DecimalN.sexpr:theories/Init/Prelude.sexpr theories/Init/Decimal.sexpr theories/Numbers/DecimalFacts.sexpr theories/Numbers/DecimalPos.sexpr theories/PArith/PArith.sexpr theories/NArith/NArith.sexpr
+theories/Numbers/DecimalNat.sexpr:theories/Init/Prelude.sexpr theories/Init/Decimal.sexpr theories/Numbers/DecimalFacts.sexpr theories/Arith/Arith.sexpr
+theories/Numbers/DecimalPos.sexpr:theories/Init/Prelude.sexpr theories/Init/Decimal.sexpr theories/Numbers/DecimalFacts.sexpr theories/PArith/PArith.sexpr theories/NArith/NArith.sexpr
+theories/Numbers/DecimalString.sexpr:theories/Init/Prelude.sexpr theories/Init/Decimal.sexpr theories/Strings/Ascii.sexpr theories/Strings/String.sexpr
+theories/Numbers/DecimalZ.sexpr:theories/Init/Prelude.sexpr theories/Init/Decimal.sexpr theories/Numbers/DecimalFacts.sexpr theories/Numbers/DecimalPos.sexpr theories/Numbers/DecimalN.sexpr theories/ZArith/ZArith.sexpr
+theories/Numbers/NaryFunctions.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr
+theories/Numbers/NumPrelude.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr theories/Classes/Morphisms.sexpr theories/Classes/Morphisms_Prop.sexpr
+theories/PArith/BinPos.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr theories/Logic/Eqdep_dec.sexpr theories/Logic/EqdepFacts.sexpr theories/Classes/RelationClasses.sexpr theories/Classes/Morphisms.sexpr theories/Setoids/Setoid.sexpr theories/Structures/Equalities.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersFacts.sexpr theories/Structures/GenericMinMax.sexpr theories/Arith/Le.sexpr theories/Arith/Plus.sexpr theories/PArith/BinPosDef.sexpr
+theories/PArith/BinPosDef.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr
+theories/PArith/PArith.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr theories/PArith/BinPos.sexpr theories/PArith/Pnat.sexpr theories/PArith/POrderedType.sexpr
+theories/PArith/POrderedType.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/Structures/Equalities.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersTac.sexpr
+theories/PArith/Pnat.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/Arith/PeanoNat.sexpr
+theories/Program/Basics.sexpr:theories/Init/Prelude.sexpr 
+theories/Program/Combinators.sexpr:theories/Init/Prelude.sexpr theories/Program/Basics.sexpr theories/Logic/FunctionalExtensionality.sexpr
+theories/Program/Equality.sexpr:theories/Init/Prelude.sexpr theories/Logic/JMeq.sexpr theories/Program/Tactics.sexpr theories/Logic/Eqdep.sexpr
+theories/Program/Program.sexpr:theories/Init/Prelude.sexpr theories/Program/Utils.sexpr theories/Program/Wf.sexpr theories/Program/Equality.sexpr theories/Program/Subset.sexpr theories/Program/Basics.sexpr theories/Program/Combinators.sexpr theories/Program/Syntax.sexpr
+theories/Program/Subset.sexpr:theories/Init/Prelude.sexpr theories/Program/Utils.sexpr theories/Program/Equality.sexpr theories/Logic/ProofIrrelevance.sexpr
+theories/Program/Syntax.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Bool/Bvector.sexpr
+theories/Program/Tactics.sexpr:theories/Init/Prelude.sexpr 
+theories/Program/Utils.sexpr:theories/Init/Prelude.sexpr theories/Program/Tactics.sexpr theories/Bool/Sumbool.sexpr
+theories/Program/Wf.sexpr:theories/Init/Prelude.sexpr theories/Init/Wf.sexpr theories/Program/Utils.sexpr theories/Logic/ProofIrrelevance.sexpr theories/Logic/FunctionalExtensionality.sexpr plugins/extraction/Extraction.sexpr
+theories/QArith/QArith.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith_base.sexpr theories/QArith/Qring.sexpr theories/QArith/Qreduction.sexpr
+theories/QArith/QArith_base.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr plugins/setoid_ring/ZArithRing.sexpr theories/Classes/Morphisms.sexpr theories/Setoids/Setoid.sexpr theories/Bool/Bool.sexpr
+theories/QArith/QOrderedType.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith_base.sexpr theories/Structures/Equalities.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersTac.sexpr
+theories/QArith/Qabs.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith.sexpr theories/QArith/Qreduction.sexpr
+theories/QArith/Qcabs.sexpr:theories/Init/Prelude.sexpr theories/QArith/Qabs.sexpr theories/QArith/Qcanon.sexpr
+theories/QArith/Qcanon.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Field.sexpr theories/QArith/QArith.sexpr theories/ZArith/Znumtheory.sexpr theories/Logic/Eqdep_dec.sexpr
+theories/QArith/Qfield.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Field.sexpr theories/QArith/QArith_base.sexpr plugins/setoid_ring/NArithRing.sexpr
+theories/QArith/Qminmax.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith_base.sexpr theories/Structures/Orders.sexpr theories/QArith/QOrderedType.sexpr theories/Structures/GenericMinMax.sexpr
+theories/QArith/Qpower.sexpr:theories/Init/Prelude.sexpr theories/ZArith/Zpow_facts.sexpr theories/QArith/Qfield.sexpr theories/QArith/Qreduction.sexpr
+theories/QArith/Qreals.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/RIneq.sexpr theories/QArith/QArith_base.sexpr
+theories/QArith/Qreduction.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith_base.sexpr theories/ZArith/Znumtheory.sexpr
+theories/QArith/Qring.sexpr:theories/Init/Prelude.sexpr theories/QArith/Qfield.sexpr
+theories/QArith/Qround.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith.sexpr
+theories/Reals/Alembert.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr theories/Reals/SeqProp.sexpr theories/Reals/PartSum.sexpr theories/Arith/Max.sexpr
+theories/Reals/AltSeries.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr theories/Reals/SeqProp.sexpr theories/Reals/PartSum.sexpr theories/Arith/Max.sexpr
+theories/Reals/ArithProp.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/RIneq.sexpr theories/Reals/Rbasic_fun.sexpr theories/Arith/Even.sexpr theories/Arith/Div2.sexpr plugins/setoid_ring/ArithRing.sexpr
+theories/Reals/Binomial.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/PartSum.sexpr
+theories/Reals/Cauchy_prod.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr theories/Reals/PartSum.sexpr
+theories/Reals/ClassicalDedekindReals.sexpr:theories/Init/Prelude.sexpr theories/Logic/Eqdep_dec.sexpr theories/Logic/FunctionalExtensionality.sexpr theories/Logic/HLevels.sexpr theories/QArith/QArith.sexpr theories/QArith/Qabs.sexpr theories/Reals/ConstructiveCauchyReals.sexpr theories/Reals/ConstructiveRcomplete.sexpr
+theories/Reals/ConstructiveCauchyReals.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith.sexpr theories/QArith/Qabs.sexpr theories/QArith/Qround.sexpr theories/Logic/ConstructiveEpsilon.sexpr theories/Classes/CMorphisms.sexpr
+theories/Reals/ConstructiveCauchyRealsMult.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith.sexpr theories/QArith/Qabs.sexpr theories/QArith/Qround.sexpr theories/Logic/ConstructiveEpsilon.sexpr theories/Reals/ConstructiveCauchyReals.sexpr theories/Classes/CMorphisms.sexpr
+theories/Reals/ConstructiveRcomplete.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith_base.sexpr theories/QArith/Qabs.sexpr theories/Reals/ConstructiveReals.sexpr theories/Reals/ConstructiveCauchyRealsMult.sexpr theories/Logic/ConstructiveEpsilon.sexpr
+theories/Reals/ConstructiveReals.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith.sexpr
+theories/Reals/ConstructiveRealsLUB.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith_base.sexpr theories/QArith/Qabs.sexpr theories/Reals/ConstructiveReals.sexpr theories/Reals/ConstructiveCauchyRealsMult.sexpr theories/Reals/ConstructiveRealsMorphisms.sexpr theories/Reals/ConstructiveRcomplete.sexpr theories/Logic/ConstructiveEpsilon.sexpr
+theories/Reals/ConstructiveRealsMorphisms.sexpr:theories/Init/Prelude.sexpr theories/QArith/QArith.sexpr theories/QArith/Qabs.sexpr theories/Reals/ConstructiveReals.sexpr theories/Reals/ConstructiveCauchyRealsMult.sexpr theories/Reals/ConstructiveRcomplete.sexpr
+theories/Reals/Cos_plus.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo_def.sexpr theories/Reals/Cos_rel.sexpr theories/Arith/Max.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/Cos_rel.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo_def.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/DiscrR.sexpr:theories/Init/Prelude.sexpr theories/Reals/RIneq.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/Exp_prop.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/PSeries_reg.sexpr theories/Arith/Div2.sexpr theories/Arith/Even.sexpr theories/Arith/Max.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/Integration.sexpr:theories/Init/Prelude.sexpr theories/Reals/NewtonInt.sexpr theories/Reals/RiemannInt_SF.sexpr theories/Reals/RiemannInt.sexpr
+theories/Reals/MVT.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/Rtopology.sexpr
+theories/Reals/Machin.sexpr:theories/Init/Prelude.sexpr plugins/micromega/Lia.sexpr plugins/micromega/Lra.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/Ranalysis_reg.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/AltSeries.sexpr theories/Reals/Rseries.sexpr theories/Reals/SeqProp.sexpr theories/Reals/PartSum.sexpr theories/Reals/Ratan.sexpr
+theories/Reals/NewtonInt.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/Ranalysis.sexpr
+theories/Reals/PSeries_reg.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/MVT.sexpr theories/Arith/Max.sexpr theories/Arith/Even.sexpr plugins/micromega/Lra.sexpr
+theories/Reals/PartSum.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr theories/Reals/Rcomplete.sexpr theories/Arith/Max.sexpr
+theories/Reals/RIneq.sexpr:theories/Init/Prelude.sexpr theories/Reals/ConstructiveCauchyReals.sexpr theories/Reals/ConstructiveCauchyRealsMult.sexpr theories/Reals/Raxioms.sexpr theories/Reals/Rpow_def.sexpr theories/ZArith/Zpower.sexpr plugins/setoid_ring/ZArithRing.sexpr plugins/micromega/Ztac.sexpr plugins/setoid_ring/RealField.sexpr
+theories/Reals/RList.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr
+theories/Reals/ROrderedType.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Structures/Equalities.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersTac.sexpr
+theories/Reals/R_Ifp.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/RIneq.sexpr plugins/micromega/Ztac.sexpr
+theories/Reals/R_sqr.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/RIneq.sexpr theories/Reals/Rbasic_fun.sexpr
+theories/Reals/R_sqrt.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rsqrt_def.sexpr
+theories/Reals/Ranalysis.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rtrigo.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/Ranalysis2.sexpr theories/Reals/Ranalysis3.sexpr theories/Reals/Rtopology.sexpr theories/Reals/MVT.sexpr theories/Reals/PSeries_reg.sexpr theories/Reals/Exp_prop.sexpr theories/Reals/Rtrigo_reg.sexpr theories/Reals/Rsqrt_def.sexpr theories/Reals/R_sqrt.sexpr theories/Reals/Rtrigo_calc.sexpr theories/Reals/Rgeom.sexpr theories/Reals/Sqrt_reg.sexpr theories/Reals/Ranalysis4.sexpr theories/Reals/Rpower.sexpr theories/Reals/Ranalysis_reg.sexpr
+theories/Reals/Ranalysis1.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rlimit.sexpr theories/Reals/Rderiv.sexpr
+theories/Reals/Ranalysis2.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Ranalysis1.sexpr
+theories/Reals/Ranalysis3.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/Ranalysis2.sexpr
+theories/Reals/Ranalysis4.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/Ranalysis3.sexpr theories/Reals/Exp_prop.sexpr theories/Reals/MVT.sexpr
+theories/Reals/Ranalysis5.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Ranalysis_reg.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr plugins/micromega/Lra.sexpr theories/Reals/RiemannInt.sexpr theories/Reals/SeqProp.sexpr theories/Arith/Max.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/Ranalysis_reg.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/Ranalysis2.sexpr theories/Reals/Ranalysis3.sexpr theories/Reals/Rtopology.sexpr theories/Reals/MVT.sexpr theories/Reals/PSeries_reg.sexpr theories/Reals/Exp_prop.sexpr theories/Reals/Rtrigo_reg.sexpr theories/Reals/Rsqrt_def.sexpr theories/Reals/R_sqrt.sexpr theories/Reals/Rtrigo_calc.sexpr theories/Reals/Rgeom.sexpr theories/Reals/Sqrt_reg.sexpr theories/Reals/Ranalysis4.sexpr theories/Reals/Rpower.sexpr
+theories/Reals/Ratan.sexpr:theories/Init/Prelude.sexpr plugins/micromega/Lra.sexpr theories/Reals/Rbase.sexpr theories/Reals/PSeries_reg.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/Ranalysis_reg.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/AltSeries.sexpr theories/Reals/Rseries.sexpr theories/Reals/SeqProp.sexpr theories/Reals/Ranalysis5.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/PartSum.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/Raxioms.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr theories/Reals/ClassicalDedekindReals.sexpr theories/Reals/ConstructiveCauchyReals.sexpr theories/Reals/ConstructiveCauchyRealsMult.sexpr theories/Reals/ConstructiveRcomplete.sexpr theories/Reals/ConstructiveRealsLUB.sexpr theories/Reals/Rdefinitions.sexpr
+theories/Reals/Rbase.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/RIneq.sexpr theories/Reals/DiscrR.sexpr
+theories/Reals/Rbasic_fun.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/RIneq.sexpr theories/Reals/R_Ifp.sexpr
+theories/Reals/Rcomplete.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr theories/Reals/SeqProp.sexpr theories/Arith/Max.sexpr
+theories/Reals/Rdefinitions.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr theories/QArith/QArith_base.sexpr theories/Reals/ConstructiveCauchyReals.sexpr theories/Reals/ConstructiveCauchyRealsMult.sexpr theories/Reals/ClassicalDedekindReals.sexpr
+theories/Reals/Rderiv.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rlimit.sexpr plugins/micromega/Lra.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/Reals.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo.sexpr theories/Reals/Ranalysis.sexpr theories/Reals/Integration.sexpr plugins/micromega/Fourier.sexpr
+theories/Reals/Rfunctions.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/ArithRing.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/RIneq.sexpr theories/Reals/Rpow_def.sexpr theories/Reals/R_Ifp.sexpr theories/Reals/Rbasic_fun.sexpr theories/Reals/R_sqr.sexpr theories/Reals/SplitAbsolu.sexpr theories/Reals/SplitRmult.sexpr theories/Reals/ArithProp.sexpr theories/ZArith/Zpower.sexpr plugins/micromega/Ztac.sexpr
+theories/Reals/Rgeom.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/R_sqrt.sexpr
+theories/Reals/RiemannInt.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Ranalysis_reg.sexpr theories/Reals/Rbase.sexpr theories/Reals/RiemannInt_SF.sexpr theories/Arith/Max.sexpr theories/Reals/RList.sexpr
+theories/Reals/RiemannInt_SF.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Ranalysis_reg.sexpr theories/Logic/Classical_Prop.sexpr theories/Reals/RList.sexpr
+theories/Reals/Rlimit.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr plugins/micromega/Lra.sexpr
+theories/Reals/Rlogic.sexpr:theories/Init/Prelude.sexpr theories/Reals/RIneq.sexpr
+theories/Reals/Rminmax.sexpr:theories/Init/Prelude.sexpr theories/Structures/Orders.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rbasic_fun.sexpr theories/Reals/ROrderedType.sexpr theories/Structures/GenericMinMax.sexpr
+theories/Reals/Rpow_def.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr
+theories/Reals/Rpower.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/Exp_prop.sexpr theories/Reals/Rsqrt_def.sexpr theories/Reals/R_sqrt.sexpr theories/Reals/Sqrt_reg.sexpr theories/Reals/MVT.sexpr theories/Reals/Ranalysis4.sexpr plugins/micromega/Lra.sexpr
+theories/Reals/Rprod.sexpr:theories/Init/Prelude.sexpr theories/Arith/Compare.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr theories/Reals/PartSum.sexpr theories/Reals/Binomial.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/Rregisternames.sexpr:theories/Init/Prelude.sexpr theories/Reals/Reals.sexpr
+theories/Reals/Rseries.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Arith/Compare.sexpr
+theories/Reals/Rsigma.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr theories/Reals/PartSum.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/Rsqrt_def.sexpr:theories/Init/Prelude.sexpr theories/Bool/Sumbool.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Ranalysis1.sexpr
+theories/Reals/Rtopology.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/RList.sexpr theories/Logic/Classical_Prop.sexpr theories/Logic/Classical_Pred_Type.sexpr
+theories/Reals/Rtrigo.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo_fun.sexpr theories/Reals/Rtrigo_def.sexpr theories/Reals/Rtrigo_alt.sexpr theories/Reals/Cos_rel.sexpr theories/Reals/Cos_plus.sexpr theories/ZArith/ZArith_base.sexpr theories/ZArith/Zcomplements.sexpr plugins/micromega/Lra.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/Rsqrt_def.sexpr theories/Reals/PSeries_reg.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/Ratan.sexpr theories/Reals/Machin.sexpr
+theories/Reals/Rtrigo1.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo_fun.sexpr theories/Reals/Rtrigo_def.sexpr theories/Reals/Rtrigo_alt.sexpr theories/Reals/Cos_rel.sexpr theories/Reals/Cos_plus.sexpr theories/ZArith/ZArith_base.sexpr theories/ZArith/Zcomplements.sexpr plugins/micromega/Lia.sexpr plugins/micromega/Lra.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/Rsqrt_def.sexpr theories/Reals/PSeries_reg.sexpr
+theories/Reals/Rtrigo_alt.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo_def.sexpr
+theories/Reals/Rtrigo_calc.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/R_sqrt.sexpr
+theories/Reals/Rtrigo_def.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo_fun.sexpr theories/Arith/Max.sexpr
+theories/Reals/Rtrigo_fun.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr
+theories/Reals/Rtrigo_reg.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/SeqSeries.sexpr theories/Reals/Rtrigo1.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/PSeries_reg.sexpr
+theories/Reals/Runcountable.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/RIneq.sexpr theories/Logic/FinFun.sexpr theories/Logic/ConstructiveEpsilon.sexpr
+theories/Reals/SeqProp.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Rseries.sexpr theories/Arith/Max.sexpr plugins/micromega/Lia.sexpr
+theories/Reals/SeqSeries.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Arith/Max.sexpr theories/Reals/Rseries.sexpr theories/Reals/SeqProp.sexpr theories/Reals/Rcomplete.sexpr theories/Reals/PartSum.sexpr theories/Reals/AltSeries.sexpr theories/Reals/Binomial.sexpr theories/Reals/Rsigma.sexpr theories/Reals/Rprod.sexpr theories/Reals/Cauchy_prod.sexpr theories/Reals/Alembert.sexpr
+theories/Reals/SplitAbsolu.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbasic_fun.sexpr
+theories/Reals/SplitRmult.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Raxioms.sexpr theories/Reals/RIneq.sexpr
+theories/Reals/Sqrt_reg.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/Ranalysis1.sexpr theories/Reals/R_sqrt.sexpr
+theories/Relations/Operators_Properties.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relation_Definitions.sexpr theories/Relations/Relation_Operators.sexpr
+theories/Relations/Relation_Definitions.sexpr:theories/Init/Prelude.sexpr 
+theories/Relations/Relation_Operators.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relation_Definitions.sexpr
+theories/Relations/Relations.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relation_Definitions.sexpr theories/Relations/Relation_Operators.sexpr theories/Relations/Operators_Properties.sexpr
+theories/Setoids/Setoid.sexpr:theories/Init/Prelude.sexpr theories/Classes/SetoidTactics.sexpr plugins/ssr/ssrsetoid.sexpr
+theories/Sets/Classical_sets.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Constructive_sets.sexpr theories/Logic/Classical.sexpr
+theories/Sets/Constructive_sets.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr
+theories/Sets/Cpo.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Relations_1.sexpr theories/Sets/Partial_Order.sexpr
+theories/Sets/Ensembles.sexpr:theories/Init/Prelude.sexpr 
+theories/Sets/Finite_sets.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Constructive_sets.sexpr
+theories/Sets/Finite_sets_facts.sexpr:theories/Init/Prelude.sexpr theories/Sets/Finite_sets.sexpr theories/Sets/Constructive_sets.sexpr theories/Logic/Classical.sexpr theories/Sets/Classical_sets.sexpr theories/Sets/Powerset.sexpr theories/Sets/Powerset_facts.sexpr theories/Sets/Powerset_Classical_facts.sexpr theories/Arith/Gt.sexpr theories/Arith/Lt.sexpr
+theories/Sets/Image.sexpr:theories/Init/Prelude.sexpr theories/Sets/Finite_sets.sexpr theories/Sets/Constructive_sets.sexpr theories/Logic/Classical.sexpr theories/Sets/Classical_sets.sexpr theories/Sets/Powerset.sexpr theories/Sets/Powerset_facts.sexpr theories/Sets/Powerset_Classical_facts.sexpr theories/Arith/Gt.sexpr theories/Arith/Lt.sexpr theories/Arith/Le.sexpr theories/Sets/Finite_sets_facts.sexpr
+theories/Sets/Infinite_sets.sexpr:theories/Init/Prelude.sexpr theories/Sets/Finite_sets.sexpr theories/Sets/Constructive_sets.sexpr theories/Logic/Classical.sexpr theories/Sets/Classical_sets.sexpr theories/Sets/Powerset.sexpr theories/Sets/Powerset_facts.sexpr theories/Sets/Powerset_Classical_facts.sexpr theories/Arith/Gt.sexpr theories/Arith/Lt.sexpr theories/Arith/Le.sexpr theories/Sets/Finite_sets_facts.sexpr theories/Sets/Image.sexpr
+theories/Sets/Integers.sexpr:theories/Init/Prelude.sexpr theories/Sets/Finite_sets.sexpr theories/Sets/Constructive_sets.sexpr theories/Logic/Classical.sexpr theories/Sets/Classical_sets.sexpr theories/Sets/Powerset.sexpr theories/Sets/Powerset_facts.sexpr theories/Sets/Powerset_Classical_facts.sexpr theories/Arith/Gt.sexpr theories/Arith/Lt.sexpr theories/Arith/Le.sexpr theories/Sets/Finite_sets_facts.sexpr theories/Sets/Image.sexpr theories/Sets/Infinite_sets.sexpr theories/Arith/Compare_dec.sexpr theories/Sets/Relations_1.sexpr theories/Sets/Partial_Order.sexpr theories/Sets/Cpo.sexpr
+theories/Sets/Multiset.sexpr:theories/Init/Prelude.sexpr theories/Sets/Permut.sexpr theories/Setoids/Setoid.sexpr theories/Arith/Plus.sexpr
+theories/Sets/Partial_Order.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Relations_1.sexpr
+theories/Sets/Permut.sexpr:theories/Init/Prelude.sexpr 
+theories/Sets/Powerset.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Relations_1.sexpr theories/Sets/Relations_1_facts.sexpr theories/Sets/Partial_Order.sexpr theories/Sets/Cpo.sexpr
+theories/Sets/Powerset_Classical_facts.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Constructive_sets.sexpr theories/Sets/Relations_1.sexpr theories/Sets/Relations_1_facts.sexpr theories/Sets/Partial_Order.sexpr theories/Sets/Cpo.sexpr theories/Sets/Powerset.sexpr theories/Sets/Powerset_facts.sexpr theories/Logic/Classical.sexpr theories/Sets/Classical_sets.sexpr
+theories/Sets/Powerset_facts.sexpr:theories/Init/Prelude.sexpr theories/Sets/Ensembles.sexpr theories/Sets/Constructive_sets.sexpr theories/Sets/Relations_1.sexpr theories/Sets/Relations_1_facts.sexpr theories/Sets/Partial_Order.sexpr theories/Sets/Cpo.sexpr theories/Sets/Powerset.sexpr
+theories/Sets/Relations_1.sexpr:theories/Init/Prelude.sexpr 
+theories/Sets/Relations_1_facts.sexpr:theories/Init/Prelude.sexpr theories/Sets/Relations_1.sexpr
+theories/Sets/Relations_2.sexpr:theories/Init/Prelude.sexpr theories/Sets/Relations_1.sexpr
+theories/Sets/Relations_2_facts.sexpr:theories/Init/Prelude.sexpr theories/Sets/Relations_1.sexpr theories/Sets/Relations_1_facts.sexpr theories/Sets/Relations_2.sexpr
+theories/Sets/Relations_3.sexpr:theories/Init/Prelude.sexpr theories/Sets/Relations_1.sexpr theories/Sets/Relations_2.sexpr
+theories/Sets/Relations_3_facts.sexpr:theories/Init/Prelude.sexpr theories/Sets/Relations_1.sexpr theories/Sets/Relations_1_facts.sexpr theories/Sets/Relations_2.sexpr theories/Sets/Relations_2_facts.sexpr theories/Sets/Relations_3.sexpr
+theories/Sets/Uniset.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Sets/Permut.sexpr
+theories/Sorting/Heap.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Sets/Multiset.sexpr theories/Sorting/PermutSetoid.sexpr theories/Relations/Relations.sexpr theories/Sorting/Sorting.sexpr
+theories/Sorting/Mergesort.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Setoids/Setoid.sexpr theories/Sorting/Permutation.sexpr theories/Sorting/Sorted.sexpr theories/Structures/Orders.sexpr
+theories/Sorting/PermutEq.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relations.sexpr theories/Setoids/Setoid.sexpr theories/Lists/SetoidList.sexpr theories/Lists/List.sexpr theories/Sets/Multiset.sexpr theories/Sorting/PermutSetoid.sexpr theories/Sorting/Permutation.sexpr plugins/omega/Omega.sexpr
+theories/Sorting/PermutSetoid.sexpr:theories/Init/Prelude.sexpr plugins/omega/Omega.sexpr theories/Relations/Relations.sexpr theories/Sets/Multiset.sexpr theories/Lists/SetoidList.sexpr theories/Sorting/Permutation.sexpr
+theories/Sorting/Permutation.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Setoids/Setoid.sexpr theories/Arith/Compare_dec.sexpr theories/Classes/Morphisms.sexpr theories/Logic/FinFun.sexpr
+theories/Sorting/Sorted.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Relations/Relations.sexpr theories/Sets/Relations_1.sexpr
+theories/Sorting/Sorting.sexpr:theories/Init/Prelude.sexpr theories/Sorting/Sorted.sexpr theories/Sorting/Mergesort.sexpr
+theories/Strings/Ascii.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/Arith/PeanoNat.sexpr theories/NArith/Nnat.sexpr theories/Strings/Byte.sexpr
+theories/Strings/BinaryString.sexpr:theories/Init/Prelude.sexpr theories/Strings/Ascii.sexpr theories/Strings/String.sexpr theories/Numbers/BinNums.sexpr
+theories/Strings/Byte.sexpr:theories/Init/Prelude.sexpr theories/Arith/EqNat.sexpr theories/NArith/BinNat.sexpr theories/NArith/Nnat.sexpr theories/Init/Byte.sexpr
+theories/Strings/ByteVector.sexpr:theories/Init/Prelude.sexpr theories/Strings/Ascii.sexpr theories/Program/Basics.sexpr theories/Bool/Bvector.sexpr theories/Strings/String.sexpr theories/Vectors/Vector.sexpr
+theories/Strings/HexString.sexpr:theories/Init/Prelude.sexpr theories/Strings/Ascii.sexpr theories/Strings/String.sexpr theories/Numbers/BinNums.sexpr
+theories/Strings/OctalString.sexpr:theories/Init/Prelude.sexpr theories/Strings/Ascii.sexpr theories/Strings/String.sexpr theories/Numbers/BinNums.sexpr
+theories/Strings/String.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith.sexpr theories/Strings/Ascii.sexpr theories/Bool/Bool.sexpr theories/Strings/Byte.sexpr
+theories/Structures/DecidableType.sexpr:theories/Init/Prelude.sexpr theories/Lists/SetoidList.sexpr theories/Structures/Equalities.sexpr
+theories/Structures/DecidableTypeEx.sexpr:theories/Init/Prelude.sexpr theories/Structures/DecidableType.sexpr theories/Structures/OrderedType.sexpr theories/Structures/OrderedTypeEx.sexpr
+theories/Structures/Equalities.sexpr:theories/Init/Prelude.sexpr theories/Classes/RelationClasses.sexpr theories/Bool/Bool.sexpr theories/Classes/Morphisms.sexpr theories/Setoids/Setoid.sexpr
+theories/Structures/EqualitiesFacts.sexpr:theories/Init/Prelude.sexpr theories/Structures/Equalities.sexpr theories/Bool/Bool.sexpr theories/Lists/SetoidList.sexpr theories/Classes/RelationPairs.sexpr
+theories/Structures/GenericMinMax.sexpr:theories/Init/Prelude.sexpr theories/Structures/Orders.sexpr theories/Structures/OrdersTac.sexpr theories/Structures/OrdersFacts.sexpr theories/Setoids/Setoid.sexpr theories/Classes/Morphisms.sexpr theories/Program/Basics.sexpr
+theories/Structures/OrderedType.sexpr:theories/Init/Prelude.sexpr theories/Lists/SetoidList.sexpr theories/Classes/Morphisms.sexpr theories/Structures/OrdersTac.sexpr
+theories/Structures/OrderedTypeAlt.sexpr:theories/Init/Prelude.sexpr theories/Structures/OrderedType.sexpr
+theories/Structures/OrderedTypeEx.sexpr:theories/Init/Prelude.sexpr theories/Structures/OrderedType.sexpr theories/ZArith/ZArith_base.sexpr theories/Arith/PeanoNat.sexpr theories/Strings/Ascii.sexpr theories/Strings/String.sexpr theories/NArith/NArith.sexpr theories/NArith/Ndec.sexpr theories/Arith/Compare_dec.sexpr
+theories/Structures/Orders.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relations.sexpr theories/Classes/Morphisms.sexpr theories/Setoids/Setoid.sexpr theories/Structures/Equalities.sexpr
+theories/Structures/OrdersAlt.sexpr:theories/Init/Prelude.sexpr theories/Structures/OrderedType.sexpr theories/Structures/Orders.sexpr
+theories/Structures/OrdersEx.sexpr:theories/Init/Prelude.sexpr theories/Structures/Orders.sexpr theories/Arith/PeanoNat.sexpr theories/PArith/POrderedType.sexpr theories/NArith/BinNat.sexpr theories/ZArith/BinInt.sexpr theories/Classes/RelationPairs.sexpr theories/Structures/EqualitiesFacts.sexpr
+theories/Structures/OrdersFacts.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Program/Basics.sexpr theories/Structures/OrdersTac.sexpr theories/Structures/Orders.sexpr
+theories/Structures/OrdersLists.sexpr:theories/Init/Prelude.sexpr theories/Classes/RelationPairs.sexpr theories/Lists/SetoidList.sexpr theories/Structures/Orders.sexpr theories/Structures/EqualitiesFacts.sexpr
+theories/Structures/OrdersTac.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr theories/Classes/Morphisms.sexpr theories/Program/Basics.sexpr theories/Structures/Equalities.sexpr theories/Structures/Orders.sexpr
+theories/Unicode/Utf8.sexpr:theories/Init/Prelude.sexpr theories/Unicode/Utf8_core.sexpr
+theories/Unicode/Utf8_core.sexpr:theories/Init/Prelude.sexpr 
+theories/Vectors/Fin.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith_base.sexpr
+theories/Vectors/Vector.sexpr:theories/Init/Prelude.sexpr theories/Vectors/Fin.sexpr theories/Vectors/VectorDef.sexpr theories/Vectors/VectorSpec.sexpr theories/Vectors/VectorEq.sexpr
+theories/Vectors/VectorDef.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith_base.sexpr theories/Vectors/Fin.sexpr
+theories/Vectors/VectorEq.sexpr:theories/Init/Prelude.sexpr theories/Vectors/VectorDef.sexpr theories/Vectors/VectorSpec.sexpr
+theories/Vectors/VectorSpec.sexpr:theories/Init/Prelude.sexpr theories/Vectors/Fin.sexpr theories/Vectors/VectorDef.sexpr
+theories/Wellfounded/Disjoint_Union.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relation_Operators.sexpr
+theories/Wellfounded/Inclusion.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relation_Definitions.sexpr
+theories/Wellfounded/Inverse_Image.sexpr:theories/Init/Prelude.sexpr 
+theories/Wellfounded/Lexicographic_Exponentiation.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Relations/Relation_Operators.sexpr theories/Relations/Operators_Properties.sexpr theories/Wellfounded/Transitive_Closure.sexpr
+theories/Wellfounded/Lexicographic_Product.sexpr:theories/Init/Prelude.sexpr theories/Logic/Eqdep.sexpr theories/Relations/Relation_Operators.sexpr theories/Wellfounded/Transitive_Closure.sexpr
+theories/Wellfounded/Transitive_Closure.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relation_Definitions.sexpr theories/Relations/Relation_Operators.sexpr
+theories/Wellfounded/Union.sexpr:theories/Init/Prelude.sexpr theories/Relations/Relation_Operators.sexpr theories/Relations/Relation_Definitions.sexpr theories/Wellfounded/Transitive_Closure.sexpr
+theories/Wellfounded/Well_Ordering.sexpr:theories/Init/Prelude.sexpr theories/Logic/Eqdep.sexpr
+theories/Wellfounded/Wellfounded.sexpr:theories/Init/Prelude.sexpr theories/Wellfounded/Disjoint_Union.sexpr theories/Wellfounded/Inclusion.sexpr theories/Wellfounded/Inverse_Image.sexpr theories/Wellfounded/Lexicographic_Exponentiation.sexpr theories/Wellfounded/Lexicographic_Product.sexpr theories/Wellfounded/Transitive_Closure.sexpr theories/Wellfounded/Union.sexpr theories/Wellfounded/Well_Ordering.sexpr
+theories/ZArith/BinInt.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr theories/PArith/BinPos.sexpr theories/PArith/Pnat.sexpr theories/NArith/BinNat.sexpr theories/Bool/Bool.sexpr theories/Structures/Equalities.sexpr theories/Structures/GenericMinMax.sexpr theories/Structures/OrdersFacts.sexpr theories/Numbers/Integer/Abstract/ZAxioms.sexpr theories/Numbers/Integer/Abstract/ZProperties.sexpr theories/ZArith/BinIntDef.sexpr
+theories/ZArith/BinIntDef.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr
+theories/ZArith/Int.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr
+theories/ZArith/Wf_Z.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/Zorder.sexpr theories/ZArith/Znat.sexpr theories/ZArith/Zmisc.sexpr theories/Arith/Wf_nat.sexpr
+theories/ZArith/ZArith.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr theories/ZArith/Zpow_def.sexpr plugins/omega/Omega.sexpr theories/ZArith/Zcomplements.sexpr theories/ZArith/Zpower.sexpr theories/ZArith/Zdiv.sexpr
+theories/ZArith/ZArith_base.sexpr:theories/Init/Prelude.sexpr theories/Numbers/BinNums.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/Zorder.sexpr theories/ZArith/Zeven.sexpr theories/ZArith/Zminmax.sexpr theories/ZArith/Zmin.sexpr theories/ZArith/Zmax.sexpr theories/ZArith/Zabs.sexpr theories/ZArith/Znat.sexpr theories/ZArith/auxiliary.sexpr theories/ZArith/ZArith_dec.sexpr theories/ZArith/Zbool.sexpr theories/ZArith/Zmisc.sexpr theories/ZArith/Wf_Z.sexpr theories/ZArith/Zhints.sexpr
+theories/ZArith/ZArith_dec.sexpr:theories/Init/Prelude.sexpr theories/Bool/Sumbool.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zorder.sexpr theories/ZArith/Zcompare.sexpr
+theories/ZArith/Zabs.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith_base.sexpr theories/PArith/BinPos.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/Zorder.sexpr theories/ZArith/Znat.sexpr theories/ZArith/ZArith_dec.sexpr
+theories/ZArith/Zbool.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zeven.sexpr theories/ZArith/Zorder.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/ZArith_dec.sexpr theories/Bool/Sumbool.sexpr
+theories/ZArith/Zcompare.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/ZArith/BinInt.sexpr theories/Arith/Lt.sexpr theories/Arith/Gt.sexpr theories/Arith/Plus.sexpr theories/Arith/Mult.sexpr
+theories/ZArith/Zcomplements.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/ZArithRing.sexpr theories/ZArith/ZArith_base.sexpr theories/Arith/Wf_nat.sexpr theories/Lists/List.sexpr
+theories/ZArith/Zdigits.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bvector.sexpr theories/ZArith/ZArith.sexpr theories/ZArith/Zpower.sexpr plugins/micromega/Lia.sexpr
+theories/ZArith/Zdiv.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr theories/ZArith/Zbool.sexpr plugins/setoid_ring/ZArithRing.sexpr theories/ZArith/Zcomplements.sexpr theories/Setoids/Setoid.sexpr theories/Classes/Morphisms.sexpr theories/Arith/PeanoNat.sexpr
+theories/ZArith/Zeuclid.sexpr:theories/Init/Prelude.sexpr theories/Classes/Morphisms.sexpr theories/ZArith/BinInt.sexpr theories/Numbers/Integer/Abstract/ZDivEucl.sexpr
+theories/ZArith/Zeven.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr
+theories/ZArith/Zgcd_alt.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr plugins/setoid_ring/ZArithRing.sexpr theories/ZArith/Zdiv.sexpr theories/ZArith/Znumtheory.sexpr plugins/micromega/Lia.sexpr
+theories/ZArith/Zhints.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zorder.sexpr theories/ZArith/Zmin.sexpr theories/ZArith/Zabs.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/Znat.sexpr theories/ZArith/auxiliary.sexpr theories/ZArith/Zmisc.sexpr theories/ZArith/Wf_Z.sexpr
+theories/ZArith/Zmax.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/Zorder.sexpr
+theories/ZArith/Zmin.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/Zorder.sexpr
+theories/ZArith/Zminmax.sexpr:theories/Init/Prelude.sexpr theories/Structures/Orders.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/Zorder.sexpr
+theories/ZArith/Zmisc.sexpr:theories/Init/Prelude.sexpr theories/Arith/Wf_nat.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zcompare.sexpr theories/ZArith/Zorder.sexpr theories/Bool/Bool.sexpr
+theories/ZArith/Znat.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith_base.sexpr theories/PArith/BinPos.sexpr theories/ZArith/BinInt.sexpr theories/NArith/BinNat.sexpr theories/PArith/Pnat.sexpr theories/NArith/Nnat.sexpr
+theories/ZArith/Znumtheory.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr plugins/setoid_ring/ZArithRing.sexpr theories/ZArith/Zcomplements.sexpr theories/ZArith/Zdiv.sexpr theories/Arith/Wf_nat.sexpr
+theories/ZArith/Zorder.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/ZArith/BinInt.sexpr theories/Logic/Decidable.sexpr theories/ZArith/Zcompare.sexpr theories/Arith/Arith_base.sexpr
+theories/ZArith/Zpow_alt.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr
+theories/ZArith/Zpow_def.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr plugins/setoid_ring/Ring_theory.sexpr
+theories/ZArith/Zpow_facts.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr plugins/setoid_ring/ZArithRing.sexpr plugins/micromega/Lia.sexpr theories/ZArith/Zcomplements.sexpr theories/ZArith/Zdiv.sexpr theories/ZArith/Znumtheory.sexpr theories/ZArith/Zpower.sexpr
+theories/ZArith/Zpower.sexpr:theories/Init/Prelude.sexpr theories/Arith/Wf_nat.sexpr theories/ZArith/ZArith_base.sexpr theories/ZArith/Zcomplements.sexpr theories/ZArith/Zpow_def.sexpr
+theories/ZArith/Zquot.sexpr:theories/Init/Prelude.sexpr theories/NArith/Nnat.sexpr theories/ZArith/ZArith_base.sexpr plugins/micromega/Lia.sexpr plugins/setoid_ring/ZArithRing.sexpr theories/ZArith/Zdiv.sexpr theories/Classes/Morphisms.sexpr
+theories/ZArith/Zwf.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr theories/Arith/Wf_nat.sexpr plugins/micromega/Lia.sexpr
+theories/ZArith/auxiliary.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith_base.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Zorder.sexpr theories/Logic/Decidable.sexpr theories/Arith/Peano_dec.sexpr theories/Arith/Compare_dec.sexpr
+plugins/btauto/Algebra.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/PArith/PArith.sexpr theories/Classes/DecidableClass.sexpr plugins/setoid_ring/Ring.sexpr plugins/omega/Omega.sexpr plugins/micromega/Lia.sexpr
+plugins/btauto/Btauto.sexpr:theories/Init/Prelude.sexpr plugins/btauto/Algebra.sexpr plugins/btauto/Reflect.sexpr
+plugins/btauto/Reflect.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/Classes/DecidableClass.sexpr plugins/btauto/Algebra.sexpr plugins/setoid_ring/Ring.sexpr theories/PArith/PArith.sexpr plugins/omega/Omega.sexpr
+plugins/derive/Derive.sexpr:theories/Init/Prelude.sexpr 
+plugins/extraction/ExtrHaskellBasic.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr
+plugins/extraction/ExtrHaskellNatInt.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Arith/Arith.sexpr plugins/extraction/ExtrHaskellNatNum.sexpr
+plugins/extraction/ExtrHaskellNatInteger.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Arith/Arith.sexpr plugins/extraction/ExtrHaskellNatNum.sexpr
+plugins/extraction/ExtrHaskellNatNum.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Arith/Arith.sexpr theories/Arith/EqNat.sexpr
+plugins/extraction/ExtrHaskellString.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Strings/Ascii.sexpr theories/Strings/String.sexpr theories/Strings/Byte.sexpr
+plugins/extraction/ExtrHaskellZInt.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/ZArith/ZArith.sexpr plugins/extraction/ExtrHaskellZNum.sexpr
+plugins/extraction/ExtrHaskellZInteger.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/ZArith/ZArith.sexpr plugins/extraction/ExtrHaskellZNum.sexpr
+plugins/extraction/ExtrHaskellZNum.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/ZArith/ZArith.sexpr theories/Arith/EqNat.sexpr
+plugins/extraction/ExtrOCamlFloats.sexpr:theories/Init/Prelude.sexpr theories/Floats/Floats.sexpr plugins/extraction/Extraction.sexpr
+plugins/extraction/ExtrOCamlInt63.sexpr:theories/Init/Prelude.sexpr theories/Numbers/Cyclic/Int63/Int63.sexpr plugins/extraction/Extraction.sexpr
+plugins/extraction/ExtrOcamlBasic.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr
+plugins/extraction/ExtrOcamlBigIntConv.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Arith/Arith.sexpr theories/ZArith/ZArith.sexpr
+plugins/extraction/ExtrOcamlIntConv.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Arith/Arith.sexpr theories/ZArith/ZArith.sexpr
+plugins/extraction/ExtrOcamlNatBigInt.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Arith/Arith.sexpr theories/Arith/Even.sexpr theories/Arith/Div2.sexpr theories/Arith/EqNat.sexpr theories/Arith/Euclid.sexpr plugins/extraction/ExtrOcamlBasic.sexpr
+plugins/extraction/ExtrOcamlNatInt.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Arith/Arith.sexpr theories/Arith/Even.sexpr theories/Arith/Div2.sexpr theories/Arith/EqNat.sexpr theories/Arith/Euclid.sexpr plugins/extraction/ExtrOcamlBasic.sexpr
+plugins/extraction/ExtrOcamlString.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/Strings/Ascii.sexpr theories/Strings/String.sexpr theories/Strings/Byte.sexpr
+plugins/extraction/ExtrOcamlZBigInt.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/ZArith/ZArith.sexpr theories/NArith/NArith.sexpr plugins/extraction/ExtrOcamlBasic.sexpr
+plugins/extraction/ExtrOcamlZInt.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr theories/ZArith/ZArith.sexpr theories/NArith/NArith.sexpr plugins/extraction/ExtrOcamlBasic.sexpr
+plugins/extraction/Extraction.sexpr:theories/Init/Prelude.sexpr 
+plugins/funind/FunInd.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr
+plugins/funind/Recdef.sexpr:theories/Init/Prelude.sexpr plugins/funind/FunInd.sexpr theories/Arith/PeanoNat.sexpr theories/Arith/Compare_dec.sexpr theories/Arith/Wf_nat.sexpr
+plugins/ltac/Ltac.sexpr:theories/Init/Prelude.sexpr 
+plugins/micromega/DeclConstant.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/QArith/QArith_base.sexpr
+plugins/micromega/Env.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr theories/Lists/List.sexpr
+plugins/micromega/EnvRing.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr theories/Classes/Morphisms.sexpr plugins/micromega/Env.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/ZArith/BinInt.sexpr plugins/setoid_ring/Ring_theory.sexpr
+plugins/micromega/Fourier.sexpr:theories/Init/Prelude.sexpr plugins/micromega/Lra.sexpr plugins/micromega/Fourier_util.sexpr
+plugins/micromega/Fourier_util.sexpr:theories/Init/Prelude.sexpr theories/Reals/Rbase.sexpr plugins/micromega/Lra.sexpr
+plugins/micromega/Lia.sexpr:theories/Init/Prelude.sexpr plugins/micromega/ZMicromega.sexpr theories/ZArith/ZArith_base.sexpr plugins/micromega/RingMicromega.sexpr plugins/micromega/VarMap.sexpr plugins/micromega/DeclConstant.sexpr plugins/micromega/Tauto.sexpr
+plugins/micromega/Lqa.sexpr:theories/Init/Prelude.sexpr plugins/micromega/QMicromega.sexpr theories/QArith/QArith.sexpr plugins/micromega/RingMicromega.sexpr plugins/micromega/VarMap.sexpr plugins/micromega/DeclConstant.sexpr plugins/micromega/Tauto.sexpr
+plugins/micromega/Lra.sexpr:theories/Init/Prelude.sexpr plugins/micromega/RMicromega.sexpr plugins/micromega/QMicromega.sexpr theories/Reals/Rdefinitions.sexpr plugins/micromega/RingMicromega.sexpr plugins/micromega/VarMap.sexpr plugins/micromega/Tauto.sexpr
+plugins/micromega/MExtraction.sexpr:theories/Init/Prelude.sexpr plugins/extraction/Extraction.sexpr plugins/micromega/ZMicromega.sexpr plugins/micromega/QMicromega.sexpr plugins/micromega/RMicromega.sexpr plugins/micromega/VarMap.sexpr plugins/micromega/RingMicromega.sexpr theories/NArith/NArith.sexpr theories/QArith/QArith.sexpr
+plugins/micromega/OrderedRing.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr plugins/setoid_ring/Ring.sexpr
+plugins/micromega/Psatz.sexpr:theories/Init/Prelude.sexpr plugins/micromega/ZMicromega.sexpr plugins/micromega/QMicromega.sexpr plugins/micromega/RMicromega.sexpr theories/QArith/QArith.sexpr theories/ZArith/ZArith.sexpr theories/Reals/Rdefinitions.sexpr plugins/micromega/RingMicromega.sexpr plugins/micromega/VarMap.sexpr plugins/micromega/Tauto.sexpr plugins/micromega/Lia.sexpr plugins/micromega/Lra.sexpr plugins/micromega/Lqa.sexpr
+plugins/micromega/QMicromega.sexpr:theories/Init/Prelude.sexpr plugins/micromega/OrderedRing.sexpr plugins/micromega/RingMicromega.sexpr plugins/micromega/Refl.sexpr theories/QArith/QArith.sexpr theories/QArith/Qfield.sexpr plugins/micromega/EnvRing.sexpr theories/Lists/List.sexpr plugins/micromega/Tauto.sexpr
+plugins/micromega/RMicromega.sexpr:theories/Init/Prelude.sexpr plugins/micromega/OrderedRing.sexpr plugins/micromega/RingMicromega.sexpr plugins/micromega/Refl.sexpr theories/Reals/Raxioms.sexpr theories/Reals/Rfunctions.sexpr theories/Reals/RIneq.sexpr theories/Reals/Rpow_def.sexpr theories/QArith/QArith.sexpr theories/QArith/Qfield.sexpr theories/QArith/Qreals.sexpr plugins/micromega/DeclConstant.sexpr plugins/micromega/Ztac.sexpr theories/Setoids/Setoid.sexpr plugins/micromega/EnvRing.sexpr theories/Lists/List.sexpr plugins/micromega/Tauto.sexpr
+plugins/micromega/Refl.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Setoids/Setoid.sexpr
+plugins/micromega/RingMicromega.sexpr:theories/Init/Prelude.sexpr theories/NArith/NArith.sexpr theories/Relations/Relation_Definitions.sexpr theories/Setoids/Setoid.sexpr plugins/micromega/Env.sexpr plugins/micromega/EnvRing.sexpr theories/Lists/List.sexpr theories/Bool/Bool.sexpr plugins/micromega/OrderedRing.sexpr plugins/micromega/Refl.sexpr plugins/micromega/Tauto.sexpr
+plugins/micromega/Tauto.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr plugins/micromega/Refl.sexpr theories/Bool/Bool.sexpr
+plugins/micromega/VarMap.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr theories/Arith/Max.sexpr theories/Lists/List.sexpr
+plugins/micromega/ZCoeff.sexpr:theories/Init/Prelude.sexpr plugins/micromega/OrderedRing.sexpr plugins/micromega/RingMicromega.sexpr theories/ZArith/ZArith_base.sexpr plugins/setoid_ring/InitialRing.sexpr theories/Setoids/Setoid.sexpr plugins/setoid_ring/ZArithRing.sexpr
+plugins/micromega/ZMicromega.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Bool/Bool.sexpr plugins/micromega/OrderedRing.sexpr plugins/micromega/RingMicromega.sexpr plugins/micromega/ZCoeff.sexpr plugins/micromega/Refl.sexpr theories/ZArith/ZArith_base.sexpr plugins/setoid_ring/ZArithRing.sexpr plugins/micromega/Ztac.sexpr plugins/omega/PreOmega.sexpr plugins/micromega/EnvRing.sexpr plugins/micromega/Tauto.sexpr theories/Numbers/BinNums.sexpr theories/ZArith/Zdiv.sexpr theories/ZArith/Znumtheory.sexpr theories/QArith/QArith.sexpr theories/Arith/Wf_nat.sexpr plugins/micromega/VarMap.sexpr
+plugins/micromega/Zify.sexpr:theories/Init/Prelude.sexpr plugins/micromega/ZifyClasses.sexpr plugins/micromega/ZifyInst.sexpr plugins/setoid_ring/InitialRing.sexpr
+plugins/micromega/ZifyBool.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/ZArith/ZArith.sexpr plugins/micromega/Zify.sexpr plugins/micromega/ZifyClasses.sexpr
+plugins/micromega/ZifyClasses.sexpr:theories/Init/Prelude.sexpr 
+plugins/micromega/ZifyComparison.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr theories/ZArith/ZArith.sexpr plugins/micromega/ZifyClasses.sexpr
+plugins/micromega/ZifyInst.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith.sexpr theories/Arith/Max.sexpr theories/Arith/Min.sexpr theories/ZArith/BinInt.sexpr theories/NArith/BinNat.sexpr theories/ZArith/Znat.sexpr theories/NArith/Nnat.sexpr plugins/micromega/ZifyClasses.sexpr
+plugins/micromega/ZifyPow.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith.sexpr theories/Arith/Max.sexpr theories/Arith/Min.sexpr theories/ZArith/BinInt.sexpr theories/NArith/BinNat.sexpr theories/ZArith/Znat.sexpr theories/NArith/Nnat.sexpr plugins/micromega/ZifyClasses.sexpr plugins/micromega/ZifyInst.sexpr
+plugins/micromega/Ztac.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/ZArithRing.sexpr theories/ZArith/ZArith_base.sexpr
+plugins/nsatz/Nsatz.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Setoids/Setoid.sexpr theories/PArith/BinPos.sexpr plugins/setoid_ring/BinList.sexpr theories/ZArith/Znumtheory.sexpr theories/Classes/Morphisms.sexpr theories/Bool/Bool.sexpr plugins/setoid_ring/Algebra_syntax.sexpr plugins/setoid_ring/Ncring.sexpr plugins/setoid_ring/Ncring_initial.sexpr plugins/setoid_ring/Ncring_tac.sexpr plugins/setoid_ring/Integral_domain.sexpr theories/Reals/DiscrR.sexpr theories/ZArith/ZArith.sexpr theories/Reals/Reals.sexpr plugins/setoid_ring/RealField.sexpr theories/QArith/QArith.sexpr
+plugins/omega/Omega.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr plugins/omega/OmegaLemmas.sexpr plugins/omega/PreOmega.sexpr theories/ZArith/Zhints.sexpr
+plugins/omega/OmegaLemmas.sexpr:theories/Init/Prelude.sexpr theories/ZArith/BinInt.sexpr theories/ZArith/Znat.sexpr
+plugins/omega/OmegaPlugin.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr plugins/omega/OmegaLemmas.sexpr plugins/omega/PreOmega.sexpr
+plugins/omega/OmegaTactic.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr plugins/omega/OmegaLemmas.sexpr plugins/omega/PreOmega.sexpr
+plugins/omega/PreOmega.sexpr:theories/Init/Prelude.sexpr theories/Arith/Arith.sexpr theories/Arith/Max.sexpr theories/Arith/Min.sexpr theories/ZArith/BinInt.sexpr theories/NArith/BinNat.sexpr theories/ZArith/Znat.sexpr theories/NArith/Nnat.sexpr plugins/micromega/ZifyClasses.sexpr plugins/micromega/ZifyInst.sexpr plugins/micromega/Zify.sexpr
+plugins/rtauto/Bintree.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/PArith/BinPos.sexpr theories/Arith/EqNat.sexpr
+plugins/rtauto/Rtauto.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr plugins/rtauto/Bintree.sexpr theories/Bool/Bool.sexpr theories/PArith/BinPos.sexpr
+plugins/setoid_ring/Algebra_syntax.sexpr:theories/Init/Prelude.sexpr 
+plugins/setoid_ring/ArithRing.sexpr:theories/Init/Prelude.sexpr theories/Arith/Mult.sexpr theories/NArith/BinNat.sexpr theories/NArith/Nnat.sexpr plugins/setoid_ring/Ring.sexpr
+plugins/setoid_ring/BinList.sexpr:theories/Init/Prelude.sexpr theories/PArith/BinPos.sexpr theories/Lists/List.sexpr
+plugins/setoid_ring/Cring.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Setoids/Setoid.sexpr theories/PArith/BinPos.sexpr plugins/setoid_ring/BinList.sexpr theories/ZArith/Znumtheory.sexpr theories/Classes/Morphisms.sexpr theories/Bool/Bool.sexpr theories/ZArith/ZArith_base.sexpr plugins/setoid_ring/Algebra_syntax.sexpr plugins/setoid_ring/Ncring.sexpr plugins/setoid_ring/Ncring_initial.sexpr plugins/setoid_ring/Ncring_tac.sexpr plugins/setoid_ring/InitialRing.sexpr
+plugins/setoid_ring/Field.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Field_theory.sexpr plugins/setoid_ring/Field_tac.sexpr
+plugins/setoid_ring/Field_tac.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Ring_tac.sexpr plugins/setoid_ring/BinList.sexpr plugins/setoid_ring/Ring_polynom.sexpr plugins/setoid_ring/InitialRing.sexpr plugins/setoid_ring/Field_theory.sexpr
+plugins/setoid_ring/Field_theory.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Ring.sexpr theories/ZArith/ZArith_base.sexpr
+plugins/setoid_ring/InitialRing.sexpr:theories/Init/Prelude.sexpr theories/ZArith/Zbool.sexpr theories/ZArith/BinInt.sexpr theories/NArith/BinNat.sexpr theories/Setoids/Setoid.sexpr plugins/setoid_ring/Ring_theory.sexpr plugins/setoid_ring/Ring_polynom.sexpr
+plugins/setoid_ring/Integral_domain.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Cring.sexpr
+plugins/setoid_ring/NArithRing.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Ring.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr
+plugins/setoid_ring/Ncring.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/Classes/Morphisms.sexpr theories/Bool/Bool.sexpr theories/ZArith/ZArith_base.sexpr plugins/setoid_ring/Algebra_syntax.sexpr
+plugins/setoid_ring/Ncring_initial.sexpr:theories/Init/Prelude.sexpr theories/ZArith/ZArith_base.sexpr theories/ZArith/Zpow_def.sexpr theories/ZArith/BinInt.sexpr theories/NArith/BinNat.sexpr theories/Setoids/Setoid.sexpr plugins/setoid_ring/BinList.sexpr theories/PArith/BinPos.sexpr plugins/setoid_ring/Ncring.sexpr plugins/setoid_ring/Ncring_polynom.sexpr
+plugins/setoid_ring/Ncring_polynom.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr plugins/setoid_ring/BinList.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/ZArith/BinInt.sexpr plugins/setoid_ring/Ring_polynom.sexpr plugins/setoid_ring/Ncring.sexpr
+plugins/setoid_ring/Ncring_tac.sexpr:theories/Init/Prelude.sexpr theories/Lists/List.sexpr theories/Setoids/Setoid.sexpr theories/PArith/BinPos.sexpr plugins/setoid_ring/BinList.sexpr theories/ZArith/Znumtheory.sexpr theories/Classes/Morphisms.sexpr theories/Bool/Bool.sexpr theories/ZArith/ZArith.sexpr plugins/setoid_ring/Algebra_syntax.sexpr plugins/setoid_ring/Ncring.sexpr plugins/setoid_ring/Ncring_polynom.sexpr plugins/setoid_ring/Ncring_initial.sexpr
+plugins/setoid_ring/RealField.sexpr:theories/Init/Prelude.sexpr theories/NArith/Nnat.sexpr plugins/setoid_ring/ArithRing.sexpr plugins/setoid_ring/Ring.sexpr plugins/setoid_ring/Field.sexpr theories/Reals/Rdefinitions.sexpr theories/Reals/Rpow_def.sexpr theories/Reals/Raxioms.sexpr
+plugins/setoid_ring/Ring.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr plugins/setoid_ring/Ring_theory.sexpr plugins/setoid_ring/Ring_base.sexpr plugins/setoid_ring/InitialRing.sexpr plugins/setoid_ring/Ring_tac.sexpr
+plugins/setoid_ring/Ring_base.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Ring_theory.sexpr plugins/setoid_ring/Ring_tac.sexpr plugins/setoid_ring/InitialRing.sexpr
+plugins/setoid_ring/Ring_polynom.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr theories/Classes/Morphisms.sexpr plugins/setoid_ring/BinList.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr theories/ZArith/BinInt.sexpr plugins/setoid_ring/Ring_theory.sexpr
+plugins/setoid_ring/Ring_tac.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr theories/PArith/BinPos.sexpr plugins/setoid_ring/Ring_polynom.sexpr plugins/setoid_ring/BinList.sexpr theories/Lists/ListTactics.sexpr plugins/setoid_ring/InitialRing.sexpr
+plugins/setoid_ring/Ring_theory.sexpr:theories/Init/Prelude.sexpr theories/Setoids/Setoid.sexpr theories/Classes/Morphisms.sexpr theories/PArith/BinPos.sexpr theories/NArith/BinNat.sexpr
+plugins/setoid_ring/Rings_Q.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Cring.sexpr plugins/setoid_ring/Integral_domain.sexpr theories/QArith/QArith.sexpr
+plugins/setoid_ring/Rings_R.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Cring.sexpr plugins/setoid_ring/Integral_domain.sexpr theories/Reals/Reals.sexpr plugins/setoid_ring/RealField.sexpr
+plugins/setoid_ring/Rings_Z.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Cring.sexpr plugins/setoid_ring/Integral_domain.sexpr plugins/setoid_ring/Ncring_initial.sexpr plugins/omega/Omega.sexpr
+plugins/setoid_ring/ZArithRing.sexpr:theories/Init/Prelude.sexpr plugins/setoid_ring/Ring.sexpr theories/ZArith/ZArith_base.sexpr theories/ZArith/Zpow_def.sexpr
+plugins/ssr/ssrbool.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr plugins/ssr/ssreflect.sexpr plugins/ssr/ssrfun.sexpr
+plugins/ssr/ssrclasses.sexpr:theories/Init/Prelude.sexpr 
+plugins/ssr/ssreflect.sexpr:theories/Init/Prelude.sexpr theories/Bool/Bool.sexpr plugins/ssrmatching/ssrmatching.sexpr plugins/ssr/ssrunder.sexpr
+plugins/ssr/ssrfun.sexpr:theories/Init/Prelude.sexpr plugins/ssr/ssreflect.sexpr
+plugins/ssr/ssrsetoid.sexpr:theories/Init/Prelude.sexpr plugins/ssr/ssrclasses.sexpr plugins/ssr/ssrunder.sexpr theories/Classes/RelationClasses.sexpr theories/Relations/Relation_Definitions.sexpr
+plugins/ssr/ssrunder.sexpr:theories/Init/Prelude.sexpr plugins/ssr/ssrclasses.sexpr
+plugins/ssrmatching/ssrmatching.sexpr:theories/Init/Prelude.sexpr 
+user-contrib/Ltac2/Array.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/Bool.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/Char.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/Constr.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/Control.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr user-contrib/Ltac2/Message.sexpr
+user-contrib/Ltac2/Env.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr user-contrib/Ltac2/Std.sexpr
+user-contrib/Ltac2/Fresh.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/Ident.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/Init.sexpr:theories/Init/Prelude.sexpr 
+user-contrib/Ltac2/Int.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/List.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr user-contrib/Ltac2/Int.sexpr user-contrib/Ltac2/Control.sexpr user-contrib/Ltac2/Bool.sexpr user-contrib/Ltac2/Message.sexpr
+user-contrib/Ltac2/Ltac1.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/Ltac2.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr user-contrib/Ltac2/Int.sexpr user-contrib/Ltac2/Char.sexpr user-contrib/Ltac2/String.sexpr user-contrib/Ltac2/Ident.sexpr user-contrib/Ltac2/Array.sexpr user-contrib/Ltac2/Message.sexpr user-contrib/Ltac2/Constr.sexpr user-contrib/Ltac2/Control.sexpr user-contrib/Ltac2/Fresh.sexpr user-contrib/Ltac2/Pattern.sexpr user-contrib/Ltac2/Std.sexpr user-contrib/Ltac2/Env.sexpr user-contrib/Ltac2/Ltac1.sexpr user-contrib/Ltac2/Notations.sexpr
+user-contrib/Ltac2/Message.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/Notations.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr user-contrib/Ltac2/Control.sexpr user-contrib/Ltac2/Pattern.sexpr user-contrib/Ltac2/Array.sexpr user-contrib/Ltac2/Int.sexpr user-contrib/Ltac2/Std.sexpr
+user-contrib/Ltac2/Option.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr user-contrib/Ltac2/Control.sexpr
+user-contrib/Ltac2/Pattern.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr user-contrib/Ltac2/Control.sexpr
+user-contrib/Ltac2/Std.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
+user-contrib/Ltac2/String.sexpr:theories/Init/Prelude.sexpr user-contrib/Ltac2/Init.sexpr
