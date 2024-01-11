@@ -2,8 +2,7 @@ let fast_map f l = List.rev @@ List.rev_map f l
 
 let line_to_feats l =
   let split = String.split_on_char ' ' in
-  let f = List.map int_of_string (split @@ String.trim l) in
-  Base.Set.of_list (module Base.Int) f
+  List.map int_of_string (split @@ String.trim l)
 
 let read_lines_aux func file : string list =
   let ic = open_in file in

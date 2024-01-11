@@ -42,7 +42,9 @@ let test rows db =
   let res, _, _ = List.fold_left test_one ([], 0, Unix.time ()) rows in
   List.rev res
 
-let train exgs = List.fold_left (fun model e -> add model e) [] exgs
+let train exgs =
+  let empty = { entries = []; frequencies = Frequencies.empty } in
+  List.fold_left (fun model e -> add model e) empty exgs
 
 let eval () =
   let train_feat = load_features !train_x in
