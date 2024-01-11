@@ -39,6 +39,18 @@ let tfidf size freqs ls1 ls2 =
            ))
        inter)
 
+let knn f1 f2 =
+  let open Base.Set in
+  let f1 = of_list (module Base.Int) f1 in
+  let f2 = of_list (module Base.Int) f2 in
+  let inter = float_of_int @@ length @@ inter f1 f2 in
+  let union = float_of_int @@ length @@ union f1 f2 in
+  inter /. union
+
+let knn_dist ps db =
+  let dist x = (knn ps x.features, x.obj) in
+  List.map dist db
+
 let add { entries; frequencies } (features, obj) =
   let frequencies =
     List.fold_left
@@ -79,7 +91,7 @@ let remove_dups_and_sort ranking =
   in
   List.sort (fun (x, _) (y, _) -> Float.compare y x) new_ranking
 
-let predict { entries; frequencies } feats =
+(* let predict { entries; frequencies } feats =
   let length = List.length entries in
   let tdidfs =
     List.map
@@ -88,4 +100,6 @@ let predict { entries; frequencies } feats =
         (x, ent.obj))
       entries
   in
-  firstn 50 @@ remove_dups_and_sort tdidfs
+  firstn 50 @@ remove_dups_and_sort tdidfs *)
+
+let predict db ps = firstn 50 @@ remove_dups_and_sort @@ knn_dist ps db
