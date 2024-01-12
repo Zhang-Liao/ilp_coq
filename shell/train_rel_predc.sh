@@ -3,11 +3,9 @@ neg_dir=data/json/ortho/feat/merge/theories/$theory
 dat_file=data/json/ortho/predicate/origin/merge/theories/$theory.json
 out_dir=data/json/ortho/predicate/origin/tune/$theory
 kind=rel
-neg_ratios=(1 2 4 8 16 32)
-clusters=(2 4 8 16 32)
-
-# neg_ratios=(4)
-# clusters=(4)
+neg_ratios=(1 2 4 8 16)
+# clusters=(2 4 8 16)
+clusters=(32)
 
 for neg_ratio in "${neg_ratios[@]}"; do
     (

@@ -6,10 +6,9 @@ poss=(2 4 8 16 32)
 anonym=origin
 kind=prop
 test=data/json/ortho/predicate/$anonym/merge/test/
-theories=('theories/ListsLogic')
+theories=('valid/valid')
 for theory in "${theories[@]}"; do
     for neg in "${negs[@]}"; do
-
         for pos in "${poss[@]}"; do
             (
 
@@ -21,8 +20,6 @@ for theory in "${theories[@]}"; do
                     --bk $bk \
                     --info $kind/$anonym/p$pos\n$neg
             ) &
-
         done
-
     done
 done

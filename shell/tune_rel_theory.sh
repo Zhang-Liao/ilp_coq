@@ -3,13 +3,11 @@ bk=prolog/rel_noid_bk.pl
 negs=(1 2 4 8 16)
 poss=(2 4 8 16 32)
 
-# negs=(1)
-# poss=(2)
 
 anonym=origin
 kind=rel
 test=data/json/ortho/predicate/$anonym/merge/test/
-theories=('theories/ListsLogic')
+theories=('valid/valid')
 
 for theory in "${theories[@]}"; do
     for neg in "${negs[@]}"; do

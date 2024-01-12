@@ -11,10 +11,10 @@ def load_depend(f):
     for l in r:
         splits = l.split(':')
         depends = splits[1].split()
-        # theory = path2theory(splits[0])
-        # depends = [path2theory(x) for x in depends]
-        theory = splits[0]
-        depends = set([x for x in depends if x != theory])
+        theory = path2theory(splits[0])
+        depends = set([path2theory(x) for x in depends])
+        # theory = splits[0]
+        # depends = set([x for x in depends if x != theory])
         if theory not in depend_dic.keys():
             depend_dic[theory] = depends
         else:
@@ -37,7 +37,7 @@ def closure(depend_dic):
     return new_depend_dic
 
 def gather_by_theory(dic):
-    theory = 'theories/QArith'
+    # theory = 'theories/QArith'
     t_depends = set()
     for file, depends in dic.items():
         t_depends = t_depends.union(depends)
@@ -47,7 +47,7 @@ def gather_by_theory(dic):
 
 depend_dic = load_depend(depend_file)
 depend_dic = closure(depend_dic)
-depends = gather_by_theory(depend_dic)
+# depends = gather_by_theory(depend_dic)
 w = open(out, 'w')
-json.dump(depends, w, indent=4)
+json.dump(depend_dic, w, indent=4)
 # print(depend_dic)

@@ -35,7 +35,6 @@ def merge_files(dest, files):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--dir", type=str)
-# parser.add_argument("--dest_dir", type=str)
 opts = parser.parse_args()
 
 
@@ -52,13 +51,3 @@ for kind in ["theories", "plugins"]:
             os.makedirs(dest_dir)
         dest_f = os.path.join(dest_dir, f"{theory}.json")
         merge_files(dest_f, files)
-    # print(files)
-    # exit()
-    # for root, dir, files in os.walk(source_dir):
-    #     path_in_dir = root.removeprefix(opts.dir)
-    #     for file in files:
-    #         if file.endswith(".json"):
-    #             dir_obj = os.path.join(dest, path_in_dir)
-    #             if os.path.exists(dir_obj) == False:
-    #                 os.makedirs(dir_obj)
-    #             shutil.copyfile(root + "/" + file, os.path.join(dir_obj, file))

@@ -6,8 +6,8 @@ gen() {
 export -f gen
 
 negs=(1 2 4 8 16)
-# poss=(2 4 8 16)
-poss=(32)
+poss=(2 4 8 16 32)
+# poss=(32)
 
 anonym=anonym
 kind=prop

@@ -2,11 +2,9 @@ theory=QArith
 neg_dir=data/json/ortho/feat/merge/theories/$theory
 dat_file=data/json/ortho/predicate/anonym/merge/theories/$theory.json
 out_dir=data/json/ortho/predicate/anonym/tune/$theory
-neg_ratios=(1 2 4 8 16 32)
-kind=rel_ident
+neg_ratios=(1 2 4 8 16)
+kind=rel
 clusters=(2 4 8 16 32)
-# neg_ratios=(4)
-# clusters=(4)
 
 for neg_ratio in "${neg_ratios[@]}"; do
     (

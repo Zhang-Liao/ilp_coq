@@ -13,8 +13,8 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from lib import utils
 
 
-feat_encoder = joblib.load('data/QArith_feat_encoder.gz')
-label_encoder = joblib.load('data/QArith_label_encoder.gz')
+feat_encoder = joblib.load('data/complex_feat_encoder.gz')
+label_encoder = joblib.load('data/QArith_label_ortho_encoder.gz')
 
 assert(isinstance(label_encoder, LabelEncoder))
 assert(isinstance(feat_encoder, MultiLabelBinarizer))
@@ -49,7 +49,7 @@ def get_negs(ids, labels, label):
         if label2 != label:
             negs.append(int(id))
             n += 1
-            if n == 300:
+            if n == 150:
                 break
     return negs
 

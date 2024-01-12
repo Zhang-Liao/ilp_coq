@@ -5,9 +5,9 @@ bk=prolog/anonym_prop_bk.pl
 negs=(1 2 4 8 16)
 poss=(2 4 8 16 32)
 
-
-test=data/json/ortho/predicate/anonym/merge/test$descript/
-theories=('theories/ListsLogic')
+test=data/json/ortho/predicate/anonym/merge/test/
+theories=('valid/valid')
+# theories=('theories')
 
 for theory in "${theories[@]}"; do
     for neg in "${negs[@]}"; do

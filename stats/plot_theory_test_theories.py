@@ -62,13 +62,13 @@ def plot_theories_acc(ilp_stat, knn_stat):
         plt.clf()
         # dfs.append(df)
 
-ilp_stat_f = "stats/ortho/new_const/noident/ListsLogic/QArith_ListsLogic_test.json"
+ilp_stat_f = "stats/ortho/rev/valid/test.json"
 ilp_stat = json.load(open(ilp_stat_f, "r"))
-knn_stat_f = "stats/knn_theory_stat.json"
+knn_stat_f = "stats/ortho/rev/valid/knn_theory_stat.json"
 knn_stat = json.load(open(knn_stat_f, "r"))
 
-# f1_df = mk_f1_df(ilp_stat)
-# sns.barplot(data=f1_df, x="theory", y="f1", hue="predc")
+f1_df = mk_f1_df(ilp_stat)
+sns.barplot(data=f1_df, x="theory", y="f1", hue="predc")
 # plt.show()
-# plt.savefig("stats/ortho/test.pdf")
-plot_theories_acc(ilp_stat, knn_stat)
+plt.savefig("test.pdf", bbox_inches='tight')
+# plot_theories_acc(ilp_stat, knn_stat)

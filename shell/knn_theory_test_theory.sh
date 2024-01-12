@@ -15,11 +15,10 @@ eval() {
 
 export -f eval
 
-dataset=data/rev_ortho/feat/
+dataset=data/json/ortho/feat/
 merge_dir=$dataset/merge
-# theories=('theories/Lists' 'theories/Init' 'plugins/setoid_ring' 'theories/Vectors' 'theories/NArith' 'theories/Sorting')
-# theories=('theories/PArith' 'theories/Numbers' 'plugins/btauto' 'theories/Arith' 'theories/Strings')
-theories=('valid/valid' 'theories/Lists' 'theories/Init' 'plugins/setoid_ring' 'theories/Vectors' 'theories/NArith' 'theories/Sorting')
+theories=('valid/valid' 'plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
+# theories=('valid/valid')
 
 train_theory=theories/QArith
 IFS=/ read -ra train_theory_splits <<<$train_theory
@@ -32,5 +31,5 @@ for theory in ${theories[@]}; do
         out=$train_dir/test_theory/$kind
         mkdir -p $out
         eval $merge_dir/$theory $out $merge_dir/$train_theory
-    ) &
+    )&
 done

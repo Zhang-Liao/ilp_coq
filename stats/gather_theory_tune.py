@@ -67,20 +67,15 @@ def update_theory_stat(stat, ilp_stat_f, root, theory, pos, neg, prec):
 
     file_stat = json.load(ilp_reader)
     f1 = file_stat["f1"]
-    # f1_no_ign = file_stat["f1_no_ignored_tac"]
     splits = root.split("/")
-    if ("anonym" in splits) & ("rel_ident" in splits):
+    if ("anonym" in splits) & ("rel" in splits):
         stat["f1"]["anonym_rel"][theory][pos][neg][prec] = f1
-        # stat["f1_no_ignored_tac"]["anonym_rel"][theory][pos][neg][prec] = f1_no_ign
-    elif ("anonym" in splits) & ("prop_ident" in splits):
+    elif ("anonym" in splits) & ("prop" in splits):
         stat["f1"]["anonym_prop"][theory][pos][neg][prec] = f1
-        # stat["f1_no_ignored_tac"]["anonym_prop"][theory][pos][neg][prec] = f1_no_ign
     elif ("origin" in splits) & ("rel" in splits):
         stat["f1"]["origin_rel"][theory][pos][neg][prec] = f1
-        # stat["f1_no_ignored_tac"]["origin_rel"][theory][pos][neg][prec] = f1_no_ign
     elif ("origin" in splits) & ("prop" in splits):
         stat["f1"]["origin_prop"][theory][pos][neg][prec] = f1
-        # stat["f1_no_ignored_tac"]["origin_prop"][theory][pos][neg][prec] = f1_no_ign
     else:
         warnings.warn("skip " + os.path.join(root, ilp_stat_f))
 
@@ -102,8 +97,8 @@ def update_theory_stats(dir, stat, theory):
                     update_theory_stat(stat, f, root, theory, pos, neg, prec)
 
 
-# theories = ["theories/ListsLogic"]
-theories = ["valid"]
+theories = ["valid/valid"]
+# theories = ["valid"]
 
 ilp_stat = {
     "f1": init_stat(theories),
@@ -112,8 +107,6 @@ ilp_stat = {
 for theory in theories:
     knn_stat = init_knn_stat(theory)
     dir = f"data/json/ortho/feat/tune/QArith/test_theory/{theory}"
-    # dir = os.path.join(stat_i, theory)
-    # update_knn(dir, theory, knn_stat)
     update_theory_stats(dir, ilp_stat, theory)
 
 with open("tune_valid.json", "w") as w:
