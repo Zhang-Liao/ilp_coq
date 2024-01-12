@@ -204,7 +204,7 @@ def stat_ilp_stat_ml(goodss, labels, predss, rule_ids, out):
     tac_stats = init_stat(rule_ids)
     for goods, label, preds in zip(goodss, labels, predss):
         if utils.not_lemma(label):
-            preds = preds[:50]
+            preds = preds[:100]
             for p in preds:
                 stat_one_pred(p, tac_stats["tactic"], goods, label, rule_ids)
     items = tac_stats["tactic"].items()

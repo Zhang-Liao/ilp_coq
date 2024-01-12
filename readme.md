@@ -214,3 +214,10 @@ FSets cannot as validation because most theories do not depend on it
 using it, few theories can be chosen
 old validation: 'theories/Logic' 'theories/ZArith' 'theories/Classes' 'theories/FSets' 'plugins/rtauto'
 new:'theories/ZArith' 'theories/Logic' 'theories/Classes'
+
+
+## removing same proof states
+
+For testing, also try to predict tactics avoid error, meaningful
+Performance of anonym rel decrease? false positive decrease?
+in valid, simpl features predict 7000 reflexivity, not only 5000, too little false positive ?

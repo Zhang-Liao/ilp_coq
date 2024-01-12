@@ -91,7 +91,7 @@ let remove_dups_and_sort ranking =
   in
   List.sort (fun (x, _) (y, _) -> Float.compare y x) new_ranking
 
-(* let predict { entries; frequencies } feats =
+let predict { entries; frequencies } feats =
   let length = List.length entries in
   let tdidfs =
     List.map
@@ -100,6 +100,6 @@ let remove_dups_and_sort ranking =
         (x, ent.obj))
       entries
   in
-  firstn 50 @@ remove_dups_and_sort tdidfs *)
+  firstn 100 @@ remove_dups_and_sort tdidfs
 
-let predict db ps = firstn 50 @@ remove_dups_and_sort @@ knn_dist ps db
+(* let knn_predict db ps = firstn 100 @@ remove_dups_and_sort @@ knn_dist ps db *)
