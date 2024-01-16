@@ -100,6 +100,6 @@ let predict { entries; frequencies } feats =
         (x, ent.obj))
       entries
   in
-  firstn 100 @@ remove_dups_and_sort tdidfs
+  firstn 50 @@ remove_dups_and_sort tdidfs
 
-(* let knn_predict db ps = firstn 100 @@ remove_dups_and_sort @@ knn_dist ps db *)
+(* let knn_predict db ps = firstn 50 @@ remove_dups_and_sort @@ knn_dist ps db *)

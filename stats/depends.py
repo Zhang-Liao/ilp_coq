@@ -1,7 +1,7 @@
 import json
 
 depend_file='stats/dependencies'
-out='depend.json'
+out='stats/depend.json'
 def path2theory(p):
     return p.split('/')[1]
 
@@ -11,8 +11,10 @@ def load_depend(f):
     for l in r:
         splits = l.split(':')
         depends = splits[1].split()
+        depends = [path2theory(x) for x in depends]
         theory = path2theory(splits[0])
-        depends = set([path2theory(x) for x in depends])
+        depends = set([x for x in depends if x != theory])
+        # depends = set(depends)
         # theory = splits[0]
         # depends = set([x for x in depends if x != theory])
         if theory not in depend_dic.keys():
@@ -33,6 +35,7 @@ def closure(depend_dic):
                 futher_depends = depend_dic[d]
                 new_depends = new_depends.union(futher_depends)
             first = False
+        depends = [x for x in depends if x != theory]
         new_depend_dic[theory] = list(depends)
     return new_depend_dic
 

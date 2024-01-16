@@ -68,7 +68,7 @@ def filter_tac(i, tac, exg_paths, prolog, good):
 
 def filter_row(i, row, exg_paths, prolog):
     accept_dic = {}
-    preds = row.split("\t")[:100]
+    preds = row.split("\t")[:50]
     for pred in preds:
         good = Queue()
         safe_pred = utils.safe_tac(pred)

@@ -221,3 +221,17 @@ new:'theories/ZArith' 'theories/Logic' 'theories/Classes'
 For testing, also try to predict tactics avoid error, meaningful
 Performance of anonym rel decrease? false positive decrease?
 in valid, simpl features predict 7000 reflexivity, not only 5000, too little false positive ?
+
+## depend
+
+QArith does not depend ['rtauto', 'ltac', 'FSets', 'derive', 'Wellfounded', 'funind', 'btauto', 'MSets', 'nsatz', 'Ltac2', 'Compat']
+Not empty are NE = ['rtauto', 'FSets', 'Wellfounded', 'funind', 'btauto', 'MSets', 'nsatz']
+theoires do not depend on NE are: 
+
+Init Arith Bool Classes Compat Floats Lists Logic NArith Numbers PArith
+Program QArith Reals Relations Setoids Sets Sorting Strings Structures
+Unicode Vectors ZArith derive extraction ltac micromega omega
+setoid_ring ssr ssrmatching Ltac2
+
+randomly choose validation: PArith Relations Ltac2 Bool Logic Unicode Lists Arith ZArith Sorting Compat
+Non empty: PArith Relations Bool Logic Lists
