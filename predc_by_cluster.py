@@ -105,6 +105,9 @@ def pr_bk(poss, negs, fbk, tac, opts):
                     pr_hyps_predc(row_i, l["hyps"], bk_w, set(), opts.kind, set())
                     pr_goal_predc(row_i, l["goal"], bk_w, set(), opts.kind, set())
             row_i += 1
+        if (negs == []) | (len(poss) == 1):
+            bk_w.write(f":- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/user_cost.pl').\n")
+
         pr_mode(hyp_predc, goal_predc, bk_w, tac, ident, opts.kind)
         pr_bias(bk_w, opts.bias)
 
