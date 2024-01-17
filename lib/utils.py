@@ -20,13 +20,6 @@ ignored_coq_constructors = [
 
 coq_identifier = ['coq_var', 'coq_const', 'coq_constructor', 'coq_ind']
 
-def under_max_arity(a):
-    a = int(a)
-    if a < 4:
-        return a
-    else:
-        return 4
-
 
 def output_lemma_aux(lemma, data, file):
     with open(file, "a") as writer:
@@ -78,11 +71,6 @@ def hyp_idx(name, kind, idx):
     idx = ",".join(idx)
     idx = "[" + idx + "]"
     return idx
-
-
-def ignore_arity(id, art):
-    return (id in ["coq_var", "coq_rel", "coq_evar"]) | (art == 0)
-
 
 def mk_anonym_predc(typ, ident):
     # additional constants other than them during the dataset generation

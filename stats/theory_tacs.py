@@ -10,6 +10,7 @@ def stat_theory(file):
     tacs = {}
     r = open(file, "r")
     dat = r.readlines()
+    size = 0
     for l in dat:
         if utils.not_lemma(l):
             t = json.loads(l)["tac"]
@@ -17,12 +18,13 @@ def stat_theory(file):
                 tacs[t] = 1
             else:
                 tacs[t] += 1
+            size += 1
     tacs = sorted(tacs.items(), key=lambda x: x[1], reverse=True)[:20]
-    return dict(tacs)
+    return dict({'size' :size, 'tacs': dict(tacs)})
 
 
-dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/rev_ortho/feat/merge"
-out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/theory_ortho_tac.json"
+dir = "data/json/ortho/feat/merge"
+out = "theory_ortho_tac.json"
 subdirs = [os.path.join(dir, 'theories'), os.path.join(dir, 'plugins')]
 tacs = {}
 for subdir in subdirs:

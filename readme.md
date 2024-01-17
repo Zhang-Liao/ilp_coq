@@ -235,3 +235,8 @@ setoid_ring ssr ssrmatching Ltac2
 
 randomly choose validation: PArith Relations Ltac2 Bool Logic Unicode Lists Arith ZArith Sorting Compat
 Non empty: PArith Relations Bool Logic Lists
+
+
+## no same after states
+    163050 total - 11372 = 
+ 
