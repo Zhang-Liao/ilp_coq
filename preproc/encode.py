@@ -18,7 +18,7 @@ def encode(dir):
     labels = set()
     for root, dir, files in os.walk(dir):
         for file in files:
-            if file.endswith("QArith.json"):
+            if file.endswith("Structures.json"):
                 reader = open(os.path.join(root, file), "r")
                 for l in reader:
                     l = l.strip()
@@ -36,10 +36,10 @@ def encode(dir):
 parser = argparse.ArgumentParser()
 parser.add_argument("--dir", type=str)
 opts = parser.parse_args()
-f_out = os.path.join(opts.dir, "complex_feat_encoder.gz")
-# l_out = os.path.join(opts.dir, "label_ortho_encoder.gz")
+f_out = os.path.join(opts.dir, "encoder.gz")
+l_out = os.path.join(opts.dir, "label_encoder.gz")
 f_encoder, l_encoder = encode(opts.dir)
 print("number of features", len(f_encoder.classes_))
 print("number of labels", len(l_encoder.classes_))
 joblib.dump(f_encoder, f_out)
-# joblib.dump(l_encoder, l_out)
+joblib.dump(l_encoder, l_out)

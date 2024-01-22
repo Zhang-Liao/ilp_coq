@@ -284,14 +284,12 @@ def update_dic(dic, new_item, default, key):
     else:
         dic[key].update(new_item)
 
-
-THEORIES = [
-    "theories/Sorting",
-    "theories/NArith",
-    # "theories/Numbers",
-    "theories/Init",
-    "theories/Vectors",
-    "plugins/setoid_ring",
-]
-
-IGNORED_TACS = ["intros", "split"]
+def kind_to_abs(k):
+    if k == 'anonym_rel':
+        return 'AR'
+    elif k == 'anonym_prop':
+        return 'AP'
+    elif k == 'origin_prop':
+        return 'OP'
+    elif k == 'origin_rel':
+        return 'OR'
