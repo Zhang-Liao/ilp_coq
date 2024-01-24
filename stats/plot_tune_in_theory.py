@@ -19,15 +19,16 @@ def kind_to_abs(k):
 
 def stat_f1(df):
     # for df in dfs:
-    df = df.loc[df["precision"].isin([0, 0.1, 0.3])]
+    df = df.loc[df["Precision"].isin([0, 0.1, 0.3])]
+    sns.set(font_scale=1.5)
     g = sns.FacetGrid(
-        df, col="precision", hue="predicate", col_wrap=1, height=3.5, aspect=5
+        df, col="Precision", hue="Predicates", col_wrap=1, height=3.5, aspect=5
     )
-    g.map(sns.lineplot, "combination of the number of positive examples and the number of negative examples per positive example", "F-1")
+    g.map(sns.lineplot, "Combination of the Number of Positive Examples and the Number of Negative Examples per Positive Example", "F-1")
     g.add_legend()
     # prec = df.iloc[0]["prec"]
     # plt.figure(figsize=(24, 20))
-    # ax = sns.lineplot(data=df, x="param", y="f1", hue="predicate")
+    # ax = sns.lineplot(data=df, x="param", y="f1", hue="predicates")
     # plt.show()
     # ax.set(xlabel=None, ylabel = 'F-1')
     plt.xticks(rotation=45)
@@ -36,18 +37,18 @@ def stat_f1(df):
 
 def best_param(df):
     sort_df = df.sort_values(by=["F-1"], ascending=False)
-    kinds = sort_df["predicate"].drop_duplicates()
+    kinds = sort_df["Predicates"].drop_duplicates()
     for _, kind in kinds.items():
-        best = sort_df.loc[sort_df["predicate"] == kind].iloc[0]
+        best = sort_df.loc[sort_df["Predicates"] == kind].iloc[0]
         print(best)
 
 
 def mk_f1_df(stat, theory):
     dic = {
-        "predicate": [],
+        "Predicates": [],
         "F-1": [],
-        "combination of the number of positive examples and the number of negative examples per positive example": [],
-        "precision": [],
+        "Combination of the Number of Positive Examples and the Number of Negative Examples per Positive Example": [],
+        "Precision": [],
     }
     for kind, kind_stat in stat.items():
         theory_stat = kind_stat[theory]
@@ -56,12 +57,12 @@ def mk_f1_df(stat, theory):
                 for prec, f1 in neg_stat.items():
                     # if 'anonym' in kind:
                     prec = int(prec) / 100
-                    dic["predicate"].append(kind_to_abs(kind))
+                    dic["Predicates"].append(kind_to_abs(kind))
                     dic["F-1"].append(f1)
-                    dic["combination of the number of positive examples and the number of negative examples per positive example"].append(
-                        f"pos{pos}neg{neg}"
+                    dic["Combination of the Number of Positive Examples and the Number of Negative Examples per Positive Example"].append(
+                        f"p{pos}n{neg}"
                     )
-                    dic["precision"].append(prec)
+                    dic["Precision"].append(prec)
     df = pd.DataFrame(data=dic)
     print(df)
     best_param(df)
