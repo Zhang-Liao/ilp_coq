@@ -20,10 +20,10 @@ THEORIES = [
 
 predc_kinds = ["anonym_rel", "origin_prop", "origin_rel", "anonym_prop"]
 params = {
-    "anonym_rel": ["p2n16", "0"],
-    "anonym_prop": ["p2n1", "0"],
-    "origin_prop": ["p2n4", "0"],
-    "origin_rel": ["p4n1", "0"],
+    "anonym_rel": ["p1n32", "0"],
+    "anonym_prop": ["p1n1", "0"],
+    "origin_prop": ["p1n1", "0"],
+    "origin_rel": ["p1n1", "0"],
 }
 
 
@@ -95,7 +95,7 @@ def update_theory_stats(dir, stat, theory):
 
 ilp_stat = {"acc": init_stat(), "f1": init_stat()}
 
-test_dir = "data/json/ortho/feat/tune/QArith/test_theory"
+test_dir = "data/json/ortho/feat/tune/Structures/test_theory"
 for theory in THEORIES:
     dir = os.path.join(test_dir, theory)
     update_theory_stats(dir, ilp_stat, theory)

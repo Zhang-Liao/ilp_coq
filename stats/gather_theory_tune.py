@@ -12,8 +12,8 @@ from lib import utils
 
 precs = [0, 5, 10, 15, 20, 25, 30]
 KINDS = ["anonym_rel", "anonym_prop", "origin_prop", "origin_rel"]
-POS = [2, 4, 8, 16, 32]
-NEG = [1, 2, 4, 8, 16]
+POS = [1, 2, 4, 8, 16, 32]
+NEG = [0, 1, 2, 4, 8, 16, 32, 64]
 
 
 def init_stat(theories):
@@ -93,7 +93,7 @@ def update_theory_stats(dir, stat, theory):
                 pos = int(info["pos"])
                 neg = int(info["neg"])
                 prec = int(info["prec"])
-                if prec in precs:
+                if (prec in precs) & (pos in  POS) & (neg in NEG):
                     update_theory_stat(stat, f, root, theory, pos, neg, prec)
 
 
@@ -106,7 +106,7 @@ ilp_stat = {
 # print(ilp_stat)
 for theory in theories:
     knn_stat = init_knn_stat(theory)
-    dir = f"data/json/ortho/feat/tune/QArith/test_theory/{theory}"
+    dir = f"data/json/ortho/feat/tune/Structures/test_theory/{theory}"
     update_theory_stats(dir, ilp_stat, theory)
 
 with open("tune_valid.json", "w") as w:

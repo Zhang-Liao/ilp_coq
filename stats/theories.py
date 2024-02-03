@@ -1,14 +1,3 @@
-"""
-
-"data/json/origin_feat/merge/theories/Classes.json": 644,
-"data/json/origin_feat/merge/plugins/ssr.json": 337,
-"data/json/origin_feat/merge/theories/Lists.json": 4254,
-"data/json/origin_feat/merge/theories/QArith.json": 2184,
-"data/json/origin_feat/merge/theories/Numbers.json": 22760
-total 30179
-
-"""
-
 import json
 import os
 import sys

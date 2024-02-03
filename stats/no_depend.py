@@ -8,7 +8,8 @@ depend_dic = json.load(reader)
 for theory, depends in depend_dic.items():
     depends = set(depends)
     if test.intersection(depends) == set():
-        print(theory)
+        if theory not in test:
+            print(theory)
 
 # theories = set(theory_dic.keys())
 # depends = set(theory_dic['MSets'])

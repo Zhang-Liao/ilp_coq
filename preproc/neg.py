@@ -13,8 +13,8 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from lib import utils
 
 
-feat_encoder = joblib.load('data/complex_feat_encoder.gz')
-label_encoder = joblib.load('data/QArith_label_ortho_encoder.gz')
+feat_encoder = joblib.load('data/json/ortho/feat/merge/theories/Structures/feat_encoder.gz')
+label_encoder = joblib.load('data/json/ortho/feat/merge/theories/Structures/label_encoder.gz')
 
 assert(isinstance(label_encoder, LabelEncoder))
 assert(isinstance(feat_encoder, MultiLabelBinarizer))
