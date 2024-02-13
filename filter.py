@@ -16,28 +16,6 @@ import reorder
 from stats import stat_filter
 from stats import stat_at_precision
 
-COMMON = [
-    "auto",
-    "simpl",
-    "intros",
-    "ring",
-    "simpl in *",
-    "auto with *",
-    "split",
-    "field",
-    "discriminate",
-    "auto with qarith",
-    "simpl_mult",
-    "qc",
-    "ring_simplify",
-    "red",
-    "intros (x1, x2) (y1, y2)",
-    "intro",
-    "intros H0",
-    "eauto",
-    "unfold Qnum, Qden",
-    "f_equal"
-]
 
 def read_clauses(clause_file, all_predc, prolog):
     prolog.consult(clause_file)
@@ -119,43 +97,43 @@ def at_precisions(stat_f, good_f, pred_f, label_f, rule_f):
         stat_at_precision.mk_stat(stat_f, good_f, pred_f, label_f, prec, rule_f)
 
 
-def out_stat_ml(accept_dics, pred_f, rule_f, label_f, info):
-    out_dir = os.path.join(pred_f[:-5], info)
-    good_dir = os.path.join(out_dir, "good")
-    if not os.path.exists(good_dir):
-      os.makedirs(good_dir, exist_ok=True)
-    shutil.copy(rule_f, out_dir)
-    good_f = os.path.join(good_dir, os.path.basename(pred_f))
-    with open(good_f, "w") as w:
-        for accept in accept_dics:
-            w.write(json.dumps(accept) + "\n")
-
-    labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
-        good_f, label_f, pred_f, rule_f
-    )
-
-    prec0_dir = os.path.join(good_dir, "0")
-    if not os.path.exists (prec0_dir):
-        os.makedirs(prec0_dir, exist_ok=True)
-
-    stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, prec0_dir)
-    stat_f = os.path.join(prec0_dir, "stat_filter.json")
-    at_precisions(stat_f, good_f, pred_f, label_f, rule_f)
-    reorder.reorder(good_f, pred_f, label_f)
-
-# def out_stat_ml(_, pred_f, rule_f, label_f, info):
+# def out_stat_ml(accept_dics, pred_f, rule_f, label_f, info):
 #     out_dir = os.path.join(pred_f[:-5], info)
 #     good_dir = os.path.join(out_dir, "good")
+#     if not os.path.exists(good_dir):
+#       os.makedirs(good_dir, exist_ok=True)
+#     shutil.copy(rule_f, out_dir)
 #     good_f = os.path.join(good_dir, os.path.basename(pred_f))
+#     with open(good_f, "w") as w:
+#         for accept in accept_dics:
+#             w.write(json.dumps(accept) + "\n")
+
 #     labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
 #         good_f, label_f, pred_f, rule_f
 #     )
+
 #     prec0_dir = os.path.join(good_dir, "0")
-#     os.makedirs(prec0_dir, exist_ok=True)
+#     if not os.path.exists (prec0_dir):
+#         os.makedirs(prec0_dir, exist_ok=True)
+
 #     stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, prec0_dir)
 #     stat_f = os.path.join(prec0_dir, "stat_filter.json")
 #     at_precisions(stat_f, good_f, pred_f, label_f, rule_f)
 #     reorder.reorder(good_f, pred_f, label_f)
+
+def out_stat_ml(_, pred_f, rule_f, label_f, info):
+    out_dir = os.path.join(pred_f[:-5], info)
+    good_dir = os.path.join(out_dir, "good")
+    good_f = os.path.join(good_dir, os.path.basename(pred_f))
+    labels, goodss, predss, rule_ids, _ = stat_filter.init_dat(
+        good_f, label_f, pred_f, rule_f
+    )
+    prec0_dir = os.path.join(good_dir, "0")
+    os.makedirs(prec0_dir, exist_ok=True)
+    stat_filter.stat_ilp_stat_ml(goodss, labels, predss, rule_ids, prec0_dir)
+    stat_f = os.path.join(prec0_dir, "stat_filter.json")
+    at_precisions(stat_f, good_f, pred_f, label_f, rule_f)
+    reorder.reorder(good_f, pred_f, label_f)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--clause", type=str)
@@ -172,6 +150,6 @@ opts = parser.parse_args()
 exg_paths = read_exg_paths(opts.test)
 prolog = read_clauses(opts.clause, opts.bk, Prolog())
 assert opts.pred.endswith(".eval")
-accept_dics = filter_stat_ml(exg_paths, prolog, opts.pred)
-out_stat_ml(accept_dics, opts.pred, opts.clause, opts.label, opts.info)
-# out_stat_ml([], opts.pred, opts.clause, opts.label, opts.info)
+# accept_dics = filter_stat_ml(exg_paths, prolog, opts.pred)
+# out_stat_ml(accept_dics, opts.pred, opts.clause, opts.label, opts.info)
+out_stat_ml([], opts.pred, opts.clause, opts.label, opts.info)

@@ -1,12 +1,12 @@
 kind=rel
 anonym=anonym
-param=p2n16
+param=p1n32
+train_theory=Structures
 descript=''
-knn_pred=data/json/ortho/feat/tune/QArith/test_theory
+knn_pred=data/json/ortho/feat/tune/$train_theory/test_theory
 test=data/json/ortho/predicate/anonym/merge/test$descript/
-clause=data/json/ortho/feat/tune/QArith/test_theory/valid/valid/rel/anonym/p2n16/good/20/alltac_rule.pl
+clause=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ortho/feat/tune/Structures/test_theory/valid/valid/rel/anonym/p1n32/good/15/alltac_rule.pl
 theories=('plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
-# theories=('theories/PArith' 'theories/Numbers' 'plugins/btauto' 'theories/Arith' 'theories/Strings')
 valid=valid
 bk=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_rel_id_bk.pl
 

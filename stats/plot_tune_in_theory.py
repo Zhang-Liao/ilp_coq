@@ -18,8 +18,8 @@ def kind_to_abs(k):
 
 
 def stat_f1(df):
-    # df = df.loc[df["Precision"].isin([0])]
-    df = df.loc[df["Precision"].isin([0, 0.05, 0.1, 0.15, 0.20, 0.25, 0.3])]
+    df = df.loc[df["Precision"].isin([0])]
+    # df = df.loc[df["Precision"].isin([0, 0.05, 0.1, 0.15, 0.20, 0.25, 0.3])]
     sns.set(font_scale=1.5)
     g = sns.FacetGrid(
         df, col="Precision", hue="Predicates", col_wrap=1, height=3.5, aspect=5

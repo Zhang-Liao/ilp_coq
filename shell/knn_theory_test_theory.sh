@@ -20,7 +20,7 @@ merge_dir=$dataset/merge
 theories=('valid/valid' 'plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
 # theories=('valid/valid')
 
-train_theory=theories/QArith
+train_theory=theories/Structures
 IFS=/ read -ra train_theory_splits <<<$train_theory
 train_name=${train_theory_splits[1]}
 for theory in ${theories[@]}; do

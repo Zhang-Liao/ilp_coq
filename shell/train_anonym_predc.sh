@@ -1,19 +1,25 @@
-theory=QArith
+theory=Structures
 neg_dir=data/json/ortho/feat/merge/theories/$theory
 dat_file=data/json/ortho/predicate/anonym/merge/theories/$theory.json
 out_dir=data/json/ortho/predicate/anonym/tune/$theory
-neg_ratios=(1 2 4 8 16)
+# negs=(0 1 2 4 8 16)
+# clusters=(1 2 4 8 16 32)
 kind=rel
-clusters=(2 4 8 16 32)
 
-for neg_ratio in "${neg_ratios[@]}"; do
+# negs=(32 64)
+# poss=(1 2 4 8 16 32)
+
+negs=(0 1 2 4 8 16 32)
+poss=(64 128 256)
+
+for neg_ratio in "${negs[@]}"; do
     (
-        for cluster in "${clusters[@]}"; do
+        for pos in "${poss[@]}"; do
             python predc_by_cluster.py \
-                --cluster $neg_dir/$theory\_pos$cluster.json \
+                --cluster $neg_dir/$theory\_pos$pos.json \
                 --neg $neg_dir/$theory\_neg.json \
                 --dat $dat_file \
-                --out $out_dir/train/$kind/p$cluster\n$neg_ratio \
+                --out $out_dir/train/$kind/p$pos\n$neg_ratio \
                 --bias prolog/anonym_rel_id_bias.pl \
                 --kind anonym \
                 --neg_ratio $neg_ratio

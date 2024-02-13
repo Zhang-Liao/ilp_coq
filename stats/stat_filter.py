@@ -109,11 +109,14 @@ def cal_precision(rules):
 
 def cal_f1_precision(stat):
     all_tp, all_fp, all_fn = init_tp()
+    common_tp, common_fp, common_fn = init_tp()
     for tac, tac_stat in stat["tactic"].items():
         tp = tac_stat["TP"]
         fp = tac_stat["FP"]
         fn = tac_stat["FN"]
         all_tp, all_fp, all_fn = update_tp(all_tp, all_fp, all_fn, tp, fp, fn)
+        if tac in utils.COMMON_TAC:
+            common_tp, common_fp, common_fn = update_tp(all_tp, all_fp, all_fn, tp, fp, fn)
         cal_precision(tac_stat["rule"])
         tac_stat["f1"] = cal_f1(tp, fp, fn)
     ilp_stat = {
@@ -121,6 +124,10 @@ def cal_f1_precision(stat):
         "FP": all_fp,
         "FN": all_fn,
         "f1": cal_f1(all_tp, all_fp, all_fn),
+        "common_TP" : common_tp,
+        "common_FP" : common_fp,
+        "common_FN" : common_fn,
+        "common_f1" : cal_f1(common_tp, common_fp, common_fn),
     }
     new_dict = ilp_stat | stat
     return new_dict
@@ -145,8 +152,6 @@ def clean_stat(stat):
 
 
 def stat_one_pred(p, stats, goods, label, rule_ids):
-    # print(stats.keys())
-    # exit()
     if p not in stats.keys():
         stats[p] = init_tac_stat()
 

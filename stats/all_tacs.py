@@ -6,8 +6,8 @@ sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
 
-dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/rev_ortho/feat/merge"
-out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/ortho_tac.json"
+dir = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ortho/feat/merge"
+out = "/home/zhangliao/ilp_out_coq/ilp_out_coq/ortho_tac.json"
 subdirs = [os.path.join(dir, 'theories'), os.path.join(dir, 'plugins')]
 tacs = {}
 for subdir in subdirs:

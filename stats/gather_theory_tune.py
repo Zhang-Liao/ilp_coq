@@ -14,7 +14,7 @@ precs = [0, 5, 10, 15, 20, 25, 30]
 KINDS = ["anonym_rel", "anonym_prop", "origin_prop", "origin_rel"]
 POS = [1, 2, 4, 8, 16, 32]
 NEG = [0, 1, 2, 4, 8, 16, 32, 64]
-
+METRIC = 'common_f1'
 
 def init_stat(theories):
     stat = {}
@@ -66,7 +66,7 @@ def update_theory_stat(stat, ilp_stat_f, root, theory, pos, neg, prec):
     ilp_reader = open(os.path.join(root, ilp_stat_f), "r")
 
     file_stat = json.load(ilp_reader)
-    f1 = file_stat["f1"]
+    f1 = file_stat[METRIC]
     splits = root.split("/")
     if ("anonym" in splits) & ("rel" in splits):
         stat["f1"]["anonym_rel"][theory][pos][neg][prec] = f1

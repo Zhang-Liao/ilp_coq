@@ -293,3 +293,16 @@ def kind_to_abs(k):
         return 'OP'
     elif k == 'origin_rel':
         return 'OR'
+
+COMMON_TAC = [
+    "reflexivity",
+    "assumption",
+    "intros",
+    "simpl",
+    "auto",
+    "intro",
+    "split",
+    "discriminate",
+    "trivial",
+    "intuition",
+]

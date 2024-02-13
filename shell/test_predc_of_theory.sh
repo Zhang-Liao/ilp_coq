@@ -1,10 +1,10 @@
 
 # theories=('theories/Sorting' 'theories/NArith' 'theories/Init' 'plugins/setoid_ring' 'theories/Vectors' 'valid/valid')
 # theories=('valid/valid')
-theories=('valid/valid' 'plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
+theories=('plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
 
 gen() {
-    kind=anonym
+    kind=origin
     dataset=data/json/ortho/predicate/$kind/merge
     out_dir=$dataset/test/$1
     python test_eg_predc.py --test $dataset/$1.json --out $out_dir --kind $kind

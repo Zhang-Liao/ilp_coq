@@ -1,5 +1,5 @@
-theories=('theories/Logic' 'theories/ZArith' 'theories/Classes')
-origin=data/json/ortho/feat/merge
+theories=('theories/PArith' 'theories/Relations' 'theories/Bool' 'theories/Logic' 'theories/Lists')
+origin=data/json/ortho/predicate/origin/merge
 dest=$origin/valid
 
 mkdir $dest

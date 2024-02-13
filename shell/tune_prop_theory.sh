@@ -1,7 +1,8 @@
-knn_pred=data/json/ortho/feat/tune/QArith/test_theory
+train_theory=Structures
+knn_pred=data/json/ortho/feat/tune/$train_theory/test_theory
 bk=prolog/prop_bk.pl
-negs=(1 2 4 8 16)
-poss=(2 4 8 16 32)
+poss=(1 2 4 8 16 32)
+negs=(0 1 2 4 8 16 32 64)
 
 anonym=origin
 kind=prop
@@ -11,8 +12,7 @@ for theory in "${theories[@]}"; do
     for neg in "${negs[@]}"; do
         for pos in "${poss[@]}"; do
             (
-
-                dir=data/json/ortho/predicate/$anonym/tune/QArith/train/$kind/p$pos\n$neg
+                dir=data/json/ortho/predicate/$anonym/tune/$train_theory/train/$kind/p$pos\n$neg
                 python filter.py --clause $dir/alltac_rule.pl \
                     --pred $knn_pred/$theory.eval \
                     --test $test/$theory \

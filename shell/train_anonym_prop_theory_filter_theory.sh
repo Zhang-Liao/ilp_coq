@@ -1,13 +1,13 @@
 kind=prop
 anonym=anonym
-param=p2n1
+param=p1n1
 descript=''
-knn_pred=data/json/ortho/feat/tune/QArith/test_theory
+train_theory=Structures
+knn_pred=data/json/ortho/feat/tune/$train_theory/test_theory
 test=data/json/ortho/predicate/$anonym/merge/test$descript/
 valid=valid
-clause=data/json/ortho/feat/tune/QArith/test_theory/valid/valid/prop/anonym/p2n1/good/15/alltac_rule.pl
+clause=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ortho/feat/tune/Structures/test_theory/valid/valid/prop/anonym/p1n1/good/10/alltac_rule.pl
 theories=('plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
-# theories=('theories/PArith' 'theories/Numbers' 'plugins/btauto' 'theories/Arith' 'theories/Strings')
 bk=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_prop_bk.pl
 
 for theory in ${theories[@]}; do
