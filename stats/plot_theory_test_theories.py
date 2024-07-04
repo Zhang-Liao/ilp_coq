@@ -14,6 +14,16 @@ def to_theory_name(theory):
     return theory.split("/")[-1]
 
 
+def kind_to_abs(k):
+    if k == 'anonym_rel':
+        return 'AF'
+    elif k == 'anonym_prop':
+        return 'AR'
+    elif k == 'origin_prop':
+        return 'OR'
+    elif k == 'origin_rel':
+        return 'OF'
+
 def mk_acc_df(dat, ilp_stat, knn_stat, theory):
     for predc, predc_stat in ilp_stat["acc"].items():
         acc = predc_stat[theory]
@@ -55,7 +65,7 @@ def plot_theories_acc(ilp_stat, knn_stat):
 
 ilp_stat_f = "test.json"
 ilp_stat = json.load(open(ilp_stat_f, "r"))
-knn_stat_f = "stats/ortho/rev/no_same_complex/Structures/knn_theory_stat.json"
+knn_stat_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/ortho/rev/5min/no_same_complex/Structures/knn_theory_stat.json"
 knn_stat = json.load(open(knn_stat_f, "r"))
 
 plot_theories_acc(ilp_stat, knn_stat)
