@@ -5,11 +5,6 @@ import re
 def parse_tac(s):
     return s[7:][:-5]
 
-def tail_cut(rule):
-    if (rule.endswith('.')) & (not rule.endswith(',!.')):
-        rule = rule[:-1] + ',!.'
-    return rule
-
 def mk_rule_dic(dat):
     dct = {}
     is_hd = True
@@ -25,11 +20,11 @@ def mk_rule_dic(dat):
             body += r
 
         if r.endswith("."):
-            rule = tail_cut(body)
+            # rule = tail_cut(body)
             if hd not in dct.keys():
-                dct[hd] = [rule]
+                dct[hd] = [body]
             else:
-                dct[hd].append(rule)
+                dct[hd].append(body)
 
     return dct
 
@@ -86,9 +81,10 @@ with open(opts.file, "r") as r:
 assert dat[0] == ":- style_check(-singleton).\n"
 dat = dat[1:]
 rule_dic = sort_rules(mk_rule_dic(dat))
+
+
 rule_dic = {k: sep_clauses(v) for k, v in rule_dic.items()}
 rule_dic = rmv_too_general(rule_dic)
-
 
 with open(opts.file, "w") as w:
     w.write(":- style_check(-singleton).\n")
