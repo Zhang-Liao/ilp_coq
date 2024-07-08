@@ -19,9 +19,10 @@ THEORIES = [
 ]
 
 predc_kinds = ["anonym_rel", "origin_prop", "origin_rel", "anonym_prop"]
+
 params = {
     "anonym_rel": ["p1n32", "0"],
-    "anonym_prop": ["p1n1", "0"],
+    "anonym_prop": ["p16n1", "0"],
     "origin_prop": ["p1n1", "0"],
     "origin_rel": ["p1n1", "0"],
 }

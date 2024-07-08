@@ -28,7 +28,7 @@ def mk_acc_df(dat, ilp_stat, knn_stat, theory):
     for predc, predc_stat in ilp_stat["acc"].items():
         acc = predc_stat[theory]
         for i in range(len(acc)):
-            dat["Method"].append(utils.kind_to_abs(predc) + '+kNN')
+            dat["Method"].append(kind_to_abs(predc) + '+kNN')
             dat["Accuracy"].append(acc[i])
             dat["Top-k"].append(i + 1)
             dat["Theory"].append(to_theory_name(theory))

@@ -10,11 +10,15 @@ import warnings
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
-precs = [0, 5, 10, 15, 20, 25, 30]
+# precs = [0, 7, 14, 21, 28, 35]
+precs = [0, 6, 12, 18, 24, 30]
+
+# precs = [0, 8, 16, 24, 32]
+# precs = [0, 5, 10, 15, 20, 25, 30]
 KINDS = ["anonym_rel", "anonym_prop", "origin_prop", "origin_rel"]
 POS = [1, 2, 4, 8, 16, 32]
 NEG = [0, 1, 2, 4, 8, 16, 32, 64]
-METRIC = 'common_f1'
+METRIC = 'f1'
 
 def init_stat(theories):
     stat = {}

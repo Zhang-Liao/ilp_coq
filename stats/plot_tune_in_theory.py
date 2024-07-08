@@ -8,21 +8,22 @@ import seaborn as sns
 
 def kind_to_abs(k):
     if k == "anonym_rel":
-        return "AR"
+        return "AF"
     elif k == "anonym_prop":
-        return "AP"
-    elif k == "origin_prop":
-        return "OP"
+        return "AR"
     elif k == "origin_rel":
+        return "OF"
+    elif k == "origin_prop":
         return "OR"
 
 
 def stat_f1(df):
-    df = df.loc[df["Precision"].isin([0])]
+    # df = df.loc[df["Precision"].isin([0.1])]
+    df = df.loc[df["Precision"].isin([0, 0.12, 0.24])]
     # df = df.loc[df["Precision"].isin([0, 0.05, 0.1, 0.15, 0.20, 0.25, 0.3])]
     sns.set(font_scale=1.5)
     g = sns.FacetGrid(
-        df, col="Precision", hue="Predicates", col_wrap=1, height=3.5, aspect=5
+        df, col="Precision", hue="Predicates", col_wrap=1, height=3.5, aspect=6
     )
     ax = g.map(sns.lineplot, "Combination of the Number of Positive Examples and the Number of Negative Examples per Positive Example", "F-1")
     g.add_legend()
@@ -31,7 +32,7 @@ def stat_f1(df):
     # ax = sns.lineplot(data=df, x="param", y="f1", hue="predicates")
     # plt.show()
     ax.set(xlabel=None, ylabel = 'F-1')
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=60)
     plt.savefig("tune.pdf", bbox_inches="tight")
 
 
@@ -55,26 +56,18 @@ def mk_f1_df(stat, theory):
         for pos, pos_stat in theory_stat.items():
             for neg, neg_stat in pos_stat.items():
                 for prec, f1 in neg_stat.items():
-                    if 'anonym' in kind:
-                        prec = int(prec) / 100
-                        dic["Predicates"].append(kind_to_abs(kind))
-                        dic["F-1"].append(f1)
-                        dic["Combination of the Number of Positive Examples and the Number of Negative Examples per Positive Example"].append(
-                            f"P{pos}N{neg}"
-                        )
-                        dic["Precision"].append(prec)
+                    # if 'anonym_rel' in kind:
+                    prec = int(prec) / 100
+                    dic["Predicates"].append(kind_to_abs(kind))
+                    dic["F-1"].append(f1)
+                    dic["Combination of the Number of Positive Examples and the Number of Negative Examples per Positive Example"].append(
+                        f"P{pos}N{neg}"
+                    )
+                    dic["Precision"].append(prec)
     df = pd.DataFrame(data=dic)
     print(df)
     best_param(df)
     return df
-
-
-# def mk_f1_dfs(stat, theory):
-# name = theory.split("/")[-1]
-# df = mk_f1_df(stat["f1"], theory)
-# sub_dfs = [y for x, y in df.groupby("prec")]
-# return sub_dfs
-
 
 f_stats = "tune_valid.json"
 reader = open(f_stats, "r")
