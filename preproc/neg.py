@@ -49,8 +49,8 @@ def get_negs(ids, labels, label):
         if label2 != label:
             negs.append(int(id))
             n += 1
-            if n == 150:
-                break
+            # if n == 300:
+            #     break
     return negs
 
 def update_dic(i, tac, negs, dict):
@@ -90,7 +90,7 @@ dict = {}
 feats, labels = read(opts.feat, opts.label)
 neigh = KNeighborsClassifier(n_neighbors=1, metric='jaccard', n_jobs=10)
 neigh.fit(feats, labels)
-kneighs_arr = neigh.kneighbors(feats, 500, False)
+kneighs_arr = neigh.kneighbors(feats, 2339, False)
 for i in range(len(labels)):
     tac = label_encoder.inverse_transform([labels[i]])[0]
     kneighs = kneighs_arr[i]
