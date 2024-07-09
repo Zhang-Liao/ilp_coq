@@ -32,15 +32,6 @@ def pr_anonym_mode(writer, tac, ident):
     writer.write(f":- determination(tac/2, hyp_node/5).\n")
 
 
-# def pr_anonym_mode(writer, tac, ident):
-#     writer.write(f':- modeh(1, tac(+nat, "{tac}")).\n')
-#     writer.write(f":- modeb(*, goal_node(#coq_predc, +nat, -goal_idx)).\n")
-#     writer.write(f":- modeb(*, hyp_node(#coq_predc, +nat, -string, -hyp_idx)).\n")
-
-#     writer.write(f":- determination(tac/2, goal_node/3).\n")
-#     writer.write(f":- determination(tac/2, hyp_node/4).\n")
-
-
 def pr_mode(hyp_predc, goal_predc, writer, tac, ident, kind):
     for p in goal_predc:
         writer.write(f"coq_predc({p}).\n")
@@ -136,17 +127,6 @@ def get_negs(neg_dict, poss, tac, neg_ratio):
     needed_negs = list(set(needed_negs))
     needed_negs.sort()
 
-    # unique neg per pos
-    # n_pos = len(poss)
-    # n_neg = 0
-    # curr_neg = neg_ratio
-    # while (n_neg < n_pos * neg_ratio) & (curr_neg < 100):
-    #     for pos in poss:
-    #         needed_negs += negss[str(pos)][:curr_neg]
-    #     needed_negs = list(set(needed_negs))
-    #     needed_negs.sort()
-    #     curr_neg += 1
-    #     n_neg = len(needed_negs)
     return needed_negs
 
 
