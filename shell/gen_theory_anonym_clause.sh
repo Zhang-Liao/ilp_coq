@@ -5,9 +5,15 @@ gen() {
 
 export -f gen
 
+# poss=(1)
+# negs=(32)
+# negs=(0 1 2 4 8 16 64)
+
 poss=(1 2 4 8 16 32)
 negs=(0 1 2 4 8 16 32 64)
 
+# poss=(1)
+# negs=(32)
 
 anonym=anonym
 kind=rel
@@ -17,14 +23,15 @@ for neg in "${negs[@]}"; do
     for pos in "${poss[@]}"; do
       dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ortho/predicate/$anonym/tune/$theory/train/$kind/p$pos\n$neg
       cd $dir
-      find $dir -name "*_rule.pl" | parallel rm {}
+      rm alltac_rule.pl
+      # find $dir -name "*_rule.pl" | parallel rm {}
       rm tmp
-      time find $dir -name "*.pl" | parallel --timeout 10m -j 5 bash -c gen
+      # time find $dir -name "*.pl" | parallel --timeout 10m -j 5 bash -c gen
       echo ":- style_check(-singleton)." >tmp
       find . -name "*_rule.pl" | xargs -i cat {} >>tmp
       cd -
       python post_proc_rule.py --file $dir/tmp
-      mv $dir/tmp $dir/alltac_rule.pl
+      cp $dir/tmp $dir/alltac_rule.pl
     done
-  ) &
+  )&
 done

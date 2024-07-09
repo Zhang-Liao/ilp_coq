@@ -3,8 +3,11 @@ anonym=origin
 param=p1n1
 knn_pred=data/json/ortho/feat/tune/$train_theory/test_theory
 test=data/json/ortho/predicate/$anonym/merge/test/
-clause=data/json/ortho/feat/tune/Structures/test_theory/valid/valid/rel/origin/p1n1/good/10/alltac_rule.pl
-theories=('plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
+clause=data/json/ortho/feat/tune/Structures/test_theory/valid/valid/rel/origin/p1n1/good/18/alltac_rule.pl
+# theories=('plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
+# theories=('plugins/rtauto' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz')
+theories=('theories/MSets' 'theories/FSets')
+
 valid=valid
 bk=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/rel_noid_bk.pl
 

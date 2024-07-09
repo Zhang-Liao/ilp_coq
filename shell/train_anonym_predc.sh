@@ -1,16 +1,14 @@
 theory=Structures
 neg_dir=data/json/ortho/feat/merge/theories/$theory
 dat_file=data/json/ortho/predicate/anonym/merge/theories/$theory.json
-out_dir=data/json/ortho/predicate/anonym/tune/$theory
+out_dir=data/json/ortho/predicate/anonym/tune_check/$theory
 # negs=(0 1 2 4 8 16)
 # clusters=(1 2 4 8 16 32)
 kind=rel
 
-# negs=(32 64)
-# poss=(1 2 4 8 16 32)
+negs=(4)
+poss=(4)
 
-negs=(0 1 2 4 8 16 32)
-poss=(64 128 256)
 
 for neg_ratio in "${negs[@]}"; do
     (

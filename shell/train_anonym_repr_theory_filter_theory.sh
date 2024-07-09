@@ -1,18 +1,17 @@
-kind=rel
+kind=repr
 anonym=anonym
-param=p1n32
-train_theory=Structures
+param=p16n1
 descript=''
+train_theory=Structures
 knn_pred=data/json/ortho/feat/tune/$train_theory/test_theory
-test=data/json/ortho/predicate/anonym/merge/test$descript/
-clause=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ortho/feat/tune/Structures/test_theory/valid/valid/rel/anonym/p1n32/good/18/alltac_rule.pl
+test=data/json/ortho/predicate/$anonym/merge/test$descript/
+valid=valid
+clause=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ortho/feat/tune/Structures/test_theory/valid/valid/repr/anonym/$param/good/12/alltac_rule.pl
 # theories=('plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
 # theories=('plugins/rtauto' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz')
 theories=('theories/MSets' 'theories/FSets')
 
-
-valid=valid
-bk=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_rel_id_bk.pl
+bk=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_repr_bk.pl
 
 for theory in ${theories[@]}; do
     (

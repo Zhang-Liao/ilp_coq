@@ -2,15 +2,16 @@ theory=Structures
 neg_dir=data/json/ortho/feat/merge/theories/$theory
 dat_file=data/json/ortho/predicate/anonym/merge/theories/$theory.json
 out_dir=data/json/ortho/predicate/anonym/tune/$theory
-kind=prop
+kind=repr
 # negs=(0 1 2 4 8 16)
 # clusters=(1 2 4 8 16 32)
 
 # negs=(32 64)
 # poss=(1 2 4 8 16 32)
 
-negs=(0 1 2 4 8 16 32)
-poss=(64 128 256)
+
+negs=(128 256)
+poss=(1 2 4 8 16 32)
 
 
 for neg_ratio in "${negs[@]}"; do
@@ -21,7 +22,7 @@ for neg_ratio in "${negs[@]}"; do
                 --neg $neg_dir/$theory\_neg.json \
                 --dat $dat_file \
                 --out $out_dir/train/$kind/p$pos\n$neg_ratio \
-                --bias prolog/prop_bias.pl \
+                --bias prolog/repr_bias.pl \
                 --kind anonym \
                 --neg_ratio $neg_ratio
         done
