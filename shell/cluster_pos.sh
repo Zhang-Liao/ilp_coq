@@ -1,6 +1,4 @@
-# max_cluster=(1 2 4 8 16 32)
-# max_cluster=(64 128)
-max_cluster=(256)
+max_cluster=(1 2 4 8 16 32)
 
 theorey=Structures
 dir=data/json/ortho/feat/merge/theories/$theorey
