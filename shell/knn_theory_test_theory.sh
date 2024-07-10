@@ -15,7 +15,7 @@ eval() {
 
 export -f eval
 
-dataset=data/json/ortho/feat/
+dataset=data/json/feat/
 merge_dir=$dataset/merge
 theories=('valid/valid' 'plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
 # theories=('valid/valid')

@@ -1,7 +1,7 @@
 max_cluster=(1 2 4 8 16 32)
 
 theorey=Structures
-dir=data/json/ortho/feat/merge/theories/$theorey
+dir=data/json/feat/merge/theories/$theorey
 
 for max in "${max_cluster[@]}"; do
     (

@@ -14,7 +14,7 @@ theory=Structures
 for neg in "${negs[@]}"; do
   (
     for pos in "${poss[@]}"; do
-      dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/ortho/predicate/$anonym/tune/$theory/train/$kind/p$pos\n$neg
+      dir=/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/predicate/$anonym/tune/$theory/train/$kind/p$pos\n$neg
       cd $dir
       find . -name "*_rule.pl" | parallel rm {}
       time find . -name "*.pl" | parallel --timeout 10m -j 5 bash -c gen

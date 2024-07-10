@@ -1,7 +1,7 @@
 theory=Structures
-neg_dir=data/json/ortho/feat/merge/theories/$theory
-dat_file=data/json/ortho/predicate/origin/merge/theories/$theory.json
-out_dir=data/json/ortho/predicate/origin/tune/$theory
+neg_dir=data/json/feat/merge/theories/$theory
+dat_file=data/json/predicate/origin/merge/theories/$theory.json
+out_dir=data/json/predicate/origin/tune/$theory
 kind=feat
 # negs=(0 1 2 4 8 16)
 # clusters=(1 2 4 8 16 32)

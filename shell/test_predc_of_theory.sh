@@ -5,7 +5,7 @@ theories=('plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funi
 
 gen() {
     kind=origin
-    dataset=data/json/ortho/predicate/$kind/merge
+    dataset=data/json/predicate/$kind/merge
     out_dir=$dataset/test/$1
     python test_eg_predc.py --test $dataset/$1.json --out $out_dir --kind $kind
 }
