@@ -1,7 +1,7 @@
-:- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_rel_id_bk.pl').
+:- consult('./anonym_feat_id_bk.pl').
+% :- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_feat_id_bk.pl').
 
 :- modeb(*, dif(+goal_idx, +goal_idx)).
-% :- modeb(*, dif(+hyp_idx, +hyp_idx)).
 :- modeb(*, goal_position_left(+goal_idx, +goal_idx)).
 :- modeb(*, hyp_position_left(+hyp_idx, +hyp_idx)).
 :- modeb(*, goal_above(+nat, +goal_idx, +goal_idx)).

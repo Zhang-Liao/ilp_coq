@@ -1,4 +1,5 @@
-:- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/rel_noid_bk.pl').
+% :- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/rel_noid_bk.pl').
+:- consult('./feat_noid_bk.pl').
 
 :- modeb(*, dif(+goal_idx, +goal_idx)).
 :- modeb(*, goal_position_left(+goal_idx, +goal_idx)).
