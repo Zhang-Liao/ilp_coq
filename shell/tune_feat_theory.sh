@@ -13,9 +13,7 @@ theories=('valid/valid')
 for theory in "${theories[@]}"; do
     for neg in "${negs[@]}"; do
         (
-
             for pos in "${poss[@]}"; do
-
                 dir=data/json/predicate/$anonym/tune/$train_theory/train/$kind/p$pos\n$neg
                 python filter.py --clause $dir/alltac_rule.pl \
                     --pred $knn_pred/$theory.eval \
@@ -23,7 +21,6 @@ for theory in "${theories[@]}"; do
                     --label data/json/feat/merge/$theory.label \
                     --bk $bk \
                     --info $kind/$anonym/p$pos\n$neg
-
             done
         ) &
     done

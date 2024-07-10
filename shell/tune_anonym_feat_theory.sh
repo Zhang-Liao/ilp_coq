@@ -4,9 +4,8 @@ knn_pred=data/json/feat/tune/$train_theory/test_theory
 negs=(0 1 2 4 8 16 32 64)
 poss=(1 2 4 8 16 32)
 
-
 descript=''
-bk=/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_feat_id_bk.pl
+bk=prolog/anonym_feat_id_bk.pl
 test=data/json/predicate/anonym/merge/test/
 theories=('valid/valid')
 for theory in "${theories[@]}"; do
@@ -20,7 +19,7 @@ for theory in "${theories[@]}"; do
                     --label data/json/feat/merge/$theory.label \
                     --bk $bk \
                     --info feat$descript/anonym/p$pos\n$neg
-            )&
+            ) &
         done
     done
 done

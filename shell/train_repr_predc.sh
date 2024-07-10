@@ -3,10 +3,8 @@ neg_dir=data/json/feat/merge/theories/$theory
 dat_file=data/json/predicate/origin/merge/theories/$theory.json
 out_dir=data/json/predicate/origin/tune/$theory
 kind=repr
-# negs=(0 1 2 4 8 16)
-# clusters=(1 2 4 8 16 32)
 
-negs=(32 64)
+negs=(0 1 2 4 8 16 32 64)
 poss=(1 2 4 8 16 32)
 
 for neg in "${negs[@]}"; do

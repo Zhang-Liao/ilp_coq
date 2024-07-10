@@ -2,13 +2,9 @@ theory=Structures
 neg_dir=data/json/feat/merge/theories/$theory
 dat_file=data/json/predicate/anonym/merge/theories/$theory.json
 out_dir=data/json/predicate/anonym/tune/$theory
-# negs=(0 1 2 4 8 16)
-# clusters=(1 2 4 8 16 32)
+negs=(0 1 2 4 8 16 32 64)
+poss=(1 2 4 8 16 32)
 kind=feat
-
-negs=(4)
-poss=(4)
-
 
 for neg_ratio in "${negs[@]}"; do
     (

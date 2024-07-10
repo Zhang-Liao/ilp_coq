@@ -14,11 +14,9 @@ eval() {
 }
 
 export -f eval
-
 dataset=data/json/feat/
 merge_dir=$dataset/merge
 theories=('valid/valid' 'plugins/rtauto' 'theories/FSets' 'theories/Wellfounded' 'plugins/funind' 'plugins/btauto' 'plugins/nsatz' 'theories/MSets')
-# theories=('valid/valid')
 
 train_theory=theories/Structures
 IFS=/ read -ra train_theory_splits <<<$train_theory
