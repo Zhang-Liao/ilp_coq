@@ -67,7 +67,7 @@ def update_theory_stat(stat, ilp_stat_f, root, theory):
     f1 = file_stat["f1"]
 
     splits = root.split("/")
-    if ("valid" in splits) & ("anonym" in splits) & ("feat" in splits):
+    if ("valid" in splits) & ("anonym" in splits) & ("feat" in splits) & (not 'repr' in splits):
         if params_in_path(splits, "anonym_feat"):
             stat["f1"]["anonym_feat"][theory] = f1
             stat["acc"]["anonym_feat"][theory] = get_acc(root, theory)
@@ -75,7 +75,7 @@ def update_theory_stat(stat, ilp_stat_f, root, theory):
         if params_in_path(splits, "anonym_repr"):
             stat["f1"]["anonym_repr"][theory] = f1
             stat["acc"]["anonym_repr"][theory] = get_acc(root, theory)
-    elif ("valid" in splits) & ("origin" in splits) & ("feat" in splits):
+    elif ("valid" in splits) & ("origin" in splits) & ("feat" in splits) & (not 'repr' in splits) :
         if params_in_path(splits, 'origin_feat'):
             stat["f1"]["origin_feat"][theory] = f1
             stat["acc"]["origin_feat"][theory] = get_acc(root, theory)
@@ -96,7 +96,7 @@ def update_theory_stats(dir, stat, theory):
 
 ilp_stat = {"acc": init_stat(), "f1": init_stat()}
 
-test_dir = "data/json/ortho/feat/tune/Structures/test_theory"
+test_dir = "data/json/feat/tune/Structures/test_theory"
 for theory in THEORIES:
     dir = os.path.join(test_dir, theory)
     update_theory_stats(dir, ilp_stat, theory)

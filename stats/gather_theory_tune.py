@@ -10,11 +10,8 @@ import warnings
 sys.path.append(os.path.dirname(sys.path[0]))
 from lib import utils
 
-# precs = [0, 7, 14, 21, 28, 35]
 precs = [0, 6, 12, 18, 24, 30]
 
-# precs = [0, 8, 16, 24, 32]
-# precs = [0, 5, 10, 15, 20, 25, 30]
 KINDS = ["anonym_feat", "anonym_repr", "origin_repr", "origin_feat"]
 POS = [1, 2, 4, 8, 16, 32]
 NEG = [0, 1, 2, 4, 8, 16, 32, 64]
@@ -72,11 +69,13 @@ def update_theory_stat(stat, ilp_stat_f, root, theory, pos, neg, prec):
     file_stat = json.load(ilp_reader)
     f1 = file_stat[METRIC]
     splits = root.split("/")
-    if ("anonym" in splits) & ("feat" in splits):
+    # print(splits)
+    if ("anonym" in splits) & ("feat" in splits) & (not 'repr' in splits):
         stat["f1"]["anonym_feat"][theory][pos][neg][prec] = f1
     elif ("anonym" in splits) & ("repr" in splits):
+        # print('anonym repr', f1)
         stat["f1"]["anonym_repr"][theory][pos][neg][prec] = f1
-    elif ("origin" in splits) & ("feat" in splits):
+    elif ("origin" in splits) & ("feat" in splits) & (not 'repr' in splits):
         stat["f1"]["origin_feat"][theory][pos][neg][prec] = f1
     elif ("origin" in splits) & ("repr" in splits):
         stat["f1"]["origin_repr"][theory][pos][neg][prec] = f1
@@ -109,8 +108,9 @@ ilp_stat = {
 
 for theory in theories:
     knn_stat = init_knn_stat(theory)
-    dir = f"data/json/ortho/feat/tune/Structures/test_theory/{theory}"
+    dir = f"data/json/feat/tune/Structures/test_theory/{theory}"
     update_theory_stats(dir, ilp_stat, theory)
+# print(ilp_stat['f1']['anonym_repr'])
 
 with open("tune_valid.json", "w") as w:
     json.dump(ilp_stat, w)

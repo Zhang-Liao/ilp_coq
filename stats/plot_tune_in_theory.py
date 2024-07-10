@@ -18,19 +18,13 @@ def kind_to_abs(k):
 
 
 def stat_f1(df):
-    # df = df.loc[df["Precision"].isin([0.1])]
     df = df.loc[df["Precision"].isin([0, 0.18, 0.30])]
-    # df = df.loc[df["Precision"].isin([0, 0.05, 0.1, 0.15, 0.20, 0.25, 0.3])]
     sns.set(font_scale=1.5)
     g = sns.FacetGrid(
         df, col="Precision", hue="Predicates", col_wrap=1, height=3.5, aspect=6
     )
     ax = g.map(sns.lineplot, "Combination of the Number of Positive Examples and the Number of Negative Examples per Positive Example", "F-1")
     g.add_legend()
-    # prec = df.iloc[0]["prec"]
-    # plt.figure(figsize=(24, 20))
-    # ax = sns.lineplot(data=df, x="param", y="f1", hue="predicates")
-    # plt.show()
     ax.set(xlabel=None, ylabel = 'F-1')
     plt.xticks(rotation=60)
     plt.savefig("tune.pdf", bbox_inches="tight")

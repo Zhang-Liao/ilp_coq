@@ -60,7 +60,6 @@ def plot_theories_acc(ilp_stat, knn_stat):
     # print(g)
     g.map(sns.lineplot, 'Top-k', 'Accuracy')
     g.add_legend()
-    # sns.lineplot(data=df, x="top-k", y="acc", hue="Method")
     plt.savefig(f"acc.pdf", bbox_inches='tight')
 
 ilp_stat_f = "test.json"
