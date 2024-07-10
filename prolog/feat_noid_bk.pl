@@ -4,7 +4,7 @@
 goal_node(dummy, -1, []).
 hyp_node(dummy, -1, dummy, []).
 
-:- consult('./prolog/common_bk.pl').
+:- consult('./common_bk.pl').
 
 goal_above(N, Idx1, Idx2) :-
     above_aux(Idx1, Idx2),
