@@ -1,5 +1,4 @@
 :- consult('./anonym_feat_id_bk.pl').
-% :- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_feat_id_bk.pl').
 
 :- modeb(*, dif(+goal_idx, +goal_idx)).
 :- modeb(*, goal_position_left(+goal_idx, +goal_idx)).

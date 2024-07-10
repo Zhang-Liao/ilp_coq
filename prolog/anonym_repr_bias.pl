@@ -1,4 +1,3 @@
-% :- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/anonym_repr_bk.pl').
 :- consult('./anonym_repr_bk.pl').
 
 :- set(verbosity, 0).
