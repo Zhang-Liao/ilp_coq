@@ -123,7 +123,7 @@ parser.add_argument("--max_cluster", type=int)
 
 opts = parser.parse_args()
 
-feat_encoder = joblib.load("data/json/ortho/feat/merge/theories/Structures/feat_encoder.gz")
+feat_encoder = joblib.load("data/json/feat/merge/theories/Structures/feat_encoder.gz")
 
 assert isinstance(feat_encoder, MultiLabelBinarizer)
 

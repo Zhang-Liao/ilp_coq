@@ -226,14 +226,6 @@ def valid_dat_f(f):
     return f.endswith(".json") & (("plugins/" in f) | ("theories/" in f))
 
 
-def file_order():
-    forder = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/file_order"
-    with open(forder, "r") as r:
-        files = r.readlines()
-        files = [f.strip() for f in files]
-    return files
-
-
 def load_dataset(dir):
     dat = {}
     for root, _, files in os.walk(dir):

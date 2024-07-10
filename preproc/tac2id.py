@@ -22,7 +22,7 @@ def build(dir):
     return dict(tac_ids)
     # print(tac_map)
 
-dir = '/home/zhangliao/ilp_out_coq/ilp_out_coq/data/json/neg/ten_split'
+dir = 'data/json/neg/ten_split'
 tac_dict = build(dir)
 w = open(os.path.join(dir, 'tac2id.json'), 'w') 
 json.dump(tac_dict, w)
