@@ -6,8 +6,9 @@ import argparse
 from lib import utils
 
 
-tac2id_file = "/home/zhangliao/ilp_out_coq/ilp_out_coq/data/tac2id.json"
-
+TAC2ID = "data/tac2id.json"
+USER_COST = 'prolog/user_cost.pl'
+ALEPH = 'prolog/aleph_orig'
 
 def pr_origin_mode(writer, tac):
     writer.write(f':- modeh(1, tac(+nat, "{tac}")).\n')
@@ -61,12 +62,10 @@ def pr_goal_predc(i, l, writer, predc, kind, ident):
         return utils.add_goal_anonym_predc(l, predc, ident)
 
 
-def pr_bias(w, bias):
+def pr_bias(w, bias, out):
     path = os.path.abspath(bias)
-    w.write(f":- consult('{path}').\n")
-    # with open(bias, "r") as r:
-    #     w.writelines(r.readlines())
-    # w.write(f":- set(noise, 0).\n")
+    rel = os.path.relpath(path, out)
+    w.write(f":- consult('{rel}').\n")
 
 
 def pr_bk(poss, negs, fbk, tac, opts):
@@ -97,10 +96,11 @@ def pr_bk(poss, negs, fbk, tac, opts):
                     pr_goal_predc(row_i, l["goal"], bk_w, set(), opts.kind, set())
             row_i += 1
         if (negs == []) | (len(poss) == 1):
-            bk_w.write(f":- consult('/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/user_cost.pl').\n")
+            rel_p = os.path.relpath(USER_COST, opts.out)
+            bk_w.write(f":- consult('{rel_p}').\n")
 
         pr_mode(hyp_predc, goal_predc, bk_w, tac, ident, opts.kind)
-        pr_bias(bk_w, opts.bias)
+        pr_bias(bk_w, opts.bias, opts.out)
 
 
 def pr_exg_predc(exg, out, tac):
@@ -130,10 +130,11 @@ def get_negs(neg_dict, poss, tac, neg_ratio):
     return needed_negs
 
 
-def pr_run(tac, run):
+def pr_run(tac, run, opts):
     # load_path = out + '/' + tac
     with open(run, "w") as w:
-        w.write(":- ['/home/zhangliao/ilp_out_coq/ilp_out_coq/prolog/aleph_orig'].\n")
+        rel = os.path.relpath(ALEPH, opts.out)
+        w.write(f":- ['{rel}'].\n")
         w.write(f":-read_all('{tac}').\n")
         w.write(":-induce.\n")
         w.write(f":-write_rules('{tac}_rule.pl').\n")
@@ -152,7 +153,7 @@ def init_files(tac, out_dir):
     return bk_file, pos_file, neg_file, run_file
 
 
-def gen_tac_file(origin_tac, posss):
+def gen_tac_file(origin_tac, posss, opts):
     safe_tac = utils.safe_tac(origin_tac)
     tac_id = tac2id[safe_tac]
     for i in range(len(posss)):
@@ -165,7 +166,7 @@ def gen_tac_file(origin_tac, posss):
         pr_bk(poss, negs, bk_file, safe_tac, opts)
         pr_exg_predc(poss, pos_file, safe_tac)
         pr_exg_predc(negs, neg_file, safe_tac)
-        pr_run(tac, run_file)
+        pr_run(tac, run_file, opts)
 
 
 parser = argparse.ArgumentParser()
@@ -179,7 +180,7 @@ parser.add_argument("--neg_ratio", type=int)
 
 opts = parser.parse_args()
 
-with open(tac2id_file, "r") as r:
+with open(TAC2ID, "r") as r:
     tac2id = json.load(r)
 
 with open(opts.neg, "r") as r:
@@ -189,10 +190,10 @@ num_tac = 0
 
 with open(opts.cluster, "r") as r:
     for origin_tac, posss in json.load(r).items():
-        gen_tac_file(origin_tac, posss)
+        gen_tac_file(origin_tac, posss, opts)
 
 log = {
-    "tac2id_file": tac2id_file,
+    "tac2id_file": TAC2ID,
     "neg_ratio": opts.neg_ratio,
     "options": opts.__dict__,
 }
