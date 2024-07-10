@@ -15,7 +15,7 @@ precs = [0, 6, 12, 18, 24, 30]
 
 # precs = [0, 8, 16, 24, 32]
 # precs = [0, 5, 10, 15, 20, 25, 30]
-KINDS = ["anonym_rel", "anonym_prop", "origin_prop", "origin_rel"]
+KINDS = ["anonym_feat", "anonym_repr", "origin_repr", "origin_feat"]
 POS = [1, 2, 4, 8, 16, 32]
 NEG = [0, 1, 2, 4, 8, 16, 32, 64]
 METRIC = 'f1'
@@ -72,14 +72,14 @@ def update_theory_stat(stat, ilp_stat_f, root, theory, pos, neg, prec):
     file_stat = json.load(ilp_reader)
     f1 = file_stat[METRIC]
     splits = root.split("/")
-    if ("anonym" in splits) & ("rel" in splits):
-        stat["f1"]["anonym_rel"][theory][pos][neg][prec] = f1
-    elif ("anonym" in splits) & ("prop" in splits):
-        stat["f1"]["anonym_prop"][theory][pos][neg][prec] = f1
-    elif ("origin" in splits) & ("rel" in splits):
-        stat["f1"]["origin_rel"][theory][pos][neg][prec] = f1
-    elif ("origin" in splits) & ("prop" in splits):
-        stat["f1"]["origin_prop"][theory][pos][neg][prec] = f1
+    if ("anonym" in splits) & ("feat" in splits):
+        stat["f1"]["anonym_feat"][theory][pos][neg][prec] = f1
+    elif ("anonym" in splits) & ("repr" in splits):
+        stat["f1"]["anonym_repr"][theory][pos][neg][prec] = f1
+    elif ("origin" in splits) & ("feat" in splits):
+        stat["f1"]["origin_feat"][theory][pos][neg][prec] = f1
+    elif ("origin" in splits) & ("repr" in splits):
+        stat["f1"]["origin_repr"][theory][pos][neg][prec] = f1
     else:
         warnings.warn("skip " + os.path.join(root, ilp_stat_f))
 
@@ -102,12 +102,11 @@ def update_theory_stats(dir, stat, theory):
 
 
 theories = ["valid/valid"]
-# theories = ["valid"]
 
 ilp_stat = {
     "f1": init_stat(theories),
 }
-# print(ilp_stat)
+
 for theory in theories:
     knn_stat = init_knn_stat(theory)
     dir = f"data/json/ortho/feat/tune/Structures/test_theory/{theory}"

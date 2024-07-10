@@ -1,8 +1,3 @@
-"""
-Generate a file for every proof state to reduce the number of goal_predc and
-hyp_predc used in eq_subterm.
-"""
-
 import json
 import os
 

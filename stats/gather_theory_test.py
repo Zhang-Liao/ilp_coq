@@ -18,13 +18,13 @@ THEORIES = [
     'theories/MSets'
 ]
 
-predc_kinds = ["anonym_rel", "origin_prop", "origin_rel", "anonym_prop"]
+predc_kinds = ["anonym_feat", "origin_repr", "origin_feat", "anonym_repr"]
 
 params = {
-    "anonym_rel": ["p1n32", "0"],
-    "anonym_prop": ["p16n1", "0"],
-    "origin_prop": ["p1n1", "0"],
-    "origin_rel": ["p1n1", "0"],
+    "anonym_feat": ["p1n32", "0"],
+    "anonym_repr": ["p16n1", "0"],
+    "origin_repr": ["p1n1", "0"],
+    "origin_feat": ["p1n1", "0"],
 }
 
 
@@ -67,22 +67,22 @@ def update_theory_stat(stat, ilp_stat_f, root, theory):
     f1 = file_stat["f1"]
 
     splits = root.split("/")
-    if ("valid" in splits) & ("anonym" in splits) & ("rel" in splits):
-        if params_in_path(splits, "anonym_rel"):
-            stat["f1"]["anonym_rel"][theory] = f1
-            stat["acc"]["anonym_rel"][theory] = get_acc(root, theory)
-    elif ("valid" in splits) & ("anonym" in splits) & ("prop" in splits):
-        if params_in_path(splits, "anonym_prop"):
-            stat["f1"]["anonym_prop"][theory] = f1
-            stat["acc"]["anonym_prop"][theory] = get_acc(root, theory)
-    elif ("valid" in splits) & ("origin" in splits) & ("rel" in splits):
-        if params_in_path(splits, 'origin_rel'):
-            stat["f1"]["origin_rel"][theory] = f1
-            stat["acc"]["origin_rel"][theory] = get_acc(root, theory)
-    elif ("valid" in splits) & ("origin" in splits) & ("prop" in splits):
-        if params_in_path(splits, 'origin_prop'):
-            stat["f1"]["origin_prop"][theory] = f1
-            stat["acc"]["origin_prop"][theory] = get_acc(root, theory)
+    if ("valid" in splits) & ("anonym" in splits) & ("feat" in splits):
+        if params_in_path(splits, "anonym_feat"):
+            stat["f1"]["anonym_feat"][theory] = f1
+            stat["acc"]["anonym_feat"][theory] = get_acc(root, theory)
+    elif ("valid" in splits) & ("anonym" in splits) & ("repr" in splits):
+        if params_in_path(splits, "anonym_repr"):
+            stat["f1"]["anonym_repr"][theory] = f1
+            stat["acc"]["anonym_repr"][theory] = get_acc(root, theory)
+    elif ("valid" in splits) & ("origin" in splits) & ("feat" in splits):
+        if params_in_path(splits, 'origin_feat'):
+            stat["f1"]["origin_feat"][theory] = f1
+            stat["acc"]["origin_feat"][theory] = get_acc(root, theory)
+    elif ("valid" in splits) & ("origin" in splits) & ("repr" in splits):
+        if params_in_path(splits, 'origin_repr'):
+            stat["f1"]["origin_repr"][theory] = f1
+            stat["acc"]["origin_repr"][theory] = get_acc(root, theory)
     else:
         warnings.warn("skip " + os.path.join(root, ilp_stat_f))
 

@@ -7,13 +7,13 @@ import seaborn as sns
 
 
 def kind_to_abs(k):
-    if k == "anonym_rel":
+    if k == "anonym_feat":
         return "AF"
-    elif k == "anonym_prop":
+    elif k == "anonym_repr":
         return "AR"
-    elif k == "origin_rel":
+    elif k == "origin_feat":
         return "OF"
-    elif k == "origin_prop":
+    elif k == "origin_repr":
         return "OR"
 
 

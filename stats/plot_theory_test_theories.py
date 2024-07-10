@@ -15,13 +15,13 @@ def to_theory_name(theory):
 
 
 def kind_to_abs(k):
-    if k == 'anonym_rel':
+    if k == 'anonym_feat':
         return 'AF'
-    elif k == 'anonym_prop':
+    elif k == 'anonym_repr':
         return 'AR'
-    elif k == 'origin_prop':
+    elif k == 'origin_repr':
         return 'OR'
-    elif k == 'origin_rel':
+    elif k == 'origin_feat':
         return 'OF'
 
 def mk_acc_df(dat, ilp_stat, knn_stat, theory):
