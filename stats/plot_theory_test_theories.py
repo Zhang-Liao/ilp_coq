@@ -3,12 +3,10 @@ import os
 import sys
 
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import seaborn as sns
 
 sys.path.append(os.path.dirname(sys.path[0]))
-from lib import utils
 
 def to_theory_name(theory):
     return theory.split("/")[-1]
@@ -64,7 +62,7 @@ def plot_theories_acc(ilp_stat, knn_stat):
 
 ilp_stat_f = "test.json"
 ilp_stat = json.load(open(ilp_stat_f, "r"))
-knn_stat_f = "/home/zhangliao/ilp_out_coq/ilp_out_coq/stats/ortho/rev/5min/no_same_complex/Structures/knn_theory_stat.json"
+knn_stat_f = "data/knn_theory_stat.json"
 knn_stat = json.load(open(knn_stat_f, "r"))
 
 plot_theories_acc(ilp_stat, knn_stat)

@@ -32,7 +32,7 @@ def update_knn(dir, theory, stat):
 
 
 knn_stat = init_knn_stat()
-stat_i = f"data/json/ortho/feat/tune/Structures/test_theory/"
+stat_i = f"data/json/feat/tune/Structures/test_theory/"
 for theory in THEORIES:
     dir = os.path.join(stat_i, theory)
     update_knn(stat_i, theory, knn_stat)
