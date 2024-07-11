@@ -18,7 +18,6 @@ for neg in "${negs[@]}"; do
   (
     for pos in "${poss[@]}"; do
       dir=data/json/predicate/$anonym/tune/$theory/train/$kind/p$pos\n$neg
-      # data/json/predicate/anonym/tune/Structures/train/feat/p4n4
       cd $dir
       find . -name "*_rule.pl" | parallel rm {}
       time find . -name "*.pl" | parallel --timeout 10m -j 5 bash -c gen
