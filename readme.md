@@ -6,6 +6,10 @@
 - pyswip 0.2.11 
 - Python 3.11.4
 
+## Data
+
+The dataset is in XXX. Please decompose the dataset in the home directory of the project.
+
 ## Explaination
 
 - To reproduce the graphs and table in Section 5, run `bash shell/results.sh`. The results and graphs are presented in the home directory of the project.
