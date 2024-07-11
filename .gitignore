@@ -11,10 +11,7 @@ _build/
 *.b
 *.f
 *.n
-data/**/*.json
-
-data/**/*.pl
-data/*.pl
+data/
 *.pl.log
 file_order
 *.log
