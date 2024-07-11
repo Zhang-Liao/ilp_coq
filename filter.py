@@ -61,7 +61,7 @@ def filter_row(i, row, exg_paths, prolog):
             ),
         )
         child.start()
-        child.join(timeout=5)
+        child.join(timeout=3)
         child.terminate()
         # not over the time limit
         if child.exitcode != None:
