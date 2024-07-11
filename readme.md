@@ -1,5 +1,13 @@
 # ILP for Coq
 
+## Requiremnets
+
+- SWI-Prolog 8.4.2
+- pyswip 0.2.11 
+- Python 3.11.4
+
+## Explaination
+
 - To reproduce the graphs and table in Section 5, run `bash shell/results.sh`. The results and graphs are presented in the home directory of the project.
 - To learn rules, run
   - `bash shell/gen_anonym_feat_clause.sh`
