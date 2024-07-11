@@ -12,7 +12,7 @@ _build/
 *.f
 *.n
 data/
-back_data/
+back_for_pub/
 *.pl.log
 file_order
 *.log
@@ -31,3 +31,4 @@ dependences
 prolog/Lists
 tmp
 ./vscode
+back_data/
