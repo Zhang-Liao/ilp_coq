@@ -12,6 +12,7 @@ _build/
 *.f
 *.n
 data/
+back_data/
 *.pl.log
 file_order
 *.log
