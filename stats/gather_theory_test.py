@@ -24,7 +24,7 @@ params = {
     "anonym_feat": ["p1n32", "0"],
     "anonym_repr": ["p16n1", "0"],
     "origin_repr": ["p1n1", "0"],
-    "origin_feat": ["p1n1", "0"],
+    "origin_feat": ["p4n1", "0"],
 }
 
 

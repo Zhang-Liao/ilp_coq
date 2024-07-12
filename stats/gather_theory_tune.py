@@ -108,8 +108,8 @@ ilp_stat = {
 
 for theory in theories:
     knn_stat = init_knn_stat(theory)
-    dir = f"data/json/feat/tune/Structures/test_theory/{theory}"
-    update_theory_stats(dir, ilp_stat, theory)
+    dirc = f"data/json/feat/tune/Structures/test_theory/{theory}"
+    update_theory_stats(dirc, ilp_stat, theory)
 # print(ilp_stat['f1']['anonym_repr'])
 
 with open("tune_valid.json", "w") as w:
