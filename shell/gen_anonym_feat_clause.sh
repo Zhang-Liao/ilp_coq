@@ -5,11 +5,8 @@ gen() {
 
 export -f gen
 
-# poss=(1 2 4 8 16 32)
-# negs=(0 1 2 4 8 16 32 64)
-
-poss=(4)
-negs=(4)
+poss=(1 2 4 8 16 32)
+negs=(0 1 2 4 8 16 32 64)
 
 anonym=anonym
 kind=feat
