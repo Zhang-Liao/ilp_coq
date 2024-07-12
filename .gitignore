@@ -32,3 +32,4 @@ prolog/Lists
 tmp
 ./vscode
 back_data/
+pl_back/*.pl
