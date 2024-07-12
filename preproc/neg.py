@@ -90,7 +90,7 @@ dict = {}
 feats, labels = read(opts.feat, opts.label)
 neigh = KNeighborsClassifier(n_neighbors=1, metric='jaccard', n_jobs=10)
 neigh.fit(feats, labels)
-kneighs_arr = neigh.kneighbors(feats, 2339, False)
+kneighs_arr = neigh.kneighbors(feats, 300, False)
 for i in range(len(labels)):
     tac = label_encoder.inverse_transform([labels[i]])[0]
     kneighs = kneighs_arr[i]
