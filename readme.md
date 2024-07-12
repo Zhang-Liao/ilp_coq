@@ -8,7 +8,7 @@
 
 ## Data
 
-The dataset is in XXX. Please decompose the dataset in the home directory of the project.
+Download the [dataset](https://drive.google.com/file/d/1vT1ZYX7kpgisasTO3RtEepvU-RevNudB/view?usp=drive_link). Please decompose the dataset in the home directory of the project.
 
 ## Explaination
 
