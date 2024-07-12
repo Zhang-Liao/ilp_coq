@@ -30,6 +30,6 @@ dependences
 
 prolog/Lists
 tmp
-./vscode
+.vscode/
 back_data/
 pl_back/*.pl
