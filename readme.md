@@ -11,7 +11,7 @@
 Download the [dataset](https://drive.google.com/file/d/1vT1ZYX7kpgisasTO3RtEepvU-RevNudB/view?usp=drive_link). Please decompose the dataset in the home directory of the project.
 
 ## Explaination
-
+- First, execute `cd ilp_coq`.
 - To reproduce the graphs and table in Section 5, run `bash shell/results.sh`. The results and graphs are presented in the home directory of the project.
 - To learn rules, run
   - `bash shell/gen_anonym_feat_clause.sh`
