@@ -1,6 +1,6 @@
 train_theory=Structures
 anonym=origin
-param=p1n1
+param=p4n1
 knn_pred=data/json/feat/tune/$train_theory/test_theory
 test=data/json/predicate/$anonym/merge/test/
 clause=data/json/feat/tune/Structures/test_theory/valid/valid/feat/origin/p1n1/good/18/alltac_rule.pl
