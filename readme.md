@@ -1,5 +1,7 @@
 # ILP for Coq
 
+Paper https://arxiv.org/abs/2411.01188
+
 ## Requiremnets
 
 - SWI-Prolog 8.4.2
